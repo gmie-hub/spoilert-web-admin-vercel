@@ -3,10 +3,12 @@ import react from '@vitejs/plugin-react';
 import { URL, fileURLToPath } from 'node:url';
 import inject from '@rollup/plugin-inject';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   plugins: [
     react(),
+    tsconfigPaths(),
     nodePolyfills({
       protocolImports: true,
     }),
