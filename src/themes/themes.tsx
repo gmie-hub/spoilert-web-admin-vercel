@@ -1,5 +1,6 @@
+import { type FC, type PropsWithChildren } from "react";
+
 import { ConfigProvider } from "antd";
-import { FC, PropsWithChildren } from "react";
 
 export const Theme: FC<PropsWithChildren> = ({ children }) => {
   return (

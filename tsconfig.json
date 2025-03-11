@@ -1,7 +1,42 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "allowJs": true,
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    /* Linting */
+    "strict": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "moduleDetection": "force",
+    "noUncheckedIndexedAccess": true,
+    "paths": {
+      "@spt/*": ["./src/*"]
+    },
+    "useUnknownInCatchVariables": true,
+    "verbatimModuleSyntax": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": []
+  },
+  "exclude": ["node_modules", "types/**/*", "types/**/ts", "dist/**/*"],
+  "include": ["jest.setup.ts", "codegen.ts", "src/**/*.ts", "src/**/*.tsx", "src/types/**/*.d.ts"],
+  // "references": [
+  //   {
+  //     "path": "./tsconfig.node.json"
+  //   }
+  // ]
 }

@@ -1,22 +1,16 @@
-// import { StrictMode } from 'react'
-// import { createRoot } from 'react-dom/client'
-// import './index.scss'
-// import App from './App.tsx'
-
-// createRoot(document.getElementById('root')!).render(
-//   <StrictMode>
-//     <App />
-//   </StrictMode>,
-// )
-
 import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.scss";
-import App from "./App.tsx";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter } from "react-router-dom";
-import { Theme } from "./themes/themes.tsx";
 import { App as AntdApp } from 'antd';
+// eslint-disable-next-line import/order
+import { createRoot } from "react-dom/client";
+
+import "./index.scss";
+import { BrowserRouter } from "react-router-dom";
+
+import App from "./App.tsx";
+import { Theme } from "./themes/themes.tsx";
+
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -1,17 +1,12 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import { routes } from "./routes";
+
 import Layout from "./layouts";
+import { routes } from "./routes";
 import Dashboard from "./screens/dashBoard";
 
-
-
 function App() {
-  const appRoutes = [
-    { path: routes.dashboard, element: <Dashboard /> },
-   
-
-  ];
+  const appRoutes = [{ path: routes.dashboard, element: <Dashboard /> }];
   return (
     <Routes>
       {/* <Route element={<AuthLayout />}>

@@ -1,15 +1,17 @@
-import { Menu, MenuProps } from 'antd';
-import styles from './styles.module.scss';
+import { Menu, type MenuProps } from 'antd';
 import { NavLink } from 'react-router-dom';
-import { routes } from '../routes';
-import Overview from "../assets/category.svg";
-import Learners from "../assets/people2.svg";
-import Tutors from "../assets/profile-2user.svg";
+
 import Management from "../assets/book.svg";
+import Overview from "../assets/category.svg";
 import Sponsorships from "../assets/discount-circle.svg";
 import Withdrawal from "../assets/moneys.svg";
-import Transactions from "../assets/wallet-3.svg";
+import Learners from "../assets/people2.svg";
+import Tutors from "../assets/profile-2user.svg";
 import Settings from "../assets/setting-2.svg";
+import Transactions from "../assets/wallet-3.svg";
+import { routes } from '../routes';
+
+import styles from './styles.module.scss';
 
 
 interface ComponentProps {
