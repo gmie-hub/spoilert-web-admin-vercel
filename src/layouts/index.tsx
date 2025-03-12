@@ -1,6 +1,4 @@
-import { useCallback, useState } from "react";
-
-import { Drawer } from "antd";
+import { Box, Container, Drawer, Flex, Grid, Portal } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 
 import Header from "./header";
@@ -8,39 +6,52 @@ import Sidebar from "./sidebar";
 import styles from "./styles.module.scss";
 
 const Layout = () => {
-  const [open, setOpen] = useState(false);
-
-  const showDrawer = useCallback(() => {
-    setOpen((prevState) => !prevState);
-  }, []);
-
-  const onClose = () => {
-    setOpen((prevState) => !prevState);
-  };
-
   return (
-    <main className={styles.container}>
-      <aside className={styles.sidebarContainer}>
-        <Sidebar onClose={() => {}} />
-      </aside>
+    <main>
+      <Drawer.Root>
+        <Grid templateColumns={{ base: "1fr", md: "16rem 1fr" }}>
+          <Box
+            h="100vh"
+            overflow="hidden"
+            display={{ base: "none", md: "block" }}
+          >
+            <Sidebar />
+          </Box>
 
-      <Drawer title={"LOGO"} onClose={onClose} open={open}>
-        <Sidebar onClose={onClose} />
-      </Drawer>
+          <Portal>
+            <Drawer.Backdrop />
+            <Drawer.Positioner>
+              <Drawer.Content>
+                <Drawer.Body>
+                  <Sidebar />
+                </Drawer.Body>
+              </Drawer.Content>
+            </Drawer.Positioner>
+          </Portal>
 
-      <section className={styles.content}>
-        <Header onOpen={showDrawer} />
+          <Flex
+            flexDir="column"
+            w="100%"
+            overflowY="hidden"
+            className={styles.content}
+          >
+            <Header />
 
-        <section className={styles.children}>
-          {/* <div>
-            <RouteIndicator showBack />
-          </div> */}
-
-          <div>
-            <Outlet />
-          </div>
-        </section>
-      </section>
+            <Container
+              flexGrow="1"
+              padding="3"
+              bg="#fafafa"
+              overflowX="hidden"
+              overflowY="auto"
+              className={styles.children}
+            >
+              <Box w="100%">
+                <Outlet />
+              </Box>
+            </Container>
+          </Flex>
+        </Grid>
+      </Drawer.Root>
     </main>
   );
 };
