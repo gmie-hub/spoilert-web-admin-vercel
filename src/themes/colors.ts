@@ -1,6 +1,11 @@
 export const colors = {
-  primary: {
-    value: "#212529",
+  gray: {
+    DEFAULT: { value: "#666869" },
   },
-  secondary: { value: "#666869" },
+  dark: {
+    DEFAULT: { value: "#212529" },
+  },
+  red: {
+    DEFAULT: { value: "#DC3545" },
+  },
 };

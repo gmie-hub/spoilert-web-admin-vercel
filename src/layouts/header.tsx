@@ -44,11 +44,12 @@ const Header = () => {
         borderBlockEnd="1px solid #efefef"
         borderInlineStart="1px solid #efefef"
         p="4"
+        pos="-webkit-sticky"
         // px="3"
       >
         <Box>
-          <Text fontSize="md">Welcome Back, Admin</Text>
-          <Text>Here's a quick overview of Spoilert’s latest activities</Text>
+          <Text>Welcome Back, Admin</Text>
+          <Text fontSize="sm" color="gray">Here's a quick overview of Spoilert’s latest activities</Text>
         </Box>
 
         <HStack>

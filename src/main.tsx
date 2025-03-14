@@ -9,8 +9,8 @@ import "./index.scss";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App.tsx";
-import { Provider } from "./components/ui/provider.tsx";
-import { system } from "./themes/themes.tsx";
+// import { Provider } from "./components/ui/provider.tsx";
+import { system } from "./themes/theme.ts";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,13 +27,13 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ChakraProvider value={system}>
-      <Provider>
+      {/* <Provider> */}
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <App />
           </BrowserRouter>
         </QueryClientProvider>
-      </Provider>
+      {/* </Provider> */}
     </ChakraProvider>
   </StrictMode>
 );

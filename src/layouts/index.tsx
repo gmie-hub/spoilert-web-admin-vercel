@@ -9,7 +9,10 @@ const Layout = () => {
   return (
     <main>
       <Drawer.Root>
-        <Grid templateColumns={{ base: "1fr", md: "16rem 1fr" }}>
+        <Grid
+          templateColumns={{ base: "1fr", md: "17rem 1fr" }}
+          overflow="hidden"
+        >
           <Box
             h="100vh"
             overflow="hidden"
@@ -45,7 +48,7 @@ const Layout = () => {
               overflowY="auto"
               className={styles.children}
             >
-              <Box w="100%">
+              <Box w="100%" p="3" overflowX="auto">
                 <Outlet />
               </Box>
             </Container>
