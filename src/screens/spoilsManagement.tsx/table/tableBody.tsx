@@ -1,9 +1,9 @@
-import { Button, HStack, Image, Table, Tag, Text } from "@chakra-ui/react";
+import { Button, HStack, Image, Table,  Text } from "@chakra-ui/react";
 
-import { learnerData } from "@spt/utils/tableData";
+import { SpoilsMgtData } from "@spt/utils/tableData";
 
 const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...learnerData,
+  ...SpoilsMgtData,
   key: index,
 }));
 
@@ -15,20 +15,19 @@ const TableBody = () => {
           <Table.Cell>
             <HStack>
               <Image src="/user-icon.svg" />
-              <Text>{item.fullName}</Text>
+              <Text>{item.spoilTitle}</Text>
             </HStack>
           </Table.Cell>
 
-          <Table.Cell>{item.email}</Table.Cell>
+          <Table.Cell>{item.nameOfTutor}</Table.Cell>
 
-          <Table.Cell>{item.username}</Table.Cell>
+          <Table.Cell>{item.category}</Table.Cell>
+          <Table.Cell>{item.amount}</Table.Cell>
+          <Table.Cell>{item.enrolledLearners}</Table.Cell>
+          <Table.Cell>{item.dateCreated}</Table.Cell>
 
 
-          <Table.Cell>
-            <Tag.Root size="sm" colorPalette="green" px='2' py="1" borderRadius="xl">
-              <Tag.Label>{item.status}</Tag.Label>
-            </Tag.Root>
-          </Table.Cell>
+       
 
           <Table.Cell>
             <Button yellowOutline px="3" my="3">View More</Button>

@@ -1,9 +1,9 @@
 import { Button, HStack, Image, Table, Tag, Text } from "@chakra-ui/react";
 
-import { learnerData } from "@spt/utils/tableData";
+import { transactionsData } from "@spt/utils/tableData";
 
 const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...learnerData,
+  ...transactionsData,
   key: index,
 }));
 
@@ -15,14 +15,15 @@ const TableBody = () => {
           <Table.Cell>
             <HStack>
               <Image src="/user-icon.svg" />
-              <Text>{item.fullName}</Text>
+              <Text>{item.TransactionType}</Text>
             </HStack>
           </Table.Cell>
 
-          <Table.Cell>{item.email}</Table.Cell>
+          <Table.Cell>{item.TransactionId}</Table.Cell>
 
-          <Table.Cell>{item.username}</Table.Cell>
+          <Table.Cell>{item.Amount}</Table.Cell>
 
+          <Table.Cell>{item.DateCreated}</Table.Cell>
 
           <Table.Cell>
             <Tag.Root size="sm" colorPalette="green" px='2' py="1" borderRadius="xl">

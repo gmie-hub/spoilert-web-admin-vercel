@@ -25,32 +25,32 @@ const Sidebar = () => {
     },
     {
       key: "Tutors",
-      label: <NavLink to={routes.main.learners}>Tutors</NavLink>,
+      label: <NavLink to={routes.main.tutors}>Tutors</NavLink>,
       icon: <img src={Tutors} alt="Tutors" />,
     },
     {
       key: "Categories",
-      label: "Categories",
+      label: <NavLink to={routes.main.categories}>Categories</NavLink>,
       icon: <img src="/category.svg" alt="category" />,
     },
     {
       key: "Spoil Management",
-      label: "Spoil Management",
+      label: <NavLink to={routes.main.spoilMgt}>Spoil Management</NavLink>,
       icon: <img src={Management} alt="Management" />,
     },
     {
       key: "Sponsorships",
-      label: "Sponsorships",
+      label: <NavLink to={routes.main.sponsorships}>Sponsorships</NavLink>,
       icon: <img src={Sponsorships} alt="Sponsorships" />,
     },
     {
       key: "Withdrawal Requests",
-      label: "Withdrawal Requests",
+      label: <NavLink to={routes.main.withdrawalRequest}>Withdrawal Requests</NavLink>,
       icon: <img src={Withdrawal} alt="Withdrawal" />,
     },
     {
       key: "Transactions",
-      label: "Transactions",
+      label: <NavLink to={routes.main.transactions}>Transactions</NavLink>,
       icon: <img src={Transactions} alt="Transactions" />,
     },
     {
@@ -77,7 +77,41 @@ const Sidebar = () => {
           LOGO
         </Text>
       </Box>
+      <Stack
+        pt="10"
+        borderBlockStart="1px solid #efefef"
+        borderInlineEnd="1px solid #efefef"
+        color="#495057"
+        overflowY="auto"
+      >
+        {items.map((item, index) => (
+          <NavLink
+            key={index}
+            to={routes.main[item.key.toLowerCase().replace(/\s/g, "")] || "#"}
+            style={{ textDecoration: "none", width: "100%" }}
+          >
+            <HStack
+              py="3"
+              px="4"
+              mx="3"
+              gap="4"
+              alignItems="center"
+              _hover={{
+                transform: "scale(1.05)",
+                transition: "transform 0.2s ease-in-out",
+                bg: "#D4A437",
+                borderRadius: "lg",
+                color: "white",
+              }}
+            >
+              <Box>{item.icon}</Box>
+              <Text fontSize="md">{item.label}</Text>
+            </HStack>
+          </NavLink>
+        ))}
+      </Stack>
 
+      {/* 
       <Stack
         pt="10"
         borderBlockStart="1px solid #efefef"
@@ -105,7 +139,7 @@ const Sidebar = () => {
             <Text fontSize="md">{items.label}</Text>
           </HStack>
         ))}
-      </Stack>
+      </Stack> */}
     </Flex>
   );
 };
