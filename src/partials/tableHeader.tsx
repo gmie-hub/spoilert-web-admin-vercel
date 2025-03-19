@@ -1,12 +1,17 @@
+import type { FC } from "react";
+
 import { Table } from "@chakra-ui/react";
 
-import { withdrawalRequestHeader } from "@spt/utils/tableData";
 
-const TableHeader = () => {
+interface ComponentProps {
+  headerItems: Array<any>;
+}
+
+const TableHeader: FC<ComponentProps> = ({ headerItems }) => {
   return (
     <>
       <Table.Row bgColor="#FBFBFB" color="#212529">
-        {withdrawalRequestHeader?.map((item, index) => (
+        {headerItems?.map((item, index) => (
           <Table.ColumnHeader key={index} py="3">
             {item}
           </Table.ColumnHeader>

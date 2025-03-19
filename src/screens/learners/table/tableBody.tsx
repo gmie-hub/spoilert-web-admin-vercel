@@ -4,12 +4,9 @@ import { Button, HStack, Image, Table, Tag, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 import { routes } from "@spt/routes";
+import type { TableBodyProps } from "@spt/utils/types";
 
-interface ComponentProps {
-  items: Array<any>;
-}
-
-const TableBody: FC<ComponentProps> = ({ items }) => {
+const TableBody: FC<TableBodyProps> = ({ items }) => {
   const navigate = useNavigate();
 
   const handleNavigation = () => navigate(routes.main.learners.viewDetails);
@@ -34,7 +31,6 @@ const TableBody: FC<ComponentProps> = ({ items }) => {
           <Table.Cell textOverflow="ellipsis">{item.email}</Table.Cell>
 
           <Table.Cell>{item.username}</Table.Cell>
-
 
           <Table.Cell>
             <Tag.Root

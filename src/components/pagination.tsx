@@ -10,18 +10,19 @@ import {
 } from "@chakra-ui/react";
 
 interface ComponentProps {
-  count: number;
   pageSize: number;
   page: number;
+  items: Array<any>;
   onPageChange: (details: any) => void;
 }
 
 const CustomPagination: FC<ComponentProps> = ({
-  count,
   onPageChange,
   page: pageNumber,
   pageSize,
+  items
 }) => {
+  const count = items.length;
   return (
     <Pagination.Root
       count={count}

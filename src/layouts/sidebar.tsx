@@ -15,58 +15,69 @@ const Sidebar = () => {
   const items = [
     {
       key: "Overview",
-      label: <NavLink to={routes.main.dashboard}>Overview</NavLink>,
+      label: "Overview",
       icon: <img src={Overview} alt="Overview" />,
+      to: routes.main.dashboard
     },
     {
       key: "Learners",
-      label: <NavLink to={routes.main.learners}>Learners</NavLink>,
+      label: "Learners",
       icon: <img src={Learners} alt="Learners" />,
+      to: routes.main.learners.home,
     },
     {
       key: "Tutors",
-      label: <NavLink to={routes.main.tutors}>Tutors</NavLink>,
+      label: "Tutors",
       icon: <img src={Tutors} alt="Tutors" />,
+      to: routes.main.tutors.home,
     },
     {
       key: "Categories",
-      label: <NavLink to={routes.main.categories}>Categories</NavLink>,
+      label: "Categories",
       icon: <img src="/category.svg" alt="category" />,
+      to: routes.main.categories.home,
     },
     {
       key: "Spoil Management",
-      label: <NavLink to={routes.main.spoilMgt}>Spoil Management</NavLink>,
+      label: "Spoil Management",
       icon: <img src={Management} alt="Management" />,
+      to: routes.main.spoilMgt.home
     },
     {
       key: "Sponsorships",
-      label: <NavLink to={routes.main.sponsorships}>Sponsorships</NavLink>,
+      label: "Sponsorships",
       icon: <img src={Sponsorships} alt="Sponsorships" />,
+      to: routes.main.sponsorships.home
     },
     {
       key: "Withdrawal Requests",
-      label: <NavLink to={routes.main.withdrawalRequest}>Withdrawal Requests</NavLink>,
+      label: "Withdrawal Requests",
       icon: <img src={Withdrawal} alt="Withdrawal" />,
+      to: routes.main.withdrawalRequest.home
     },
     {
       key: "Transactions",
-      label: <NavLink to={routes.main.transactions}>Transactions</NavLink>,
+      label: "Transactions",
       icon: <img src={Transactions} alt="Transactions" />,
+      to: routes.main.transactions.home
     },
     {
       key: "Community",
       label: "Community",
       icon: <img src="/community.svg" alt="Community" />,
+      to: routes.main.community.home,
     },
     {
       key: "Customer Support",
       label: "Customer Support",
       icon: <img src="/customer.svg" alt="CustomerSupport" />,
+      to: routes.main.customerSupport.home,
     },
     {
       key: "Settings",
       icon: <img src={Settings} alt="Settings" />,
-      label: <NavLink to={routes.main.settings}>Settings</NavLink>,
+      label: "Settings",
+      to: routes.main.settings.home,
     },
   ];
 
@@ -77,6 +88,7 @@ const Sidebar = () => {
           LOGO
         </Text>
       </Box>
+
       <Stack
         pt="10"
         borderBlockStart="1px solid #efefef"
@@ -87,7 +99,7 @@ const Sidebar = () => {
         {items.map((item, index) => (
           <NavLink
             key={index}
-            to={routes.main[item.key.toLowerCase().replace(/\s/g, "")] || "#"}
+            to={item.to}
             style={{ textDecoration: "none", width: "100%" }}
           >
             <HStack
@@ -110,36 +122,6 @@ const Sidebar = () => {
           </NavLink>
         ))}
       </Stack>
-
-      {/* 
-      <Stack
-        pt="10"
-        borderBlockStart="1px solid #efefef"
-        borderInlineEnd="1px solid #efefef"
-        color="#495057"
-        overflowY="auto"
-      >
-        {items.map((items, index) => (
-          <HStack
-            key={index}
-            py="3"
-            px="4"
-            mx="3"
-            gap="4"
-            alignItems="center"
-            _hover={{
-              transform: "scale(1.05)",
-              transition: "transform 0.2s ease-in-out",
-              bg: "#D4A437",
-              borderRadius: "lg",
-              color: "white",
-            }}
-          >
-            <Box>{items.icon}</Box>
-            <Text fontSize="md">{items.label}</Text>
-          </HStack>
-        ))}
-      </Stack> */}
     </Flex>
   );
 };

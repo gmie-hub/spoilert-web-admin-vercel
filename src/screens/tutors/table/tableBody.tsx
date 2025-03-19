@@ -1,16 +1,15 @@
+import type { FC } from "react";
+
 import { Button, HStack, Image, Table, Tag, Text } from "@chakra-ui/react";
 
-import { tutorData } from "@spt/utils/tableData";
+import type { TableBodyProps } from "@spt/utils/types";
 
-const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...tutorData,
-  key: index,
-}));
 
-const TableBody = () => {
+
+const TableBody: FC<TableBodyProps> = ({ items }) => {
   return (
     <>
-      {duplicatedItems.map((item) => (
+      {items.map((item) => (
         <Table.Row py="16">
           <Table.Cell>
             <HStack>

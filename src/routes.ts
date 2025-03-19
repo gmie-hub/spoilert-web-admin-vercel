@@ -5,15 +5,33 @@ export const routes = {
       home: "/learners",
       viewDetails: "/view-learner-details",
     },
-    tutors: "/tutors",
-    categories: "/categories",
-    spoilMgt: "/spoil-management",
-    sponsorships: "/sponsorships",
-    withdrawalRequest: "/withdrawal-request",
-    transactions: "/transactions",
-    community: "/community",
-    customerSupport: "customer-support",
-    settings: "settings",
+    tutors: {
+      home: "/tutors",
+    },
+    categories: {
+      home: "/categories",
+    },
+    spoilMgt: {
+      home: "/spoil-management",
+    },
+    sponsorships: {
+      home: "/sponsorships",
+    },
+    withdrawalRequest: {
+      home: "/withdrawal-request",
+    },
+    transactions: {
+      home: "/transactions",
+    },
+    community: {
+      home: "/community",
+    },
+    customerSupport: {
+      home: "customer-support",
+    },
+    settings: {
+      home: "settings",
+    },
   },
   // auth: {
   //   login: '/',

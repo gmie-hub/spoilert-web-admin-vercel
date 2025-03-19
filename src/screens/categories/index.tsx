@@ -1,11 +1,23 @@
 import { Box, Button, Flex, Stack, Text } from "@chakra-ui/react";
 
-import { Card, Table } from "@spt/components";
+import { Card, Pagination, Table } from "@spt/components";
+import { usePagination } from "@spt/hooks/usePagination";
+import TableHeader from "@spt/partials/tableHeader";
+import { categoriesData, categoriesHeader } from "@spt/utils/tableData";
 
 import TableBody from "./table/tableBody";
-import TableHeader from "./table/tableHeader";
+
+const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
+  ...categoriesData,
+  key: index,
+}));
 
 const Categories = () => {
+  const { page, pageSize, startRange, endRange, handlePageChange } =
+    usePagination();
+
+  const visibleItems = duplicatedItems.slice(startRange, endRange);
+
   return (
     <Box>
       <Card>
@@ -15,12 +27,19 @@ const Categories = () => {
               Categories
             </Text>
 
-            <Button colorScheme="blue">Add Category</Button>
+            <Button yellow>Add Category</Button>
           </Flex>
 
           <Table
-            headerChildren={<TableHeader />}
-            bodyChildren={<TableBody />}
+            headerChildren={<TableHeader headerItems={categoriesHeader} />}
+            bodyChildren={<TableBody items={visibleItems} />}
+          />
+
+          <Pagination
+            page={page}
+            pageSize={pageSize}
+            items={duplicatedItems}
+            onPageChange={handlePageChange}
           />
         </Stack>
       </Card>

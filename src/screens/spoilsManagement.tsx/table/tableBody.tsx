@@ -1,16 +1,20 @@
-import { Button, HStack, Image, Table,  Text } from "@chakra-ui/react";
+import type { FC } from "react";
 
-import { SpoilsMgtData } from "@spt/utils/tableData";
+import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
-const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...SpoilsMgtData,
-  key: index,
-}));
+import { routes } from "@spt/routes";
+import type { TableBodyProps } from "@spt/utils/types";
 
-const TableBody = () => {
+
+const TableBody: FC<TableBodyProps> = ({ items }) => {
+  const navigate = useNavigate();
+
+  const handleNavigation = () => navigate(routes.main.learners.viewDetails);
+
   return (
     <>
-      {duplicatedItems.map((item) => (
+      {items.map((item) => (
         <Table.Row py="16">
           <Table.Cell>
             <HStack>
@@ -26,11 +30,10 @@ const TableBody = () => {
           <Table.Cell>{item.enrolledLearners}</Table.Cell>
           <Table.Cell>{item.dateCreated}</Table.Cell>
 
-
-       
-
           <Table.Cell>
-            <Button yellowOutline px="3" my="3">View More</Button>
+            <Button yellowOutline px="3" my="3" onClick={handleNavigation}>
+              View More
+            </Button>
           </Table.Cell>
         </Table.Row>
       ))}
