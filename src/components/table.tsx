@@ -9,13 +9,13 @@ interface ComponentProps {
 
 const CustomTable: FC<ComponentProps> = ({ headerChildren, bodyChildren }) => {
   return (
-    <Table.Root size="md" interactive>
-      <Table.Header>
-        {headerChildren}
-      </Table.Header>
+    <Table.ScrollArea>
+      <Table.Root size="md" interactive>
+        <Table.Header>{headerChildren}</Table.Header>
 
-      <Table.Body color="gray">{bodyChildren}</Table.Body>
-    </Table.Root>
+        <Table.Body color="gray">{bodyChildren}</Table.Body>
+      </Table.Root>
+    </Table.ScrollArea>
   );
 };
 
