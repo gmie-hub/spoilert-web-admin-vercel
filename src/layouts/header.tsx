@@ -44,7 +44,7 @@ const Header = () => {
         borderBlockEnd="1px solid #efefef"
         borderInlineStart="1px solid #efefef"
         p="4"
-        pos="-webkit-sticky"
+        position="sticky"
         // px="3"
       >
         <Box>

@@ -1,22 +1,25 @@
-import { Box, Container, Drawer, Flex, Grid, Portal } from "@chakra-ui/react";
+import { Box, Container, Drawer, Flex, Portal } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 
 import Header from "./header";
 import Sidebar from "./sidebar";
-import styles from "./styles.module.scss";
 
 const Layout = () => {
   return (
     <main>
       <Drawer.Root>
-        <Grid
-          templateColumns={{ base: "1fr", md: "17rem 1fr" }}
+        <Flex
           overflow="hidden"
+          h="100vh"
         >
           <Box
             h="100vh"
+            w="17rem"
             overflow="hidden"
             display={{ base: "none", md: "block" }}
+            position="fixed"
+            top="0"
+            left="0"
           >
             <Sidebar />
           </Box>
@@ -35,25 +38,35 @@ const Layout = () => {
           <Flex
             flexDir="column"
             w="100%"
-            overflowY="hidden"
-            className={styles.content}
+            overflow="hidden"
+            ml={{ md: "17rem" }}
+            flex="1"
           >
-            <Header />
+            <Box
+              position="sticky"
+              top="0"
+              bg="white"
+              zIndex="10"
+            >
+              <Header />
+            </Box>
 
             <Container
-              flexGrow="1"
+              flex="1"
               padding="3"
               bg="#fafafa"
-              overflowX="hidden"
               overflowY="auto"
-              className={styles.children}
+              height="calc(100vh - 60px)"
+              w="100%"
+              maxW="unset"
+              
             >
               <Box w="100%" p="3" overflowX="auto">
                 <Outlet />
               </Box>
             </Container>
           </Flex>
-        </Grid>
+        </Flex>
       </Drawer.Root>
     </main>
   );

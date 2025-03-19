@@ -90,7 +90,7 @@ const Sidebar = () => {
       </Box>
 
       <Stack
-        pt="10"
+        py="6"
         borderBlockStart="1px solid #efefef"
         borderInlineEnd="1px solid #efefef"
         color="#495057"
