@@ -1,7 +1,10 @@
 export const routes = {
   main: {
     dashboard: "/dashboard",
-    learners: "/learners",
+    learners: {
+      home: "/learners",
+      viewDetails: "/view-learner-details",
+    },
     tutors: "/tutors",
     categories: "/categories",
     spoilMgt: "/spoil-management",
