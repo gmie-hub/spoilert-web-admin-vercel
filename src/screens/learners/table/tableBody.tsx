@@ -35,6 +35,7 @@ const TableBody: FC<ComponentProps> = ({ items }) => {
 
           <Table.Cell>{item.username}</Table.Cell>
 
+
           <Table.Cell>
             <Tag.Root
               size="sm"
