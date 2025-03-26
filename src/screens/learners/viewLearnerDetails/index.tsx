@@ -8,6 +8,7 @@ import CustomTabs from "@spt/components/tabs";
 import LearnerOverview from "./tabs/learnerOverview";
 import ProgressDetails from "./tabs/progressDetails";
 import SpoilsEnrolled from "./tabs/spoilsEnrolled";
+import SponsorshipUsed from "./tabs/sponsorshipUsed";
 
 const ViewLearnerDetails = () => {
   const [selectSpoil, setSelectSpoil] = useState("null");
@@ -25,8 +26,8 @@ const ViewLearnerDetails = () => {
       <Breadcrumb previousLink="Learners" currentLink="View Learner Details" />
 
       <Card>
-        <Stack mb="12" gap={{ mdDown: "6", md: "4" }} mx="5">
-          <HStack justifyContent="space-between">
+        <Stack mb="2" gap={{ base: "6", md: "4" }}>
+          <HStack alignItems="center" justifyContent="space-between">
             <Heading size={{ base: "sm", md: "lg" }}>Learner Details</Heading>
 
             <Button dangerOutline px={{ base: "2", md: "8" }}>
@@ -48,7 +49,7 @@ const ViewLearnerDetails = () => {
                 )}
               </Tabs.Content>
 
-              <Tabs.Content value="sponsorshipUsed"></Tabs.Content>
+              <Tabs.Content value="sponsorshipUsed"><SponsorshipUsed /></Tabs.Content>
             </>
           </CustomTabs>
         </Stack>

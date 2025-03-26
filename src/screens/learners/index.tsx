@@ -21,8 +21,8 @@ const Learners = () => {
   return (
     <Box>
       <Card>
-        <Stack mb="8">
-          <Stack gap="4" px="5">
+        <Stack mb="4">
+          <Stack gap="4">
             <Text fontSize="lg" fontWeight="semibold">
               Learners
             </Text>
@@ -35,7 +35,7 @@ const Learners = () => {
 
           <Separator />
 
-          <Box px="5" mt="3">
+          <Box px={{ md: "5" }} mt="3">
             <Pagination
               page={page}
               pageSize={pageSize}

@@ -3,6 +3,7 @@ import { type FC, useCallback } from "react";
 import {
   Box,
   Center,
+  Flex,
   HStack,
   Image,
   Separator,
@@ -31,34 +32,47 @@ const SpoilsEnrolled: FC<ComponentProps> = ({ onClick }) => {
   const visibleItems = spoilsEnrolledTableData.slice(startRange, endRange);
 
   const handleNavigation = useCallback((item: any) => {
-   () => onClick(item);
+    () => onClick(item);
   }, []);
 
   return (
     <Stack gap="6" mt="6">
-      <HStack justifyContent="space-between" gap="8">
+      <Flex
+        flexDir={{ base: "column", md: "row" }}
+        justifyContent="space-between"
+        gap="8"
+      >
         {cardItems.map((item, index) => (
           <Card key={index}>
-            <HStack gap="4" mx="4" alignItems="center">
+            <HStack gap="4" mx={{ md: "4" }} alignItems="center">
               <Center bg={item.color} h="10" w="10" borderRadius="full">
                 <Image src={item.icon} alt="icon" />
               </Center>
 
               <Box>
-                <Text color="gray.300" fontSize="sm">Total Spoils {item.status}</Text>
-                <Text fontWeight="semibold" fontSize="lg">{item.value}</Text>
+                <Text color="gray.300" fontSize="sm">
+                  Total Spoils {item.status}
+                </Text>
+                <Text fontWeight="semibold" fontSize="lg">
+                  {item.value}
+                </Text>
               </Box>
             </HStack>
           </Card>
         ))}
-      </HStack>
+      </Flex>
 
       <Stack gap="4">
         <Separator />
 
         <Table
           headerChildren={<TableHeader headerItems={spoilsEnrolledHeader} />}
-          bodyChildren={<SpoilsEnrolledTableBody items={visibleItems} handleNavigation={handleNavigation} />}
+          bodyChildren={
+            <SpoilsEnrolledTableBody
+              items={visibleItems}
+              handleNavigation={handleNavigation}
+            />
+          }
         />
 
         <Pagination

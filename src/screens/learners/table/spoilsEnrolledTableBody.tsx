@@ -15,8 +15,8 @@ const SpoilsEnrolledTableBody: FC<ComponentProps> = ({
 }) => {
   return (
     <>
-      {items.map((item) => (
-        <Table.Row py="16">
+      {items.map((item, index) => (
+        <Table.Row key={index}>
           <Table.Cell>
             <HStack>
               <Image src="/user-icon.svg" />
@@ -52,7 +52,7 @@ const SpoilsEnrolledTableBody: FC<ComponentProps> = ({
           </Table.Cell>
 
           <Table.Cell>
-            <Button yellowOutline px="3" my="3" onClick={handleNavigation}>
+            <Button yellowOutline px="3" onClick={handleNavigation}>
               View More
             </Button>
           </Table.Cell>

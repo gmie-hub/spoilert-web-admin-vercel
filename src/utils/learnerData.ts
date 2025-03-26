@@ -85,4 +85,41 @@ export const progressBreakdownData = [
   { heading: "Module 3 (5 Lessons)", title: "Information Architecture", status: "Ongoing" },
   { heading: "Module 4 (5 Lessons)", title: "How To Write Case Studies", status: "Not Started" },
   { heading: "Module 5 (5 Lessons)", title: "Wrap up & Project", status: "Not Started" },
-]
+];
+
+export const sponsorshipUsedHeader = [
+  "Name of Sponsor", "Spoil Title", "Code Used", "Date Used"
+];
+
+export const sponsorshipUsedTableData = [
+  {
+    sponsorName: "Omorinsola Ogunsola",
+    spoiltTitle: "Understanding Design Principles",
+    codeUsed: "ABX782",
+    dateUsed: "12-02-2025",
+  },
+  {
+    sponsorName: "Omorinsola Ogunsola",
+    spoiltTitle: "Frontend Development",
+    codeUsed: "ABX782",
+    dateUsed: "12-02-2025",
+  },
+  {
+    sponsorName: "Omorinsola Ogunsola",
+    spoiltTitle: "CHM202- IUPAC Nomenclature",
+    codeUsed: "ABX782",
+    dateUsed: "12-02-2025",
+  },
+  {
+    sponsorName: "Omorinsola Ogunsola",
+    spoiltTitle: "Financial Literacy",
+    codeUsed: "ABX782",
+    dateUsed: "12-02-2025",
+  },
+  {
+    sponsorName: "Omorinsola Ogunsola",
+    spoiltTitle: "BCH 404- Pharmacology",
+    codeUsed: "ABX782",
+    dateUsed: "12-02-2025",
+  },
+];

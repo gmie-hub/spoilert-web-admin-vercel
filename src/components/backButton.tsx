@@ -13,6 +13,7 @@ const BackButton: FC<ComponentProps> = ({ handleNavigation }) => {
       color="yellow"
       onClick={handleNavigation}
       _hover={{ bg: "transparent" }}
+      px="0"
     >
       <Image src="/gold-arrow-left.svg" alt="gold" /> Go Back
     </Button>
