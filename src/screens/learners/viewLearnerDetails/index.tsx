@@ -1,28 +1,35 @@
-import {
-  Box,
-  Button,
-  HStack,
-  Heading,
-  Image,
-  Stack,
-  Tabs,
-} from "@chakra-ui/react";
+import { useCallback, useState } from "react";
 
-import { Card } from "@spt/components";
+import { Button, HStack, Heading, Image, Stack, Tabs } from "@chakra-ui/react";
+
+import { Breadcrumb, Card } from "@spt/components";
 import CustomTabs from "@spt/components/tabs";
 
 import LearnerOverview from "./tabs/learnerOverview";
+import ProgressDetails from "./tabs/progressDetails";
+import SpoilsEnrolled from "./tabs/spoilsEnrolled";
 
 const ViewLearnerDetails = () => {
-  return (
-    <Box>
-      View learner details
-      <Card>
-        <Stack>
-          <HStack justifyContent="space-between">
-            <Heading size="lg">Learner Details</Heading>
+  const [selectSpoil, setSelectSpoil] = useState("null");
 
-            <Button dangerOutline px="8">
+  const handleViewDetails = useCallback((item: any) => {
+    setSelectSpoil(item);
+  }, []);
+
+  const handleBackToTable = useCallback(() => {
+    setSelectSpoil("null");
+  }, []);
+
+  return (
+    <Stack>
+      <Breadcrumb previousLink="Learners" currentLink="View Learner Details" />
+
+      <Card>
+        <Stack mb="12" gap={{ mdDown: "6", md: "4" }} mx="5">
+          <HStack justifyContent="space-between">
+            <Heading size={{ base: "sm", md: "lg" }}>Learner Details</Heading>
+
+            <Button dangerOutline px={{ base: "2", md: "8" }}>
               <Image src="/trash.svg" alt="delete" /> Delete Account
             </Button>
           </HStack>
@@ -32,13 +39,21 @@ const ViewLearnerDetails = () => {
               <Tabs.Content value="learnerOverview">
                 <LearnerOverview />
               </Tabs.Content>
-              <Tabs.Content value="spoilsEnrolled"></Tabs.Content>
+
+              <Tabs.Content value="spoilsEnrolled">
+                {selectSpoil ? (
+                  <SpoilsEnrolled onClick={handleViewDetails} />
+                ) : (
+                  <ProgressDetails handleNavigation={handleBackToTable} />
+                )}
+              </Tabs.Content>
+
               <Tabs.Content value="sponsorshipUsed"></Tabs.Content>
             </>
           </CustomTabs>
         </Stack>
       </Card>
-    </Box>
+    </Stack>
   );
 };
 

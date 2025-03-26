@@ -3,7 +3,7 @@ export const fontSizes = {
   sm: { value: "0.875rem" },
   md: { value: "1rem" },
   lg: { value: "1.125rem" },
-  xl: { value: "20px" },
+  xl: { value: "1.25rem" },
   "2xl": { value: "1.5rem" },
   "3xl": { value: "1.875rem" },
   "4xl": { value: "2.25rem" },

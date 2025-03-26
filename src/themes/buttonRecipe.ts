@@ -5,6 +5,7 @@ export const buttonRecipe = defineRecipe({
     visual: {
       outline: {
         px: '2',
+        borderRadius: 'lg',
       }
     },
     yellowOutline: {

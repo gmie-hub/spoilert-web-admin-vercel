@@ -1,17 +1,18 @@
 import type { FC } from "react";
 
 import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 
 import { Tag } from "@spt/components";
-import { routes } from "@spt/routes";
 import type { TableBodyProps } from "@spt/utils/types";
 
-const TableBody: FC<TableBodyProps> = ({ items }) => {
-  const navigate = useNavigate();
+interface ComponentProps extends TableBodyProps {
+  handleNavigation: (item: any) => void;
+}
 
-  const handleNavigation = () => navigate(routes.main.learners.viewDetails);
-
+const SpoilsEnrolledTableBody: FC<ComponentProps> = ({
+  items,
+  handleNavigation,
+}) => {
   return (
     <>
       {items.map((item) => (
@@ -21,17 +22,30 @@ const TableBody: FC<TableBodyProps> = ({ items }) => {
               <Image src="/user-icon.svg" />
               <Text
                 textOverflow={
-                  item.fullName.length > 10 ? "ellipsis" : "initial"
+                  item.spoilTitle.length > 10 ? "ellipsis" : "initial"
                 }
+                color="gray"
               >
-                {item.fullName}
+                {item.spoilTitle}
               </Text>
             </HStack>
           </Table.Cell>
 
-          <Table.Cell textOverflow="ellipsis">{item.email}</Table.Cell>
+          <Table.Cell textOverflow="ellipsis">
+            <HStack>
+              <Image src="/user-icon.svg" />
+              <Text
+                textOverflow={
+                  item.tutorName.length > 10 ? "ellipsis" : "initial"
+                }
+                color="gray"
+              >
+                {item.tutorName}
+              </Text>
+            </HStack>
+          </Table.Cell>
 
-          <Table.Cell>{item.username}</Table.Cell>
+          <Table.Cell>{item.dateEnrolled}</Table.Cell>
 
           <Table.Cell>
             <Tag status={item.status} />
@@ -48,4 +62,4 @@ const TableBody: FC<TableBodyProps> = ({ items }) => {
   );
 };
 
-export default TableBody;
+export default SpoilsEnrolledTableBody;
