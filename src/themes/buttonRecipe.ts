@@ -9,7 +9,7 @@ export const buttonRecipe = defineRecipe({
     },
     yellowOutline: {
       true: {
-        color:"var(--color-primary)",
+        color: "yellow",
         border: "1px solid #E0E0E0",
         fontSize: "sm",
         fontWeight: "semibold",
@@ -22,7 +22,7 @@ export const buttonRecipe = defineRecipe({
         color: "white",
         fontSize: "sm",
         fontWeight: "semibold",
-        bg: "var(--color-primary)"  ,
+        bg: "yellow",
         borderRadius: "lg",
       },
     },
