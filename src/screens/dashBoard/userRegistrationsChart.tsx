@@ -3,8 +3,8 @@ import { PolarAngleAxis, RadialBar, RadialBarChart } from "recharts";
 
 // Sample data with correct colors
 const radialData = [
-  { name: "Web Signups", value: 5000, color: "var(--color-blue" }, 
-  { name: "Mobile App Signups", value: 20000, color:  "var(--color-primary"  }, 
+  { name: "Web Signups", value: 5000, color: "blue" }, 
+  { name: "Mobile App Signups", value: 20000, color:  "yellow"  }, 
 ];
 
 const UserRegistrationsChart = () => {
@@ -18,7 +18,7 @@ const UserRegistrationsChart = () => {
         direction={{ base: "column", md: "row" }}
         gap={{ base: 2, md: 0 }}
       >
-        <Text fontSize={{ base: "md", md: "lg" }} fontWeight="bold" color="var(--color-back)">
+        <Text fontSize={{ base: "md", md: "lg" }} fontWeight="bold" color="dark">
           User Registrations
         </Text>
   
