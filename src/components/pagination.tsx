@@ -20,7 +20,7 @@ const CustomPagination: FC<ComponentProps> = ({
   onPageChange,
   page: pageNumber,
   pageSize,
-  items
+  items,
 }) => {
   const count = items.length;
   return (
@@ -48,7 +48,11 @@ const CustomPagination: FC<ComponentProps> = ({
                       variant={"ghost"}
                       rounded="full"
                       _active={{ bg: "var(--color-primary)" }}
-                      _selected={Number(page.value) === pageNumber ? { bg: "var(--color-primary)" } : undefined}
+                      _selected={
+                        Number(page.value) === pageNumber
+                          ? { bg: "var(--color-primary)" }
+                          : undefined
+                      }
                     >
                       {page.value}
                     </IconButton>
