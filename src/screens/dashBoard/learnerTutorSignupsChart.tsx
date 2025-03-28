@@ -24,7 +24,7 @@ const LearnerTutorSignupsChart = () => {
     <Box flex={1} bg="white" p={6} borderRadius="lg" boxShadow="md">
       {/* Header */}
       <Flex justify="space-between" align="center" mb={4} direction={{ base: "column", md: "row" }} gap={{ base: 2, md: 0 }}>
-        <Text fontSize={{ base: "md", md: "lg" }} fontWeight="bold" color="var(--color-back)">
+        <Text fontSize={{ base: "md", md: "lg" }} fontWeight="bold" color="dark">
           Learner & Tutor Sign Ups
         </Text>
         <Flex gap={2} direction={{ base: "column", md: "row" }}>
