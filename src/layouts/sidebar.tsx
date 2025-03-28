@@ -111,7 +111,7 @@ const Sidebar = () => {
               _hover={{
                 transform: "scale(1.05)",
                 transition: "transform 0.2s ease-in-out",
-                bg: "#D4A437",
+                bg: "yellow",
                 borderRadius: "lg",
                 color: "white",
               }}

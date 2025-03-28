@@ -4,9 +4,8 @@ export const buttonRecipe = defineRecipe({
   variants: {
     visual: {
       outline: {
-        px: "2",
-        borderRadius: "lg",
-      },
+        px: '2',
+      }
     },
     variant: {
       dangerOutline: {
@@ -29,11 +28,11 @@ export const buttonRecipe = defineRecipe({
         color: "white",
         fontSize: "sm",
         fontWeight: "semibold",
-        bg: "#D4A437",
+        bg: "yellow",
         borderRadius: "lg",
       },
       yellowOutline: {
-        color: "#D4A437",
+        color: "yellow",
         border: "1px solid #E0E0E0",
         fontSize: "sm",
         fontWeight: "semibold",
