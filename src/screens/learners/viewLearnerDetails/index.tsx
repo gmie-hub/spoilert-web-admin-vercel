@@ -1,9 +1,11 @@
 import { useCallback, useState } from "react";
 
-import { Button, HStack, Heading, Image, Stack, Tabs } from "@chakra-ui/react";
+import { HStack, Heading, Image, Stack, Tabs } from "@chakra-ui/react";
 
-import { Breadcrumb, Card } from "@spt/components";
+import { Breadcrumb, Card, Modal } from "@spt/components";
 import CustomTabs from "@spt/components/tabs";
+
+import DeleteAccountModalContent from "../modal/deleteAccountModalContent";
 
 import LearnerOverview from "./tabs/learnerOverview";
 import ProgressDetails from "./tabs/progressDetails";
@@ -30,9 +32,14 @@ const ViewLearnerDetails = () => {
           <HStack alignItems="center" justifyContent="space-between">
             <Heading size={{ base: "sm", md: "lg" }}>Learner Details</Heading>
 
-            <Button dangerOutline px={{ base: "2", md: "8" }}>
-              <Image src="/trash.svg" alt="delete" /> Delete Account
-            </Button>
+            <Modal
+              buttonIcon={<Image src="/trash.svg" alt="delete" />}
+              buttonText="Delete Account"
+              variant="dangerOutline"
+              dialogHeader="Delete Account"
+            >
+              <DeleteAccountModalContent />
+            </Modal>
           </HStack>
 
           <CustomTabs tabList={tabList}>
@@ -49,7 +56,9 @@ const ViewLearnerDetails = () => {
                 )}
               </Tabs.Content>
 
-              <Tabs.Content value="sponsorshipUsed"><SponsorshipUsed /></Tabs.Content>
+              <Tabs.Content value="sponsorshipUsed">
+                <SponsorshipUsed />
+              </Tabs.Content>
             </>
           </CustomTabs>
         </Stack>
