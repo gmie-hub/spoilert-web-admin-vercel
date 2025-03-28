@@ -10,6 +10,6 @@ export const colors = {
     DEFAULT: { value: "#DC3545" },
   },
   yellow: {
-    DEFAULT: { value: "#D4A437" },
+    DEFAULT: { value: "var(--color-primary)" },
   },
 };

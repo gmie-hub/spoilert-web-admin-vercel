@@ -7,8 +7,8 @@ import type { TableBodyProps } from "@spt/utils/types";
 const TableBody: FC<TableBodyProps> = ({ items }) => {
   return (
     <>
-      {items.map((item) => (
-        <Table.Row py="16">
+      {items.map((item,index) => (
+  <Table.Row key={index} py="16">
           <Table.Cell>
             <HStack>
               <Image src="/user-icon.svg" />
@@ -24,7 +24,7 @@ const TableBody: FC<TableBodyProps> = ({ items }) => {
           <Table.Cell>{item.dateCreated}</Table.Cell>
 
           <Table.Cell>
-            <Button yellowOutline px="3" my="3">
+            <Button yellowOutline={true}  px="3" my="3">
               View More
             </Button>
           </Table.Cell>

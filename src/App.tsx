@@ -5,7 +5,7 @@ import Layout from "./layouts";
 import { routes } from "./routes";
 import Categories from "./screens/categories";
 import Community from "./screens/community/index.tsx";
-import Dashboard from "./screens/dashBoard";
+import Dashboard from "./screens/dashBoard/index.tsx";
 import Learners from "./screens/learners";
 import ViewLearnerDetails from "./screens/learners/viewLearnerDetails";
 import SpoilsManagement from "./screens/spoilsManagement.tsx";
@@ -13,6 +13,7 @@ import Sponsorships from "./screens/sponsorships";
 import Transactions from "./screens/transactions";
 import Tutors from "./screens/tutors";
 import WithdrawerRequest from "./screens/withdrawerRequest.tsx";
+
 
 function App() {
   const appRoutes = [
@@ -40,8 +41,8 @@ function App() {
       </Route> */}
 
       <Route element={<Layout />}>
-        {appRoutes.map((item) => (
-          <Route path={item.path} element={item.element} />
+        {appRoutes?.map((item, index) => (
+          <Route key={index} path={item.path} element={item.element} />
         ))}
       </Route>
     </Routes>
