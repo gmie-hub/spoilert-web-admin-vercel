@@ -24,7 +24,7 @@ const TableBody: FC<TableBodyProps> = ({ items }) => {
           <Table.Cell>{item.dateCreated}</Table.Cell>
 
           <Table.Cell>
-            <Button yellowOutline={true}  px="3" my="3">
+            <Button variant="yellowOutline"  px="3" my="3">
               View More
             </Button>
           </Table.Cell>
