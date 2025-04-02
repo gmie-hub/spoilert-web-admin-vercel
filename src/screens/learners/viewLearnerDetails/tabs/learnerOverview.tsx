@@ -19,8 +19,8 @@ const LearnerOverview: React.FC = () => {
           flexWrap="wrap"
           gap={{ mdDown: "6" }}
         >
-          {firstDetails.map((item) => (
-            <InfoDisplay title={item.title} value={item.value} />
+          {firstDetails.map((item, index) => (
+            <InfoDisplay title={item.title} value={item.value} key={index} />
           ))}
         </HStack>
 

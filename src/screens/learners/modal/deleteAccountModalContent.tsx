@@ -2,7 +2,7 @@ import { Button, Dialog, HStack, Image, Stack, Text } from "@chakra-ui/react";
 
 const DeleteAccountModalContent = () => {
   return (
-    <Dialog.Content>
+    <Dialog.Content borderRadius="xl">
       <Dialog.Header>
         <HStack w="100%" justifyContent="center">
           <Image src="/delete-icon.svg" alt="delete" />
@@ -21,7 +21,7 @@ const DeleteAccountModalContent = () => {
         </Stack>
       </Dialog.Body>
 
-      <Dialog.Footer>
+      <Dialog.Footer mt="4" mb="4">
         <HStack w="100%" justifyContent="center">
           <Dialog.ActionTrigger asChild>
             <Button w="50%" variant="yellowOutline">Cancel</Button>

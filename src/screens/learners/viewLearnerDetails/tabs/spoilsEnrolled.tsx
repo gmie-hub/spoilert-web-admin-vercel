@@ -1,4 +1,4 @@
-import { type FC, useCallback } from "react";
+import { type FC } from "react";
 
 import {
   Box,
@@ -31,9 +31,9 @@ const SpoilsEnrolled: FC<ComponentProps> = ({ onClick }) => {
 
   const visibleItems = spoilsEnrolledTableData.slice(startRange, endRange);
 
-  const handleNavigation = useCallback((item: any) => {
-    () => onClick(item);
-  }, []);
+  // const handleNavigation = useCallback((item: any) => {
+  //   () => onClick(item);
+  // }, []);
 
   return (
     <Stack gap="6" mt="6">
@@ -70,7 +70,7 @@ const SpoilsEnrolled: FC<ComponentProps> = ({ onClick }) => {
           bodyChildren={
             <SpoilsEnrolledTableBody
               items={visibleItems}
-              handleNavigation={handleNavigation}
+              handleNavigation={onClick}
             />
           }
         />

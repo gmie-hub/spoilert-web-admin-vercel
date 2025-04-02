@@ -52,7 +52,7 @@ const SpoilsEnrolledTableBody: FC<ComponentProps> = ({
           </Table.Cell>
 
           <Table.Cell>
-            <Button variant="yellowOutline"  px="3" onClick={handleNavigation}>
+            <Button variant="yellowOutline"  px="3" onClick={() => handleNavigation(item)}>
               View More
             </Button>
           </Table.Cell>
