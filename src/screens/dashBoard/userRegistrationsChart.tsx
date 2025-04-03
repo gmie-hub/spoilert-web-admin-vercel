@@ -4,7 +4,7 @@ import { PolarAngleAxis, RadialBar, RadialBarChart } from "recharts";
 // Sample data with correct colors
 const radialData = [
   { name: "Web Signups", value: 5000, color: "blue" }, 
-  { name: "Mobile App Signups", value: 20000, color:  "yellow"  }, 
+  { name: "Mobile App Signups", value: 20000, color:  "#D4A437"  }, 
 ];
 
 const UserRegistrationsChart = () => {
@@ -72,10 +72,12 @@ const UserRegistrationsChart = () => {
             <Box key={entry.name} mb={4}>
               <Flex align="center">
                 <Box w={3} h={3} bg={entry.color} borderRadius="full" mr={2} />
+                
                 <Text fontSize="sm" color="gray.600">
                   {entry.name}
                 </Text>
               </Flex>
+
               <Text fontSize="lg" fontWeight="bold">
                 {entry.value / 1000}K
               </Text>

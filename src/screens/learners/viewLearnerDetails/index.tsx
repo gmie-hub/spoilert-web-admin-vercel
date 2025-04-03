@@ -20,7 +20,7 @@ const ViewLearnerDetails = () => {
   }, []);
 
   const handleBackToTable = useCallback(() => {
-    setSelectSpoil("null");
+    setSelectSpoil(null);
   }, []);
 
   return (
@@ -49,7 +49,7 @@ const ViewLearnerDetails = () => {
               </Tabs.Content>
 
               <Tabs.Content value="spoilsEnrolled">
-                {selectSpoil ? (
+                {selectSpoil === null ? (
                   <SpoilsEnrolled onClick={handleViewDetails} />
                 ) : (
                   <ProgressDetails handleNavigation={handleBackToTable} />

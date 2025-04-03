@@ -13,4 +13,7 @@ export const colors = {
   yellow: {
     DEFAULT: { value: "#D4A437" },
   },
+  blue: {
+    DEFAULT: { value: "#375AD4" },
+  },
 };
