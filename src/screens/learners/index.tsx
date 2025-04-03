@@ -1,9 +1,9 @@
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Box, Separator, Stack, Text } from "@chakra-ui/react";
 
 import { Card, Pagination, Table } from "@spt/components";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
-import { learnerData, learnerHeaders } from "@spt/utils/tableData";
+import { learnerData, learnerHeaders } from "@spt/utils/learnerData";
 
 import TableBody from "./table/tableBody";
 
@@ -21,22 +21,28 @@ const Learners = () => {
   return (
     <Box>
       <Card>
-        <Stack gap="4">
-          <Text fontSize="lg" fontWeight="semibold">
-            Learners
-          </Text>
+        <Stack mb="4">
+          <Stack gap="4">
+            <Text fontSize="lg" fontWeight="semibold">
+              Learners
+            </Text>
 
-          <Table
-            headerChildren={<TableHeader headerItems={learnerHeaders} />}
-            bodyChildren={<TableBody items={visibleItems} />}
-          />
+            <Table
+              headerChildren={<TableHeader headerItems={learnerHeaders} />}
+              bodyChildren={<TableBody items={visibleItems} />}
+            />
+          </Stack>
 
-          <Pagination
-            page={page}
-            pageSize={pageSize}
-            items={duplicatedItems}
-            onPageChange={handlePageChange}
-          />
+          <Separator />
+
+          <Box px={{ md: "5" }} mt="3">
+            <Pagination
+              page={page}
+              pageSize={pageSize}
+              items={duplicatedItems}
+              onPageChange={handlePageChange}
+            />
+          </Box>
         </Stack>
       </Card>
     </Box>

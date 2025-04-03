@@ -1,8 +1,9 @@
 import type { FC } from "react";
 
-import { Button, HStack, Image, Table, Tag, Text } from "@chakra-ui/react";
+import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
+import { Tag } from "@spt/components";
 import { routes } from "@spt/routes";
 import type { TableBodyProps } from "@spt/utils/types";
 
@@ -13,8 +14,8 @@ const TableBody: FC<TableBodyProps> = ({ items }) => {
 
   return (
     <>
-      {items.map((item) => (
-        <Table.Row py="16">
+      {items.map((item, index) => (
+        <Table.Row py="16" key={index}>
           <Table.Cell>
             <HStack>
               <Image src="/user-icon.svg" />
@@ -33,19 +34,11 @@ const TableBody: FC<TableBodyProps> = ({ items }) => {
           <Table.Cell>{item.username}</Table.Cell>
 
           <Table.Cell>
-            <Tag.Root
-              size="sm"
-              colorPalette="green"
-              px="2"
-              py="1"
-              borderRadius="xl"
-            >
-              <Tag.Label>{item.status}</Tag.Label>
-            </Tag.Root>
+            <Tag status={item.status} />
           </Table.Cell>
 
           <Table.Cell>
-            <Button yellowOutline px="3" my="3" onClick={handleNavigation}>
+            <Button variant="yellowOutline" px="3" onClick={handleNavigation}>
               View More
             </Button>
           </Table.Cell>

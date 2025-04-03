@@ -47,12 +47,8 @@ const CustomPagination: FC<ComponentProps> = ({
                     <IconButton
                       variant={"ghost"}
                       rounded="full"
-                      _active={{ bg: "var(--color-primary)" }}
-                      _selected={
-                        Number(page.value) === pageNumber
-                          ? { bg: "var(--color-primary)" }
-                          : undefined
-                      }
+                      _active={{ bg: "yellow" }}
+                      _selected={Number(page.value) === pageNumber ? { bg: "yellow" } : undefined}
                     >
                       {page.value}
                     </IconButton>

@@ -2,6 +2,7 @@ export const colors = {
   gray: {
     DEFAULT: { value: "#666869" },
     100: { value: "#929395" },
+    300: { value: "#707070"}
   },
   dark: {
     DEFAULT: { value: "#212529" },
@@ -10,6 +11,6 @@ export const colors = {
     DEFAULT: { value: "#DC3545" },
   },
   yellow: {
-    DEFAULT: { value: "var(--color-primary)" },
+    DEFAULT: { value: "#D4A437" },
   },
 };

@@ -11,6 +11,8 @@ import Settings from "../assets/setting-2.svg";
 import Transactions from "../assets/wallet-3.svg";
 import { routes } from "../routes";
 
+
+
 const Sidebar = () => {
   const items = [
     {
@@ -111,7 +113,7 @@ const Sidebar = () => {
               _hover={{
                 transform: "scale(1.05)",
                 transition: "transform 0.2s ease-in-out",
-                bg: "var(--color-primary)",
+                bg: "yellow",
                 borderRadius: "lg",
                 color: "white",
               }}
