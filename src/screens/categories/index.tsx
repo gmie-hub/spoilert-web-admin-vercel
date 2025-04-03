@@ -27,7 +27,7 @@ const Categories = () => {
               Categories
             </Text>
 
-            <Button yellow>Add Category</Button>
+            <Button variant="yellow">Add Category</Button>
           </Flex>
 
           <Table

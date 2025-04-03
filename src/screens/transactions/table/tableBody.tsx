@@ -31,7 +31,7 @@ const TableBody: FC<TableBodyProps> = ({ items }) => {
           </Table.Cell>
 
           <Table.Cell>
-            <Button yellowOutline px="3" my="3">View More</Button>
+            <Button variant="yellowOutline" px="3" my="3">View More</Button>
           </Table.Cell>
         </Table.Row>
       ))}

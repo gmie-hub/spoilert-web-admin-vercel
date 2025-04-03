@@ -54,7 +54,7 @@ const UserRegistrationsChart = () => {
             tick={false}
           />
 
-          {radialData.map((entry, index) => (
+          {radialData.map((entry) => (
             <RadialBar
               key={entry.name}
               data={[entry]}
@@ -72,10 +72,12 @@ const UserRegistrationsChart = () => {
             <Box key={entry.name} mb={4}>
               <Flex align="center">
                 <Box w={3} h={3} bg={entry.color} borderRadius="full" mr={2} />
+                
                 <Text fontSize="sm" color="gray.600">
                   {entry.name}
                 </Text>
               </Flex>
+
               <Text fontSize="lg" fontWeight="bold">
                 {entry.value / 1000}K
               </Text>
