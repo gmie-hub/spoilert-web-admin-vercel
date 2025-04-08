@@ -1,10 +1,16 @@
 import type { FC } from "react";
 
 import { Button, HStack, Image, Table, Tag, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
+import { routes } from "@spt/routes";
 import type { TableBodyProps } from "@spt/utils/types";
 
 const TableBody: FC<TableBodyProps> = ({ items }) => {
+  const navigate = useNavigate();
+
+  const handleNavigation = () => navigate(routes.main.tutors.tutorDetails);
+
   return (
     <>
       {items.map((item) => (
@@ -34,7 +40,7 @@ const TableBody: FC<TableBodyProps> = ({ items }) => {
           </Table.Cell>
 
           <Table.Cell>
-            <Button variant="yellowOutline" px="3">
+            <Button variant="yellowOutline" px="3" onClick={handleNavigation}>
               View More
             </Button>
           </Table.Cell>

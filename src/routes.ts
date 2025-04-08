@@ -7,6 +7,7 @@ export const routes = {
     },
     tutors: {
       home: "/tutors",
+      tutorDetails: "/tutors/tutor-details",
     },
     categories: {
       home: "/categories",

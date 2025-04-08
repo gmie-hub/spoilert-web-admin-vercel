@@ -12,6 +12,7 @@ import SpoilsManagement from "./screens/spoilsManagement.tsx";
 import Sponsorships from "./screens/sponsorships";
 import Transactions from "./screens/transactions";
 import Tutors from "./screens/tutors";
+import TutorDetails from "./screens/tutors/tutorDetails/index.tsx";
 import WithdrawerRequest from "./screens/withdrawerRequest.tsx";
 
 
@@ -21,6 +22,7 @@ function App() {
     { path: routes.main.learners.home, element: <Learners /> },
     { path: routes.main.learners.viewDetails, element: <ViewLearnerDetails /> },
     { path: routes.main.tutors.home, element: <Tutors /> },
+    { path: routes.main.tutors.tutorDetails, element: <TutorDetails /> },
     { path: routes.main.spoilMgt.home, element: <SpoilsManagement /> },
     { path: routes.main.categories.home, element: <Categories /> },
     { path: routes.main.sponsorships.home, element: <Sponsorships /> },

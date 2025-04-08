@@ -17,7 +17,7 @@ const InfoDisplay: FC<ComponentProps> = ({ title, status, value }) => {
         {title}
       </Text>
 
-      <Text fontSize={{ base: "md", md: "lg" }} textWrap="nowrap">
+      <Text fontSize={{ base: "md", md: "lg" }} textWrap={{ mdDown: "nowrap"}}>
         {value}
       </Text>
 
