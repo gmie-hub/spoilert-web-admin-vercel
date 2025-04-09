@@ -1,6 +1,6 @@
 export const routes = {
   main: {
-    dashboard: "/dashboard",
+    dashboard: "/",
     learners: {
       home: "/learners",
       viewDetails: "/view-learner-details",
