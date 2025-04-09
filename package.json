@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "postinstall": "chakra-cli typegen src/themes/theme.ts",
+    "chakra:theme-types": "chakra-cli typegen src/themes/theme.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -25,6 +27,7 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
+    "@chakra-ui/cli": "^3.15.1",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@eslint/compat": "^1.2.7",
     "@eslint/eslintrc": "^3.3.0",
