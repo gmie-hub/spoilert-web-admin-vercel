@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "postinstall": "chakra-cli typegen src/themes/theme.ts",
-    "chakra:theme-types": "chakra-cli typegen src/themes/theme.ts",
-    "build": "tsc -b && vite build",
+    "postinstall": "chakra typegen ./src/themes/theme.ts",
+    "chakra:theme-types": "chakra typegen ./src/themes/theme.ts",
+    "build": "yarn chakra:theme-types && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
