@@ -2,13 +2,14 @@ import {
   Box,
   Button,
   Center,
+  Dialog,
   HStack,
   Image,
   Stack,
   Text,
 } from "@chakra-ui/react";
 
-import { Card } from "@spt/components";
+import { Card, Modal } from "@spt/components";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import { tutorOverviewInfo } from "@spt/utils/tutorData";
 
@@ -28,7 +29,7 @@ const UserDetails = () => {
             borderRadius="lg"
           >
             <HStack>
-              <Image src="/id-card.png" alt="idCard" />
+              <Image src="/nin.png" alt="idCard" h="40px" w="63px" />
 
               <Box>
                 <Text fontSize="xs" fontWeight="medium">
@@ -41,9 +42,16 @@ const UserDetails = () => {
               </Box>
             </HStack>
 
-            <Button variant="ghost" px="0" py="0">
-              <Image src="/maximize.svg" alt="arrow" />
-            </Button>
+            <Modal
+              variant="ghost"
+              buttonIcon={<Image src="/maximize.svg" alt="arrow" />}
+              px="0"
+              py="0"
+            >
+              <Dialog.Content>
+                <Image src="/nin.png" alt="nin" />
+              </Dialog.Content>
+            </Modal>
           </HStack>
         </Stack>
       </Card>

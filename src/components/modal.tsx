@@ -10,20 +10,23 @@ import {
 interface ModalProps extends PropsWithChildren {
   variant: ConditionalValue<any>;
   buttonIcon: ReactNode;
-  buttonText: string;
-  dialogHeader: ReactNode;
+  buttonText?: string;
+  px?: string;
+  py?: string;
 }
 
 const Modal: FC<ModalProps> = ({
   buttonIcon,
   buttonText,
   children,
+  px,
+  py,
   variant,
 }) => {
   return (
     <Dialog.Root placement="center" motionPreset="slide-in-bottom" size="lg">
       <Dialog.Trigger>
-        <Button variant={variant}>
+        <Button variant={variant} px={px} py={py}>
           {buttonIcon} {buttonText}
         </Button>
       </Dialog.Trigger>
