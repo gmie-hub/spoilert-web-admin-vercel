@@ -18,12 +18,11 @@ const TableBody: FC<TableBodyProps> = ({ items }) => {
           <Table.Cell>
             <HStack>
               <Image src="/user-icon.svg" />
-              <Text>{item.fullName}</Text>
+              <Text color="gray">{item.fullName}</Text>
             </HStack>
           </Table.Cell>
 
           <Table.Cell>{item.email}</Table.Cell>
-
           <Table.Cell>{item.username}</Table.Cell>
           <Table.Cell>{item.TotalSpoils}</Table.Cell>
 

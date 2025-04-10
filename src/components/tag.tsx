@@ -7,8 +7,10 @@ const CustomTag = ({ status }: { status: string }) => {
         return "#F0FFF4";
       case "Active":
         return "#F0FFF4";
-      case "inactive":
-        return "red";
+      case "Inactive":
+        return "#FFF5F6";
+      case "Unpublished":
+        return "#FFF5F6";
       case "Ongoing":
         return "#FFF9E9";
       default:
@@ -22,7 +24,9 @@ const CustomTag = ({ status }: { status: string }) => {
         return "#28A745";
       case "Active":
         return "#28A745";
-      case "inactive":
+      case "Inactive":
+        return "red";
+      case "Unpublished":
         return "red";
       case "Ongoing":
         return "#FFC107";

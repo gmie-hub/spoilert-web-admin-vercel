@@ -36,7 +36,6 @@ const ViewLearnerDetails = () => {
               buttonIcon={<Image src="/trash.svg" alt="delete" />}
               buttonText="Delete Account"
               variant="dangerOutline"
-              dialogHeader="Delete Account"
             >
               <DeleteAccountModalContent />
             </Modal>

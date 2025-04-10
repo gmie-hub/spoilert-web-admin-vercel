@@ -1,11 +1,16 @@
+import { useState } from "react";
+
 import { HStack, Heading, Image, Stack, Tabs } from "@chakra-ui/react";
 
 import { Breadcrumb, Card, Modal } from "@spt/components";
 import CustomTabs from "@spt/components/tabs";
 
+import SpoilsCreated from "./tabs/spoilsCreated";
 import TutorOverview from "./tabs/tutorOverview/tutorOverview";
 
 const TutorDetails = () => {
+    const [selectSpoil, setSelectSpoil] = useState(null);
+  
   return (
     <Stack>
       <Breadcrumb previousLink="Tutors" currentLink="View Tutor Details" />
@@ -19,7 +24,6 @@ const TutorDetails = () => {
               buttonIcon={<Image src="/trash.svg" alt="delete" />}
               buttonText="Delete Account"
               variant="dangerOutline"
-              dialogHeader="Delete Account"
             >
               {/* <DeleteAccountModalContent /> */}
             </Modal>
@@ -31,13 +35,13 @@ const TutorDetails = () => {
                 <TutorOverview />
               </Tabs.Content>
 
-              {/* <Tabs.Content value="spoilsEnrolled">
+              <Tabs.Content value="spoilsCreated">
                 {selectSpoil === null ? (
-                  <SpoilsEnrolled onClick={handleViewDetails} />
+                  <SpoilsCreated />
                 ) : (
-                  <ProgressDetails handleNavigation={handleBackToTable} />
+                  <></>
                 )}
-              </Tabs.Content> */}
+              </Tabs.Content>
 
               {/* <Tabs.Content value="sponsorshipUsed">
                 <SponsorshipUsed />

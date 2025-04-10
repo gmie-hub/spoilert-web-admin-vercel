@@ -41,7 +41,7 @@ export const buttonRecipe = defineRecipe({
         fontWeight: "semibold",
         bg: "transparent",
         borderRadius: "xl",
-        py: "6",
+        py: "3",
       },
     },
   },
