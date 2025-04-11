@@ -1,3 +1,5 @@
+import type { FC } from "react";
+
 import { Stack } from "@chakra-ui/react";
 
 import { Pagination, Table } from "@spt/components";
@@ -10,7 +12,11 @@ import {
 
 import SpoilsCreatedTableBody from "../../table/spoilsCreatedTableBody";
 
-const SpoilsCreated = () => {
+interface ComponentProps {
+  onClick: (item: any) => void;
+}
+
+const SpoilsCreated: FC<ComponentProps> = ({ onClick }) => {
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
 
@@ -20,7 +26,7 @@ const SpoilsCreated = () => {
     <Stack gap="4">
       <Table
         headerChildren={<TableHeader headerItems={spoilsCreatedHeader} />}
-        bodyChildren={<SpoilsCreatedTableBody items={visibleItems} />}
+        bodyChildren={<SpoilsCreatedTableBody items={visibleItems} handleNavigation={onClick} />}
       />
 
       <Pagination

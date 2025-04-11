@@ -16,7 +16,7 @@ export const buttonRecipe = defineRecipe({
         borderRadius: "lg",
         border: "1px solid #E0E0E0",
         paddingInline: "5",
-        py: "6",
+        py: "5",
       },
       danger: {
         color: "white",
@@ -24,7 +24,7 @@ export const buttonRecipe = defineRecipe({
         fontSize: "md",
         fontWeight: "semibold",
         borderRadius: "lg",
-        py: "6",
+        py: "5",
       },
       yellow: {
         color: "white",
@@ -32,7 +32,7 @@ export const buttonRecipe = defineRecipe({
         fontWeight: "semibold",
         bg: "yellow",
         borderRadius: "lg",
-        py: "6",
+        py: "5",
       },
       yellowOutline: {
         color: "yellow",
@@ -41,7 +41,7 @@ export const buttonRecipe = defineRecipe({
         fontWeight: "semibold",
         bg: "transparent",
         borderRadius: "xl",
-        py: "3",
+        py: "5",
       },
     },
   },

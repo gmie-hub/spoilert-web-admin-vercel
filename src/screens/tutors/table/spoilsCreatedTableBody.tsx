@@ -5,7 +5,14 @@ import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
 import { Tag } from "@spt/components";
 import type { TableBodyProps } from "@spt/utils/types";
 
-const SpoilsCreatedTableBody: FC<TableBodyProps> = ({ items }) => {
+interface ComponentProps extends TableBodyProps {
+  handleNavigation: (item: any) => void;
+}
+
+const SpoilsCreatedTableBody: FC<ComponentProps> = ({
+  items,
+  handleNavigation,
+}) => {
   return (
     <>
       {items.map((item, index) => (
@@ -27,7 +34,11 @@ const SpoilsCreatedTableBody: FC<TableBodyProps> = ({ items }) => {
           </Table.Cell>
 
           <Table.Cell>
-            <Button variant="yellowOutline" px="3" onClick={() => {}}>
+            <Button
+              variant="yellowOutline"
+              px="3"
+              onClick={() => handleNavigation(item)}
+            >
               View More
             </Button>
           </Table.Cell>

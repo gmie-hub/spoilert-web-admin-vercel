@@ -29,6 +29,21 @@ export const spoilsCreatedHeader = [
   "Action",
 ];
 
+export const tutorTabList = [
+  {
+    value: "tutorOverview",
+    text: "Tutor Overview",
+  },
+  {
+    value: "spoilsCreated",
+    text: "Spoils Created",
+  },
+  {
+    value: "transactions",
+    text: "Transactions",
+  },
+];
+
 export const spoilsCreatedTableData = [
   {
     spoiltTitle: "Understanding Design Principles",

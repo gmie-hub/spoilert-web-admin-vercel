@@ -6,7 +6,7 @@ import { Tag } from "@spt/components";
 
 interface ComponentProps {
   title: string;
-  value: string;
+  value?: string;
   status?: string;
   md?: string;
 }
