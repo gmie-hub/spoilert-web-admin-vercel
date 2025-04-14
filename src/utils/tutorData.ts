@@ -86,3 +86,13 @@ export const spoilsCreatedTableData = [
     status: "Active",
   },
 ];
+
+export const enrolledLearnersData = [
+  { name: 'Ogunsola Omorinsola', username: "Omorinn", dateEnrolled: "12-02-2025", status: "Completed" },
+  { name: 'Ogunsola Omorinsola', username: "Omorinn", dateEnrolled: "12-02-2025", status: "Completed" },
+  { name: 'Ogunsola Omorinsola', username: "Omorinn", dateEnrolled: "12-02-2025", status: "Ongoing" },
+  { name: 'Ogunsola Omorinsola', username: "Omorinn", dateEnrolled: "12-02-2025", status: "Ongoing" },
+  { name: 'Ogunsola Omorinsola', username: "Omorinn", dateEnrolled: "12-02-2025", status: "Not Started" },
+  { name: 'Ogunsola Omorinsola', username: "Omorinn", dateEnrolled: "12-02-2025", status: "Completed" },
+  { name: 'Ogunsola Omorinsola', username: "Omorinn", dateEnrolled: "12-02-2025", status: "Not Started" },
+];

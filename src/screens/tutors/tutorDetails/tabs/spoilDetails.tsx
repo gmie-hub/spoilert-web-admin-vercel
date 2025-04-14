@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { Box, Button, HStack, List, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, List, Stack, Text } from "@chakra-ui/react";
 
 import { BackButton } from "@spt/components";
 import InfoDisplay from "@spt/partials/infoDisplay";
@@ -11,25 +11,34 @@ interface ComponentProps {
   handleViewEnrolled: () => void;
 }
 
-const SpoilDetails: FC<ComponentProps> = ({ handleNavigation, handleViewEnrolled }) => {
+const SpoilDetails: FC<ComponentProps> = ({
+  handleNavigation,
+  handleViewEnrolled,
+}) => {
   return (
     <Stack gap="5" mt="3">
-      <HStack justifyContent="space-between" alignItems="center">
+      <Flex
+        flexDir={{ mdDown: "column" }}
+        justifyContent="space-between"
+        alignItems={{ base: "flex-start", md: "center" }}
+      >
         <BackButton handleNavigation={handleNavigation} />
 
-        <HStack gap="3">
-          <Button variant="yellow" onClick={handleViewEnrolled}>View Enrolled Learners</Button>
+        <Flex flexDir={{ mdDown: "column" }} gap="3">
+          <Button variant="yellow" onClick={handleViewEnrolled}>
+            View Enrolled Learners
+          </Button>
           <Button variant="yellowOutline">View Full Spoil Details</Button>
-        </HStack>
-      </HStack>
+        </Flex>
+      </Flex>
 
-      <Text fontSize="xl" fontWeight="medium">
+      <Text fontSize={{ md: "xl"}} fontWeight="medium">
         Spoil Details
       </Text>
 
       <Stack gap="4">
         <ProgressInfo>
-          <HStack>
+          <HStack justifyContent="space-between" alignItems="center">
             <InfoDisplay
               title="Spoil Title"
               value="Understanding Design Principles"

@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 
 import { BackButton, Card } from "@spt/components";
 import InfoDisplay from "@spt/partials/infoDisplay";
@@ -8,14 +8,24 @@ import ProgressInfo from "@spt/partials/progressInfo";
 import { progressBreakdownData } from "@spt/utils/learnerData";
 
 interface ComponentProps {
-  handleNavigation: () => void;
+  handleBack: () => void;
+  handleNavigation?: () => void;
+  showButton?: boolean;
 }
 
-const ProgressDetails: FC<ComponentProps> = ({ handleNavigation }) => {
+const ProgressDetails: FC<ComponentProps> = ({
+  handleBack,
+  handleNavigation,
+  showButton,
+}) => {
   return (
-    <Stack mt="6">
-      <HStack justifyContent="flex-start">
-        <BackButton handleNavigation={handleNavigation} />
+    <Stack mt="6" gap="6">
+      <HStack justifyContent="space-between" alignItems="center">
+        <BackButton handleNavigation={handleBack} />
+
+        {showButton && (
+          <Button variant="yellowOutline" onClick={handleNavigation}>View Learner's Profile</Button>
+        )}
       </HStack>
 
       <Stack gap="6">

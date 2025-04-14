@@ -13,7 +13,7 @@ interface ComponentProps {
 
 const InfoDisplay: FC<ComponentProps> = ({ md="md", title, status, value }) => {
   return (
-    <Stack alignItems="flex-start" w="100%" flex="1">
+    <Stack alignItems="flex-start" w="100%" flex="1" justifyContent="center">
       <Text fontSize={{ base: "sm", md: md }} color="gray.100">
         {title}
       </Text>
