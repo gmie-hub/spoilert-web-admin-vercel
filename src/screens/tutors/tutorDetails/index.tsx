@@ -12,6 +12,7 @@ import { tutorTabList } from "@spt/utils/tutorData";
 import EnrolledLearners from "./tabs/enrolledLearners";
 import SpoilDetails from "./tabs/spoilDetails";
 import SpoilsCreated from "./tabs/spoilsCreated";
+import Transactions from "./tabs/transactions";
 import TutorOverview from "./tabs/tutorOverview/tutorOverview";
 
 const TutorDetails = () => {
@@ -105,9 +106,9 @@ const TutorDetails = () => {
                 {displayTabChid(currentTab)}
               </Tabs.Content>
 
-              {/* <Tabs.Content value="sponsorshipUsed">
-                <SponsorshipUsed />
-              </Tabs.Content> */}
+              <Tabs.Content value="transactions">
+                <Transactions />
+              </Tabs.Content>
             </>
           </CustomTabs>
         </Stack>

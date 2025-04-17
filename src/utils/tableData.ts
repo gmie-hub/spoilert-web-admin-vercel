@@ -11,7 +11,7 @@ export const tutorData = {
   key: 1,
   fullName: "Ogunsola Omorinsola",
   email: "ogunsolaomorinsola@gmail.com",
-  TotalSpoils: 5,
+  totalSpoils: 5,
   username: "Omorinn",
   status: "Active",
 };
