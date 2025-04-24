@@ -1,5 +1,5 @@
 export interface TableBodyProps {
-  items: Array<Record<string, string>>;
+  items: any;
 }
 
 export interface TableProps {
