@@ -11,6 +11,8 @@ interface ModalProps extends PropsWithChildren {
   buttonIcon?: ReactNode;
   buttonText?: string;
   onClick?: () => void;
+  onOpenChange?: (details: any) => void;
+  open?: boolean;
   px?: string;
   py?: string;
   size?: ConditionalValue<"sm" | "md" | "lg" | "xl" | "xs" | "cover" | "full">;
@@ -22,15 +24,17 @@ const Modal: FC<ModalProps> = ({
   buttonText,
   children,
   onClick,
+  onOpenChange,
+  open,
   px,
   py,
   size="lg",
   variant,
 }) => {
   return (
-    <Dialog.Root placement="center" motionPreset="slide-in-bottom" size={size}>
+    <Dialog.Root placement="center" open={open} motionPreset="slide-in-bottom" size={size} onOpenChange={onOpenChange}>
       <Dialog.Trigger>
-        <Button variant={variant} px={px} py={py} onClick={onClick}>
+        <Button variant={variant} px={px} py={py} w="full" onClick={onClick}>
           {buttonIcon} {buttonText}
         </Button>
       </Dialog.Trigger>

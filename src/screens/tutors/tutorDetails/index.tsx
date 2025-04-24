@@ -16,7 +16,7 @@ import Transactions from "./tabs/transactions";
 import TutorOverview from "./tabs/tutorOverview/tutorOverview";
 
 const TutorDetails = () => {
-  const [selectSpoil, setSelectSpoil] = useState(null);
+  const [, setSelectSpoil] = useState(null);
   const [currentTab, setCurrentTab] = useState("spoilsCreated");
 
   const navigate = useNavigate();

@@ -1,6 +1,7 @@
+import { useState } from "react";
+
 import {
   Box,
-  Button,
   Center,
   Dialog,
   HStack,
@@ -11,9 +12,21 @@ import {
 
 import { Card, Modal } from "@spt/components";
 import InfoDisplay from "@spt/partials/infoDisplay";
+import BlockWithdrawalModalContent from "@spt/screens/tutors/modal/blockWithdrawal";
+import UnblockWithdrawalModalContent from "@spt/screens/tutors/modal/unblockWithdrawal";
 import { tutorOverviewInfo } from "@spt/utils/tutorData";
 
 const UserDetails = () => {
+  const [openBlock, setOpenBlock] = useState(false);
+  const [openUnblock, setOpenUnblock] = useState(false);
+  const [isBlocked, setIsBlock] = useState(false);
+
+  const handleBlockModal = (e: any) => setOpenBlock(e.open);
+  const handleUnblockModal = (e: any) => setOpenUnblock(e.open);
+
+  const handleCloseModal = () => setOpenBlock(false);
+  const handleCloseUnblockModal = () => setOpenUnblock(false);
+
   return (
     <Stack gap="6">
       <Card pb="4" pt="3">
@@ -80,7 +93,25 @@ const UserDetails = () => {
             </Card>
           ))}
 
-          <Button variant="danger">Block Withdrawal</Button>
+          <Modal
+            buttonText={isBlocked ? "Unblock Withdrawal" : "Block Withdrawal"}
+            variant={isBlocked ? "yellow" : "danger"}
+            open={isBlocked ? openUnblock : openBlock}
+            onOpenChange={isBlocked ? handleUnblockModal : handleBlockModal}
+            size="lg"
+          >
+            {isBlocked ? (
+              <UnblockWithdrawalModalContent
+                onClose={handleCloseUnblockModal}
+                setIsBlocked={setIsBlock}
+              />
+            ) : (
+              <BlockWithdrawalModalContent
+                onClose={handleCloseModal}
+                setIsBlocked={setIsBlock}
+              />
+            )}
+          </Modal>
         </Stack>
       </Card>
 

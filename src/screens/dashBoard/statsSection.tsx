@@ -1,20 +1,4 @@
-import { Box, Icon, SimpleGrid, Text } from "@chakra-ui/react";
-import {
-  FaChalkboardTeacher,
-  FaGift,
-  FaHandHoldingHeart,
-  FaMoneyBillWave,
-  FaUsers,
-} from "react-icons/fa";
-
-const stats = [
-  { label: "Total Learners", value: "2,000", icon: FaUsers },
-  { label: "Total Tutors", value: "1,200", icon: FaChalkboardTeacher },
-  { label: "Total Spoils", value: "1,500", icon: FaGift },
-  { label: "Revenue Generated", value: "₦1,100,000", icon: FaMoneyBillWave },
-  { label: "Total Payout", value: "2,000", icon: FaMoneyBillWave },
-  { label: "Total Sponsorships", value: "100", icon: FaHandHoldingHeart },
-];
+import { Box, Center, Image, SimpleGrid, Text } from "@chakra-ui/react";
 
 export default function StatsSection() {
   return (
@@ -33,21 +17,19 @@ export default function StatsSection() {
           width="100%"
           alignSelf="flex-start"
         >
-          <Box
-            bg="yellow.100"
+          <Center
+            bg="#F7E6C0"
             p={2}
             borderRadius="full"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            boxShadow="sm"
           >
-            <Icon as={stat.icon} boxSize={6} color="yellow.600" />
-          </Box>
+            <Image src={stat.icon} />
+          </Center>
+
           <Box>
             <Text fontWeight="400" fontSize="sm">
               {stat.label}
             </Text>
+
             <Text fontWeight="600" fontSize="lg">
               {stat.value}
             </Text>
@@ -57,3 +39,12 @@ export default function StatsSection() {
     </SimpleGrid>
   );
 }
+
+const stats = [
+  { label: "Total Learners", value: "2,000", icon: "/total-learners.svg" },
+  { label: "Total Tutors", value: "1,200", icon: "/total-tutors.svg" },
+  { label: "Total Spoils", value: "1,500", icon: "/yellow-book.svg" },
+  { label: "Revenue Generated", value: "₦1,100,000", icon: "yellow-moneys.svg" },
+  { label: "Total Payout", value: "2,000", icon: "/wallet.svg" },
+  { label: "Total Sponsorships", value: "100", icon: "/discount-circle.svg" },
+];
