@@ -9,6 +9,7 @@ import Dashboard from "./screens/dashBoard/index.tsx";
 import Learners from "./screens/learners";
 import ViewLearnerDetails from "./screens/learners/viewLearnerDetails";
 import SpoilsManagement from "./screens/spoilsManagement.tsx";
+import SpoilDetails from "./screens/spoilsManagement.tsx/spoilDetails.tsx";
 import Sponsorships from "./screens/sponsorships";
 import Transactions from "./screens/transactions";
 import Tutors from "./screens/tutors";
@@ -24,6 +25,7 @@ function App() {
     { path: routes.main.tutors.home, element: <Tutors /> },
     { path: routes.main.tutors.tutorDetails, element: <TutorDetails /> },
     { path: routes.main.spoilMgt.home, element: <SpoilsManagement /> },
+    { path: routes.main.spoilMgt.spoilDetails, element: <SpoilDetails /> },
     { path: routes.main.categories.home, element: <Categories /> },
     { path: routes.main.sponsorships.home, element: <Sponsorships /> },
     { path: routes.main.transactions.home, element: <Transactions /> },

@@ -1,41 +1,36 @@
-import type { FC } from "react";
+import {
+  Box,
+  Dialog,
+  Flex,
+  Image,
+  List,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 
-import { Box, Button, Flex, List, Stack, Text } from "@chakra-ui/react";
-
-import { BackButton } from "@spt/components";
+import { Modal } from "@spt/components";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
 import { whatToLearnData } from "@spt/utils/spoilData";
 
-interface ComponentProps {
-  handleNavigation: () => void;
-  handleViewEnrolled: () => void;
-}
-
-const SpoilDetails: FC<ComponentProps> = ({
-  handleNavigation,
-  handleViewEnrolled,
-}) => {
+const SpoilOverview = () => {
   return (
-    <Stack gap="5" mt="3">
+    <Stack gap="4" mt="2">
       <Flex
-        flexDir={{ mdDown: "column" }}
+        flexDir={{ base: "column", md: "row" }}
         justifyContent="space-between"
-        alignItems={{ base: "flex-start", md: "center" }}
+        alignItems="center"
       >
-        <BackButton handleNavigation={handleNavigation} />
+        <Box h="80px" w="80px">
+          <Image src="/enrolled_spoils.png" alt="enrolled" w="inherit" />
+        </Box>
 
-        <Flex flexDir={{ mdDown: "column" }} gap="3">
-          <Button variant="yellow" onClick={handleViewEnrolled}>
-            View Enrolled Learners
-          </Button>
-          <Button variant="yellowOutline">View Full Spoil Details</Button>
-        </Flex>
+        <Modal variant="yellow" px="8" buttonText="View Certificate">
+          <Dialog.Content>
+            <Image src="/certificate.png" alt="certificate" />
+          </Dialog.Content>
+        </Modal>
       </Flex>
-
-      <Text fontSize={{ md: "xl" }} fontWeight="medium">
-        Spoil Details
-      </Text>
 
       <Stack gap="4">
         <ProgressInfo>
@@ -71,7 +66,7 @@ const SpoilDetails: FC<ComponentProps> = ({
             title="No of Likes"
             value="30"
           />
-
+          
           <InfoDisplay
             flex={{ base: "0 0 50%", md: "0 0 62.5%" }}
             title="No of Shares"
@@ -109,4 +104,4 @@ const SpoilDetails: FC<ComponentProps> = ({
   );
 };
 
-export default SpoilDetails;
+export default SpoilOverview;

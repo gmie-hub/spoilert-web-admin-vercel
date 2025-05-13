@@ -27,7 +27,7 @@ const CustomBreadcrumb: FC<ComponentProps> = ({
       <Breadcrumb.Root>
         <Breadcrumb.List>
           <Breadcrumb.Item>
-            <Breadcrumb.Link color="yellow" fontSize={{ mdDown: "xs" }}>
+            <Breadcrumb.Link color="blue.100" fontWeight="medium" fontSize={{ mdDown: "xs", md: "md" }}>
               {previousLink}
             </Breadcrumb.Link>
           </Breadcrumb.Item>
@@ -37,7 +37,7 @@ const CustomBreadcrumb: FC<ComponentProps> = ({
           </Breadcrumb.Separator>
 
           <Breadcrumb.Item>
-            <Breadcrumb.CurrentLink fontSize={{ mdDown: "xs" }}>
+            <Breadcrumb.CurrentLink color="gray" fontSize={{ mdDown: "xs", md: "md" }}>
               {currentLink}
             </Breadcrumb.CurrentLink>
           </Breadcrumb.Item>

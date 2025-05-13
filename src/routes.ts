@@ -14,6 +14,7 @@ export const routes = {
     },
     spoilMgt: {
       home: "/spoil-management",
+      spoilDetails: "/spoil-details",
     },
     sponsorships: {
       home: "/sponsorships",
