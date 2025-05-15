@@ -5,11 +5,15 @@ import CustomTabs from "@spt/components/tabs";
 
 import SpoilOutline from "./tabs/spoilOutline";
 import SpoilOverview from "./tabs/spoilOverview";
+import SpoilQuiz from "./tabs/spoilQuiz";
 
 const SpoilDetails = () => {
   return (
     <Stack>
-      <Breadcrumb previousLink="Spoil Management" currentLink="View Spoil Details" />
+      <Breadcrumb
+        previousLink="Spoil Management"
+        currentLink="View Spoil Details"
+      />
 
       <Card>
         <Stack mb="2" gap={{ base: "6", md: "4" }}>
@@ -36,11 +40,13 @@ const SpoilDetails = () => {
               </Tabs.Content>
 
               <Tabs.Content value="spoilQuiz">
-                {/* <SponsorshipUsed /> */}
+                <SpoilQuiz />
               </Tabs.Content>
+
               <Tabs.Content value="spoilReviews">
                 {/* <SponsorshipUsed /> */}
               </Tabs.Content>
+              
               <Tabs.Content value="enrolledLearners">
                 {/* <SponsorshipUsed /> */}
               </Tabs.Content>
