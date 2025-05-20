@@ -2,7 +2,7 @@ import { Button, HStack, Image, Stack, Text } from "@chakra-ui/react";
 
 import { quizInstructions } from "@spt/utils/spoilData";
 
-const QuizOverview = () => {
+const QuizOverview = ({ onClick }: { onClick: () => void }) => {
   return (
     <Stack gap="6">
       <HStack justifyContent="center">
@@ -32,7 +32,9 @@ const QuizOverview = () => {
           ))}
         </Stack>
 
-        <Button variant="yellow" py="3">View Quiz</Button>
+        <Button onClick={onClick} variant="yellow" py="3">
+          View Quiz
+        </Button>
       </Stack>
     </Stack>
   );
