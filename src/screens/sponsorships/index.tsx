@@ -1,23 +1,12 @@
-import { Box, Button, Flex, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Stack, Tabs, Text } from "@chakra-ui/react";
 
-import { Card, Pagination, Table } from "@spt/components";
-import { usePagination } from "@spt/hooks/usePagination";
-import TableHeader from "@spt/partials/tableHeader";
-import { sponsorshipsData, sponsorshipsHeader } from "@spt/utils/tableData";
+import { Card } from "@spt/components";
+import CustomTabs from "@spt/components/tabs";
+import { sponsorshipsTabList } from "@spt/utils/sponsorshipData";
 
-import TableBody from "./table/tableBody";
-
-const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...sponsorshipsData,
-  key: index,
-}));
+import AllSponsorships from "./tabs/allSponsorships";
 
 const Sponsorships = () => {
-  const { page, pageSize, startRange, endRange, handlePageChange } =
-    usePagination();
-
-  const visibleItems = duplicatedItems.slice(startRange, endRange);
-
   return (
     <Box>
       <Card>
@@ -27,20 +16,20 @@ const Sponsorships = () => {
               Sponsorships
             </Text>
 
-            <Button colorScheme="blue">Sponsor A Spoil</Button>
+            <Button variant="yellow">
+              <Image src="/discount-circle.svg" /> Sponsor A Spoil
+            </Button>
           </Flex>
 
-          <Table
-            headerChildren={<TableHeader headerItems={sponsorshipsHeader} />}
-            bodyChildren={<TableBody items={visibleItems} />}
-          />
+          <CustomTabs tabList={sponsorshipsTabList}>
+            <>
+              <Tabs.Content value="allSponsorships">
+                <AllSponsorships />
+              </Tabs.Content>
 
-          <Pagination
-            page={page}
-            pageSize={pageSize}
-            items={duplicatedItems}
-            onPageChange={handlePageChange}
-          />
+              <Tabs.Content value="createdByMe"></Tabs.Content>
+            </>
+          </CustomTabs>
         </Stack>
       </Card>
     </Box>

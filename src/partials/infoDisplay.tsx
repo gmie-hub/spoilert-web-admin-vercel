@@ -9,7 +9,7 @@ interface ComponentProps {
   value?: string;
   status?: string;
   md?: string;
-  flex?: Record<string, string>;
+  flex?: Record<string, string> | string;
 }
 
 const InfoDisplay: FC<ComponentProps> = ({

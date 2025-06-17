@@ -3,21 +3,24 @@ import { Box, Stack, Text } from "@chakra-ui/react";
 import { Card, Pagination, Table } from "@spt/components";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
-import { spoilsMgtData, spoilsMgtHeaders } from "@spt/utils/tableData";
+import {
+  sponsorshipBreakdownData,
+  sponsorshipBreakdownHeaders,
+} from "@spt/utils/sponsorshipData";
 
-import TableBody from "./table/tableBody";
+import SponsorshipBreakdownTableBody from "../table/sponsorshipBreakdownTableBody";
 
 const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...spoilsMgtData,
+  ...sponsorshipBreakdownData,
   key: index,
 }));
 
-const SpoilsManagement = () => {
+const SponsorshipBreakdown = () => {
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
 
   const visibleItems = duplicatedItems.slice(startRange, endRange);
-  
+
   return (
     <Box>
       <Card>
@@ -27,8 +30,10 @@ const SpoilsManagement = () => {
           </Text>
 
           <Table
-            headerChildren={<TableHeader headerItems={spoilsMgtHeaders} />}
-            bodyChildren={<TableBody items={visibleItems} />}
+            headerChildren={
+              <TableHeader headerItems={sponsorshipBreakdownHeaders} />
+            }
+            bodyChildren={<SponsorshipBreakdownTableBody items={visibleItems} />}
           />
 
           <Pagination
@@ -43,4 +48,4 @@ const SpoilsManagement = () => {
   );
 };
 
-export default SpoilsManagement;
+export default SponsorshipBreakdown;

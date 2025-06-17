@@ -16,7 +16,7 @@ export const tutorData = {
   status: "Active",
 };
 
-export const SpoilsMgtHeaders = [
+export const spoilsMgtHeaders = [
   "Spoil Title",
   "Name of Tutor",
   "Category",
@@ -26,7 +26,7 @@ export const SpoilsMgtHeaders = [
   "Action",
 ];
 
-export const SpoilsMgtData = {
+export const spoilsMgtData = {
   key: 1,
   spoilTitle: "Understanding Design Principles",
   nameOfTutor: "Tayo Adebanjo",
@@ -50,26 +50,6 @@ export const categoriesData = {
   dateCreated: "12-10-25",
 };
 
-export const sponsorshipsHeader = [
-  "Spoil Title",
-  "Name of Tutor",
-  "Category",
-  "Amount",
-  "Enrolled Learners",
-  "Date Created",
-  "Action",
-];
-
-export const sponsorshipsData = {
-  key: 1,
-  spoilTitle: "Understanding Design Principles",
-  nameOfTutor: "Tayo Adebanjo",
-  Category: "UI/UX Design",
-  Amount: "₦500,000",
-  enrolledLearners: "2",
-  dateCreated: "12-10-25",
-};
-
 export const transactionsHeader = [
   "Transaction Type",
   "Transaction ID",
@@ -87,8 +67,6 @@ export const transactionsData = {
   DateCreated: "12-10-25 | 09:43 am",
   status: "Active",
 };
-
-
 
 export const withdrawalRequestHeader = [
   "Name of Tutor",
@@ -111,7 +89,6 @@ export const communityHeader = [
   "Number of members",
   "Status",
   "Action",
-
 ];
 
 export const communityData = {
@@ -120,6 +97,5 @@ export const communityData = {
   spoilTitle: "Understanding Design Principles",
   nameOfTutor: "Ogunsola Omorinsola",
   numberOfMembers: "Developers",
-  status:'Active'
-
+  status: "Active",
 };

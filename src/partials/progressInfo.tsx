@@ -4,7 +4,7 @@ import { Flex, Separator, Stack } from "@chakra-ui/react";
 
 const ProgressInfo: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <Stack gap="3">
+    <Stack gap="2">
       <Flex
         justifyContent="space-between"
         rowGap="3"

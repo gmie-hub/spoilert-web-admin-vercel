@@ -18,6 +18,7 @@ export const routes = {
     },
     sponsorships: {
       home: "/sponsorships",
+      details: "/sponsorship-details"
     },
     withdrawalRequest: {
       home: "/withdrawal-request",

@@ -8,6 +8,7 @@ export const colors = {
     500: { value: "#495057" },
     600: { value: "#6E6E6E" },
     700: { value: "#727171"},
+    800: { value: "#4D4B4B"},
   },
   dark: {
     DEFAULT: { value: "#212529" },

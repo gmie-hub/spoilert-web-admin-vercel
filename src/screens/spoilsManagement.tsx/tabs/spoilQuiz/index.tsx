@@ -5,6 +5,7 @@ import { Flex, HStack, Image, Stack, Text } from "@chakra-ui/react";
 import { Card } from "@spt/components";
 import { spoilQuizOptions } from "@spt/utils/spoilData";
 
+import Leaderboard from "./leaderboard";
 import Quiz from "./quiz";
 import QuizOverview from "./quizOverview";
 
@@ -12,8 +13,36 @@ const SpoilQuiz = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [isQuizVisible, setIsQuizVisible] = useState(false);
 
-  const handleItemClick = (index) => setCurrentIndex(index);
+  const handleItemClick = (index) => {
+    setCurrentIndex(index);
+    setIsQuizVisible(false);
+  };
   const handleQuizVisibility = () => setIsQuizVisible((prev) => !prev);
+
+  const handleVisibility = (id: number) => {
+    switch (id) {
+      case 1:
+        return !isQuizVisible ? (
+          <QuizOverview onClick={handleQuizVisibility} />
+        ) : (
+          <Quiz />
+        );
+      case 2:
+        return !isQuizVisible ? (
+          <QuizOverview onClick={handleQuizVisibility} />
+        ) : (
+          <Quiz />
+        );
+      case 3:
+        return <Leaderboard />;
+      default:
+        return !isQuizVisible ? (
+          <QuizOverview onClick={handleQuizVisibility} />
+        ) : (
+          <Quiz />
+        );
+    }
+  };
 
   return (
     <Flex gap="8">
@@ -39,13 +68,7 @@ const SpoilQuiz = () => {
         </Stack>
       </Card>
 
-      <Card flex={2}>
-        {isQuizVisible ? (
-          <Quiz />
-        ) : (
-          <QuizOverview onClick={handleQuizVisibility} />
-        )}
-      </Card>
+      <Card flex={2}>{handleVisibility(currentIndex)}</Card>
     </Flex>
   );
 };

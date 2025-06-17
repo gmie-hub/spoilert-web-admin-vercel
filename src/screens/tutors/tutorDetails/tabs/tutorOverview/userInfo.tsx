@@ -13,22 +13,22 @@ const UserInfo = () => {
         </Box>
 
         <InfoDisplayWrapper>
-          <InfoDisplay title="Name" value="Ogunsola Omorinsola" />
-          <InfoDisplay title="Username" value="Omorinn" />
+          <InfoDisplay flex="1" title="Name" value="Ogunsola Omorinsola" />
+          <InfoDisplay flex="1" title="Username" value="Omorinn" />
         </InfoDisplayWrapper>
 
         <Separator />
 
         <InfoDisplayWrapper>
-          <InfoDisplay title="Email Address" value="(+44)0123456" />
-          <InfoDisplay title="Phone Number" value="Omorinn" />
+          <InfoDisplay flex="1" title="Email Address" value="(+44)0123456" />
+          <InfoDisplay flex="1" title="Phone Number" value="Omorinn" />
         </InfoDisplayWrapper>
 
         <Separator />
 
         <InfoDisplayWrapper>
-          <InfoDisplay title="Expertise" value="UI/UX Designer" />
-          <InfoDisplay title="Date Joined" value="12-02-2025" />
+          <InfoDisplay flex="1" title="Expertise" value="UI/UX Designer" />
+          <InfoDisplay flex="1" title="Date Joined" value="12-02-2025" />
         </InfoDisplayWrapper>
 
         <Separator />

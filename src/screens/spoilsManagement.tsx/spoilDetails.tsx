@@ -1,13 +1,43 @@
-import { HStack, Heading, Image, Stack, Tabs } from "@chakra-ui/react";
+import { lazy, useCallback, useState } from "react";
+
+import { HStack, Heading, Image, Stack, Tabs, Text } from "@chakra-ui/react";
 
 import { Breadcrumb, Card, Modal } from "@spt/components";
 import CustomTabs from "@spt/components/tabs";
+import { spoilMgtTabList } from "@spt/utils/spoilData";
 
+import DisableSpoilModalContent from "./modal/disableSpoil";
+import EnableSpoilModalContent from "./modal/enableSpoil";
+import EnrolledLearners from "./tabs/enrolledLearners";
 import SpoilOutline from "./tabs/spoilOutline";
 import SpoilOverview from "./tabs/spoilOverview";
 import SpoilQuiz from "./tabs/spoilQuiz";
+import SpoilReviews from "./tabs/spoilReviews";
+
+const ProgressDetails = lazy(() => import("@spt/partials/progressDetails"));
 
 const SpoilDetails = () => {
+  const [toggleEnrolledLearners, setToggleEnrolledLearners] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [openDisableModal, setOpenDisableModal] = useState(false);
+  const [openEnableModal, setOpenEnableModal] = useState(false);
+
+  const handleDisableModal = (e: any) => setOpenDisableModal(e.open);
+  const handleEnableModal = (e: any) => setOpenEnableModal(e.open);
+
+  const handleCloseDisableModal = () => setOpenDisableModal(false);
+  const handleCloseEnableModal = () => setOpenEnableModal(false);
+
+  const handleToggleEnrolledLearners = useCallback(() => {
+    setToggleEnrolledLearners(!toggleEnrolledLearners);
+  }, [toggleEnrolledLearners]);
+
+  const handleDisableOrEnableSpoil = useCallback(() => {
+    setIsDisabled((prevState) => !prevState);
+    handleCloseEnableModal();
+    handleCloseDisableModal();
+  }, []);
+
   return (
     <Stack>
       <Breadcrumb
@@ -21,15 +51,48 @@ const SpoilDetails = () => {
             <Heading size={{ base: "sm", md: "lg" }}>Spoil Details</Heading>
 
             <Modal
-              buttonIcon={<Image src="/danger.svg" alt="delete" />}
-              buttonText="Disable Spoil"
-              variant="dangerOutline"
+              open={isDisabled ? openEnableModal : openDisableModal}
+              onOpenChange={isDisabled ? handleEnableModal : handleDisableModal}
+              buttonIcon={
+                <Image
+                  src={isDisabled ? "/repeat.svg" : "/danger.svg"}
+                  alt="delete"
+                />
+              }
+              buttonText={isDisabled ? "Re-enable Spoil" : "Disable Spoil"}
+              variant={isDisabled ? "yellowOutline" : "dangerOutline"}
             >
-              {/* <DeleteAccountModalContent /> */}
+              {isDisabled ? (
+                <EnableSpoilModalContent onClick={handleDisableOrEnableSpoil} />
+              ) : (
+                <DisableSpoilModalContent
+                  onClick={handleDisableOrEnableSpoil}
+                />
+              )}
             </Modal>
           </HStack>
 
-          <CustomTabs tabList={tabList}>
+          {isDisabled && (
+            <HStack
+              border="1px solid #A7E1FB"
+              bg="#E0F4FD"
+              py="2"
+              px="3"
+              borderRadius="lg"
+              alignItems="center"
+            >
+              <Image src="/info.svg" alt="info" />
+              <Text color="blue.100">
+                This spoil has been disabled, you can enable it by clicking on
+                the button that says{" "}
+                <Text as="span" fontWeight="semibold">
+                  “Re-enable spoil”
+                </Text>
+              </Text>
+            </HStack>
+          )}
+
+          <CustomTabs tabList={spoilMgtTabList}>
             <>
               <Tabs.Content value="spoilOverview">
                 <SpoilOverview />
@@ -44,11 +107,20 @@ const SpoilDetails = () => {
               </Tabs.Content>
 
               <Tabs.Content value="spoilReviews">
-                {/* <SponsorshipUsed /> */}
+                <SpoilReviews />
               </Tabs.Content>
-              
+
               <Tabs.Content value="enrolledLearners">
-                {/* <SponsorshipUsed /> */}
+                {toggleEnrolledLearners ? (
+                  <EnrolledLearners
+                    handleNavigation={handleToggleEnrolledLearners}
+                  />
+                ) : (
+                  <ProgressDetails
+                    showButton
+                    handleBack={handleToggleEnrolledLearners}
+                  />
+                )}
               </Tabs.Content>
             </>
           </CustomTabs>
@@ -59,26 +131,3 @@ const SpoilDetails = () => {
 };
 
 export default SpoilDetails;
-
-const tabList = [
-  {
-    value: "spoilOverview",
-    text: "Spoil Overview",
-  },
-  {
-    value: "spoilOutline",
-    text: "Spoils Outline",
-  },
-  {
-    value: "spoilQuiz",
-    text: "Spoil Quiz & Leaderboard",
-  },
-  {
-    value: "spoilReviews",
-    text: "Spoil Reviews",
-  },
-  {
-    value: "enrolledLearners",
-    text: "Enrolled Learners",
-  },
-];

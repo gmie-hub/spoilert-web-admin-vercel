@@ -43,7 +43,7 @@ const SpoilsEnrolled: FC<ComponentProps> = ({ onClick }) => {
         gap="8"
       >
         {cardItems.map((item, index) => (
-          <Card key={index}>
+          <Card key={index} px="2">
             <HStack gap="4" mx={{ md: "4" }} alignItems="center">
               <Center bg={item.color} h="10" w="10" borderRadius="full">
                 <Image src={item.icon} alt="icon" />
@@ -53,6 +53,7 @@ const SpoilsEnrolled: FC<ComponentProps> = ({ onClick }) => {
                 <Text color="gray.300" fontSize="sm">
                   Total Spoils {item.status}
                 </Text>
+                
                 <Text fontWeight="semibold" fontSize="lg">
                   {item.value}
                 </Text>

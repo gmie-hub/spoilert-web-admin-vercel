@@ -15,6 +15,8 @@ const CustomTag = ({ status }: { status: string }) => {
         return "#FFF5F6";
       case "Failed":
         return "#FFF5F6";
+      case "Expired":
+        return "#FFF5F6";
       case "Ongoing":
         return "#FFF9E9";
       case "Pending":
@@ -37,6 +39,8 @@ const CustomTag = ({ status }: { status: string }) => {
       case "Unpublished":
         return "red";
       case "Failed":
+        return "red";
+      case "Expired":
         return "red";
       case "Ongoing":
         return "#FFC107";

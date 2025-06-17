@@ -24,7 +24,9 @@ const ProgressDetails: FC<ComponentProps> = ({
         <BackButton handleNavigation={handleBack} />
 
         {showButton && (
-          <Button variant="yellowOutline" onClick={handleNavigation}>View Learner's Profile</Button>
+          <Button variant="yellowOutline" onClick={handleNavigation}>
+            View Learner's Profile
+          </Button>
         )}
       </HStack>
 
@@ -39,67 +41,99 @@ const ProgressDetails: FC<ComponentProps> = ({
           alignItems="stretch"
         >
           <Box w={{ base: "100%", md: "55%" }} h="inherit">
-            <Card>
+            <Card px="2" pt="8">
               <Stack mx="6" gap="7" h="100%">
                 <ProgressInfo>
-                  <Text>Progress</Text>
+                  <Text fontSize="xl" fontWeight="medium">
+                    Progress
+                  </Text>
                 </ProgressInfo>
 
                 <ProgressInfo>
-                  <HStack>
-                    <InfoDisplay title="Progress" value="100%" />
-                    <InfoDisplay title="Overall Modules" value="5" />
-                  </HStack>
+                  <InfoDisplay
+                    flex={{ base: "0 0 25%", md: "0 0 25%" }}
+                    title="Progress"
+                    value="100%"
+                  />
+                  <InfoDisplay
+                    flex={{ base: "0 0 50%", md: "0 0 62.5%" }}
+                    title="Overall Modules"
+                    value="5"
+                  />
                 </ProgressInfo>
 
                 <ProgressInfo>
-                  <HStack>
-                    <InfoDisplay title="Modules Completed" value="5" />
-                    <InfoDisplay title="Modules Pending" value="0" />
-                  </HStack>
+                  <InfoDisplay
+                    flex={{ base: "0 0 25%", md: "0 0 25%" }}
+                    title="Modules Completed"
+                    value="5"
+                  />
+                  <InfoDisplay
+                    flex={{ base: "0 0 50%", md: "0 0 62.5%" }}
+                    title="Modules Pending"
+                    value="0"
+                  />
                 </ProgressInfo>
 
                 <ProgressInfo>
-                  <HStack>
-                    <InfoDisplay
-                      title="Current Module"
-                      value="Module 3- Introduction to Design"
-                    />
-                  </HStack>
+                  <InfoDisplay
+                    flex="1"
+                    title="Current Module"
+                    value="Module 3- Introduction to Design"
+                  />
                 </ProgressInfo>
 
                 <ProgressInfo>
-                  <HStack>
-                    <InfoDisplay
-                      title="Current Lesson"
-                      value="What is design"
-                    />
-                  </HStack>
+                  <InfoDisplay
+                    flex="1"
+                    title="Current Lesson"
+                    value="What is design"
+                  />
                 </ProgressInfo>
 
                 <ProgressInfo>
-                  <HStack>
-                    <InfoDisplay title="Pre-Spoil Quiz Score" value="2500" />
-                    <InfoDisplay title="Post-Spoil Quiz Score" value="-" />
-                  </HStack>
+                  <InfoDisplay
+                    flex={{ base: "0 0 25%", md: "0 0 25%" }}
+                    title="Pre-Spoil Quiz Score"
+                    value="2500"
+                  />
+                  <InfoDisplay
+                    flex={{ base: "0 0 50%", md: "0 0 62.5%" }}
+                    title="Post-Spoil Quiz Score"
+                    value="-"
+                  />
                 </ProgressInfo>
 
                 <ProgressInfo>
-                  <HStack>
-                    <InfoDisplay title="Date Enrolled" value="12-02-2025" />
-                    <InfoDisplay title="Date Completed" value="25-02-2025" />
-                  </HStack>
+                  <InfoDisplay
+                    flex={{ base: "0 0 25%", md: "0 0 25%" }}
+                    title="Date Enrolled"
+                    value="12-02-2025"
+                  />
+                  <InfoDisplay
+                    flex={{ base: "0 0 50%", md: "0 0 62.5%" }}
+                    title="Date Completed"
+                    value="25-02-2025"
+                  />
                 </ProgressInfo>
               </Stack>
             </Card>
           </Box>
 
           <Box w={{ base: "100%", md: "45%" }} h="100%">
-            <Card>
+            <Card px="2" pt="8">
               <Stack mx="6" gap="7" mb="8">
+                <ProgressInfo>
+                  <Text fontSize="xl" fontWeight="medium">
+                    Progress Breakdown
+                  </Text>
+                </ProgressInfo>
+
                 {progressBreakdownData.map((item, index) => (
                   <ProgressInfo key={index}>
                     <InfoDisplay
+                      md="sm"
+                      flex="1"
                       title={item.heading}
                       value={item.title}
                       status={item.status}
