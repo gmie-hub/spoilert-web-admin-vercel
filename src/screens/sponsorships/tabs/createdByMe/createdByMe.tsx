@@ -1,24 +1,31 @@
+import type { FC } from "react";
+
 import { Box, Stack } from "@chakra-ui/react";
 
 import { NoData, Pagination, Table } from "@spt/components";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
 import {
-  sponsorshipsData,
-  sponsorshipsHeader,
+  createdByMeData,
+  createdByMeHeaders,
 } from "@spt/utils/sponsorshipData";
 
-import TableBody from "../table/tableBody";
+import CreatedByMeTableBody from "../../table/createdByMeTableBody";
+
+interface ComponentProps {
+  handleNavigation: () => void;
+}
 
 const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...sponsorshipsData,
+  ...createdByMeData,
   key: index,
 }));
 
-const AllSponsorships = () => {
-  const isEmpty = false;
+const CreatedByMe: FC<ComponentProps> = ({ handleNavigation }) => {
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
+
+  const isEmpty = false;
 
   const visibleItems = duplicatedItems.slice(startRange, endRange);
 
@@ -26,16 +33,21 @@ const AllSponsorships = () => {
     <Box>
       {isEmpty && (
         <NoData
-          heading="No Sponsorship Yet!"
-          description="This is where you see the list of people who have sponsored learners before"
+          heading="You Haven’t Sponsored Any Spoils Yet!"
+          description="Start by selecting a spoil and sponsoring learners today!"
         />
       )}
 
       {!isEmpty && (
         <Stack>
           <Table
-            headerChildren={<TableHeader headerItems={sponsorshipsHeader} />}
-            bodyChildren={<TableBody items={visibleItems} />}
+            headerChildren={<TableHeader headerItems={createdByMeHeaders} />}
+            bodyChildren={
+              <CreatedByMeTableBody
+                items={visibleItems}
+                handleNavigation={handleNavigation}
+              />
+            }
           />
 
           <Pagination
@@ -50,4 +62,4 @@ const AllSponsorships = () => {
   );
 };
 
-export default AllSponsorships;
+export default CreatedByMe;

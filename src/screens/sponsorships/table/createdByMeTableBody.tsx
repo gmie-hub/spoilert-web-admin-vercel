@@ -9,7 +9,7 @@ interface ComponentProps extends TableBodyProps {
   handleNavigation: () => void;
 }
 
-const SponsorshipBreakdownTableBody: FC<ComponentProps> = ({ items, handleNavigation }) => {
+const CreatedByMeTableBody: FC<ComponentProps> = ({ items, handleNavigation }) => {
   return (
     <>
       {items.map((item, index) => (
@@ -17,14 +17,14 @@ const SponsorshipBreakdownTableBody: FC<ComponentProps> = ({ items, handleNaviga
           <Table.Cell>
             <HStack>
               <Image src="/enrolled_spoils.png" boxSize="10" />
-              <Text color="gray">{item.spoilTitle}</Text>
+              <Text color="gray">{item.nameOfSponsor}</Text>
             </HStack>
           </Table.Cell>
 
           <Table.Cell>
             <HStack>
               <Image src="/user-icon.svg" />
-              <Text color="gray">{item.nameOfTutor}</Text>
+              <Text color="gray">{item.spoilTitle}</Text>
             </HStack>
           </Table.Cell>
 
@@ -52,4 +52,4 @@ const SponsorshipBreakdownTableBody: FC<ComponentProps> = ({ items, handleNaviga
   );
 };
 
-export default SponsorshipBreakdownTableBody;
+export default CreatedByMeTableBody;

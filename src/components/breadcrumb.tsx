@@ -8,11 +8,13 @@ import BackButton from "./backButton";
 interface ComponentProps {
   previousLink: string;
   currentLink: string;
+  showBackButton?: boolean;
 }
 
 const CustomBreadcrumb: FC<ComponentProps> = ({
   currentLink,
   previousLink,
+  showBackButton,
 }) => {
   const navigate = useNavigate();
 
@@ -20,14 +22,22 @@ const CustomBreadcrumb: FC<ComponentProps> = ({
 
   return (
     <HStack>
-      <BackButton handleNavigation={handleNavigation} />
+      {showBackButton && (
+        <HStack>
+          <BackButton handleNavigation={handleNavigation} />
 
-      <Separator orientation="vertical" h="4" />
+          <Separator orientation="vertical" h="4" />
+        </HStack>
+      )}
 
       <Breadcrumb.Root>
         <Breadcrumb.List>
           <Breadcrumb.Item>
-            <Breadcrumb.Link color="blue.100" fontWeight="medium" fontSize={{ mdDown: "xs", md: "md" }}>
+            <Breadcrumb.Link
+              color="blue.100"
+              fontWeight="medium"
+              fontSize={{ mdDown: "xs", md: "md" }}
+            >
               {previousLink}
             </Breadcrumb.Link>
           </Breadcrumb.Item>
@@ -37,7 +47,10 @@ const CustomBreadcrumb: FC<ComponentProps> = ({
           </Breadcrumb.Separator>
 
           <Breadcrumb.Item>
-            <Breadcrumb.CurrentLink color="gray" fontSize={{ mdDown: "xs", md: "md" }}>
+            <Breadcrumb.CurrentLink
+              color="gray"
+              fontSize={{ mdDown: "xs", md: "md" }}
+            >
               {currentLink}
             </Breadcrumb.CurrentLink>
           </Breadcrumb.Item>

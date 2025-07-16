@@ -1,6 +1,13 @@
-import { Box } from "@chakra-ui/react";
+import type { FC, ReactNode } from "react";
 
-const CustomTag = ({ status }: { status: string }) => {
+import { HStack } from "@chakra-ui/react";
+
+interface ComponentProps {
+  status: string;
+  icon?: ReactNode;
+}
+
+const CustomTag: FC<ComponentProps> = ({ icon, status }) => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Completed":
@@ -8,6 +15,8 @@ const CustomTag = ({ status }: { status: string }) => {
       case "Successful":
         return "#F0FFF4";
       case "Active":
+        return "#F0FFF4";
+      case "Used":
         return "#F0FFF4";
       case "Inactive":
         return "#FFF5F6";
@@ -34,11 +43,15 @@ const CustomTag = ({ status }: { status: string }) => {
         return "#28A745";
       case "Active":
         return "#28A745";
+      case "Used":
+        return "#28A745";
       case "Inactive":
         return "red";
       case "Unpublished":
         return "red";
       case "Failed":
+        return "red";
+      case "Unused":
         return "red";
       case "Expired":
         return "red";
@@ -52,7 +65,8 @@ const CustomTag = ({ status }: { status: string }) => {
   };
 
   return (
-    <Box
+    <HStack
+      alignItems="center"
       bg={getStatusColor(status)}
       px="2"
       py="1"
@@ -63,8 +77,9 @@ const CustomTag = ({ status }: { status: string }) => {
       color={getTextColor(status)}
       fontSize={{ mdDown: "sm" }}
     >
+      {icon && icon}
       {status}
-    </Box>
+    </HStack>
   );
 };
 

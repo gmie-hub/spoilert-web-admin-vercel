@@ -11,6 +11,8 @@ import ViewLearnerDetails from "./screens/learners/viewLearnerDetails";
 import SpoilsManagement from "./screens/spoilsManagement.tsx";
 import SpoilDetails from "./screens/spoilsManagement.tsx/spoilDetails.tsx";
 import Sponsorships from "./screens/sponsorships";
+import SponsorshipASpoil from "./screens/sponsorships/sponsorASpoil/index.tsx";
+import SponsorshipCodes from "./screens/sponsorships/sponsorASpoil/sponsorshipCodes.tsx";
 import SponsorshipDetails from "./screens/sponsorships/sponsorshipDetails.tsx";
 import Transactions from "./screens/transactions";
 import Tutors from "./screens/tutors";
@@ -34,6 +36,8 @@ function App() {
 
     { path: routes.main.sponsorships.home, element: <Sponsorships /> },
     { path: routes.main.sponsorships.details, element: <SponsorshipDetails /> },
+    { path: routes.main.sponsorships.sponsorASpoil, element: <SponsorshipASpoil /> },
+    { path: routes.main.sponsorships.sponsorshipCodes, element: <SponsorshipCodes /> },
 
     { path: routes.main.transactions.home, element: <Transactions /> },
     {

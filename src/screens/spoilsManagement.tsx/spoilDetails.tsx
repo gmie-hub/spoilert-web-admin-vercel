@@ -43,6 +43,7 @@ const SpoilDetails = () => {
       <Breadcrumb
         previousLink="Spoil Management"
         currentLink="View Spoil Details"
+        showBackButton
       />
 
       <Card>

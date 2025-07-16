@@ -80,7 +80,7 @@ const TutorDetails = () => {
 
   return (
     <Stack>
-      <Breadcrumb previousLink="Tutors" currentLink="View Tutor Details" />
+      <Breadcrumb previousLink="Tutors" currentLink="View Tutor Details" showBackButton />
 
       <Card>
         <Stack mb="2" gap={{ base: "6", md: "4" }}>
@@ -92,6 +92,7 @@ const TutorDetails = () => {
               buttonText="Delete Account"
               variant="dangerOutline"
             >
+              //TODO add the delete modal here
               {/* <DeleteAccountModalContent /> */}
             </Modal>
           </HStack>
