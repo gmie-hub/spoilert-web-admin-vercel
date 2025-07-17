@@ -9,6 +9,7 @@ import ProgressDetails from "@spt/partials/progressDetails";
 import { routes } from "@spt/routes";
 import { tutorTabList } from "@spt/utils/tutorData";
 
+import EarningBreakdown from "./tabs/earningBreakdown";
 import EnrolledLearners from "./tabs/enrolledLearners";
 import SpoilDetails from "./tabs/spoilDetails";
 import SpoilsCreated from "./tabs/spoilsCreated";
@@ -105,6 +106,10 @@ const TutorDetails = () => {
 
               <Tabs.Content value="spoilsCreated">
                 {displayTabChid(currentTab)}
+              </Tabs.Content>
+
+              <Tabs.Content value="earningBreakdown">
+                <EarningBreakdown />
               </Tabs.Content>
 
               <Tabs.Content value="transactions">

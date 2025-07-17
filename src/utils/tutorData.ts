@@ -39,6 +39,10 @@ export const tutorTabList = [
     text: "Spoils Created",
   },
   {
+    value: "earningBreakdown",
+    text: "Earnings Breakdown",
+  },
+  {
     value: "transactions",
     text: "Transactions",
   },
@@ -110,3 +114,35 @@ export const transactionsData = [
 export const transactionsHeader = [
   "Transaction Type", "Transaction ID", "Amount", "Date and Time", "Status", "Action"
 ]
+
+export const summaryData = [
+  {
+    id: 1,
+    icon: "/blue-wallet.svg",
+    boxColor: "#013B4D",
+    borderColor: "#A5D1DE",
+    bg: "#E3F5FA",
+    title: "Total Earnings",
+    value: "N800,00.00",
+    alt: "earnings",
+  },
+  {
+    id: 2,
+    icon: "/book.svg",
+    boxColor: "#DA8543",
+    borderColor: "#F9D0B0",
+    bg: "#FFF0E4",
+    title: "Spoils Created",
+    value: "25",
+    alt: "spoils",
+  },
+];
+
+export const earningsBreakdownData = 
+  {
+    id: 1,
+    course: "BCH 404 - Biological",
+    category: "Pharmacology",
+    enrolleeNo: 32,
+    amount: "N100,000",
+  };
