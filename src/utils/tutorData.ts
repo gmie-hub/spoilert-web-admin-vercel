@@ -103,6 +103,7 @@ export const enrolledLearnersData = [
 
 export const transactionsData = [
   { transactionType: "Spoil Purchase", transactionID: "ID-12345683902", amount: "N150,000", dateTime: "12-10-22 | 09:43 am", status: "Successful", description: "Basic Design Principles Spoil", spoilCostFee: "₦25,000", adminFee: "₦2,000", certFee: "₦500", vat: "₦1250", totalAmountPaid: "₦40,000" },
+  { transactionType: "Sponsorship", transactionID: "ID-12345683902", amount: "N150,000", dateTime: "12-10-22 | 09:43 am", status: "Successful", description: "Basic Design Principles Spoil", sponsoredLearners: 10, spoilCostFee: "₦25,000", adminFee: "₦2,000", certFee: "₦500", vat: "₦1250", totalAmountPaid: "₦40,000" },
   { transactionType: "Withdrawal", transactionID: "ID-12345683902", amount: "N150,000", dateTime: "12-10-22 | 09:43 am", status: "Failed", description: "Wallet Withdrawal", accountCredited: "2102925627 (Access Bank) - Ogunsola Omorinsola" },
   { transactionType: "Airtime", transactionID: "ID-12345683902", amount: "N150,000", dateTime: "12-10-22 | 09:43 am", status: "Successful", description: "Airtime Purchase of MTN ₦500", serviceProvider: "MTN", phone: "08123445678" },
   { transactionType: "Data", transactionID: "ID-12345683902", amount: "N150,000", dateTime: "12-10-22 | 09:43 am", status: "Successful", description: "2gb for ₦500 ", serviceProvider: "MTN", phone: "08123445678" },
