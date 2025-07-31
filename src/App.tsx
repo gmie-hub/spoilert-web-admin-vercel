@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "./layouts";
 import { routes } from "./routes";
 import Categories from "./screens/categories";
+import CategoryDetails from "./screens/categories/categoryDetails.tsx";
 import Community from "./screens/community/index.tsx";
 import Dashboard from "./screens/dashBoard/index.tsx";
 import Learners from "./screens/learners";
@@ -33,6 +34,7 @@ function App() {
     { path: routes.main.spoilMgt.spoilDetails, element: <SpoilDetails /> },
 
     { path: routes.main.categories.home, element: <Categories /> },
+    { path: routes.main.categories.categoryDetails, element: <CategoryDetails /> },
 
     { path: routes.main.sponsorships.home, element: <Sponsorships /> },
     { path: routes.main.sponsorships.details, element: <SponsorshipDetails /> },

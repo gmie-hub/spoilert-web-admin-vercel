@@ -1,13 +1,13 @@
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 
 import { HStack, Image, Stack, Text } from "@chakra-ui/react";
 
-interface NoDataProps {
+interface NoDataProps extends PropsWithChildren {
   heading: string;
   description: string;
 }
 
-const NoData: FC<NoDataProps> = ({ description, heading }) => {
+const NoData: FC<NoDataProps> = ({ children, description, heading }) => {
   return (
     <HStack justifyContent="center" alignItems="center" w="100%" my="4">
       <Stack textAlign="center" w={{ md: "35%" }}>
@@ -20,6 +20,8 @@ const NoData: FC<NoDataProps> = ({ description, heading }) => {
         </Text>
 
         <Text color="gray">{description}</Text>
+
+        {children && children}
       </Stack>
     </HStack>
   );

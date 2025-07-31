@@ -1,10 +1,11 @@
-import { Box, Button, Flex, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Stack, Text } from "@chakra-ui/react";
 
-import { Card, Pagination, Table } from "@spt/components";
+import { Card, Modal, NoData, Pagination, Table } from "@spt/components";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
 import { categoriesData, categoriesHeader } from "@spt/utils/tableData";
 
+import CategoryModalContent from "./modal/categoryModalContent";
 import TableBody from "./table/tableBody";
 
 const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
@@ -18,6 +19,8 @@ const Categories = () => {
 
   const visibleItems = duplicatedItems.slice(startRange, endRange);
 
+  const hasNoData = false;
+
   return (
     <Box>
       <Card>
@@ -27,20 +30,57 @@ const Categories = () => {
               Categories
             </Text>
 
-            <Button variant="yellow">Add Category</Button>
+            {!hasNoData && (
+              <Modal
+                buttonIcon={<Image src="/add-circle.svg" alt="add" />}
+                buttonText="Create Category"
+                variant="yellow"
+                size="md"
+              >
+                <CategoryModalContent
+                  title="Create Category"
+                  buttonText="Create Category"
+                />
+              </Modal>
+            )}
           </Flex>
 
-          <Table
-            headerChildren={<TableHeader headerItems={categoriesHeader} />}
-            bodyChildren={<TableBody items={visibleItems} />}
-          />
+          {!hasNoData && (
+            <>
+              <Table
+                headerChildren={<TableHeader headerItems={categoriesHeader} />}
+                bodyChildren={<TableBody items={visibleItems} />}
+              />
 
-          <Pagination
-            page={page}
-            pageSize={pageSize}
-            items={duplicatedItems}
-            onPageChange={handlePageChange}
-          />
+              <Pagination
+                page={page}
+                pageSize={pageSize}
+                items={duplicatedItems}
+                onPageChange={handlePageChange}
+              />
+            </>
+          )}
+
+          {hasNoData && (
+            <NoData
+              heading="You Haven’t Created A Category Yet!"
+              description="Start by creating a category and all the categories you create will show up here"
+            >
+              <Box mt="5" w="full">
+                <Modal
+                  buttonIcon={<Image src="/add-circle.svg" alt="add" />}
+                  buttonText="Create Category"
+                  variant="yellow"
+                  size="md"
+                >
+                  <CategoryModalContent
+                    title="Create Category"
+                    buttonText="Create Category"
+                  />
+                </Modal>
+              </Box>
+            </NoData>
+          )}
         </Stack>
       </Card>
     </Box>
