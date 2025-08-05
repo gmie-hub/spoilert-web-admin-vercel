@@ -15,6 +15,8 @@
     "@chakra-ui/react": "^3.12.0",
     "@emotion/react": "^11.14.0",
     "@tanstack/react-query": "^5.66.11",
+    "axios": "^1.11.0",
+    "date-fns": "^4.1.0",
     "formik": "^2.4.6",
     "framer-motion": "^12.9.6",
     "jotai": "^2.12.1",

@@ -45,8 +45,6 @@ const CategoryModalContent: FC<ComponentProps> = ({ buttonText, title }) => {
                   <Modal
                     buttonText={buttonText}
                     variant="yellow"
-
-                    // size="md"
                   >
                     <Dialog.Content>
                       <Dialog.Body>

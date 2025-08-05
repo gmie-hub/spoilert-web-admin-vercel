@@ -9,6 +9,8 @@ import Community from "./screens/community/index.tsx";
 import Dashboard from "./screens/dashBoard/index.tsx";
 import Learners from "./screens/learners";
 import ViewLearnerDetails from "./screens/learners/viewLearnerDetails";
+import PendingVerification from "./screens/pendingVerification/index.tsx";
+import VerificationDetails from "./screens/pendingVerification/verificationDetails.tsx";
 import SpoilsManagement from "./screens/spoilsManagement.tsx";
 import SpoilDetails from "./screens/spoilsManagement.tsx/spoilDetails.tsx";
 import Sponsorships from "./screens/sponsorships";
@@ -42,11 +44,11 @@ function App() {
     { path: routes.main.sponsorships.sponsorshipCodes, element: <SponsorshipCodes /> },
 
     { path: routes.main.transactions.home, element: <Transactions /> },
-    {
-      path: routes.main.withdrawalRequest.home,
-      element: <WithdrawerRequest />,
-    },
+    { path: routes.main.withdrawalRequest.home, element: <WithdrawerRequest />, },
     { path: routes.main.community.home, element: <Community /> },
+
+    { path: routes.main.pendingVerification.home, element: <PendingVerification /> },
+    { path: routes.main.pendingVerification.details, element: <VerificationDetails /> },
   ];
 
   return (

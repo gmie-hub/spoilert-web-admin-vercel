@@ -33,10 +33,14 @@ export const routes = {
       home: "/community",
     },
     customerSupport: {
-      home: "customer-support",
+      home: "/customer-support",
     },
     settings: {
-      home: "settings",
+      home: "/settings",
+    },
+    pendingVerification: {
+      home: "/pending-verifications",
+      details: "/view-pending-verification/:id",
     },
   },
   // auth: {

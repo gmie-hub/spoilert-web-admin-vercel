@@ -44,6 +44,12 @@ const Sidebar = () => {
       to: routes.main.spoilMgt.home
     },
     {
+      key: "Pending Verifications",
+      label: "Pending Verifications",
+      icon: <img src="/verify.svg" alt="Management" />,
+      to: routes.main.pendingVerification.home
+    },
+    {
       key: "Sponsorships",
       label: "Sponsorships",
       icon: <img src={Sponsorships} alt="Sponsorships" />,
