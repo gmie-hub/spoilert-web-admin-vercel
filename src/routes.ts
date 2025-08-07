@@ -1,21 +1,24 @@
 export const routes = {
   main: {
-    dashboard: "/dashboard",
+    dashboard: "/",
     learners: {
       home: "/learners",
       viewDetails: "/view-learner-details",
     },
     tutors: {
       home: "/tutors",
+      tutorDetails: "/tutors/tutor-details",
     },
     categories: {
       home: "/categories",
     },
     spoilMgt: {
       home: "/spoil-management",
+      spoilDetails: "/spoil-details",
     },
     sponsorships: {
       home: "/sponsorships",
+      details: "/sponsorship-details"
     },
     withdrawalRequest: {
       home: "/withdrawal-request",

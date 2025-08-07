@@ -16,7 +16,7 @@
   overflow: hidden;
   display: none;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1024px) {
     display: block;
   }
 }
@@ -26,7 +26,7 @@
   grid-template-columns: 1fr;
   height: 100vh;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1024px) {
     grid-template-columns: 25rem 1fr;
   }
 }
@@ -44,7 +44,7 @@
   font-size: 2rem;
   font-weight: 500;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1024px) {
     display: block;
   }
 }
@@ -100,7 +100,7 @@
 .menu {
   display: block;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1024px) {
     display: none;
   }
 }

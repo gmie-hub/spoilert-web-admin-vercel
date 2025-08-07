@@ -1,3 +1,7 @@
 export interface TableBodyProps {
-  items: Array<any>;
+  items: any;
+}
+
+export interface TableProps {
+  onClick: (item: Record<string, string>) => void;
 }

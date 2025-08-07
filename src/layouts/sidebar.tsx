@@ -95,14 +95,14 @@ const Sidebar = () => {
         py="6"
         borderBlockStart="1px solid #efefef"
         borderInlineEnd="1px solid #efefef"
-        color="#495057"
+        // color="#495057"
         overflowY="auto"
       >
         {items.map((item, index) => (
           <NavLink
             key={index}
             to={item.to}
-            style={{ textDecoration: "none", width: "100%" }}
+            // style={{ textDecoration: "none", width: "100%" }}
           >
             <HStack
               py="3"
@@ -110,12 +110,13 @@ const Sidebar = () => {
               mx="3"
               gap="4"
               alignItems="center"
+              color="gray.700"
               _hover={{
                 transform: "scale(1.05)",
                 transition: "transform 0.2s ease-in-out",
-                bg: "yellow",
+                bg: "blue.100",
                 borderRadius: "lg",
-                color: "white",
+                color: "#ffffff",
               }}
             >
               <Box>{item.icon}</Box>

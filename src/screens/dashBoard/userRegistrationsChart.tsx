@@ -64,7 +64,7 @@ const UserRegistrationsChart = () => {
               fill={entry.color}
             />
           ))}
-        </RadialBarChart> 
+        </RadialBarChart>   
 
         {/* Legend */}
         <Box ml={{ base: 0, md: 4 }}>

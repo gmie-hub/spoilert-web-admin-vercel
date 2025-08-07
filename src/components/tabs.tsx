@@ -8,7 +8,7 @@ interface ComponentProps extends PropsWithChildren {
 
 const CustomTabs: FC<ComponentProps> = ({ children, tabList }) => {
   return (
-    <Tabs.Root defaultValue={tabList[0].value} colorPalette="yellow">
+    <Tabs.Root defaultValue={tabList[0].value} colorPalette="blue.100">
       <Tabs.List overflow="hidden" w="100%">
         <HStack
           gap={{ base: "2", md: "4" }}
@@ -21,9 +21,10 @@ const CustomTabs: FC<ComponentProps> = ({ children, tabList }) => {
             <Tabs.Trigger
               key={index}
               value={item.value}
-              _selected={{ color: "yellow" }}
+              _selected={{ color: "blue.100", fontWeight: "semibold" }}
               textWrap="nowrap"
               color="gray"
+              fontSize="md"
             >
               {item.text}
             </Tabs.Trigger>

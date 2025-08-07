@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Box, HStack, Image, Separator, Stack, Text } from "@chakra-ui/react";
+import { Box, Image, Stack } from "@chakra-ui/react";
 
-import { Tag } from "@spt/components";
 import InfoDisplay from "@spt/partials/infoDisplay";
+import ProgressInfo from "@spt/partials/progressInfo";
 import { firstDetails } from "@spt/utils/learnerData";
 
 const LearnerOverview: React.FC = () => {
@@ -14,36 +14,17 @@ const LearnerOverview: React.FC = () => {
           <Image src="/user-icon.svg" alt="user" boxSize="14" />
         </Box>
 
-        <HStack
-          justifyContent="space-between"
-          flexWrap="wrap"
-          gap={{ mdDown: "6" }}
-        >
+        <ProgressInfo>
           {firstDetails.map((item, index) => (
             <InfoDisplay title={item.title} value={item.value} key={index} />
           ))}
-        </HStack>
+        </ProgressInfo>
 
-        <Separator />
-
-        <HStack
-          justifyContent="space-between"
-          flexWrap="wrap"
-          gap={{ mdDown: "6" }}
-        >
+        <ProgressInfo>
           <InfoDisplay title="Date Joined" value="12-02-2025" />
           <InfoDisplay title="Last Login" value="21-02-2025" />
-
-          <Stack alignItems="flex-start" flex="1">
-            <Text fontSize={{ base: "sm", md: "md" }} color="gray.100">
-              Status
-            </Text>
-
-            <Tag status="Active" />
-          </Stack>
-        </HStack>
-
-        <Separator />
+          <InfoDisplay title="Status" value="" status="Active" />
+        </ProgressInfo>
       </Stack>
     </Stack>
   );

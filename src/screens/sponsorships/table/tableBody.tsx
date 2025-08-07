@@ -1,30 +1,33 @@
 import type { FC } from "react";
 
-import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
+import { Button, Table, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
+import { routes } from "@spt/routes";
 import type { TableBodyProps } from "@spt/utils/types";
 
 const TableBody: FC<TableBodyProps> = ({ items }) => {
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate(routes.main.sponsorships.details);
+  };
+
   return (
     <>
-      {items.map((item,index) => (
-  <Table.Row key={index} py="16">
+      {items.map((item, index) => (
+        <Table.Row key={index}>
           <Table.Cell>
-            <HStack>
-              <Image src="/user-icon.svg" />
-              <Text>{item.spoilTitle}</Text>
-            </HStack>
+            <Text>{item.sponsor}</Text>
           </Table.Cell>
 
-          <Table.Cell>{item.nameOfTutor}</Table.Cell>
-
-          <Table.Cell>{item.Category}</Table.Cell>
-          <Table.Cell>{item.Amount}</Table.Cell>
-          <Table.Cell>{item.enrolledLearners}</Table.Cell>
-          <Table.Cell>{item.dateCreated}</Table.Cell>
+          <Table.Cell>{item.email}</Table.Cell>
+          <Table.Cell>{item.amountSponsored}</Table.Cell>
+          <Table.Cell>{item.spoilsSponsored}</Table.Cell>
+          <Table.Cell>{item.learnersSponsored}</Table.Cell>
 
           <Table.Cell>
-            <Button variant="yellowOutline"  px="3" my="3">
+            <Button variant="yellowOutline" px="3" onClick={handleNavigate}>
               View More
             </Button>
           </Table.Cell>

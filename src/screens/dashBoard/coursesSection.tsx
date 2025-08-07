@@ -4,17 +4,17 @@ const courses = [
   {
     title: "Understanding Design Principles",
     enrollments: "1,500 Enrollments",
-    image: "/path-to-image1.jpg",
+    image: "/enrolled_spoils.png",
   },
   {
     title: "Financial Literacy",
     enrollments: "1,200 Enrollments",
-    image: "/path-to-image2.jpg",
+    image: "/enrolled_spoils.png",
   },
   {
     title: "CHM204-Pharmacological Biochemistry",
     enrollments: "1,000 Enrollments",
-    image: "/path-to-image3.jpg",
+    image: "/enrolled_spoils.png",
   },
 ];
 

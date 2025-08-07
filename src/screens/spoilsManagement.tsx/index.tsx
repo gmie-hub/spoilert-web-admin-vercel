@@ -3,12 +3,12 @@ import { Box, Stack, Text } from "@chakra-ui/react";
 import { Card, Pagination, Table } from "@spt/components";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
-import { SpoilsMgtData, SpoilsMgtHeaders } from "@spt/utils/tableData";
+import { spoilsMgtData, spoilsMgtHeaders } from "@spt/utils/tableData";
 
 import TableBody from "./table/tableBody";
 
 const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...SpoilsMgtData,
+  ...spoilsMgtData,
   key: index,
 }));
 
@@ -27,7 +27,7 @@ const SpoilsManagement = () => {
           </Text>
 
           <Table
-            headerChildren={<TableHeader headerItems={SpoilsMgtHeaders} />}
+            headerChildren={<TableHeader headerItems={spoilsMgtHeaders} />}
             bodyChildren={<TableBody items={visibleItems} />}
           />
 

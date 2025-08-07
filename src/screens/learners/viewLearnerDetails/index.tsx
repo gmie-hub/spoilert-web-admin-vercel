@@ -4,11 +4,11 @@ import { HStack, Heading, Image, Stack, Tabs } from "@chakra-ui/react";
 
 import { Breadcrumb, Card, Modal } from "@spt/components";
 import CustomTabs from "@spt/components/tabs";
+import ProgressDetails from "@spt/partials/progressDetails";
 
 import DeleteAccountModalContent from "../modal/deleteAccountModalContent";
 
 import LearnerOverview from "./tabs/learnerOverview";
-import ProgressDetails from "./tabs/progressDetails";
 import SpoilsEnrolled from "./tabs/spoilsEnrolled";
 import SponsorshipUsed from "./tabs/sponsorshipUsed";
 
@@ -36,7 +36,6 @@ const ViewLearnerDetails = () => {
               buttonIcon={<Image src="/trash.svg" alt="delete" />}
               buttonText="Delete Account"
               variant="dangerOutline"
-              dialogHeader="Delete Account"
             >
               <DeleteAccountModalContent />
             </Modal>
@@ -52,7 +51,7 @@ const ViewLearnerDetails = () => {
                 {selectSpoil === null ? (
                   <SpoilsEnrolled onClick={handleViewDetails} />
                 ) : (
-                  <ProgressDetails handleNavigation={handleBackToTable} />
+                  <ProgressDetails handleBack={handleBackToTable}  />
                 )}
               </Tabs.Content>
 
