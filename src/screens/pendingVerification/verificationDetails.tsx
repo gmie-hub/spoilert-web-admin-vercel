@@ -11,12 +11,15 @@ import { useApproveKYCMutation } from "@spt/hooks/api/useApproveKYCMutation";
 import { usePendingVerificationQuery } from "@spt/hooks/api/usePendingVerificationQuery";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
-import { useApprovalStore } from "@spt/store";
+import { useApprovalStore, useRejectionStore } from "@spt/store";
 import { formatDate, formatTime } from "@spt/utils/dateTime";
 
 const VerificationDetails: React.FC = () => {
   const openApproval = useApprovalStore((state) => state.openApproval);
   const setOpenApproval = useApprovalStore((state) => state.setOpenApproval);
+
+  const openRejection = useRejectionStore((state) => state.openRejection);
+  const setOpenRejection = useRejectionStore((state) => state.setOpenRejection);
 
   const { id } = useParams();
   const { data, isLoading } = usePendingVerificationQuery(Number(id));
@@ -88,7 +91,12 @@ const VerificationDetails: React.FC = () => {
           </Stack>
 
           <HStack mt="6" gap="5" justifyContent="flex-end">
-            <Modal buttonText="Reject Verification" variant="dangerOutline">
+            <Modal
+              open={openRejection}
+              onOpenChange={(e) => setOpenRejection(e.open)}
+              buttonText="Reject Verification"
+              variant="dangerOutline"
+            >
               <RejectModalContent
                 buttonText="Yes, Reject Verification"
                 heading="Reject This Verification"
@@ -96,6 +104,7 @@ const VerificationDetails: React.FC = () => {
                 label="Rejection"
                 placeholder="rejecting this verification"
                 onClose={() => {}}
+                id={Number(id)}
               />
             </Modal>
 
