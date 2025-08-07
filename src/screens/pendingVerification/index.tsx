@@ -1,6 +1,7 @@
 import { Box, Separator, Stack, Text } from "@chakra-ui/react";
 
 import { Card, Pagination, Table } from "@spt/components";
+import LoadingState from "@spt/components/loadingState";
 import { useAllPendingVerification } from "@spt/hooks/api/useAllPendingVerificationQuery";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
@@ -16,9 +17,11 @@ const PendingVerification = () => {
     key: index,
   }));
 
-  const { data } = useAllPendingVerification();
+  const { data, isLoading } = useAllPendingVerification();
 
   const visibleItems = data?.data?.slice(startRange, endRange);
+
+  if (isLoading) return <LoadingState />;
 
   return (
     <Box>

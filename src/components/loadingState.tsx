@@ -1,10 +1,10 @@
-import { Container, Spinner } from "@chakra-ui/react";
+import { Spinner, VStack } from "@chakra-ui/react";
 
 const LoadingState = () => {
   return (
-    <Container>
+    <VStack w="100%">
       <Spinner color="blue.100" animationDuration="0.8s" />
-    </Container>
+    </VStack>
   );
 };
 
