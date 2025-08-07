@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 
 import { Stack, Text } from "@chakra-ui/react";
 
@@ -10,9 +10,11 @@ interface ComponentProps {
   status?: string;
   md?: string;
   flex?: Record<string, string> | string;
+  icon?: ReactNode;
 }
 
 const InfoDisplay: FC<ComponentProps> = ({
+  icon,
   md = "md",
   title,
   status,
@@ -27,7 +29,7 @@ const InfoDisplay: FC<ComponentProps> = ({
 
       <Text fontSize={{ base: "md", md: "lg" }}>{value}</Text>
 
-      {status && <Tag status={status} />}
+      {status && <Tag status={status} icon={icon} />}
     </Stack>
   );
 };

@@ -39,6 +39,10 @@ export const tutorTabList = [
     text: "Spoils Created",
   },
   {
+    value: "earningBreakdown",
+    text: "Earnings Breakdown",
+  },
+  {
     value: "transactions",
     text: "Transactions",
   },
@@ -99,6 +103,7 @@ export const enrolledLearnersData = [
 
 export const transactionsData = [
   { transactionType: "Spoil Purchase", transactionID: "ID-12345683902", amount: "N150,000", dateTime: "12-10-22 | 09:43 am", status: "Successful", description: "Basic Design Principles Spoil", spoilCostFee: "₦25,000", adminFee: "₦2,000", certFee: "₦500", vat: "₦1250", totalAmountPaid: "₦40,000" },
+  { transactionType: "Sponsorship", transactionID: "ID-12345683902", amount: "N150,000", dateTime: "12-10-22 | 09:43 am", status: "Successful", description: "Basic Design Principles Spoil", sponsoredLearners: 10, spoilCostFee: "₦25,000", adminFee: "₦2,000", certFee: "₦500", vat: "₦1250", totalAmountPaid: "₦40,000" },
   { transactionType: "Withdrawal", transactionID: "ID-12345683902", amount: "N150,000", dateTime: "12-10-22 | 09:43 am", status: "Failed", description: "Wallet Withdrawal", accountCredited: "2102925627 (Access Bank) - Ogunsola Omorinsola" },
   { transactionType: "Airtime", transactionID: "ID-12345683902", amount: "N150,000", dateTime: "12-10-22 | 09:43 am", status: "Successful", description: "Airtime Purchase of MTN ₦500", serviceProvider: "MTN", phone: "08123445678" },
   { transactionType: "Data", transactionID: "ID-12345683902", amount: "N150,000", dateTime: "12-10-22 | 09:43 am", status: "Successful", description: "2gb for ₦500 ", serviceProvider: "MTN", phone: "08123445678" },
@@ -110,3 +115,35 @@ export const transactionsData = [
 export const transactionsHeader = [
   "Transaction Type", "Transaction ID", "Amount", "Date and Time", "Status", "Action"
 ]
+
+export const summaryData = [
+  {
+    id: 1,
+    icon: "/blue-wallet.svg",
+    boxColor: "#013B4D",
+    borderColor: "#A5D1DE",
+    bg: "#E3F5FA",
+    title: "Total Earnings",
+    value: "N800,00.00",
+    alt: "earnings",
+  },
+  {
+    id: 2,
+    icon: "/book.svg",
+    boxColor: "#DA8543",
+    borderColor: "#F9D0B0",
+    bg: "#FFF0E4",
+    title: "Spoils Created",
+    value: "25",
+    alt: "spoils",
+  },
+];
+
+export const earningsBreakdownData = 
+  {
+    id: 1,
+    course: "BCH 404 - Biological",
+    category: "Pharmacology",
+    enrolleeNo: 32,
+    amount: "N100,000",
+  };

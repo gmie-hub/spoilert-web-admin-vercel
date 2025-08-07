@@ -4,13 +4,18 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "./layouts";
 import { routes } from "./routes";
 import Categories from "./screens/categories";
+import CategoryDetails from "./screens/categories/categoryDetails.tsx";
 import Community from "./screens/community/index.tsx";
 import Dashboard from "./screens/dashBoard/index.tsx";
 import Learners from "./screens/learners";
 import ViewLearnerDetails from "./screens/learners/viewLearnerDetails";
+import PendingVerification from "./screens/pendingVerification/index.tsx";
+import VerificationDetails from "./screens/pendingVerification/verificationDetails.tsx";
 import SpoilsManagement from "./screens/spoilsManagement.tsx";
 import SpoilDetails from "./screens/spoilsManagement.tsx/spoilDetails.tsx";
 import Sponsorships from "./screens/sponsorships";
+import SponsorshipASpoil from "./screens/sponsorships/sponsorASpoil/index.tsx";
+import SponsorshipCodes from "./screens/sponsorships/sponsorASpoil/sponsorshipCodes.tsx";
 import SponsorshipDetails from "./screens/sponsorships/sponsorshipDetails.tsx";
 import Transactions from "./screens/transactions";
 import Tutors from "./screens/tutors";
@@ -31,16 +36,19 @@ function App() {
     { path: routes.main.spoilMgt.spoilDetails, element: <SpoilDetails /> },
 
     { path: routes.main.categories.home, element: <Categories /> },
+    { path: routes.main.categories.categoryDetails, element: <CategoryDetails /> },
 
     { path: routes.main.sponsorships.home, element: <Sponsorships /> },
     { path: routes.main.sponsorships.details, element: <SponsorshipDetails /> },
+    { path: routes.main.sponsorships.sponsorASpoil, element: <SponsorshipASpoil /> },
+    { path: routes.main.sponsorships.sponsorshipCodes, element: <SponsorshipCodes /> },
 
     { path: routes.main.transactions.home, element: <Transactions /> },
-    {
-      path: routes.main.withdrawalRequest.home,
-      element: <WithdrawerRequest />,
-    },
+    { path: routes.main.withdrawalRequest.home, element: <WithdrawerRequest />, },
     { path: routes.main.community.home, element: <Community /> },
+
+    { path: routes.main.pendingVerification.home, element: <PendingVerification /> },
+    { path: routes.main.pendingVerification.details, element: <VerificationDetails /> },
   ];
 
   return (

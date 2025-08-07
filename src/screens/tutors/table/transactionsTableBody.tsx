@@ -5,7 +5,7 @@ import { Table } from "@chakra-ui/react";
 import { Modal, Tag } from "@spt/components";
 import type { TableBodyProps } from "@spt/utils/types";
 
-import TransactionDetails from "../modal/transactionDetails/index";
+import TransactionDetails from "../../../partials/transactionDetailsModalContent/index";
 
 const TransactionsTableBody: FC<TableBodyProps> = ({ items }) => {
   const [transactionItem, setTransactionItem] =

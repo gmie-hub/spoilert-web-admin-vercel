@@ -6,3 +6,7 @@ export { default as Pagination } from "./pagination";
 export { default as Table } from "./table";
 export { default as Tag } from "./tag";
 export { default as Textarea } from "./textarea";
+export { default as NoData } from "./noData";
+export { default as Input } from "./input";
+export { default as Select } from "./select";
+export { default as ImageModal } from "./imageModal";

@@ -31,7 +31,7 @@ export const buttonRecipe = defineRecipe({
         fontSize: "md",
         fontWeight: "semibold",
         bg: "blue.100",
-        borderRadius: "lg",
+        borderRadius: "xl",
         py: "5",
       },
       yellowOutline: {

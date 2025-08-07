@@ -1,46 +1,41 @@
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Heading, Stack, Tabs } from "@chakra-ui/react";
 
-import { Card, Pagination, Table } from "@spt/components";
-import { usePagination } from "@spt/hooks/usePagination";
-import TableHeader from "@spt/partials/tableHeader";
-import { transactionsData, transactionsHeader } from "@spt/utils/tableData";
+import { Card } from "@spt/components";
+import CustomTabs from "@spt/components/tabs";
+import { transactionsList } from "@spt/utils/transactions";
 
-import TableBody from "./table/tableBody";
-
-
-const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...transactionsData,
-  key: index,
-}));
+import AirtimeAndData from "./tabs/airtimeAndData";
+import SpoilPurchase from "./tabs/spoilPurchase";
+import Sponsorship from "./tabs/sponsorship";
+import Withdrawal from "./tabs/withdrawal";
 
 const Transactions = () => {
-  const { page, pageSize, startRange, endRange, handlePageChange } =
-    usePagination();
-
-  const visibleItems = duplicatedItems.slice(startRange, endRange);
-
   return (
-    <Box>
-      <Card>
-        <Stack gap="4">
-          <Text fontSize="lg" fontWeight="semibold">
-            Transactions
-          </Text>
+    <Card>
+      <Stack mb="2" gap={{ base: "6", md: "4" }}>
+        <Heading size={{ base: "sm", md: "lg" }}>Transactions</Heading>
 
-          <Table
-            headerChildren={<TableHeader headerItems={transactionsHeader} />}
-            bodyChildren={<TableBody items={visibleItems} />}
-          />
+        <CustomTabs tabList={transactionsList}>
+          <>
+            <Tabs.Content value="spoilPurchase">
+              <SpoilPurchase />
+            </Tabs.Content>
 
-          <Pagination
-            page={page}
-            pageSize={pageSize}
-            items={duplicatedItems}
-            onPageChange={handlePageChange}
-          />
-        </Stack>
-      </Card>
-    </Box>
+            <Tabs.Content value="withdrawal">
+              <Withdrawal />
+            </Tabs.Content>
+
+            <Tabs.Content value="airtimeData">
+              <AirtimeAndData />
+            </Tabs.Content>
+
+            <Tabs.Content value="sponsorship">
+              <Sponsorship />
+            </Tabs.Content>
+          </>
+        </CustomTabs>
+      </Stack>
+    </Card>
   );
 };
 

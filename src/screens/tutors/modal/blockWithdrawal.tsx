@@ -1,7 +1,7 @@
 import React, { type FC, useState } from "react";
 
 import { Button, Dialog, HStack, Image, Stack, Text } from "@chakra-ui/react";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 
 import { Textarea } from "@spt/components";
 
@@ -45,29 +45,31 @@ const BlockWithdrawalModalContent: FC<ComponentProps> = ({
             <Formik initialValues={{}} onSubmit={() => {}}>
               {() => {
                 return (
-                  <Stack w="100%" gap="8">
-                    <Textarea
-                      name="reason"
-                      label="Reason For Blocking Withdrawals"
-                      placeholder="Enter the reason why you’re blocking the tutor’s withdrawal"
-                    />
+                  <Form>
+                    <Stack w="100%" gap="8">
+                      <Textarea
+                        name="reason"
+                        label="Reason For Blocking Withdrawals"
+                        placeholder="Enter the reason why you’re blocking the tutor’s withdrawal"
+                      />
 
-                    <HStack w="full" gap="5" justifyContent="center">
-                      <Dialog.ActionTrigger asChild>
-                        <Button variant="yellowOutline" w="50%">
-                          Cancel
+                      <HStack w="full" gap="5" justifyContent="center">
+                        <Dialog.ActionTrigger asChild>
+                          <Button variant="yellowOutline" w="50%">
+                            Cancel
+                          </Button>
+                        </Dialog.ActionTrigger>
+
+                        <Button
+                          variant="danger"
+                          w="50%"
+                          onClick={handleOpenSuccess}
+                        >
+                          Block Withdrawal
                         </Button>
-                      </Dialog.ActionTrigger>
-
-                      <Button
-                        variant="danger"
-                        w="50%"
-                        onClick={handleOpenSuccess}
-                      >
-                        Block Withdrawal
-                      </Button>
-                    </HStack>
-                  </Stack>
+                      </HStack>
+                    </Stack>
+                  </Form>
                 );
               }}
             </Formik>
@@ -75,7 +77,10 @@ const BlockWithdrawalModalContent: FC<ComponentProps> = ({
         )}
 
         {openSuccess && (
-          <BlockWithdrawalSuccessModalContent setIsBlocked={setIsBlocked} onClose={onClose} />
+          <BlockWithdrawalSuccessModalContent
+            setIsBlocked={setIsBlocked}
+            onClose={onClose}
+          />
         )}
       </Dialog.Body>
     </Dialog.Content>

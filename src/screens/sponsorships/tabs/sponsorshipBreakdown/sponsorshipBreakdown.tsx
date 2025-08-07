@@ -8,14 +8,18 @@ import {
   sponsorshipBreakdownHeaders,
 } from "@spt/utils/sponsorshipData";
 
-import SponsorshipBreakdownTableBody from "../table/sponsorshipBreakdownTableBody";
+import SponsorshipBreakdownTableBody from "../../table/sponsorshipBreakdownTableBody";
 
 const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
   ...sponsorshipBreakdownData,
   key: index,
 }));
 
-const SponsorshipBreakdown = () => {
+const SponsorshipBreakdown = ({
+  handleNavigate,
+}: {
+  handleNavigate: () => void;
+}) => {
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
 
@@ -33,7 +37,12 @@ const SponsorshipBreakdown = () => {
             headerChildren={
               <TableHeader headerItems={sponsorshipBreakdownHeaders} />
             }
-            bodyChildren={<SponsorshipBreakdownTableBody items={visibleItems} />}
+            bodyChildren={
+              <SponsorshipBreakdownTableBody
+                items={visibleItems}
+                handleNavigation={handleNavigate}
+              />
+            }
           />
 
           <Pagination

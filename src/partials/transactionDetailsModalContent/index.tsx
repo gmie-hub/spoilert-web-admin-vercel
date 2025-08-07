@@ -7,6 +7,7 @@ import { Card, Tag } from "@spt/components";
 import Airtime from "./airtime";
 import DataPurchase from "./dataPurchase";
 import SpoilPurchase from "./spoilPurchase";
+import Sponsorship from "./sponsorship";
 import Withdraw from "./withdraw";
 
 interface ComponentProps {
@@ -18,6 +19,8 @@ const TransactionDetails: FC<ComponentProps> = ({ item }) => {
     switch (type) {
       case "Spoil Purchase":
         return <SpoilPurchase item={item} />;
+      case "Sponsorship":
+        return <Sponsorship item={item} />;
       case "Withdrawal":
         return <Withdraw item={item} />;
       case "Airtime":
@@ -49,10 +52,11 @@ const TransactionDetails: FC<ComponentProps> = ({ item }) => {
 
                 <Button
                   w="20%"
-                  bg="#FEF8EB"
-                  color="yellow"
+                  bg="#E3F5FA"
+                  color="#013B4D"
                   fontSize="xs"
                   borderRadius="xl"
+                  fontWeight="semibold"
                   py="0"
                 >
                   <Image src="/copy.svg" alt="copy" /> Copy

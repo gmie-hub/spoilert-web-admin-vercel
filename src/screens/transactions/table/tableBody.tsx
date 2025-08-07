@@ -1,37 +1,44 @@
-import type { FC } from "react";
+import { type FC, useState } from "react";
 
-import { Button, HStack, Image, Table, Tag, Text } from "@chakra-ui/react";
+import { Table } from "@chakra-ui/react";
 
+import { Modal, Tag } from "@spt/components";
+import TransactionDetails from "@spt/partials/transactionDetailsModalContent";
 import type { TableBodyProps } from "@spt/utils/types";
 
-
-
 const TableBody: FC<TableBodyProps> = ({ items }) => {
+  const [transactionItem, setTransactionItem] =
+    useState<Record<string, string>>();
+
+  const handleTransactionItem = (item: Record<string, string>) => {
+    setTransactionItem(item);
+  };
+
   return (
     <>
       {items.map((item) => (
         <Table.Row py="16">
-          <Table.Cell>
-            <HStack>
-              <Image src="/user-icon.svg" />
-              <Text>{item.TransactionType}</Text>
-            </HStack>
-          </Table.Cell>
+          <Table.Cell>{item.transactionType}</Table.Cell>
 
-          <Table.Cell>{item.TransactionId}</Table.Cell>
+          <Table.Cell>{item.transactionID}</Table.Cell>
 
-          <Table.Cell>{item.Amount}</Table.Cell>
+          <Table.Cell>{item.amount}</Table.Cell>
 
-          <Table.Cell>{item.DateCreated}</Table.Cell>
+          <Table.Cell>{item.dateTime}</Table.Cell>
 
           <Table.Cell>
-            <Tag.Root size="sm" colorPalette="green" px='2' py="1" borderRadius="xl">
-              <Tag.Label>{item.status}</Tag.Label>
-            </Tag.Root>
+            <Tag status={item.status} />
           </Table.Cell>
 
           <Table.Cell>
-            <Button variant="yellowOutline" px="3" my="3">View More</Button>
+            <Modal
+              buttonText="View More"
+              variant="yellowOutline"
+              size="md"
+              onClick={() => handleTransactionItem(item)}
+            >
+              <TransactionDetails item={transactionItem} />
+            </Modal>
           </Table.Cell>
         </Table.Row>
       ))}

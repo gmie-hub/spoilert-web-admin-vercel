@@ -1,21 +1,19 @@
 import type { FC } from "react";
 
 import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 
 import { Tag } from "@spt/components";
-import { routes } from "@spt/routes";
 import type { TableBodyProps } from "@spt/utils/types";
 
-const SponsorshipBreakdownTableBody: FC<TableBodyProps> = ({ items }) => {
-  const navigate = useNavigate();
+interface ComponentProps extends TableBodyProps {
+  handleNavigation: () => void;
+}
 
-  const handleNavigation = () => navigate(routes.main.spoilMgt.spoilDetails);
-
+const SponsorshipBreakdownTableBody: FC<ComponentProps> = ({ items, handleNavigation }) => {
   return (
     <>
-      {items.map((item) => (
-        <Table.Row py="16">
+      {items.map((item, index) => (
+        <Table.Row key={index} py="16">
           <Table.Cell>
             <HStack>
               <Image src="/enrolled_spoils.png" boxSize="10" />

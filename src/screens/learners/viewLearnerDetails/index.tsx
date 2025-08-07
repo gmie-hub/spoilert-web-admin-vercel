@@ -25,7 +25,7 @@ const ViewLearnerDetails = () => {
 
   return (
     <Stack>
-      <Breadcrumb previousLink="Learners" currentLink="View Learner Details" />
+      <Breadcrumb previousLink="Learners" currentLink="View Learner Details" showBackButton />
 
       <Card>
         <Stack mb="2" gap={{ base: "6", md: "4" }}>

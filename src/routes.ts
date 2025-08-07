@@ -11,6 +11,7 @@ export const routes = {
     },
     categories: {
       home: "/categories",
+      categoryDetails: "/category-details",
     },
     spoilMgt: {
       home: "/spoil-management",
@@ -18,7 +19,9 @@ export const routes = {
     },
     sponsorships: {
       home: "/sponsorships",
-      details: "/sponsorship-details"
+      details: "/sponsorship-details",
+      sponsorASpoil: "/sponsor-a-spoil",
+      sponsorshipCodes: "/sponsorship-codes",
     },
     withdrawalRequest: {
       home: "/withdrawal-request",
@@ -30,10 +33,14 @@ export const routes = {
       home: "/community",
     },
     customerSupport: {
-      home: "customer-support",
+      home: "/customer-support",
     },
     settings: {
-      home: "settings",
+      home: "/settings",
+    },
+    pendingVerification: {
+      home: "/pending-verifications",
+      details: "/view-pending-verification/:id",
     },
   },
   // auth: {
