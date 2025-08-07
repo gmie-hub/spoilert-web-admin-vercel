@@ -2,17 +2,35 @@ import { type FC } from "react";
 
 import { Button, Dialog, HStack, Image, Stack, Text } from "@chakra-ui/react";
 
+import { useApprovalStore, useSuccessStore } from "@spt/store";
+
+import Modal from "./modal";
+import SuccessModalContent from "./successModalContent";
+
 interface ComponentProps {
   heading: string;
   onClick?: () => void;
   buttonText: string;
+  isLoading: boolean;
 }
 
 const ApprovalModalContent: FC<ComponentProps> = ({
   buttonText,
   heading,
   onClick,
+  isLoading,
 }) => {
+  const openSuccess = useSuccessStore((state) => state.openSuccess);
+  const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
+  const setOpenApproval = useApprovalStore((state) => state.setOpenApproval);
+
+  const handleOpenSuccess = () => setOpenSuccess(true);
+
+  const handleSuccessDone = () => {
+    setOpenApproval(false);
+    setOpenSuccess(false);
+  };
+
   return (
     <Dialog.Content borderRadius="xl" w="590px">
       <Dialog.Body>
@@ -34,14 +52,29 @@ const ApprovalModalContent: FC<ComponentProps> = ({
       <Dialog.Footer>
         <HStack w="full" gap="5" justifyContent="center">
           <Dialog.ActionTrigger asChild>
-            <Button variant="yellowOutline" w="50%">
+            <Button variant="yellowOutline" flex="1">
               Cancel
             </Button>
           </Dialog.ActionTrigger>
 
-          <Button variant="yellow" w="50%" onClick={onClick}>
-            {buttonText}
-          </Button>
+          <Modal
+            variant="yellow"
+            isLoading={isLoading}
+            buttonText={buttonText}
+            onClick={onClick}
+            flex="1"
+            open={openSuccess}
+            onOpenChange={handleOpenSuccess}
+          >
+            <Dialog.Content>
+              <Dialog.Body>
+                <SuccessModalContent
+                  heading="Verification Approved Successfully"
+                  onClick={handleSuccessDone}
+                />
+              </Dialog.Body>
+            </Dialog.Content>
+          </Modal>
         </HStack>
       </Dialog.Footer>
     </Dialog.Content>

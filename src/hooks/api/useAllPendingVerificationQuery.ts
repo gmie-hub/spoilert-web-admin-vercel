@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
-import type { VerificationResponse } from "@spt/types/verification";
+import type { VerificationsResponse } from "@spt/types/verification";
 import apiCall from "@spt/utils/apiCall";
 
 export const useAllPendingVerification = () => {
-  const fetchPendingVerifications = async ():Promise<VerificationResponse> => {
+  const fetchPendingVerifications = async ():Promise<VerificationsResponse> => {
     return (await apiCall().get("/verifications"))?.data;
   };
 

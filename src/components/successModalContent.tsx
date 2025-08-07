@@ -16,7 +16,7 @@ const SuccessModalContent: FC<ComponentProps> = ({
   return (
     <Stack gap="8">
       <HStack justifyContent="center">
-        <Image src="/success_icon.gif" w="150px" h="150px" alt="danger" />
+        <Image src="/success.gif" w="150px" h="150px" alt="danger" />
       </HStack>
 
       <Stack textAlign="center">

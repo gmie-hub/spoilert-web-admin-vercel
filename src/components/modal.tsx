@@ -17,6 +17,8 @@ interface ModalProps extends PropsWithChildren {
   py?: string;
   size?: ConditionalValue<"sm" | "md" | "lg" | "xl" | "xs" | "cover" | "full">;
   variant: ConditionalValue<any>;
+  isLoading?: boolean;
+  flex?: string;
 }
 
 const Modal: FC<ModalProps> = ({
@@ -28,13 +30,30 @@ const Modal: FC<ModalProps> = ({
   open,
   px,
   py,
-  size="lg",
+  size = "lg",
   variant,
+  isLoading,
+  flex,
 }) => {
   return (
-    <Dialog.Root placement="center" open={open} motionPreset="slide-in-bottom" size={size} onOpenChange={onOpenChange}>
-      <Dialog.Trigger>
-        <Button variant={variant} px={px} py={py} w="full" onClick={onClick}>
+    <Dialog.Root
+      placement="center"
+      open={open}
+      motionPreset="slide-in-bottom"
+      size={size}
+      onOpenChange={onOpenChange}
+    >
+      <Dialog.Trigger flex={flex}>
+        <Button
+          variant={variant}
+          px={px}
+          py={py}
+          w="full"
+          onClick={onClick}
+          loading={isLoading}
+          disabled={isLoading}
+          flex="1"
+        >
           {buttonIcon} {buttonText}
         </Button>
       </Dialog.Trigger>

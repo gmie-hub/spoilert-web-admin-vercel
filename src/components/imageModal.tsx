@@ -2,7 +2,7 @@ import { Box, Dialog, HStack, Image, Text } from "@chakra-ui/react";
 
 import Modal from "./modal";
 
-const ImageModal = () => {
+const ImageModal = ({ url }: { url: string }) => {
   return (
     <HStack
       justifyContent="space-between"
@@ -13,7 +13,7 @@ const ImageModal = () => {
       borderRadius="lg"
     >
       <HStack>
-        <Image src="/nin.png" alt="idCard" h="40px" w="63px" />
+        <Image src={url} alt="idCard" h="40px" w="63px" />
 
         <Box>
           <Text fontSize="xs" fontWeight="medium">
@@ -33,7 +33,7 @@ const ImageModal = () => {
         py="0"
       >
         <Dialog.Content>
-          <Image src="/nin.png" alt="nin" />
+          <Image src={url} alt="nin" />
         </Dialog.Content>
       </Modal>
     </HStack>

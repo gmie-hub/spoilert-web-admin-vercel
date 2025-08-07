@@ -17,9 +17,6 @@ const PendingVerification = () => {
   }));
 
   const { data } = useAllPendingVerification();
-  console.log(data);
-
-  // const verificationData = data?.data;
 
   const visibleItems = data?.data?.slice(startRange, endRange);
 
