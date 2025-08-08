@@ -8,10 +8,7 @@ const Layout = () => {
   return (
     <main>
       <Drawer.Root>
-        <Flex
-          overflow="hidden"
-          h="100vh"
-        >
+        <Flex overflow="hidden" h="100vh">
           <Box
             h="100vh"
             w="17rem"
@@ -42,26 +39,21 @@ const Layout = () => {
             ml={{ md: "17rem" }}
             flex="1"
           >
-            <Box
-              position="sticky"
-              top="0"
-              bg="white"
-              zIndex="10"
-            >
+            <Box position="sticky" top="0" bg="white" zIndex="10">
               <Header />
             </Box>
 
             <Container
               flex="1"
-              padding="3"
+              px={{ md: "3" }}
+              py="3"
               bg="#fafafa"
               overflowY="auto"
               height="calc(100vh - 60px)"
               w="100%"
               maxW="unset"
-              
             >
-              <Box w="100%" p="3" overflowX="auto">
+              <Box w="100%" p={{ md: "3" }} overflowX="auto">
                 <Outlet />
               </Box>
             </Container>

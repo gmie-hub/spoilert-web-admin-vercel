@@ -1,6 +1,11 @@
-import React from "react";
-
-import { Box, Button, HStack, Heading, Image, Stack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Stack,
+} from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
 import { Breadcrumb, Card, ImageModal, Modal } from "@spt/components";
@@ -14,18 +19,18 @@ import ProgressInfo from "@spt/partials/progressInfo";
 import { useApprovalStore, useRejectionStore } from "@spt/store";
 import { formatDate, formatTime } from "@spt/utils/dateTime";
 
-const VerificationDetails: React.FC = () => {
-  const openApproval = useApprovalStore((state) => state.openApproval);
-  const setOpenApproval = useApprovalStore((state) => state.setOpenApproval);
-
-  const openRejection = useRejectionStore((state) => state.openRejection);
-  const setOpenRejection = useRejectionStore((state) => state.setOpenRejection);
-
+const VerificationDetails = () => {
   const { id } = useParams();
   const { data, isLoading } = usePendingVerificationQuery(Number(id));
   const { isApprovalLoading, approveKYCHandler } = useApproveKYCMutation(
     Number(id)
   );
+
+  const openApproval = useApprovalStore((state) => state.openApproval);
+  const setOpenApproval = useApprovalStore((state) => state.setOpenApproval);
+
+  const openRejection = useRejectionStore((state) => state.openRejection);
+  const setOpenRejection = useRejectionStore((state) => state.setOpenRejection);
 
   const firstDetails = [
     {
@@ -34,6 +39,7 @@ const VerificationDetails: React.FC = () => {
     },
     { title: "Email Address", value: data?.user?.email },
     { title: "Country", value: "Nigeria" },
+    // { title: "ID Type", value: data?.type },
   ];
 
   if (isLoading) return <LoadingState />;
@@ -48,15 +54,20 @@ const VerificationDetails: React.FC = () => {
       <Card>
         <Stack>
           <Stack gap={{ base: "6", md: "4" }}>
-            <HStack alignItems="center" justifyContent="space-between">
-              <Heading size={{ base: "sm", md: "lg" }}>
+            <Flex
+              direction={{ base: "column", md: "row" }}
+              alignItems={{ md: "center" }}
+              justifyContent="space-between"
+              rowGap="4"
+            >
+              <Heading size={{ base: "md", md: "lg" }}>
                 Verification Details
               </Heading>
 
-              <Button variant="yellowOutline" px="10">
+              <Button variant="yellowOutline" px="10" w={{ base: "fit-content"}}>
                 View Full Profile
               </Button>
-            </HStack>
+            </Flex>
           </Stack>
 
           <Stack mt="5">
@@ -81,6 +92,7 @@ const VerificationDetails: React.FC = () => {
                   title="Date and Time"
                   value={`${formatDate(data?.created_at)} | ${formatTime(data?.created_at)}`}
                 />
+
                 <Box flex={{ base: "0 0 50%", md: "0 0 25%" }}>
                   <ImageModal url={data?.url} />
                 </Box>
@@ -88,7 +100,12 @@ const VerificationDetails: React.FC = () => {
             </Stack>
           </Stack>
 
-          <HStack mt="6" gap="5" justifyContent="flex-end">
+          <Flex
+            direction={{ base: "column", md: "row" }}
+            mt="6"
+            gap="5"
+            justifyContent="flex-end"
+          >
             <Modal
               open={openRejection}
               onOpenChange={(e) => setOpenRejection(e.open)}
@@ -120,7 +137,7 @@ const VerificationDetails: React.FC = () => {
                 isLoading={isApprovalLoading}
               />
             </Modal>
-          </HStack>
+          </Flex>
         </Stack>
       </Card>
     </Stack>
