@@ -41,7 +41,7 @@ const Sidebar = () => {
       key: "Spoil Management",
       label: "Spoil Management",
       icon: <img src={Management} alt="Management" />,
-      to: routes.main.spoilMgt.home
+      // to: routes.main.spoilMgt.home
     },
     {
       key: "Pending Verifications",
@@ -53,7 +53,7 @@ const Sidebar = () => {
       key: "Sponsorships",
       label: "Sponsorships",
       icon: <img src={Sponsorships} alt="Sponsorships" />,
-      to: routes.main.sponsorships.home
+      // to: routes.main.sponsorships.home
     },
     {
       key: "Withdrawal Requests",
@@ -65,7 +65,7 @@ const Sidebar = () => {
       key: "Transactions",
       label: "Transactions",
       icon: <img src={Transactions} alt="Transactions" />,
-      to: routes.main.transactions.home
+      // to: routes.main.transactions.home
     },
     {
       key: "Community",
