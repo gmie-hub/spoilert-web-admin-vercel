@@ -27,8 +27,6 @@ const VerificationDetails: React.FC = () => {
     Number(id)
   );
 
-  const handleOpenApproval = () => setOpenApproval(true);
-
   const firstDetails = [
     {
       title: "Full Name",
@@ -112,7 +110,7 @@ const VerificationDetails: React.FC = () => {
               buttonText="Approve Verification"
               variant="yellow"
               open={openApproval}
-              onOpenChange={handleOpenApproval}
+              onOpenChange={(e) => setOpenApproval(e.open)}
               isLoading={isApprovalLoading}
             >
               <ApprovalModalContent
