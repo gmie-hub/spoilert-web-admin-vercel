@@ -5,7 +5,7 @@ import apiCall from "@spt/utils/apiCall";
 
 export const useAllPendingVerification = () => {
   const fetchPendingVerifications = async ():Promise<VerificationsResponse> => {
-    return (await apiCall().get("/verifications"))?.data;
+    return (await apiCall().get("/verifications?status=0"))?.data;
   };
 
   const { data, isLoading } = useQuery({
