@@ -1,7 +1,7 @@
 import { Box, Flex, HStack, Stack, Text } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 
-// import Management from "../assets/book.svg";
+import Management from "../assets/book.svg";
 import Overview from "../assets/category.svg";
 // import Sponsorships from "../assets/discount-circle.svg";
 import Withdrawal from "../assets/moneys.svg";
@@ -38,12 +38,18 @@ const Sidebar = () => {
       icon: <img src="/category.svg" alt="category" />,
       to: routes.main.categories.home,
     },
-    // {
-    //   key: "Spoil Management",
-    //   label: "Spoil Management",
-    //   icon: <img src={Management} alt="Management" />,
-    //   // to: routes.main.spoilMgt.home
-    // },
+    {
+      key: "Spoil Review",
+      label: "Spoil Review",
+      icon: <img src="/spoil.svg" alt="review" />,
+      to: routes.main.spoilReview.home
+    },
+    {
+      key: "Spoil Management",
+      label: "Spoil Management",
+      icon: <img src={Management} alt="Management" />,
+      to: routes.main.spoilMgt.home
+    },
     {
       key: "Pending Verifications",
       label: "Pending Verifications",

@@ -1,18 +1,30 @@
 import type { FC, PropsWithChildren } from "react";
 
-import { HStack, Tabs } from "@chakra-ui/react";
+import { type ConditionalValue, HStack, Tabs } from "@chakra-ui/react";
 
 interface ComponentProps extends PropsWithChildren {
   tabList: Array<any>;
+  variant?: ConditionalValue<
+    "outline" | "line" | "subtle" | "plain" | "enclosed"
+  >;
+  bg?: string;
+  rounded?: string;
+  p?: string;
 }
 
-const CustomTabs: FC<ComponentProps> = ({ children, tabList }) => {
+const CustomTabs: FC<ComponentProps> = (props) => {
+  const { bg, children, p, rounded, tabList, variant } = props;
+
   return (
-    <Tabs.Root defaultValue={tabList[0].value} colorPalette="blue.100">
-      <Tabs.List overflow="hidden" w="100%">
+    <Tabs.Root
+      defaultValue={tabList[0].value}
+      colorPalette="blue.100"
+      variant={variant}
+    >
+      <Tabs.List bg={bg} rounded={rounded} p={p} overflow="hidden" w="100%">
         <HStack
           gap={{ base: "2", md: "4" }}
-          justifyContent={{  mdDown: "flex-start" }}
+          justifyContent={{ mdDown: "flex-start" }}
           overflowX="auto"
           overflowY="hidden"
           w="100%"

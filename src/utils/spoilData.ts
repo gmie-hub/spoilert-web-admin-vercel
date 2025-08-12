@@ -57,7 +57,12 @@ export const quizQuestions = [
   },
 ];
 
-export const leaderboardHeaderData = ["Rank", "Name of User", "Score", "Action"];
+export const leaderboardHeaderData = [
+  "Rank",
+  "Name of User",
+  "Score",
+  "Action",
+];
 
 export const leaderboardData = {
   rank: 1,
@@ -67,12 +72,19 @@ export const leaderboardData = {
 
 export const spoilReviewData = {
   name: "Omorinsola Ogunsola",
-  review: "I totally like the Spoil. It was simple and well explanatory. I love Spoils like this and I totally recommend, so simple to understand.",
+  review:
+    "I totally like the Spoil. It was simple and well explanatory. I love Spoils like this and I totally recommend, so simple to understand.",
   date: "10/01/2025",
   time: "11:40am",
 };
 
-export const enrolledLearnerHeaders = ["Name of Learner", "Username", "Date Enrolled", "Status", "Action"];
+export const enrolledLearnerHeaders = [
+  "Name of Learner",
+  "Username",
+  "Date Enrolled",
+  "Status",
+  "Action",
+];
 
 export const enrolledLearnersData = {
   key: 1,
@@ -102,5 +114,20 @@ export const spoilMgtTabList = [
   {
     value: "enrolledLearners",
     text: "Enrolled Learners",
+  },
+];
+
+export const spoilReviewTabList = [
+  {
+    value: "spoilOverview",
+    text: "Spoil Overview",
+  },
+  {
+    value: "spoilOutline",
+    text: "Spoils Outline",
+  },
+  {
+    value: "spoilQuiz",
+    text: "Spoil Quiz",
   },
 ];
