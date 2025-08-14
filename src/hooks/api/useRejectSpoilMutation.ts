@@ -7,28 +7,32 @@ import apiCall from "@spt/utils/apiCall";
 
 import type { FormikValues } from "formik";
 
-export const useRejectKYCMutation = (id: number) => {
+interface Payload {
+  status: number;
+  comment: string;
+}
+
+export const useRejectSpoilMutation = (id: number) => {
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
   const queryClient = useQueryClient();
 
-  const postRejectKYC = async (payload: FormData) => {
-    return (await apiCall().post(`/verifications/${id}`, payload))?.data;
+  const postSpoil = async (payload: Payload) => {
+    return (await apiCall().patch(`/admin/spoils/update/${id}`, payload))?.data;
   };
 
-  const rejectKYCMutation = useMutation({
-    mutationKey: ["rejectKYC"],
-    mutationFn: postRejectKYC,
+  const rejectSpoilMutation = useMutation({
+    mutationKey: ["rejectSpoil"],
+    mutationFn: postSpoil,
   });
 
-  const rejectKYCHandler = async (values: FormikValues) => {
-    const formData = new FormData();
-
-    formData.append("_method", "patch");
-    formData.append("status", "2");
-    formData.append("comment", values.reason);
+  const rejectSpoilHandler = async (values: FormikValues) => {
+   const payload: Payload = {
+    status: 2,
+    comment: values.reason,
+   }
 
     try {
-      await rejectKYCMutation.mutateAsync(formData, {
+      await rejectSpoilMutation.mutateAsync(payload, {
         onSuccess: (data) => {
           toaster.create({
             type: "success",
@@ -36,7 +40,7 @@ export const useRejectKYCMutation = (id: number) => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ["allPendingVerification"]
+            queryKey: ["pendingSpoils"]
           })
           setOpenSuccess(true);
         },
@@ -50,7 +54,7 @@ export const useRejectKYCMutation = (id: number) => {
   };
 
   return {
-    isRejectLoading: rejectKYCMutation.isPending,
-    rejectKYCHandler,
+    isRejectSpoilLoading: rejectSpoilMutation.isPending,
+    rejectSpoilHandler,
   };
 };

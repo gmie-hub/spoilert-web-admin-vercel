@@ -10,10 +10,12 @@ interface ComponentProps extends PropsWithChildren {
   bg?: string;
   rounded?: string;
   p?: string;
+  hasIndicator?: boolean;
+  onClick?: () => void;
 }
 
 const CustomTabs: FC<ComponentProps> = (props) => {
-  const { bg, children, p, rounded, tabList, variant } = props;
+  const { bg, children, hasIndicator, onClick, p, rounded, tabList, variant } = props;
 
   return (
     <Tabs.Root
@@ -33,7 +35,11 @@ const CustomTabs: FC<ComponentProps> = (props) => {
             <Tabs.Trigger
               key={index}
               value={item.value}
-              _selected={{ color: "blue.100", fontWeight: "semibold" }}
+              _selected={{
+                color: hasIndicator ? "white" : "blue.100",
+                fontWeight: "semibold",
+              }}
+              onClick={onClick}
               textWrap="nowrap"
               color="gray"
               fontSize="md"
@@ -42,6 +48,10 @@ const CustomTabs: FC<ComponentProps> = (props) => {
             </Tabs.Trigger>
           ))}
         </HStack>
+
+        {hasIndicator && (
+          <Tabs.Indicator rounded="20" bg="#013B4D" color="white" />
+        )}
       </Tabs.List>
 
       {children}

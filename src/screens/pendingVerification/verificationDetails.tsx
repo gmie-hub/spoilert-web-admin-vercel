@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Image,
-  Stack,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Image, Stack } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
 import { Breadcrumb, Card, ImageModal, Modal } from "@spt/components";
@@ -14,8 +7,10 @@ import LoadingState from "@spt/components/loadingState";
 import RejectModalContent from "@spt/components/rejectModalContent";
 import { useApproveKYCMutation } from "@spt/hooks/api/useApproveKYCMutation";
 import { usePendingVerificationQuery } from "@spt/hooks/api/usePendingVerificationQuery";
+import { useRejectKYCMutation } from "@spt/hooks/api/useRejectKYCMutation";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
+import { routes } from "@spt/routes";
 import { useApprovalStore, useRejectionStore } from "@spt/store";
 import { formatDate, formatTime } from "@spt/utils/dateTime";
 
@@ -25,6 +20,7 @@ const VerificationDetails = () => {
   const { isApprovalLoading, approveKYCHandler } = useApproveKYCMutation(
     Number(id)
   );
+  const { isRejectLoading, rejectKYCHandler } = useRejectKYCMutation(Number(id));
 
   const openApproval = useApprovalStore((state) => state.openApproval);
   const setOpenApproval = useApprovalStore((state) => state.setOpenApproval);
@@ -64,7 +60,11 @@ const VerificationDetails = () => {
                 Verification Details
               </Heading>
 
-              <Button variant="yellowOutline" px="10" w={{ base: "fit-content"}}>
+              <Button
+                variant="yellowOutline"
+                px="10"
+                w={{ base: "fit-content" }}
+              >
                 View Full Profile
               </Button>
             </Flex>
@@ -119,7 +119,10 @@ const VerificationDetails = () => {
                 label="Rejection"
                 placeholder="rejecting this verification"
                 onClose={() => {}}
-                id={Number(id)}
+                isLoading={isRejectLoading}
+                rejectHandler={rejectKYCHandler}
+                successMessage="Verification Rejected Successfully"
+                route={routes.main.pendingVerification.home}
               />
             </Modal>
 
@@ -135,6 +138,8 @@ const VerificationDetails = () => {
                 buttonText="Yes, Approve"
                 onClick={approveKYCHandler}
                 isLoading={isApprovalLoading}
+                successMessage="Verification Approved Successfully"
+                route={routes.main.pendingVerification.home}
               />
             </Modal>
           </Flex>

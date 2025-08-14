@@ -26,6 +26,16 @@ export const spoilsMgtHeaders = [
   "Action",
 ];
 
+export const spoilsReviewHeaders = [
+  "Spoil Title",
+  "Name of Tutor",
+  "Category",
+  "Amount",
+  "Type",
+  "Date Created",
+  "Action",
+];
+
 export const spoilsMgtData = {
   key: 1,
   spoilTitle: "Understanding Design Principles",

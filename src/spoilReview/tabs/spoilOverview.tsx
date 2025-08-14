@@ -1,11 +1,18 @@
+import type { FC } from "react";
+
 import { Box, Dialog, Flex, Image, List, Stack, Text } from "@chakra-ui/react";
 
 import { Modal } from "@spt/components";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
-import { whatToLearnData } from "@spt/utils/spoilData";
+import type { SpoilData } from "@spt/types/spoils";
+import { formatDate, formatTime } from "@spt/utils/dateTime";
 
-const SpoilOverview = () => {
+interface ComponentProps {
+  data?: SpoilData;
+}
+
+const SpoilOverview: FC<ComponentProps> = ({ data }) => {
   return (
     <Stack gap="4" mt="2">
       <Flex
@@ -14,7 +21,7 @@ const SpoilOverview = () => {
         alignItems="center"
       >
         <Box h="80px" w="80px">
-          <Image src="/enrolled_spoils.png" alt="enrolled" w="inherit" />
+          <Image src={data?.cover_image_url} alt="enrolled" w="inherit" />
         </Box>
 
         <Modal variant="yellow" px="8" buttonText="View Certificate">
@@ -26,39 +33,28 @@ const SpoilOverview = () => {
 
       <Stack gap="4">
         <ProgressInfo>
-          <InfoDisplay
-            title="Spoil Title"
-            value="Understanding Design Principles"
-          />
-          <InfoDisplay title="Category" value="UI/UX Design" />
-          <InfoDisplay title="University" value="University of Lagos" />
+          <InfoDisplay title="Spoil Title" value={data?.title} />
+          <InfoDisplay title="Category" value={data?.category?.name} />
+          <InfoDisplay title="Institution" value={data?.institution} />
         </ProgressInfo>
 
         <ProgressInfo>
-          <InfoDisplay title="Course Code" value="CHM 404" />
-          <InfoDisplay title="Pricing" value="Paid" />
-          <InfoDisplay title="Amount" value="N15,000" />
+          <InfoDisplay title="Course Code" value={data?.course_code} />
+          <InfoDisplay title="Pricing" value={data?.pricing} />
+          <InfoDisplay title="Amount" value={`N${data?.amount?.toString()}`} />
         </ProgressInfo>
 
         <ProgressInfo>
           <InfoDisplay title="Type" value="Scheduled" />
-          <InfoDisplay
-            title="Date And Time of Premiere"
-            value="05-01-2025 | 10:20 am"
-          />
-          <InfoDisplay title="Modules" value="5" />
+          <InfoDisplay title="Modules" value={data?.modules_no?.toString()} />
+          <InfoDisplay title="Lessons" value={data?.lessons_no?.toString()} />
         </ProgressInfo>
 
         <ProgressInfo>
           <InfoDisplay
-            flex={{ base: "0 0 25%", md: "0 0 25%" }}
-            title="Lessons"
-            value="10"
-          />
-          <InfoDisplay
             flex={{ base: "0 0 50%", md: "0 0 62.5%" }}
             title="Date Created"
-            value="12-02-2025"
+            value={`${formatDate(data?.created_at)} | ${formatTime(data?.created_at)}`}
           />
         </ProgressInfo>
 
@@ -66,7 +62,7 @@ const SpoilOverview = () => {
           <InfoDisplay
             flex={{ md: "0 0 100%" }}
             title="Description"
-            value="This course is for aspiring product designers"
+            value={data?.description}
           />
         </ProgressInfo>
 
@@ -78,7 +74,7 @@ const SpoilOverview = () => {
           <Box ms="6">
             <List.Root>
               <List.Item>
-                {whatToLearnData.map((item, index) => (
+                {data?.what_to_tearn?.split(",").map((item, index) => (
                   <List.Item key={index} _marker={{ color: "#212529" }}>
                     {item}
                   </List.Item>

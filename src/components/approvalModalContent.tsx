@@ -3,7 +3,6 @@ import { type FC } from "react";
 import { Button, Dialog, HStack, Image, Stack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-import { routes } from "@spt/routes";
 import { useApprovalStore, useSuccessStore } from "@spt/store";
 
 import Modal from "./modal";
@@ -14,6 +13,8 @@ interface ComponentProps {
   onClick?: () => void;
   buttonText: string;
   isLoading: boolean;
+  successMessage: string;
+  route: string;
 }
 
 const ApprovalModalContent: FC<ComponentProps> = ({
@@ -21,6 +22,8 @@ const ApprovalModalContent: FC<ComponentProps> = ({
   heading,
   onClick,
   isLoading,
+  successMessage,
+  route
 }) => {
   const openSuccess = useSuccessStore((state) => state.openSuccess);
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
@@ -30,7 +33,7 @@ const ApprovalModalContent: FC<ComponentProps> = ({
   const handleSuccessDone = () => {
     setOpenApproval(false);
     setOpenSuccess(false);
-    navigate(routes.main.pendingVerification.home);
+    navigate(route);
   };
 
   return (
@@ -70,7 +73,7 @@ const ApprovalModalContent: FC<ComponentProps> = ({
             <Dialog.Content>
               <Dialog.Body>
                 <SuccessModalContent
-                  heading="Verification Approved Successfully"
+                  heading={successMessage}
                   onClick={handleSuccessDone}
                 />
               </Dialog.Body>

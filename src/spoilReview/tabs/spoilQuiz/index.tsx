@@ -1,8 +1,17 @@
 import { useState } from "react";
 
-import { Flex, HStack, Image, Stack, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  HStack,
+  Image,
+  Stack,
+  Tabs,
+  Text,
+  useMediaQuery,
+} from "@chakra-ui/react";
 
 import { Card } from "@spt/components";
+import CustomTabs from "@spt/components/tabs";
 
 import Quiz from "./quiz";
 import QuizOverview from "./quizOverview";
@@ -10,6 +19,12 @@ import QuizOverview from "./quizOverview";
 const SpoilQuiz = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [isQuizVisible, setIsQuizVisible] = useState(false);
+  const [isLargeScreen] = useMediaQuery(["(min-width: 768px)"], {
+    fallback: [true],
+  });
+  const [isSmallScreen] = useMediaQuery(["(max-width: 767px)"], {
+    fallback: [true],
+  });
 
   const handleItemClick = (index) => {
     setCurrentIndex(index);
@@ -42,29 +57,52 @@ const SpoilQuiz = () => {
 
   return (
     <Flex direction={{ base: "column", md: "row" }} gap="8">
-      <Card flex={1} px="4">
-        <Stack gap="6">
-          {spoilQuizOptions?.map((item) => (
-            <HStack
-              key={item.id}
-              justifyContent="space-between"
-              _selected={{ bg: "#D4A4371A" }}
-              cursor="pointer"
-              _hover={{ bg: "#D4A4371A" }}
-              py="3"
-              px="5"
-              borderRadius="lg"
-              onClick={() => handleItemClick(item.id)}
-              bg={currentIndex === item.id ? "#D4A4371A" : "transparent"}
-            >
-              <Text>{item?.name}</Text>
-              <Image src="/arrow-right.svg" />
-            </HStack>
-          ))}
-        </Stack>
-      </Card>
+      {isLargeScreen && (
+        <Card flex={1} px="4">
+          <Stack gap="6">
+            {spoilQuizOptions?.map((item) => (
+              <HStack
+                key={item.id}
+                justifyContent="space-between"
+                _selected={{ bg: "#D4A4371A" }}
+                cursor="pointer"
+                _hover={{ bg: "#D4A4371A" }}
+                py="3"
+                px="5"
+                borderRadius="lg"
+                onClick={() => handleItemClick(item.id)}
+                bg={currentIndex === item.id ? "#D4A4371A" : "transparent"}
+              >
+                <Text>{item?.text}</Text>
+                <Image src="/arrow-right.svg" />
+              </HStack>
+            ))}
+          </Stack>
+        </Card>
+      )}
 
-      <Card flex={2}>{handleVisibility(currentIndex)}</Card>
+      {isSmallScreen && (
+        <CustomTabs
+          tabList={spoilQuizOptions}
+          variant="plain"
+          bg="#F0FBFF"
+          p="1"
+          // onClick={() => handleItemClick(item.id)}
+          hasIndicator
+        >
+          <>
+            <Tabs.Content value="preSpoilQuiz">
+              {handleVisibility(currentIndex)}
+            </Tabs.Content>
+
+            <Tabs.Content value="postSpoilQuiz">
+              {handleVisibility(currentIndex)}
+            </Tabs.Content>
+          </>
+        </CustomTabs>
+      )}
+
+      {isLargeScreen && <Card flex={2}>{handleVisibility(currentIndex)}</Card>}
     </Flex>
   );
 };
@@ -72,6 +110,6 @@ const SpoilQuiz = () => {
 export default SpoilQuiz;
 
 const spoilQuizOptions = [
-  { id: 1, name: "Pre-Spoil Quiz" },
-  { id: 2, name: "Post-Spoil Quiz" },
+  { id: 1, text: "Pre-Spoil Quiz", value: "preSpoilQuiz" },
+  { id: 2, text: "Post-Spoil Quiz", value: "postSpoilQuiz" },
 ];

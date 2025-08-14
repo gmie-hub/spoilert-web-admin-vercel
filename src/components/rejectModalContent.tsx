@@ -1,13 +1,11 @@
 import { type FC } from "react";
 
 import { Button, Dialog, HStack, Image, Stack, Text } from "@chakra-ui/react";
-import { Form, Formik } from "formik";
+import { Form, Formik, type FormikValues } from "formik";
 import { useNavigate } from "react-router-dom";
 import { object } from "yup";
 
 import { Modal, Textarea } from "@spt/components";
-import { useRejectKYCMutation } from "@spt/hooks/api/useRejectKYCMutation";
-import { routes } from "@spt/routes";
 import { useRejectionStore, useSuccessStore } from "@spt/store";
 import { validations } from "@spt/utils/validations";
 
@@ -20,7 +18,10 @@ export interface ComponentProps {
   placeholder: string;
   buttonText: string;
   onClose: () => void;
-  id: number;
+  rejectHandler: (values: FormikValues) => Promise<void>;
+  isLoading: boolean;
+  successMessage: string;
+  route;
 }
 
 const RejectModalContent: FC<ComponentProps> = ({
@@ -29,18 +30,21 @@ const RejectModalContent: FC<ComponentProps> = ({
   description,
   label,
   placeholder,
-  id,
+  rejectHandler,
+  isLoading,
+  successMessage,
+  route,
 }) => {
   const openSuccess = useSuccessStore((state) => state.openSuccess);
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
   const setOpenRejection = useRejectionStore((state) => state.setOpenRejection);
-  const { isRejectLoading, rejectKYCHandler } = useRejectKYCMutation(id);
+  // const { isRejectLoading, rejectKYCHandler } = useRejectKYCMutation(id);
   const navigate = useNavigate();
 
   const handleSuccessDone = () => {
     setOpenRejection(false);
     setOpenSuccess(false);
-    navigate(routes.main.pendingVerification.home);
+    navigate(route);
   };
 
   const validationSchema = object().shape({
@@ -66,7 +70,7 @@ const RejectModalContent: FC<ComponentProps> = ({
           <Formik
             initialValues={{ reason: "" }}
             onSubmit={(values) => {
-              rejectKYCHandler(values);
+              rejectHandler(values);
             }}
             validationSchema={validationSchema}
             enableReinitialize
@@ -91,7 +95,7 @@ const RejectModalContent: FC<ComponentProps> = ({
                       <Modal
                         type="submit"
                         variant="yellow"
-                        isLoading={isRejectLoading}
+                        isLoading={isLoading}
                         buttonText={buttonText}
                         flex="1"
                         open={openSuccess}
@@ -99,7 +103,7 @@ const RejectModalContent: FC<ComponentProps> = ({
                         <Dialog.Content>
                           <Dialog.Body>
                             <SuccessModalContent
-                              heading="Verification Rejected Successfully"
+                              heading={successMessage}
                               onClick={handleSuccessDone}
                             />
                           </Dialog.Body>
