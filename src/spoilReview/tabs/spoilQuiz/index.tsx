@@ -12,11 +12,12 @@ import {
 
 import { Card } from "@spt/components";
 import CustomTabs from "@spt/components/tabs";
+import { useGetQuizBySpoilId } from "@spt/hooks/api/useGetQuizBySpoilId";
 
 import Quiz from "./quiz";
 import QuizOverview from "./quizOverview";
 
-const SpoilQuiz = () => {
+const SpoilQuiz = ({ id }: { id: number }) => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [isQuizVisible, setIsQuizVisible] = useState(false);
   const [isLargeScreen] = useMediaQuery(["(min-width: 768px)"], {
@@ -25,6 +26,11 @@ const SpoilQuiz = () => {
   const [isSmallScreen] = useMediaQuery(["(max-width: 767px)"], {
     fallback: [true],
   });
+
+  const { quizData } = useGetQuizBySpoilId(id);
+
+  console.log(quizData);
+  
 
   const handleItemClick = (index) => {
     setCurrentIndex(index);

@@ -5,7 +5,8 @@ import apiCall from "@spt/utils/apiCall";
 
 export const useGetSpoilsQuery = () => {
   const fetchPendingSpoils = async (): Promise<SpoilsResponse> => {
-    return (await apiCall().get("/spoils?status=0"))?.data;
+    return (await apiCall().get("/spoils"))?.data;
+    // return (await apiCall().get("/spoils?status=0"))?.data;
   };
 
   const { data, isLoading } = useQuery({

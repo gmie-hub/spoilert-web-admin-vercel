@@ -54,11 +54,11 @@ const SpoilReviewDetails = () => {
               </Tabs.Content>
 
               <Tabs.Content value="spoilOutline">
-                <SpoilOutline />
+                <SpoilOutline data={data}  />
               </Tabs.Content>
 
               <Tabs.Content value="spoilQuiz">
-                <SpoilQuiz />
+                <SpoilQuiz id={Number(id)} />
               </Tabs.Content>
             </>
           </CustomTabs>

@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { type FC, useState } from "react";
 
 import { Box, Flex, HStack, Image, useBreakpointValue } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
+
+import type { SpoilData } from "@spt/types/spoils";
 
 import CourseContent from "./courseContent";
 import CourseOverview from "./courseOverview";
@@ -9,7 +11,11 @@ import CourseOverview from "./courseOverview";
 const MotionHStack = motion(HStack);
 const MotionBox = motion(Box);
 
-const SpoilOutline = () => {
+interface ComponentProps {
+  data?: SpoilData;
+}
+
+const SpoilOutline: FC<ComponentProps> = ({ data }) => {
   const [showCourseContent, setShowCourseContent] = useState(true);
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -37,7 +43,10 @@ const SpoilOutline = () => {
             overflow="hidden"
             width={{ base: "100%", md: "auto" }}
           >
-            <CourseContent onHide={handleToggleCourseContent} />
+            <CourseContent
+              onHide={handleToggleCourseContent}
+              modules={data?.modules}
+            />
           </MotionBox>
         )}
       </AnimatePresence>
@@ -77,7 +86,7 @@ const SpoilOutline = () => {
           </Box>
         )}
 
-        <CourseOverview />
+        <CourseOverview data={data} />
       </MotionHStack>
     </Flex>
   );

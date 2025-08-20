@@ -130,7 +130,7 @@ export interface SpoilData {
   modules: Module[];
 }
 
-interface Module {
+export interface Module {
   id: number;
   title: string;
   slug: string;
