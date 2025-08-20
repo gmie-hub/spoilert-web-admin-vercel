@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { type FC, useState } from "react";
 
 import {
   Box,
@@ -12,19 +12,24 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 
-import { quizQuestions } from "@spt/utils/spoilData";
+import type { QuizData } from "@spt/types/quiz";
+import { FILL_IN_THE_BLANK, MULTIPLE_CHOICE } from "@spt/utils";
 
-const Quiz = () => {
+interface ComponentProps {
+  data: QuizData;
+}
+
+const Quiz: FC<ComponentProps> = ({ data }) => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [visitedIndices, setVisitedIndices] = useState<number[]>([]);
 
-  const questionLength = Array.from(
-    { length: quizQuestions?.length },
-    (_, i) => i
-  );
+  const quizData = data?.questions;
 
-  const currentQuestion = quizQuestions[currentIndex - 1];
-  const correctAnswer = quizQuestions[currentIndex]?.answer;
+  const questionLength = Array.from({ length: quizData?.length }, (_, i) => i);
+
+  const currentQuestion = quizData[currentIndex - 1];
+  const correctAnswer = quizData[currentIndex - 1]?.answer;
+  const parsedOptions: [] = JSON.parse(currentQuestion.options);  
 
   const handlePrevious = () => {
     setVisitedIndices((prev) => prev.filter((index) => index !== currentIndex));
@@ -77,13 +82,13 @@ const Quiz = () => {
           </Text>
           of{" "}
           <Text as="span" fontWeight="medium" fontSize="sm">
-            {quizQuestions.length}
+            {quizData?.length}
           </Text>
         </Text>
 
         <HStack>
           <Image src="/table-clock.svg" />
-          <Text fontWeight="medium">00:50</Text>
+          <Text fontWeight="medium">{`00:${data?.time_limit}`}</Text>
         </HStack>
       </HStack>
 
@@ -92,8 +97,8 @@ const Quiz = () => {
           <Text>{currentQuestion?.question}</Text>
         </Box>
 
-        {currentQuestion.options.length > 1 &&
-          currentQuestion.options.map((item, index) => {
+        {currentQuestion?.type === MULTIPLE_CHOICE &&
+          parsedOptions?.map((item, index) => {
             const isCorrectAnswer = correctAnswer === item;
 
             return (
@@ -116,14 +121,14 @@ const Quiz = () => {
             );
           })}
 
-        {currentQuestion.options.length === 1 && (
+        {currentQuestion?.type === FILL_IN_THE_BLANK && (
           <Field.Root required>
             <Field.Label>Answer</Field.Label>
             <Textarea
               placeholder="Start typing..."
               variant="subtle"
               size="xl"
-              value={currentQuestion.options[0]}
+              value={currentQuestion?.answer}
               bg="none"
               border="1px solid #4D4B4B"
               borderRadius="xl"
@@ -147,7 +152,7 @@ const Quiz = () => {
           </Button>
         )}
 
-        {currentIndex !== quizQuestions.length && (
+        {currentIndex !== quizData?.length && (
           <Button
             variant="yellow"
             flex="1"

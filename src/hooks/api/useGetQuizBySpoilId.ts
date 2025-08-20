@@ -1,17 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 
 import type { ApiErrorResponse } from "@spt/types/error";
+import type { QuizResponse } from "@spt/types/quiz";
 import apiCall from "@spt/utils/apiCall";
 
 import type { AxiosError } from "axios";
 
 export const useGetQuizBySpoilId = (id: number) => {
-  const fetchQuiz = async () => {
-    return (await apiCall().get(`quiz?spoil_id=${id}`))?.data;
+  const fetchQuiz = async (): Promise<QuizResponse> => {
+    return (await apiCall().get(`quiz/${id}`))?.data;
   };
 
   const { data, isLoading, isError, error } = useQuery<
-    any,
+    QuizResponse,
     AxiosError<ApiErrorResponse>
   >({
     queryKey: ["getQuizBySpoilId"],
@@ -24,9 +25,9 @@ export const useGetQuizBySpoilId = (id: number) => {
     "Failed to fetch quizzes details";
 
   return {
-    quizData: data,
+    quizData: data?.data,
     isQuizLoading: isLoading,
-    isQuizErrorMessage: errorMessage,
+    quizErrorMessage: errorMessage,
     isError,
   };
 };

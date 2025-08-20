@@ -1,8 +1,31 @@
+import type { FC } from "react";
+
 import { Button, HStack, Image, Stack, Text } from "@chakra-ui/react";
 
-import { quizInstructions } from "@spt/utils/spoilData";
+import type { QuizData } from "@spt/types/quiz";
+import { FILL_IN_THE_BLANK, MULTIPLE_CHOICE } from "@spt/utils";
 
-const QuizOverview = ({ onClick }: { onClick: () => void }) => {
+interface ComponentProps {
+  onClick: () => void;
+  data: QuizData;
+}
+
+const QuizOverview: FC<ComponentProps> = ({ data, onClick }) => {
+  const findFillInTheBlanksQuestions = data?.questions?.filter(
+    (item) => item?.type === FILL_IN_THE_BLANK
+  )?.length;
+
+  const findMultipleChoiceQuestions = data?.questions?.filter(
+    (item) => item?.type === MULTIPLE_CHOICE
+  )?.length;
+
+  const quizInstructions = [
+  { id: 1, name: `${data?.no_of_questions} Questions` },
+  { id: 2, name: `${findMultipleChoiceQuestions} Multiple choice` },
+  { id: 3, name: `${findFillInTheBlanksQuestions} Fill in the blank` },
+  { id: 4, name: `${data?.time_limit} Minutes` },
+];
+
   return (
     <Stack gap="6">
       <HStack justifyContent="center">
@@ -11,10 +34,7 @@ const QuizOverview = ({ onClick }: { onClick: () => void }) => {
 
       <Stack gap="6">
         <Text color="gray.500">
-          Test your knowledge of frontend development with this interactive
-          quiz! Covering essential topics such as HTML, CSS, JavaScript,
-          responsive design, and modern frontend frameworks like React and
-          Vue.js.
+          {data?.description}
         </Text>
 
         <Stack gap="4">

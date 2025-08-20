@@ -12,3 +12,6 @@ export const findTransactionType = (transactionType: string) => {
 
   return duplicatedItems;
 };
+
+export const MULTIPLE_CHOICE = "multiple_choice";
+export const FILL_IN_THE_BLANK = "fill_in_the_blank";

@@ -11,6 +11,8 @@ import {
 } from "@chakra-ui/react";
 
 import { Card } from "@spt/components";
+import ErrorState from "@spt/components/errorState";
+import LoadingState from "@spt/components/loadingState";
 import CustomTabs from "@spt/components/tabs";
 import { useGetQuizBySpoilId } from "@spt/hooks/api/useGetQuizBySpoilId";
 
@@ -27,10 +29,8 @@ const SpoilQuiz = ({ id }: { id: number }) => {
     fallback: [true],
   });
 
-  const { quizData } = useGetQuizBySpoilId(id);
-
-  console.log(quizData);
-  
+  const { quizData, isQuizLoading, isError, quizErrorMessage } =
+    useGetQuizBySpoilId(id);
 
   const handleItemClick = (index) => {
     setCurrentIndex(index);
@@ -42,24 +42,28 @@ const SpoilQuiz = ({ id }: { id: number }) => {
     switch (id) {
       case 1:
         return !isQuizVisible ? (
-          <QuizOverview onClick={handleQuizVisibility} />
+          <QuizOverview data={quizData} onClick={handleQuizVisibility} />
         ) : (
-          <Quiz />
+          <Quiz data={quizData} />
         );
       case 2:
         return !isQuizVisible ? (
-          <QuizOverview onClick={handleQuizVisibility} />
+          <QuizOverview data={quizData} onClick={handleQuizVisibility} />
         ) : (
-          <Quiz />
+          <Quiz data={quizData} />
         );
       default:
         return !isQuizVisible ? (
-          <QuizOverview onClick={handleQuizVisibility} />
+          <QuizOverview data={quizData} onClick={handleQuizVisibility} />
         ) : (
-          <Quiz />
+          <Quiz data={quizData} />
         );
     }
   };
+
+  if (isQuizLoading) <LoadingState />;
+
+  if (isError) <ErrorState error={quizErrorMessage} />;
 
   return (
     <Flex direction={{ base: "column", md: "row" }} gap="8">
