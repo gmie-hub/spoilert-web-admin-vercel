@@ -19,7 +19,7 @@ const InfoDisplay: FC<ComponentProps> = ({
   title,
   status,
   value,
-  flex = { base: "0 0 50%", md: "0 0 25%" },
+  flex = { base: "1", md: "0 0 25%" },
 }) => {
   return (
     <Stack alignItems="flex-start" flex={flex}>

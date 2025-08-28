@@ -1,6 +1,7 @@
 import { type FC } from "react";
 
 import { Button, Dialog, HStack, Image, Stack, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 import { useApprovalStore, useSuccessStore } from "@spt/store";
 
@@ -12,6 +13,8 @@ interface ComponentProps {
   onClick?: () => void;
   buttonText: string;
   isLoading: boolean;
+  successMessage: string;
+  route: string;
 }
 
 const ApprovalModalContent: FC<ComponentProps> = ({
@@ -19,16 +22,18 @@ const ApprovalModalContent: FC<ComponentProps> = ({
   heading,
   onClick,
   isLoading,
+  successMessage,
+  route
 }) => {
   const openSuccess = useSuccessStore((state) => state.openSuccess);
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
   const setOpenApproval = useApprovalStore((state) => state.setOpenApproval);
-
-  const handleOpenSuccess = () => setOpenSuccess(true);
+  const navigate = useNavigate();
 
   const handleSuccessDone = () => {
     setOpenApproval(false);
     setOpenSuccess(false);
+    navigate(route);
   };
 
   return (
@@ -64,12 +69,11 @@ const ApprovalModalContent: FC<ComponentProps> = ({
             onClick={onClick}
             flex="1"
             open={openSuccess}
-            onOpenChange={handleOpenSuccess}
           >
             <Dialog.Content>
               <Dialog.Body>
                 <SuccessModalContent
-                  heading="Verification Approved Successfully"
+                  heading={successMessage}
                   onClick={handleSuccessDone}
                 />
               </Dialog.Body>

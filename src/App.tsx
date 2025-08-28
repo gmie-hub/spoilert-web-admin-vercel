@@ -21,6 +21,8 @@ import Transactions from "./screens/transactions";
 import Tutors from "./screens/tutors";
 import TutorDetails from "./screens/tutors/tutorDetails/index.tsx";
 import WithdrawerRequest from "./screens/withdrawerRequest.tsx";
+import SpoilsReview from "./spoilReview/index.tsx";
+import SpoilReviewDetails from "./spoilReview/spoilDetails.tsx";
 
 
 function App() {
@@ -34,6 +36,9 @@ function App() {
 
     { path: routes.main.spoilMgt.home, element: <SpoilsManagement /> },
     { path: routes.main.spoilMgt.spoilDetails, element: <SpoilDetails /> },
+
+    { path: routes.main.spoilReview.home, element: <SpoilsReview /> },
+    { path: routes.main.spoilReview.spoilDetails, element: <SpoilReviewDetails /> },
 
     { path: routes.main.categories.home, element: <Categories /> },
     { path: routes.main.categories.categoryDetails, element: <CategoryDetails /> },

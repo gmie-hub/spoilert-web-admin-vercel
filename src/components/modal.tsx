@@ -19,6 +19,7 @@ interface ModalProps extends PropsWithChildren {
   variant: ConditionalValue<any>;
   isLoading?: boolean;
   flex?: string;
+  type?: "button" | "submit" | "reset";
 }
 
 const Modal: FC<ModalProps> = ({
@@ -34,6 +35,7 @@ const Modal: FC<ModalProps> = ({
   variant,
   isLoading,
   flex,
+  type,
 }) => {
   return (
     <Dialog.Root
@@ -46,6 +48,7 @@ const Modal: FC<ModalProps> = ({
       <Dialog.Trigger flex={flex}>
         <Button
           variant={variant}
+          type={type}
           px={px}
           py={py}
           w="full"

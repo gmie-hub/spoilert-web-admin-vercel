@@ -31,7 +31,7 @@ const DeleteModalContent: FC<ComponentProps> = ({ handleClick, text }) => {
       <Dialog.Footer mt="4" mb="4">
         <HStack w="100%" justifyContent="center">
           <Dialog.ActionTrigger asChild>
-            <Button w="50%" variant="yellowOutline">
+            <Button type="button" w="50%" variant="yellowOutline">
               Cancel
             </Button>
           </Dialog.ActionTrigger>

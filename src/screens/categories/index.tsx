@@ -20,7 +20,7 @@ const Categories = () => {
   const visibleItems = duplicatedItems.slice(startRange, endRange);
 
   const hasNoData = false;
-
+  
   return (
     <Box>
       <Card>

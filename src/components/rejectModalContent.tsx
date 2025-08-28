@@ -1,9 +1,13 @@
-import React, { type FC, useState } from "react";
+import { type FC } from "react";
 
 import { Button, Dialog, HStack, Image, Stack, Text } from "@chakra-ui/react";
-import { Form, Formik } from "formik";
+import { Form, Formik, type FormikValues } from "formik";
+import { useNavigate } from "react-router-dom";
+import { object } from "yup";
 
-import { Textarea } from "@spt/components";
+import { Modal, Textarea } from "@spt/components";
+import { useRejectionStore, useSuccessStore } from "@spt/store";
+import { validations } from "@spt/utils/validations";
 
 import SuccessModalContent from "./successModalContent";
 
@@ -14,7 +18,10 @@ export interface ComponentProps {
   placeholder: string;
   buttonText: string;
   onClose: () => void;
-  // setIsBlocked: React.Dispatch<React.SetStateAction<boolean>>;
+  rejectHandler: (values: FormikValues) => Promise<void>;
+  isLoading: boolean;
+  successMessage: string;
+  route;
 }
 
 const RejectModalContent: FC<ComponentProps> = ({
@@ -23,71 +30,92 @@ const RejectModalContent: FC<ComponentProps> = ({
   description,
   label,
   placeholder,
-  onClose,
+  rejectHandler,
+  isLoading,
+  successMessage,
+  route,
 }) => {
-  const [openSuccess, setOpenSuccess] = useState(false);
+  const openSuccess = useSuccessStore((state) => state.openSuccess);
+  const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
+  const setOpenRejection = useRejectionStore((state) => state.setOpenRejection);
+  // const { isRejectLoading, rejectKYCHandler } = useRejectKYCMutation(id);
+  const navigate = useNavigate();
 
-  const handleOpenSuccess = () => {
-    setOpenSuccess(true);
+  const handleSuccessDone = () => {
+    setOpenRejection(false);
+    setOpenSuccess(false);
+    navigate(route);
   };
+
+  const validationSchema = object().shape({
+    reason: validations.reason,
+  });
 
   return (
     <Dialog.Content borderRadius="xl" w="590px">
       <Dialog.Body>
-        {!openSuccess && (
-          <Stack gap="8" my="4">
-            <HStack justifyContent="center">
-              <Image src="/danger-triangle.svg" alt="danger" />
-            </HStack>
+        <Stack gap="8" my="4">
+          <HStack justifyContent="center">
+            <Image src="/danger-triangle.svg" alt="danger" />
+          </HStack>
 
-            <Stack textAlign="center">
-              <Text fontSize="lg" fontWeight="medium">
-                Are You Sure You Want To {heading}?
-              </Text>
+          <Stack textAlign="center">
+            <Text fontSize="lg" fontWeight="medium">
+              Are You Sure You Want To {heading}?
+            </Text>
 
-              <Text color="gray">{description}</Text>
-            </Stack>
-
-            <Formik initialValues={{}} onSubmit={() => {}}>
-              {() => {
-                return (
-                  <Form>
-                    <Stack w="100%" gap="8">
-                      <Textarea
-                        name="reason"
-                        label={`Reason For ${label}`}
-                        placeholder={`Enter the reason why you’re ${placeholder}`}
-                      />
-
-                      <HStack w="full" gap="5" justifyContent="center">
-                        <Dialog.ActionTrigger asChild>
-                          <Button variant="yellowOutline" w="50%">
-                            Cancel
-                          </Button>
-                        </Dialog.ActionTrigger>
-
-                        <Button
-                          variant="danger"
-                          w="50%"
-                          onClick={handleOpenSuccess}
-                        >
-                          {buttonText}
-                        </Button>
-                      </HStack>
-                    </Stack>
-                  </Form>
-                );
-              }}
-            </Formik>
+            <Text color="gray">{description}</Text>
           </Stack>
-        )}
 
-        {openSuccess && (
-          <SuccessModalContent
-            heading="Verification Has Been Successfully Rejected"
-            onClick={onClose}
-          />
-        )}
+          <Formik
+            initialValues={{ reason: "" }}
+            onSubmit={(values) => {
+              rejectHandler(values);
+            }}
+            validationSchema={validationSchema}
+            enableReinitialize
+          >
+            {() => {
+              return (
+                <Form>
+                  <Stack w="100%" gap="8">
+                    <Textarea
+                      name="reason"
+                      label={`Reason For ${label}`}
+                      placeholder={`Enter the reason why you’re ${placeholder}`}
+                    />
+
+                    <HStack w="full" gap="5" justifyContent="center">
+                      <Dialog.ActionTrigger asChild>
+                        <Button variant="yellowOutline" flex="1">
+                          Cancel
+                        </Button>
+                      </Dialog.ActionTrigger>
+
+                      <Modal
+                        type="submit"
+                        variant="yellow"
+                        isLoading={isLoading}
+                        buttonText={buttonText}
+                        flex="1"
+                        open={openSuccess}
+                      >
+                        <Dialog.Content>
+                          <Dialog.Body>
+                            <SuccessModalContent
+                              heading={successMessage}
+                              onClick={handleSuccessDone}
+                            />
+                          </Dialog.Body>
+                        </Dialog.Content>
+                      </Modal>
+                    </HStack>
+                  </Stack>
+                </Form>
+              );
+            }}
+          </Formik>
+        </Stack>
       </Dialog.Body>
     </Dialog.Content>
   );

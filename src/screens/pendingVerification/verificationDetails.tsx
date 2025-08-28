@@ -1,6 +1,4 @@
-import React from "react";
-
-import { Box, Button, HStack, Heading, Image, Stack } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Image, Stack } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
 import { Breadcrumb, Card, ImageModal, Modal } from "@spt/components";
@@ -9,22 +7,26 @@ import LoadingState from "@spt/components/loadingState";
 import RejectModalContent from "@spt/components/rejectModalContent";
 import { useApproveKYCMutation } from "@spt/hooks/api/useApproveKYCMutation";
 import { usePendingVerificationQuery } from "@spt/hooks/api/usePendingVerificationQuery";
+import { useRejectKYCMutation } from "@spt/hooks/api/useRejectKYCMutation";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
-import { useApprovalStore } from "@spt/store";
+import { routes } from "@spt/routes";
+import { useApprovalStore, useRejectionStore } from "@spt/store";
 import { formatDate, formatTime } from "@spt/utils/dateTime";
 
-const VerificationDetails: React.FC = () => {
-  const openApproval = useApprovalStore((state) => state.openApproval);
-  const setOpenApproval = useApprovalStore((state) => state.setOpenApproval);
-
+const VerificationDetails = () => {
   const { id } = useParams();
   const { data, isLoading } = usePendingVerificationQuery(Number(id));
   const { isApprovalLoading, approveKYCHandler } = useApproveKYCMutation(
     Number(id)
   );
+  const { isRejectLoading, rejectKYCHandler } = useRejectKYCMutation(Number(id));
 
-  const handleOpenApproval = () => setOpenApproval(true);
+  const openApproval = useApprovalStore((state) => state.openApproval);
+  const setOpenApproval = useApprovalStore((state) => state.setOpenApproval);
+
+  const openRejection = useRejectionStore((state) => state.openRejection);
+  const setOpenRejection = useRejectionStore((state) => state.setOpenRejection);
 
   const firstDetails = [
     {
@@ -33,6 +35,7 @@ const VerificationDetails: React.FC = () => {
     },
     { title: "Email Address", value: data?.user?.email },
     { title: "Country", value: "Nigeria" },
+    // { title: "ID Type", value: data?.type },
   ];
 
   if (isLoading) return <LoadingState />;
@@ -47,15 +50,24 @@ const VerificationDetails: React.FC = () => {
       <Card>
         <Stack>
           <Stack gap={{ base: "6", md: "4" }}>
-            <HStack alignItems="center" justifyContent="space-between">
-              <Heading size={{ base: "sm", md: "lg" }}>
+            <Flex
+              direction={{ base: "column", md: "row" }}
+              alignItems={{ md: "center" }}
+              justifyContent="space-between"
+              rowGap="4"
+            >
+              <Heading size={{ base: "md", md: "lg" }}>
                 Verification Details
               </Heading>
 
-              <Button variant="yellowOutline" px="10">
+              <Button
+                variant="yellowOutline"
+                px="10"
+                w={{ base: "fit-content" }}
+              >
                 View Full Profile
               </Button>
-            </HStack>
+            </Flex>
           </Stack>
 
           <Stack mt="5">
@@ -80,6 +92,7 @@ const VerificationDetails: React.FC = () => {
                   title="Date and Time"
                   value={`${formatDate(data?.created_at)} | ${formatTime(data?.created_at)}`}
                 />
+
                 <Box flex={{ base: "0 0 50%", md: "0 0 25%" }}>
                   <ImageModal url={data?.url} />
                 </Box>
@@ -87,8 +100,18 @@ const VerificationDetails: React.FC = () => {
             </Stack>
           </Stack>
 
-          <HStack mt="6" gap="5" justifyContent="flex-end">
-            <Modal buttonText="Reject Verification" variant="dangerOutline">
+          <Flex
+            direction={{ base: "column", md: "row" }}
+            mt="6"
+            gap="5"
+            justifyContent="flex-end"
+          >
+            <Modal
+              open={openRejection}
+              onOpenChange={(e) => setOpenRejection(e.open)}
+              buttonText="Reject Verification"
+              variant="dangerOutline"
+            >
               <RejectModalContent
                 buttonText="Yes, Reject Verification"
                 heading="Reject This Verification"
@@ -96,6 +119,10 @@ const VerificationDetails: React.FC = () => {
                 label="Rejection"
                 placeholder="rejecting this verification"
                 onClose={() => {}}
+                isLoading={isRejectLoading}
+                rejectHandler={rejectKYCHandler}
+                successMessage="Verification Rejected Successfully"
+                route={routes.main.pendingVerification.home}
               />
             </Modal>
 
@@ -103,7 +130,7 @@ const VerificationDetails: React.FC = () => {
               buttonText="Approve Verification"
               variant="yellow"
               open={openApproval}
-              onOpenChange={handleOpenApproval}
+              onOpenChange={(e) => setOpenApproval(e.open)}
               isLoading={isApprovalLoading}
             >
               <ApprovalModalContent
@@ -111,9 +138,11 @@ const VerificationDetails: React.FC = () => {
                 buttonText="Yes, Approve"
                 onClick={approveKYCHandler}
                 isLoading={isApprovalLoading}
+                successMessage="Verification Approved Successfully"
+                route={routes.main.pendingVerification.home}
               />
             </Modal>
-          </HStack>
+          </Flex>
         </Stack>
       </Card>
     </Stack>

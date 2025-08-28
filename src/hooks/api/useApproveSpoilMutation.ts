@@ -1,31 +1,33 @@
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { toaster } from "@spt/components/ui/toaster";
 import { useSuccessStore } from "@spt/store";
 import apiCall from "@spt/utils/apiCall";
 
-export const useApproveKYCMutation = (id: number) => {
+interface Payload {
+  status: number;
+}
+
+export const useApproveSpoilMutation = (id: number) => {
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
   const queryClient = useQueryClient();
 
-  const postApproveKYC = async (payload: FormData) => {
-    return (await apiCall().post(`/verifications/${id}`, payload))?.data;
+  const postApproveSpoil = async (payload: Payload) => {
+    return (await apiCall().patch(`/admin/spoils/update/${id}`, payload))?.data;
   };
 
-  const approveKYCMutation = useMutation({
-    mutationKey: ["approveKYC"],
-    mutationFn: postApproveKYC,
+  const approveSpoilMutation = useMutation({
+    mutationKey: ["approveSpoil"],
+    mutationFn: postApproveSpoil,
   });
 
-  const approveKYCHandler = async () => {
-    const formData = new FormData();
-
-    formData.append("_method", "patch");
-    formData.append("status", "1");
+  const approveSpoilHandler = async () => {
+    const payload: Payload = {
+      status: 1,
+    };
 
     try {
-      await approveKYCMutation.mutateAsync(formData, {
+      await approveSpoilMutation.mutateAsync(payload, {
         onSuccess: (data) => {
           toaster.create({
             type: "success",
@@ -33,8 +35,8 @@ export const useApproveKYCMutation = (id: number) => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ["allPendingVerification"]
-          })
+            queryKey: ["pendingSpoils"],
+          });
           setOpenSuccess(true);
         },
       });
@@ -47,7 +49,7 @@ export const useApproveKYCMutation = (id: number) => {
   };
 
   return {
-    isApprovalLoading: approveKYCMutation.isPending,
-    approveKYCHandler,
+    isApprovalLoading: approveSpoilMutation.isPending,
+    approveSpoilHandler,
   };
 };

@@ -17,6 +17,10 @@ export const routes = {
       home: "/spoil-management",
       spoilDetails: "/spoil-details",
     },
+    spoilReview: {
+      home: "/spoil-review",
+      spoilDetails: "/spoil-details-review/:id",
+    },
     sponsorships: {
       home: "/sponsorships",
       details: "/sponsorship-details",

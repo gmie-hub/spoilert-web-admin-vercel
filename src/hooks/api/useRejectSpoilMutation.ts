@@ -5,27 +5,34 @@ import { toaster } from "@spt/components/ui/toaster";
 import { useSuccessStore } from "@spt/store";
 import apiCall from "@spt/utils/apiCall";
 
-export const useApproveKYCMutation = (id: number) => {
+import type { FormikValues } from "formik";
+
+interface Payload {
+  status: number;
+  comment: string;
+}
+
+export const useRejectSpoilMutation = (id: number) => {
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
   const queryClient = useQueryClient();
 
-  const postApproveKYC = async (payload: FormData) => {
-    return (await apiCall().post(`/verifications/${id}`, payload))?.data;
+  const postSpoil = async (payload: Payload) => {
+    return (await apiCall().patch(`/admin/spoils/update/${id}`, payload))?.data;
   };
 
-  const approveKYCMutation = useMutation({
-    mutationKey: ["approveKYC"],
-    mutationFn: postApproveKYC,
+  const rejectSpoilMutation = useMutation({
+    mutationKey: ["rejectSpoil"],
+    mutationFn: postSpoil,
   });
 
-  const approveKYCHandler = async () => {
-    const formData = new FormData();
-
-    formData.append("_method", "patch");
-    formData.append("status", "1");
+  const rejectSpoilHandler = async (values: FormikValues) => {
+   const payload: Payload = {
+    status: 2,
+    comment: values.reason,
+   }
 
     try {
-      await approveKYCMutation.mutateAsync(formData, {
+      await rejectSpoilMutation.mutateAsync(payload, {
         onSuccess: (data) => {
           toaster.create({
             type: "success",
@@ -33,7 +40,7 @@ export const useApproveKYCMutation = (id: number) => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ["allPendingVerification"]
+            queryKey: ["pendingSpoils"]
           })
           setOpenSuccess(true);
         },
@@ -47,7 +54,7 @@ export const useApproveKYCMutation = (id: number) => {
   };
 
   return {
-    isApprovalLoading: approveKYCMutation.isPending,
-    approveKYCHandler,
+    isRejectSpoilLoading: rejectSpoilMutation.isPending,
+    rejectSpoilHandler,
   };
 };

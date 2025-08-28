@@ -3,13 +3,14 @@ import { NavLink } from "react-router-dom";
 
 import Management from "../assets/book.svg";
 import Overview from "../assets/category.svg";
-import Sponsorships from "../assets/discount-circle.svg";
+// import Sponsorships from "../assets/discount-circle.svg";
 import Withdrawal from "../assets/moneys.svg";
 import Learners from "../assets/people2.svg";
 import Tutors from "../assets/profile-2user.svg";
 import Settings from "../assets/setting-2.svg";
-import Transactions from "../assets/wallet-3.svg";
+// import Transactions from "../assets/wallet-3.svg";
 import { routes } from "../routes";
+import "../App.css";
 
 
 
@@ -19,7 +20,7 @@ const Sidebar = () => {
       key: "Overview",
       label: "Overview",
       icon: <img src={Overview} alt="Overview" />,
-      to: routes.main.dashboard
+      to: routes.main.dashboard,
     },
     {
       key: "Learners",
@@ -40,6 +41,12 @@ const Sidebar = () => {
       to: routes.main.categories.home,
     },
     {
+      key: "Spoil Review",
+      label: "Spoil Review",
+      icon: <img src="/spoil.svg" alt="review" />,
+      to: routes.main.spoilReview.home
+    },
+    {
       key: "Spoil Management",
       label: "Spoil Management",
       icon: <img src={Management} alt="Management" />,
@@ -49,26 +56,26 @@ const Sidebar = () => {
       key: "Pending Verifications",
       label: "Pending Verifications",
       icon: <img src="/verify.svg" alt="Management" />,
-      to: routes.main.pendingVerification.home
+      to: routes.main.pendingVerification.home,
     },
-    {
-      key: "Sponsorships",
-      label: "Sponsorships",
-      icon: <img src={Sponsorships} alt="Sponsorships" />,
-      to: routes.main.sponsorships.home
-    },
+    // {
+    //   key: "Sponsorships",
+    //   label: "Sponsorships",
+    //   icon: <img src={Sponsorships} alt="Sponsorships" />,
+    //   // to: routes.main.sponsorships.home
+    // },
     {
       key: "Withdrawal Requests",
       label: "Withdrawal Requests",
       icon: <img src={Withdrawal} alt="Withdrawal" />,
-      to: routes.main.withdrawalRequest.home
+      to: routes.main.withdrawalRequest.home,
     },
-    {
-      key: "Transactions",
-      label: "Transactions",
-      icon: <img src={Transactions} alt="Transactions" />,
-      to: routes.main.transactions.home
-    },
+    // {
+    //   key: "Transactions",
+    //   label: "Transactions",
+    //   icon: <img src={Transactions} alt="Transactions" />,
+    //   // to: routes.main.transactions.home
+    // },
     {
       key: "Community",
       label: "Community",
@@ -101,33 +108,41 @@ const Sidebar = () => {
         py="6"
         borderBlockStart="1px solid #efefef"
         borderInlineEnd="1px solid #efefef"
-        // color="#495057"
         overflowY="auto"
       >
-        {items.map((item, index) => (
+        {items.map((item) => (
           <NavLink
-            key={index}
+            key={item.key}
             to={item.to}
-            // style={{ textDecoration: "none", width: "100%" }}
+            className={({ isActive }) =>
+              isActive ? "navLink active" : "navLink"
+            }
           >
-            <HStack
-              py="3"
-              px="4"
-              mx="3"
-              gap="4"
-              alignItems="center"
-              color="gray.700"
-              _hover={{
-                transform: "scale(1.05)",
-                transition: "transform 0.2s ease-in-out",
-                bg: "blue.100",
-                borderRadius: "lg",
-                color: "#ffffff",
-              }}
-            >
-              <Box>{item.icon}</Box>
-              <Text fontSize="md">{item.label}</Text>
-            </HStack>
+            {({ isActive }) => (
+              <HStack
+                py="3"
+                px="4"
+                mx="3"
+                gap="4"
+                alignItems="center"
+                bg={isActive ? "blue.100" : "transparent"}
+                color={isActive ? "white" : "gray.700"}
+                borderRadius="lg"
+                _hover={{
+                  transform: "scale(1.05)",
+                  transition: "transform 0.2s ease-in-out",
+                  bg: "blue.100",
+                  borderRadius: "lg",
+                  color: "#ffffff",
+                  fill: "white",
+                }}
+              >
+                <Box filter={isActive ? "brightness(0) invert(1)" : "none"}>
+                  {item.icon}
+                </Box>
+                {item.label}
+              </HStack>
+            )}
           </NavLink>
         ))}
       </Stack>

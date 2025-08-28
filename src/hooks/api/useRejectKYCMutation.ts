@@ -5,27 +5,30 @@ import { toaster } from "@spt/components/ui/toaster";
 import { useSuccessStore } from "@spt/store";
 import apiCall from "@spt/utils/apiCall";
 
-export const useApproveKYCMutation = (id: number) => {
+import type { FormikValues } from "formik";
+
+export const useRejectKYCMutation = (id: number) => {
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
   const queryClient = useQueryClient();
 
-  const postApproveKYC = async (payload: FormData) => {
+  const postRejectKYC = async (payload: FormData) => {
     return (await apiCall().post(`/verifications/${id}`, payload))?.data;
   };
 
-  const approveKYCMutation = useMutation({
-    mutationKey: ["approveKYC"],
-    mutationFn: postApproveKYC,
+  const rejectKYCMutation = useMutation({
+    mutationKey: ["rejectKYC"],
+    mutationFn: postRejectKYC,
   });
 
-  const approveKYCHandler = async () => {
+  const rejectKYCHandler = async (values: FormikValues) => {
     const formData = new FormData();
 
     formData.append("_method", "patch");
-    formData.append("status", "1");
+    formData.append("status", "2");
+    formData.append("comment", values.reason);
 
     try {
-      await approveKYCMutation.mutateAsync(formData, {
+      await rejectKYCMutation.mutateAsync(formData, {
         onSuccess: (data) => {
           toaster.create({
             type: "success",
@@ -47,7 +50,7 @@ export const useApproveKYCMutation = (id: number) => {
   };
 
   return {
-    isApprovalLoading: approveKYCMutation.isPending,
-    approveKYCHandler,
+    isRejectLoading: rejectKYCMutation.isPending,
+    rejectKYCHandler,
   };
 };

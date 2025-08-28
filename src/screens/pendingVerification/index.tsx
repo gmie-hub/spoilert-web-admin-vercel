@@ -1,6 +1,7 @@
 import { Box, Separator, Stack, Text } from "@chakra-ui/react";
 
 import { Card, Pagination, Table } from "@spt/components";
+import LoadingState from "@spt/components/loadingState";
 import { useAllPendingVerification } from "@spt/hooks/api/useAllPendingVerificationQuery";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
@@ -11,14 +12,11 @@ const PendingVerification = () => {
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
 
-  const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-    ...verificationData,
-    key: index,
-  }));
-
-  const { data } = useAllPendingVerification();
+  const { data, isLoading } = useAllPendingVerification();
 
   const visibleItems = data?.data?.slice(startRange, endRange);
+
+  if (isLoading) return <LoadingState />;
 
   return (
     <Box>
@@ -41,7 +39,7 @@ const PendingVerification = () => {
             <Pagination
               page={page}
               pageSize={pageSize}
-              items={duplicatedItems}
+              items={data?.data}
               onPageChange={handlePageChange}
             />
           </Box>
@@ -61,12 +59,3 @@ const tableHeader = [
   "Date and Time",
   "Action",
 ];
-
-const verificationData = {
-  id: 1,
-  tutorName: "Jane Coker",
-  email: "janecoker@gmail.com",
-  country: "Nigeria",
-  idType: "NIN",
-  dateCreated: "12-10-2025 | 09:43 am",
-};
