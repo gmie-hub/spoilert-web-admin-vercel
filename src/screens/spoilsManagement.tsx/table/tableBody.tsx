@@ -1,45 +1,54 @@
 import type { FC } from "react";
 
 import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { generatePath, useNavigate } from "react-router-dom";
 
 import { routes } from "@spt/routes";
-import type { TableBodyProps } from "@spt/utils/types";
+import type { SpoilsDatum } from "@spt/types/spoils";
+import { formatDate } from "@spt/utils/dateTime";
 
-const TableBody: FC<TableBodyProps> = ({ items }) => {
+interface TableProps {
+  data: SpoilsDatum[];
+}
+
+const TableBody: FC<TableProps> = ({ data }) => {
   const navigate = useNavigate();
 
-  const handleNavigation = () => navigate(routes.main.spoilMgt.spoilDetails);
+  const handleRowClick = (id: number) => {
+    const path = generatePath(routes.main.spoilMgt.spoilDetails, { id });
+    navigate(path);
+  };
 
   return (
     <>
-      {items.map((item) => (
+      {data?.map((item) => (
         <Table.Row py="16">
           <Table.Cell>
             <HStack>
-              <Image src="/enrolled_spoils.png" boxSize="10" />
-              <Text color="gray">{item.spoilTitle}</Text>
+              <Image src={item?.cover_image_url} boxSize="10" borderRadius="md" />
+              <Text color="gray">{item?.title}</Text>
             </HStack>
           </Table.Cell>
 
           <Table.Cell>
             <HStack>
               <Image src="/user-icon.svg" />
-              <Text color="gray">{item.nameOfTutor}</Text>
+              <Text color="gray">{`${item?.tutor?.first_name} ${item?.tutor?.last_name}`}</Text>
             </HStack>
           </Table.Cell>
 
-          <Table.Cell>{item.category}</Table.Cell>
-          <Table.Cell>{item.amount}</Table.Cell>
-          <Table.Cell>{item.enrolledLearners}</Table.Cell>
-          <Table.Cell>{item.dateCreated}</Table.Cell>
+          <Table.Cell>{item?.category?.name}</Table.Cell>
+          <Table.Cell>{item?.amount}</Table.Cell>
+          <Table.Cell>{item?.enrolled_users}</Table.Cell>
+          <Table.Cell>{"0"}</Table.Cell>
+          <Table.Cell>{`${formatDate(item?.created_at)}`}</Table.Cell>
 
           <Table.Cell>
             <Button
               variant="yellowOutline"
               px="3"
               my="3"
-              onClick={handleNavigation}
+              onClick={() => handleRowClick(item?.id)}
             >
               View More
             </Button>

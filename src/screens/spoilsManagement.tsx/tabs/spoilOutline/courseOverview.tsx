@@ -1,15 +1,43 @@
+import type { FC } from "react";
+
 import { Box, HStack, Image, Stack, Tag, Text } from "@chakra-ui/react";
+import ReactPlayer from "react-player";
 
-import { courseOverviewData } from "@spt/utils/spoilData";
+import { useVideoStore } from "@spt/store/videoStore";
+import type { SpoilData } from "@spt/types/spoils";
 
-const CourseOverview = () => {
+interface ComponentProps {
+  data?: SpoilData;
+}
+
+const CourseOverview: FC<ComponentProps> = ({ data }) => {
+  const videoUrl = useVideoStore((state) => state.videoUrl);
+
   return (
-    <Stack gap="4">
-      <Image src="video-banner.png" alt="banner" />
+    <Stack gap="4" w="100%">
+      {/* <Image src="video-banner.png" alt="banner" /> */}
+
+      <Box
+        position="relative"
+        pt="56.25%"
+        borderRadius="lg"
+        overflow="hidden"
+        width="100%"
+        height="100%"
+      >
+        <ReactPlayer
+          src={videoUrl}
+          width="100%"
+          height="100%"
+          style={{ position: "absolute", top: "0", left: "0" }}
+          controls
+          playing
+        />
+      </Box>
 
       <Stack gap="3" mt="2">
         <Text fontSize="lg" fontWeight="semibold">
-          What are Design Principles
+          {data?.title}
         </Text>
         <Text fontWeight="medium">Overview</Text>
       </Stack>
@@ -22,39 +50,31 @@ const CourseOverview = () => {
             py="2"
             borderRadius="lg"
           >
-            <Tag.Label color="gray.600">UI/UX Design</Tag.Label>
+            <Tag.Label color="gray.600">{data?.category?.name}</Tag.Label>
           </Tag.Root>
         </Box>
 
         <HStack gap="1">
           <Image src="/user-icon.svg" alt="user" />
           <Text color="gray.500" as="u">
-            Ogunsola Omorinsola
+            {`${data?.tutor?.first_name} ${data?.tutor?.last_name}`}
           </Text>
         </HStack>
       </Stack>
 
-      <Text color="gray">
-        Understanding Design Principles" is a comprehensive Spoil that takes you
-        through the foundational concepts of creating effective and visually
-        appealing designs. Whether you’re a beginner looking to step into the
-        design world or a professional aiming to polish your skills, this Spoil
-        has something for everyone. You’ll explore core design principles,
-        including balance, contrast, hierarchy, and more, with real-world
-        examples and actionable tips.{" "}
-      </Text>
+      <Text color="gray">{data?.description}</Text>
 
       <Stack>
         <Text fontWeight="medium">What you will learn</Text>
 
         <Stack gap="4">
-          {courseOverviewData.map((item) => (
+          {data?.what_to_tearn?.split(",")?.map((item, index) => (
             <HStack
-              key={item.id}
-              alignItems={{ base: "flex-start",  md: "center" }}
+              key={index}
+              alignItems={{ base: "flex-start", md: "center" }}
             >
               <Image src="/tri-bullet.svg" alt="bullet" />
-              <Text color="gray">{item.name}</Text>
+              <Text color="gray">{item}</Text>
             </HStack>
           ))}
         </Stack>

@@ -12,6 +12,7 @@ import TableBody from "./table/tableBody";
 const SpoilsReview = () => {
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
+
   const { data, isLoading } = useGetSpoilsQuery();
 
   const visibleItems = data?.data?.slice(startRange, endRange);
