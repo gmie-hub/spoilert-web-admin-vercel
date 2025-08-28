@@ -1,22 +1,23 @@
 import { Box, Stack, Text } from "@chakra-ui/react";
 
 import { Card, Pagination, Table } from "@spt/components";
+import LoadingState from "@spt/components/loadingState";
+import { useGetAllSpoilQuery } from "@spt/hooks/api/useGetAllSpoilQuery";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
-import { spoilsMgtData, spoilsMgtHeaders } from "@spt/utils/tableData";
+import { spoilsMgtHeaders } from "@spt/utils/tableData";
 
 import TableBody from "./table/tableBody";
-
-const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...spoilsMgtData,
-  key: index,
-}));
 
 const SpoilsManagement = () => {
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
 
-  const visibleItems = duplicatedItems.slice(startRange, endRange);
+  const { data, isLoading } = useGetAllSpoilQuery();
+
+  const visibleItems = data?.data?.slice(startRange, endRange);
+
+  if (isLoading) return <LoadingState />;
   
   return (
     <Box>
@@ -28,13 +29,13 @@ const SpoilsManagement = () => {
 
           <Table
             headerChildren={<TableHeader headerItems={spoilsMgtHeaders} />}
-            bodyChildren={<TableBody items={visibleItems} />}
+            bodyChildren={<TableBody data={visibleItems} />}
           />
 
           <Pagination
             page={page}
             pageSize={pageSize}
-            items={duplicatedItems}
+            items={data?.data}
             onPageChange={handlePageChange}
           />
         </Stack>

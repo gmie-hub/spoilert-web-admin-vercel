@@ -22,6 +22,7 @@ export const spoilsMgtHeaders = [
   "Category",
   "Amount",
   "Enrolled Learners",
+  "No of Views",
   "Date Created",
   "Action",
 ];

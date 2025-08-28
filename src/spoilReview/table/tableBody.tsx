@@ -25,7 +25,7 @@ const TableBody: FC<TableProps> = ({ data }) => {
         <Table.Row key={item?.id} py="16">
           <Table.Cell>
             <HStack>
-              <Image src={item?.cover_image_url} boxSize="10" />
+              <Image src={item?.cover_image_url} boxSize="10" borderRadius="md" />
               <Text color="gray">{item?.title}</Text>
             </HStack>
           </Table.Cell>

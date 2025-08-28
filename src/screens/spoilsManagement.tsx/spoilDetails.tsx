@@ -1,9 +1,12 @@
 import { lazy, useCallback, useState } from "react";
 
 import { HStack, Heading, Image, Stack, Tabs, Text } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
 
 import { Breadcrumb, Card, Modal } from "@spt/components";
+import LoadingState from "@spt/components/loadingState";
 import CustomTabs from "@spt/components/tabs";
+import { useSpoilDetailsQuery } from "@spt/hooks/api/useSpoilDetailsQuery";
 import { spoilMgtTabList } from "@spt/utils/spoilData";
 
 import DisableSpoilModalContent from "./modal/disableSpoil";
@@ -21,6 +24,9 @@ const SpoilDetails = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [openDisableModal, setOpenDisableModal] = useState(false);
   const [openEnableModal, setOpenEnableModal] = useState(false);
+  const { id } = useParams();
+
+  const { data, isLoading } = useSpoilDetailsQuery(Number(id));
 
   const handleDisableModal = (e: any) => setOpenDisableModal(e.open);
   const handleEnableModal = (e: any) => setOpenEnableModal(e.open);
@@ -37,6 +43,8 @@ const SpoilDetails = () => {
     handleCloseEnableModal();
     handleCloseDisableModal();
   }, []);
+
+  if (isLoading) return <LoadingState />;
 
   return (
     <Stack>
@@ -96,11 +104,11 @@ const SpoilDetails = () => {
           <CustomTabs tabList={spoilMgtTabList}>
             <>
               <Tabs.Content value="spoilOverview">
-                <SpoilOverview />
+                <SpoilOverview data={data} />
               </Tabs.Content>
 
               <Tabs.Content value="spoilOutline">
-                <SpoilOutline />
+                <SpoilOutline data={data} />
               </Tabs.Content>
 
               <Tabs.Content value="spoilQuiz">

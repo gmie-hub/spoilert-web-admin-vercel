@@ -1,6 +1,9 @@
+import type { FC } from "react";
+
 import {
   Accordion,
   Box,
+  Button,
   HStack,
   Image,
   Separator,
@@ -11,11 +14,18 @@ import { motion } from "framer-motion";
 
 import { Card } from "@spt/components";
 import CustomAccordion from "@spt/components/accordion";
+import { useVideoStore } from "@spt/store/videoStore";
+import type { Module } from "@spt/types/spoils";
 
 const MotionBox = motion(Box);
 
-const CourseContent = ({ onHide }: { onHide: () => void }) => {
-  const coursesArray = Array.from({ length: 5 }, (_, i) => i);
+interface ComponentProps {
+  modules?: Module[];
+  onHide: () => void;
+}
+
+const CourseContent: FC<ComponentProps> = ({ modules, onHide }) => {
+  const setVideoUrl = useVideoStore((state) => state.setVideoUrl);
 
   return (
     <MotionBox
@@ -46,7 +56,7 @@ const CourseContent = ({ onHide }: { onHide: () => void }) => {
 
           <Separator />
 
-          {coursesArray?.map((_, index) => (
+          {modules?.map((item, index) => (
             <Box key={index} border="1px solid #EFEFEF" borderRadius="xl">
               <CustomAccordion value={index.toString()} variant="plain">
                 <>
@@ -61,7 +71,7 @@ const CourseContent = ({ onHide }: { onHide: () => void }) => {
                         <Text fontSize="xs" color="gray.100">
                           Module {index + 1}
                         </Text>
-                        <Text>Introduction To Design Principles</Text>
+                        <Text>{item?.title}</Text>
                       </Stack>
 
                       <Accordion.ItemIndicator />
@@ -70,28 +80,40 @@ const CourseContent = ({ onHide }: { onHide: () => void }) => {
 
                   <Accordion.ItemContent>
                     <Stack>
-                      {coursesArray?.map((_, subIndex) => (
+                      {item?.lessons?.map((lessonItem, subIndex) => (
                         <>
                           <CustomAccordion
+                            key={lessonItem?.id}
                             value={subIndex.toString()}
                             variant="outline"
                           >
                             <Accordion.ItemTrigger>
-                              <HStack
-                                w="100%"
-                                alignItems="center"
-                                justifyContent="space-between"
-                                px="3"
+                              <Button
+                                variant="ghost"
+                                w="full"
+                                p="0"
+                                onClick={() =>
+                                  setVideoUrl(lessonItem?.content_url)
+                                }
+                                _hover={{ backgroundColor: "transparent" }}
                               >
-                                <HStack>
-                                  <Image src="/player.svg" alt="player" />
-                                  <Text fontSize="sm" color="gray.500">
-                                    What are Design Principles
-                                  </Text>
-                                </HStack>
+                                <HStack
+                                  w="100%"
+                                  alignItems="center"
+                                  justifyContent="space-between"
+                                  px="3"
+                                  cursor="pointer"
+                                >
+                                  <HStack>
+                                    <Image src="/player.svg" alt="player" />
+                                    <Text fontSize="sm" color="gray.500">
+                                      {lessonItem?.title}
+                                    </Text>
+                                  </HStack>
 
-                                <Accordion.ItemIndicator />
-                              </HStack>
+                                  <Accordion.ItemIndicator />
+                                </HStack>
+                              </Button>
                             </Accordion.ItemTrigger>
                           </CustomAccordion>
                         </>
