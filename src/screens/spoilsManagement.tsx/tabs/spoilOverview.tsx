@@ -58,7 +58,10 @@ const SpoilOverview: FC<ComponentProps> = ({ data }) => {
             title="Date Created"
             value={formatDate(data?.created_at)}
           />
-          <InfoDisplay title="Amount Earned" value="N200,000" />
+          <InfoDisplay
+            title="Name of Tutor"
+            value={`${data?.tutor?.first_name} ${data?.tutor?.last_name}`}
+          />
           <InfoDisplay title="Status" status="Active" />
         </ProgressInfo>
 

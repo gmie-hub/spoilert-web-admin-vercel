@@ -112,7 +112,7 @@ const SpoilDetails = () => {
               </Tabs.Content>
 
               <Tabs.Content value="spoilQuiz">
-                <SpoilQuiz />
+                <SpoilQuiz id={Number(id)}  />
               </Tabs.Content>
 
               <Tabs.Content value="spoilReviews">
