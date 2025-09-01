@@ -1,6 +1,8 @@
 import { Box, Flex, Image, Stack, Text } from "@chakra-ui/react";
 
 import { Card, Modal, NoData, Pagination, Table } from "@spt/components";
+import LoadingState from "@spt/components/loadingState";
+import { useGetAllCategoriesQuery } from "@spt/hooks/api/useGetAllCategoriesQuery";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
 import { categoriesData, categoriesHeader } from "@spt/utils/tableData";
@@ -8,19 +10,29 @@ import { categoriesData, categoriesHeader } from "@spt/utils/tableData";
 import CategoryModalContent from "./modal/categoryModalContent";
 import TableBody from "./table/tableBody";
 
+
 const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
   ...categoriesData,
   key: index,
 }));
 
 const Categories = () => {
+  // const { page, pageSize, startRange, endRange, handlePageChange } =
+  //   usePagination();
+
+  // const visibleItems = duplicatedItems.slice(startRange, endRange);
+
+
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
 
-  const visibleItems = duplicatedItems.slice(startRange, endRange);
+  const { data, isLoading } = useGetAllCategoriesQuery();
 
-  const hasNoData = false;
-  
+  const visibleItems = data?.data?.slice(startRange, endRange);
+
+  if (isLoading) return <LoadingState />;
+  const hasNoData = data?.data?.length  === 0;
+
   return (
     <Box>
       <Card>
@@ -30,7 +42,7 @@ const Categories = () => {
               Categories
             </Text>
 
-            {!hasNoData && (
+            {/* {hasNoData && ( */}
               <Modal
                 buttonIcon={<Image src="/add-circle.svg" alt="add" />}
                 buttonText="Create Category"
@@ -42,7 +54,7 @@ const Categories = () => {
                   buttonText="Create Category"
                 />
               </Modal>
-            )}
+            {/* )} */}
           </Flex>
 
           {!hasNoData && (
@@ -55,7 +67,7 @@ const Categories = () => {
               <Pagination
                 page={page}
                 pageSize={pageSize}
-                items={duplicatedItems}
+                items={data?.data}
                 onPageChange={handlePageChange}
               />
             </>

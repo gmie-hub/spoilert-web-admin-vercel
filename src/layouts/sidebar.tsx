@@ -65,6 +65,20 @@ const Sidebar = () => {
     //   // to: routes.main.sponsorships.home
     // },
     {
+      key: "Promotions",
+      label: "Promotions ",
+      icon: <img src={Withdrawal} alt="Promotions" />,
+      to: routes.main.promotions.home,
+    },
+    {
+      key: "PromotionsManagement",
+      label: "Promotions Management",
+      icon: <img src={Withdrawal} alt="PromotionsManagement" />,
+      to: routes.main.promotions.promotionsManagement,
+    },
+
+
+    {
       key: "Withdrawal Requests",
       label: "Withdrawal Requests",
       icon: <img src={Withdrawal} alt="Withdrawal" />,

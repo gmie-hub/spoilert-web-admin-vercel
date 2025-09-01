@@ -21,6 +21,15 @@ export const routes = {
       home: "/spoil-review",
       spoilDetails: "/spoil-details-review/:id",
     },
+    promotions: {
+      home: "/promotions",
+      promotionsDetails: "/promotions-details/:id",
+      promotionsManagement: "/promotions-management",
+    },
+    PromotionsManagement:{
+      home: "/promotions-management",
+      promotionsManagementDetails: "/promotions-management-details/:id",
+    },
     sponsorships: {
       home: "/sponsorships",
       details: "/sponsorship-details",

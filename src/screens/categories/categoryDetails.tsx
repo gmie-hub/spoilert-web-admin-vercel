@@ -13,6 +13,7 @@ const CategoryDetails = () => {
       <Breadcrumb
         previousLink="Categories"
         currentLink="View Category Details"
+        showBackButton
       />
 
       <Card>
