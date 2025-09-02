@@ -54,9 +54,9 @@ const UserRegistrationsChart = () => {
             tick={false}
           />
 
-          {radialData.map((entry) => (
+          {radialData.map((entry, index) => (
             <RadialBar
-              key={entry.name}
+              key={index}
               data={[entry]}
               dataKey="value"
               cornerRadius={20}
@@ -64,7 +64,7 @@ const UserRegistrationsChart = () => {
               fill={entry.color}
             />
           ))}
-        </RadialBarChart>
+        </RadialBarChart>   
 
         {/* Legend */}
         <Box ml={{ base: 0, md: 4 }}>

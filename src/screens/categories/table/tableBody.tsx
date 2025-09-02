@@ -19,13 +19,13 @@ const TableBody: FC<TableBodyProps> = ({ items }) => {
           <Table.Cell>
             <HStack>
               <Image src="/user-icon.svg" />
-              <Text>{item.categoryName}</Text>
+              <Text>{item.name}</Text>
             </HStack>
           </Table.Cell>
 
-          <Table.Cell>{item.NoOfSpoils}</Table.Cell>
+          <Table.Cell>{item.total_spoils}</Table.Cell>
 
-          <Table.Cell>{item.dateCreated}</Table.Cell>
+          <Table.Cell>{item.created_at}</Table.Cell>
 
           <Table.Cell>
             <Button

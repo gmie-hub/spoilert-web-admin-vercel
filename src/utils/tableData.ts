@@ -110,3 +110,15 @@ export const communityData = {
   numberOfMembers: "Developers",
   status: "Active",
 };
+
+
+export const promotionsHeaders = [
+  "Spoil Title",
+  "Name of Tutor",
+  "Promotion package",
+  "Amount",
+  "Start Date",
+  "End Created",
+  "Status",
+  "Action",
+];

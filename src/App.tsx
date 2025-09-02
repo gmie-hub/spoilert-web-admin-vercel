@@ -11,6 +11,8 @@ import Learners from "./screens/learners";
 import ViewLearnerDetails from "./screens/learners/viewLearnerDetails";
 import PendingVerification from "./screens/pendingVerification/index.tsx";
 import VerificationDetails from "./screens/pendingVerification/verificationDetails.tsx";
+import PromotionsManagement from "./screens/promotion/promotionsManagement/index.tsx";
+import PromotionManagementDetails from "./screens/promotion/promotionsManagement/promotionDetails.tsx";
 import SpoilsManagement from "./screens/spoilsManagement.tsx";
 import SpoilDetails from "./screens/spoilsManagement.tsx/spoilDetails.tsx";
 import Sponsorships from "./screens/sponsorships";
@@ -39,6 +41,9 @@ function App() {
 
     { path: routes.main.spoilReview.home, element: <SpoilsReview /> },
     { path: routes.main.spoilReview.spoilDetails, element: <SpoilReviewDetails /> },
+
+    { path: routes.main.PromotionsManagement.home, element: <PromotionsManagement /> },
+    { path: routes.main.PromotionsManagement.promotionsManagementDetails, element: <PromotionManagementDetails /> },
 
     { path: routes.main.categories.home, element: <Categories /> },
     { path: routes.main.categories.categoryDetails, element: <CategoryDetails /> },

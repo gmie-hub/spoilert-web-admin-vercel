@@ -12,6 +12,8 @@ import Settings from "../assets/setting-2.svg";
 import { routes } from "../routes";
 import "../App.css";
 
+
+
 const Sidebar = () => {
   const items = [
     {
@@ -62,6 +64,20 @@ const Sidebar = () => {
     //   icon: <img src={Sponsorships} alt="Sponsorships" />,
     //   // to: routes.main.sponsorships.home
     // },
+    {
+      key: "Promotions",
+      label: "Promotions ",
+      icon: <img src={Withdrawal} alt="Promotions" />,
+      to: routes.main.promotions.home,
+    },
+    {
+      key: "PromotionsManagement",
+      label: "Promotions Management",
+      icon: <img src={Withdrawal} alt="PromotionsManagement" />,
+      to: routes.main.promotions.promotionsManagement,
+    },
+
+
     {
       key: "Withdrawal Requests",
       label: "Withdrawal Requests",

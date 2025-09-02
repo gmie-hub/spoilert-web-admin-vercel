@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import type { ApprovalState, RejectionState, SuccessState } from "./type";
+import type { ApprovalState, ModalState, RejectionState, SuccessState } from "./type";
 
 export const useSuccessStore = create<SuccessState>((set) => ({
   openSuccess: false,
@@ -20,5 +20,12 @@ export const useRejectionStore = create<RejectionState>((set) => ({
   openRejection: false,
   setOpenRejection: (value) => {
     set({ openRejection: value });
+  },
+}));
+
+export const useModalStore = create<ModalState>((set) => ({
+  openModal: false,
+  setOpenModal: (value) => {
+    set({ openModal: value });
   },
 }));

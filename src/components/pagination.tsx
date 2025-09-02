@@ -20,7 +20,7 @@ const CustomPagination: FC<ComponentProps> = ({
   onPageChange,
   page: pageNumber,
   pageSize,
-  items
+  items,
 }) => {
   const count = items.length;
   return (

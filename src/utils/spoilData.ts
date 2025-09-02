@@ -131,3 +131,16 @@ export const spoilReviewTabList = [
     text: "Spoil Quiz",
   },
 ];
+
+export const promotionsManagementTabList = [
+  {
+    value: "Overview",
+    text: "Overview",
+  },
+  {
+    value: "Metric",
+    text: "Metric",
+  },
+
+];
+

@@ -2,9 +2,14 @@ import type { FC } from "react";
 
 import { Button, Dialog, HStack, Stack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
+import { useParams } from "react-router-dom";
+import { object } from "yup";
 
 import { Input, Modal, Textarea } from "@spt/components";
 import SuccessModalContent from "@spt/components/successModalContent";
+import { useCategoryMutation } from "@spt/hooks/api/useCreateCategoryMutation";
+import { useModalStore, useSuccessStore } from "@spt/store";
+import { validations } from "@spt/utils/validations";
 
 interface ComponentProps {
   title: string;
@@ -12,6 +17,23 @@ interface ComponentProps {
 }
 
 const CategoryModalContent: FC<ComponentProps> = ({ buttonText, title }) => {
+  const { id } = useParams();
+
+  const { isLoading, createCategoryHandler } = useCategoryMutation(Number(id));
+
+  const openSuccess = useSuccessStore((state) => state.openSuccess);
+  const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
+  const setOpenModal = useModalStore((state) => state.setOpenModal);
+
+  const handleSuccessDone = () => {
+    setOpenModal(false);
+    setOpenSuccess(false);
+  };
+
+  const validationSchema = object().shape({
+    categoryName: validations.name,
+  });
+
   return (
     <Dialog.Content>
       <Dialog.Header>
@@ -19,7 +41,17 @@ const CategoryModalContent: FC<ComponentProps> = ({ buttonText, title }) => {
       </Dialog.Header>
 
       <Dialog.Body>
-        <Formik initialValues={{}} onSubmit={() => {}}>
+        <Formik
+          initialValues={{
+            name: "",
+            // image: "",
+          }}
+          onSubmit={(values) => {
+            createCategoryHandler(values);
+          }}
+          validationSchema={validationSchema}
+          enableReinitialize
+        >
           {() => (
             <Form>
               <Stack gap="8">
@@ -44,11 +76,17 @@ const CategoryModalContent: FC<ComponentProps> = ({ buttonText, title }) => {
 
                   <Modal
                     buttonText={buttonText}
+                    isLoading={isLoading}
                     variant="yellow"
+                    type="submit"
+                    open={openSuccess}
                   >
                     <Dialog.Content>
                       <Dialog.Body>
-                        <SuccessModalContent heading="Category Updated Successfully" />
+                        <SuccessModalContent
+                          heading="Category Updated Successfully"
+                          onClick={handleSuccessDone}
+                        />
                       </Dialog.Body>
                     </Dialog.Content>
                   </Modal>
