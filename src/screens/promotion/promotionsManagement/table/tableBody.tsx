@@ -15,7 +15,7 @@ const TableBody: FC<TableProps> = ({ data }) => {
   const navigate = useNavigate();
 
   const handleRowClick = (id: number) => {
-    const path = generatePath(routes.main.PromotionsManagement.promotionsManagementDetails, { id });
+    const path = generatePath(routes.main.promotionsManagement.promotionsManagementDetails, { id });
     navigate(path);
   };
 
