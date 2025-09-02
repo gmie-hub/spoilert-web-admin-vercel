@@ -7,7 +7,13 @@ export interface ApprovalState {
   openApproval: boolean;
   setOpenApproval: (value: boolean) => void;
 }
+
 export interface RejectionState {
   openRejection: boolean;
   setOpenRejection: (value: boolean) => void;
+}
+
+export interface ModalState {
+  openModal: boolean;
+  setOpenModal: (value: boolean) => void;
 }

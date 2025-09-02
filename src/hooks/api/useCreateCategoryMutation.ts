@@ -4,9 +4,11 @@ import { toaster } from "@spt/components/ui/toaster";
 import { useSuccessStore } from "@spt/store";
 import apiCall from "@spt/utils/apiCall";
 
+import type { FormikValues } from "formik";
+
 interface Payload {
   name: string;
-  image: string;
+  image?: string;
 }
 
 export const useCategoryMutation = (id?: number) => {
@@ -28,7 +30,12 @@ export const useCategoryMutation = (id?: number) => {
     mutationFn: (payload: Payload) => (id ? updateCategory(payload) : createCategory(payload)),
   });
 
-  const createCategoryHandler = async (payload: Payload) => {
+  const createCategoryHandler = async (values: FormikValues) => {
+    const payload: Payload = {
+      name: values.categoryName,
+      image: values.image,
+    }
+
     try {
       await mutation.mutateAsync(payload, {
         onSuccess: (data) => {
