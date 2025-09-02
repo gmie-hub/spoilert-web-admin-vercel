@@ -26,6 +26,7 @@ const SpoilDetails = () => {
   const [openEnableModal, setOpenEnableModal] = useState(false);
   const { id } = useParams();
 
+
   const { data, isLoading } = useSpoilDetailsQuery(Number(id));
 
   const handleDisableModal = (e: any) => setOpenDisableModal(e.open);

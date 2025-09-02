@@ -1,6 +1,7 @@
 import { Box, Flex, Image, Stack, Text } from "@chakra-ui/react";
 
 import { Card, Modal, NoData, Pagination, Table } from "@spt/components";
+import ErrorState from "@spt/components/errorState";
 import LoadingState from "@spt/components/loadingState";
 import { useGetAllCategoriesQuery } from "@spt/hooks/api/useGetAllCategoriesQuery";
 import { usePagination } from "@spt/hooks/usePagination";
@@ -11,11 +12,12 @@ import { categoriesHeader } from "@spt/utils/tableData";
 import CategoryModalContent from "./modal/categoryModalContent";
 import TableBody from "./table/tableBody";
 
+
 const Categories = () => {
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
 
-  const { data, isLoading } = useGetAllCategoriesQuery();
+  const { data, isLoading, isError, categoryErrorMessage} = useGetAllCategoriesQuery();
 
   const openModal = useModalStore((state) => state.openModal);
   const setOpenModal = useModalStore((state) => state.setOpenModal);
@@ -25,6 +27,7 @@ const Categories = () => {
   const hasNoData = data?.data?.length === 0;
 
   if (isLoading) return <LoadingState />;
+  if (isError) <ErrorState error={categoryErrorMessage} />;
 
   return (
     <Box>
