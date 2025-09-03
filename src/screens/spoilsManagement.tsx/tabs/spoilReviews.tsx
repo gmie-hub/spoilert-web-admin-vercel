@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { Card } from "@spt/components";
 import ErrorState from "@spt/components/errorState";
@@ -18,9 +18,9 @@ import { useGetAllSpoilReviewQuery } from "@spt/hooks/api/useGetAllSpoilReviewQu
 import { formatDate, formatTime } from "@spt/utils/dateTime";
 
 const SpoilReviews = () => {
-  // const { id } = useParams();
-  const id = 1;
+  const { id } = useParams();
 
+  
   const { data, isLoading, isError, reviewErrorMessage } =
     useGetAllSpoilReviewQuery(Number(id));
 
@@ -43,7 +43,7 @@ const SpoilReviews = () => {
                   <Image src="/review-img.svg" />
 
                   <Stack>
-                    <Text>{item?.user_id}</Text>
+                    <Text>{item?.user?.first_name} {' '}{item?.user?.last_name}</Text>
 
                     <HStack>
                       {/* Filled stars */}
@@ -65,8 +65,7 @@ const SpoilReviews = () => {
 
                 <Stack>
                   <Text color="gray.800" fontSize="sm">
-                    {item.comment ||
-                      "I totally like the Spoil. It was simple and well explanatory. I love Spoils like this and I totally recommend, so simple to understand."}
+                    {item.comment}
                   </Text>
 
                   <HStack fontSize="sm">

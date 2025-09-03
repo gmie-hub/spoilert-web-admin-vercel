@@ -121,6 +121,14 @@ export interface SpoilReview {
   created_at: string;
   updated_at: string;
   spoil?: null;
+  user:user
+}
+export interface user{
+email: string;
+first_name: string;
+id: number;
+last_name: string;
+profile: string;
 }
 
 
