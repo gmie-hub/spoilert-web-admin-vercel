@@ -11,7 +11,7 @@ export const routes = {
     },
     categories: {
       home: "/categories",
-      categoryDetails: "/category-details",
+      categoryDetails: "/category-details/:id",
     },
     spoilMgt: {
       home: "/spoil-management",

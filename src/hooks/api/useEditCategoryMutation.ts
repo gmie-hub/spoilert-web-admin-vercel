@@ -9,33 +9,35 @@ import type { FormikValues } from "formik";
 interface Payload {
   name: string;
   image?: File;
+  _method: string;
 }
 
-export const useCreateCategoryMutation = (image: File) => {
+export const useEditCategoryMutation = (image: File, id?: number) => {
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
   const queryClient = useQueryClient();
 
-  const createCategory = async (payload: Payload) => {
+  const updateCategory = async (payload: Payload) => {
     return (
-      await apiCall().post("/categories", payload, {
+      await apiCall().post(`/categories/${id}`, payload, {
         headers: { "Content-Type": "multipart/form-data" },
       })
     )?.data;
   };
 
-  const mutation = useMutation({
-    mutationKey: ["create-category"],
-    mutationFn: createCategory,
+  const editCategoryMutation = useMutation({
+    mutationKey: ["category", id],
+    mutationFn: updateCategory,
   });
 
-  const createCategoryHandler = async (values: FormikValues) => {
+  const editCategoryHandler = async (values: FormikValues) => {
     const payload: Payload = {
       name: values.categoryName,
       image,
+      _method: "patch",
     };
 
     try {
-      await mutation.mutateAsync(payload, {
+      await editCategoryMutation.mutateAsync(payload, {
         onSuccess: (data) => {
           toaster.create({
             type: "success",
@@ -43,7 +45,7 @@ export const useCreateCategoryMutation = (image: File) => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ["categories"],
+            queryKey: ["category-details"],
           });
           setOpenSuccess(true);
         },
@@ -57,7 +59,7 @@ export const useCreateCategoryMutation = (image: File) => {
   };
 
   return {
-    isLoading: mutation.isPending,
-    createCategoryHandler,
+    isEditLoading: editCategoryMutation.isPending,
+    editCategoryHandler,
   };
 };

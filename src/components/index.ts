@@ -10,3 +10,4 @@ export { default as NoData } from "./noData";
 export { default as Input } from "./input";
 export { default as Select } from "./select";
 export { default as ImageModal } from "./imageModal";
+export { default as FileUpload } from "./fileUpload";
