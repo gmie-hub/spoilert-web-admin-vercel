@@ -1,38 +1,58 @@
 import type { FC } from "react";
 
-import { Button, Dialog, HStack, Stack } from "@chakra-ui/react";
+import { Button, Dialog, HStack, Stack, useFileUpload } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import { useParams } from "react-router-dom";
 import { object } from "yup";
 
-import { Input, Modal, Textarea } from "@spt/components";
+import { FileUpload, Input, Modal } from "@spt/components";
 import SuccessModalContent from "@spt/components/successModalContent";
-import { useCategoryMutation } from "@spt/hooks/api/useCreateCategoryMutation";
-import { useModalStore, useSuccessStore } from "@spt/store";
+import { useCreateCategoryMutation } from "@spt/hooks/api/useCreateCategoryMutation";
+import { useEditCategoryMutation } from "@spt/hooks/api/useEditCategoryMutation";
+import { useEditStore, useModalStore, useSuccessStore } from "@spt/store";
+import type { CategoryDatum } from "@spt/types/category";
 import { validations } from "@spt/utils/validations";
 
 interface ComponentProps {
   title: string;
   buttonText: string;
+  data?: CategoryDatum;
 }
 
-const CategoryModalContent: FC<ComponentProps> = ({ buttonText, title }) => {
-  const { id } = useParams();
-
-  const { isLoading, createCategoryHandler } = useCategoryMutation(Number(id));
-
+const CategoryModalContent: FC<ComponentProps> = ({
+  buttonText,
+  title,
+  data,
+}) => {
   const openSuccess = useSuccessStore((state) => state.openSuccess);
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
   const setOpenModal = useModalStore((state) => state.setOpenModal);
+  const isEdit = useEditStore((state) => state.isEdit);
+
+  const fileUpload = useFileUpload({
+    maxFiles: 1,
+    maxFileSize: 300000,
+  });
+
+  const file = fileUpload.acceptedFiles[0];
+
+  const { isLoading, createCategoryHandler } = useCreateCategoryMutation(file);
+  const { isEditLoading, editCategoryHandler } = useEditCategoryMutation(
+    file,
+    data?.id
+  );
 
   const handleSuccessDone = () => {
-    setOpenModal(false);
     setOpenSuccess(false);
+    setOpenModal(false);
   };
 
   const validationSchema = object().shape({
     categoryName: validations.name,
   });
+
+  const initialValues = {
+    categoryName: data?.name || "",
+  };
 
   return (
     <Dialog.Content>
@@ -42,12 +62,11 @@ const CategoryModalContent: FC<ComponentProps> = ({ buttonText, title }) => {
 
       <Dialog.Body>
         <Formik
-          initialValues={{
-            name: "",
-            // image: "",
-          }}
+          initialValues={initialValues}
           onSubmit={(values) => {
-            createCategoryHandler(values);
+            isEdit
+              ? editCategoryHandler(values)
+              : createCategoryHandler(values);
           }}
           validationSchema={validationSchema}
           enableReinitialize
@@ -61,11 +80,13 @@ const CategoryModalContent: FC<ComponentProps> = ({ buttonText, title }) => {
                   placeholder="Enter category name"
                 />
 
-                <Textarea
+                {/* <Textarea
                   name="description"
                   label="Category Description"
                   placeholder="Enter category description"
-                />
+                /> */}
+
+                <FileUpload fileUpload={fileUpload} />
 
                 <HStack w="full" gap="5" justifyContent="center" mt="3">
                   <Dialog.ActionTrigger asChild>
@@ -76,7 +97,7 @@ const CategoryModalContent: FC<ComponentProps> = ({ buttonText, title }) => {
 
                   <Modal
                     buttonText={buttonText}
-                    isLoading={isLoading}
+                    isLoading={isEdit ? isEditLoading : isLoading}
                     variant="yellow"
                     type="submit"
                     open={openSuccess}
@@ -84,7 +105,7 @@ const CategoryModalContent: FC<ComponentProps> = ({ buttonText, title }) => {
                     <Dialog.Content>
                       <Dialog.Body>
                         <SuccessModalContent
-                          heading="Category Updated Successfully"
+                          heading={`Category ${isEdit ? "Updated" : "Created"} Successfully`}
                           onClick={handleSuccessDone}
                         />
                       </Dialog.Body>

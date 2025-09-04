@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
-import type { SpoilsResponse } from "@spt/types/spoils";
+import type { CategoriesResponse } from "@spt/types/category";
 import apiCall from "@spt/utils/apiCall";
 
 export const useGetAllCategoriesQuery = () => {
-  const fetchCategories = async (): Promise<SpoilsResponse> => {
+  const fetchCategories = async (): Promise<CategoriesResponse> => {
     return (await apiCall().get("/categories"))?.data;
   };
 

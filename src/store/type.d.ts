@@ -17,3 +17,8 @@ export interface ModalState {
   openModal: boolean;
   setOpenModal: (value: boolean) => void;
 }
+
+export interface EditState {
+  isEdit: boolean;
+  setIsEdit: (value: boolean) => void;
+}

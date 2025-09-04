@@ -5,7 +5,7 @@ import LoadingState from "@spt/components/loadingState";
 import { useGetAllCategoriesQuery } from "@spt/hooks/api/useGetAllCategoriesQuery";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
-import { useModalStore } from "@spt/store";
+import { useEditStore, useModalStore } from "@spt/store";
 import { categoriesHeader } from "@spt/utils/tableData";
 
 import CategoryModalContent from "./modal/categoryModalContent";
@@ -19,6 +19,9 @@ const Categories = () => {
 
   const openModal = useModalStore((state) => state.openModal);
   const setOpenModal = useModalStore((state) => state.setOpenModal);
+  const setIsEdit = useEditStore((state) => state.setIsEdit);
+
+  const handleEdit = () => setIsEdit(false);
 
   const visibleItems = data?.data?.slice(startRange, endRange);
 
@@ -40,10 +43,14 @@ const Categories = () => {
               buttonText="Create Category"
               variant="yellow"
               size="md"
+              onClick={handleEdit}
+              open={openModal}
+              onOpenChange={(e) => setOpenModal(e.open)}
             >
               <CategoryModalContent
                 title="Create Category"
-                buttonText="Create Category"  
+                buttonText="Create Category"
+                
               />
             </Modal>
           </Flex>
@@ -52,7 +59,7 @@ const Categories = () => {
             <>
               <Table
                 headerChildren={<TableHeader headerItems={categoriesHeader} />}
-                bodyChildren={<TableBody items={visibleItems} />}
+                bodyChildren={<TableBody data={visibleItems} />}
               />
 
               <Pagination
