@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
-import { Card } from "@spt/components";
+import { Card, NoData } from "@spt/components";
 import ErrorState from "@spt/components/errorState";
 import LoadingState from "@spt/components/loadingState";
 // import LoadingState from "@spt/components/loadingState";
@@ -25,6 +25,7 @@ const SpoilReviews = () => {
     useGetAllSpoilReviewQuery(Number(id));
 
   // const visibleItems = data?.data?.slice(startRange, endRange);
+  const hasNoData = data?.data?.length === 0;
 
   if (isError) <ErrorState error={reviewErrorMessage} />;
   if (isLoading) return <LoadingState />;
@@ -32,7 +33,15 @@ const SpoilReviews = () => {
   return (
     <Box>
       <Flex flexWrap="wrap" columnGap="4" rowGap="5">
-        {data?.data?.map((item, index) => (
+        { hasNoData ?(
+            <NoData
+            heading="This Spoil hasn’t been reviewed yet!"
+            description="Once a review is available, it will appear here."
+          >
+          </NoData>
+        ):
+        
+        data?.data?.map((item, index) => (
           <Box
             key={index}
             w={{ base: "100%", md: "50%", lg: "calc(33.33% - 0.75rem)" }}
