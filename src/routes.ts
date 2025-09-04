@@ -26,7 +26,7 @@ export const routes = {
       promotionsDetails: "/promotions-details/:id",
       promotionsManagement: "/promotions-management",
     },
-    PromotionsManagement:{
+    promotionsManagement:{
       home: "/promotions-management",
       promotionsManagementDetails: "/promotions-management-details/:id",
     },

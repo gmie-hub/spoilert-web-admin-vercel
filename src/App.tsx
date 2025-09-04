@@ -42,8 +42,8 @@ function App() {
     { path: routes.main.spoilReview.home, element: <SpoilsReview /> },
     { path: routes.main.spoilReview.spoilDetails, element: <SpoilReviewDetails /> },
 
-    { path: routes.main.PromotionsManagement.home, element: <PromotionsManagement /> },
-    { path: routes.main.PromotionsManagement.promotionsManagementDetails, element: <PromotionManagementDetails /> },
+    { path: routes.main.promotionsManagement.home, element: <PromotionsManagement /> },
+    { path: routes.main.promotionsManagement.promotionsManagementDetails, element: <PromotionManagementDetails /> },
 
     { path: routes.main.categories.home, element: <Categories /> },
     { path: routes.main.categories.categoryDetails, element: <CategoryDetails /> },
