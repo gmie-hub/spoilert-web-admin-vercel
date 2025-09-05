@@ -6,6 +6,7 @@ import DeleteModalContent from "@spt/components/deleteModalContent";
 import ErrorState from "@spt/components/errorState";
 import LoadingState from "@spt/components/loadingState";
 import { useCategoryDetailsQuery } from "@spt/hooks/api/useCategoryDetailsQuery";
+import { useDeleteCategoryMutation } from "@spt/hooks/api/useDeleteCategoryMutation";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
 import { useEditStore, useModalStore } from "@spt/store";
@@ -18,6 +19,9 @@ const CategoryDetails = () => {
 
   const { categoryDetailsData, isLoading, isError, errorMessage } =
     useCategoryDetailsQuery(Number(id));
+
+    const { isDeleteLoading, deleteCategoryHandler } = useDeleteCategoryMutation()
+  
 
   const openModal = useModalStore((state) => state.openModal);
   const setOpenModal = useModalStore((state) => state.setOpenModal);
@@ -74,10 +78,10 @@ const CategoryDetails = () => {
 
               <Modal
                 buttonIcon={<Image src="/trash.svg" alt="delete" />}
-                buttonText="Delete Account"
+                buttonText="Delete Category"
                 variant="dangerOutline"
               >
-                <DeleteModalContent text="Category" />
+                <DeleteModalContent handleClick={() => deleteCategoryHandler(parseInt(id))} text={isDeleteLoading ? 'deleting...' : `${categoryDetailsData?.name} Category`}/>
               </Modal>
             </HStack>
           </HStack>

@@ -90,6 +90,70 @@ interface Category {
   total_spoils: number;
 }
 
+interface CategoryData {
+  current_page: number;
+  data: Category[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: Link[];
+  next_page_url: null;
+  path: string;
+  per_page: number;
+  prev_page_url: null;
+  to: number;
+  total: number;
+}
+export interface CategoryResponse {
+  message: string;
+  status: boolean;
+  data: CategoryData;
+}
+
+export interface SpoilReview {
+  id: number;
+  spoil_id: number;
+  user_id: number;
+  rating: number;
+  comment?: string;
+  deleted_at?: string;
+  created_at: string;
+  updated_at: string;
+  spoil?: null;
+  user:user
+}
+export interface user{
+email: string;
+first_name: string;
+id: number;
+last_name: string;
+profile: string;
+}
+
+
+interface SpoilReviewData {
+  current_page: number;
+  data: SpoilReview[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: Link[];
+  next_page_url: null;
+  path: string;
+  per_page: number;
+  prev_page_url: null;
+  to: number;
+  total: number;
+}
+
+export interface SpoilReviewResponse {
+  message: string;
+  status: boolean;
+  data: SpoilReviewData;
+}
+
 
 export interface SpoilResponse {
   message: string;

@@ -85,6 +85,8 @@ const CategoryModalContent: FC<ComponentProps> = ({
                   label="Category Description"
                   placeholder="Enter category description"
                 /> */}
+                {(isEdit && file === undefined ) &&
+                <img src={data?.url} alt={data?.url}  width={100} />}
 
                 <FileUpload fileUpload={fileUpload} />
 
