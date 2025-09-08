@@ -41,6 +41,8 @@ const CategoryModalContent: FC<ComponentProps> = ({
     data?.id
   );
 
+  
+
   const handleSuccessDone = () => {
     setOpenSuccess(false);
     setOpenModal(false);
