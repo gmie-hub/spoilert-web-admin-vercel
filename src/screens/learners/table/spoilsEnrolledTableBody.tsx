@@ -3,6 +3,7 @@ import type { FC } from "react";
 import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
 
 import { Tag } from "@spt/components";
+import { formatDate } from "@spt/utils/dateTime";
 import type { TableBodyProps } from "@spt/utils/types";
 
 interface ComponentProps extends TableBodyProps {
@@ -15,44 +16,55 @@ const SpoilsEnrolledTableBody: FC<ComponentProps> = ({
 }) => {
   return (
     <>
-      {items.map((item, index) => (
+      {items?.map((item, index) => (
         <Table.Row key={index}>
           <Table.Cell>
             <HStack>
-              <Image src="/user-icon.svg" />
+              <Image
+                boxSize="50px"
+                src={item?.spoil?.cover_image_url || "/user-icon.svg"}
+                borderRadius="full"
+              />
+
               <Text
                 textOverflow={
-                  item.spoilTitle.length > 10 ? "ellipsis" : "initial"
+                  item?.spoil?.title?.length > 10 ? "ellipsis" : "initial"
                 }
                 color="gray"
               >
-                {item.spoilTitle}
+                {item?.spoil?.title}
               </Text>
             </HStack>
           </Table.Cell>
 
           <Table.Cell textOverflow="ellipsis">
             <HStack>
-              <Image src="/user-icon.svg" />
+              <Image boxSize="50px"  borderRadius="full" src={item?.spoil?.tutor?.avatar || "/user-icon.svg"} />
               <Text
                 textOverflow={
-                  item.tutorName.length > 10 ? "ellipsis" : "initial"
+                  item?.spoil?.tutor?.first_name?.length > 10
+                    ? "ellipsis"
+                    : "initial"
                 }
                 color="gray"
               >
-                {item.tutorName}
+                {item?.spoil?.tutor?.first_name} {item?.spoil?.tutor?.last_name}
               </Text>
             </HStack>
           </Table.Cell>
 
-          <Table.Cell>{item.dateEnrolled}</Table.Cell>
+          <Table.Cell>{formatDate(item.created_at)}</Table.Cell>
 
           <Table.Cell>
             <Tag status={item.status} />
           </Table.Cell>
 
           <Table.Cell>
-            <Button variant="yellowOutline"  px="3" onClick={() => handleNavigation(item)}>
+            <Button
+              variant="yellowOutline"
+              px="3"
+              onClick={() => handleNavigation(item)}
+            >
               View More
             </Button>
           </Table.Cell>

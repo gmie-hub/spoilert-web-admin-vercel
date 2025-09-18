@@ -12,12 +12,11 @@ import { categoriesHeader } from "@spt/utils/tableData";
 import CategoryModalContent from "./modal/categoryModalContent";
 import TableBody from "./table/tableBody";
 
-
 const Categories = () => {
-  const { page, pageSize, startRange, endRange, handlePageChange } =
-    usePagination();
+  const { page, pageSize, handlePageChange } = usePagination();
 
-  const { data, isLoading, isError, categoryErrorMessage} = useGetAllCategoriesQuery();
+  const { data, isLoading, isError, categoryErrorMessage } =
+    useGetAllCategoriesQuery(page);
 
   const openModal = useModalStore((state) => state.openModal);
   const setOpenModal = useModalStore((state) => state.setOpenModal);
@@ -25,9 +24,7 @@ const Categories = () => {
 
   const handleEdit = () => setIsEdit(false);
 
-  const visibleItems = data?.data?.slice(startRange, endRange);
-
-  const hasNoData = data?.data?.length === 0;
+  const hasNoData = data?.total === 0;
 
   if (isLoading) return <LoadingState />;
   if (isError) <ErrorState error={categoryErrorMessage} />;
@@ -53,7 +50,6 @@ const Categories = () => {
               <CategoryModalContent
                 title="Create Category"
                 buttonText="Create Category"
-                
               />
             </Modal>
           </Flex>
@@ -62,13 +58,19 @@ const Categories = () => {
             <>
               <Table
                 headerChildren={<TableHeader headerItems={categoriesHeader} />}
-                bodyChildren={<TableBody data={visibleItems} />}
+                bodyChildren={
+                  <TableBody
+                    items={data?.data}
+                    currentPage={page}
+                    pageSize={pageSize}
+                  />
+                }
               />
 
               <Pagination
                 page={page}
                 pageSize={pageSize}
-                items={data?.data}
+                items={data?.total}
                 onPageChange={handlePageChange}
               />
             </>

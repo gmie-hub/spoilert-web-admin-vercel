@@ -1,22 +1,27 @@
 import { Box, Separator, Stack, Text } from "@chakra-ui/react";
 
-import { Card, Pagination, Table } from "@spt/components";
+import { Card, NoData, Pagination, Table } from "@spt/components";
+import ErrorState from "@spt/components/errorState";
+import LoadingState from "@spt/components/loadingState";
+import { useGetAllUsersQuery } from "@spt/hooks/api/useGetAllUsersQuery";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
-import { learnerData, learnerHeaders } from "@spt/utils/learnerData";
+import { learnerHeaders } from "@spt/utils/learnerData";
 
 import TableBody from "./table/tableBody";
 
-const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...learnerData,
-  key: index,
-}));
-
 const Learners = () => {
-  const { page, pageSize, startRange, endRange, handlePageChange } =
-    usePagination();
+  const { page, pageSize, handlePageChange } = usePagination();
 
-  const visibleItems = duplicatedItems.slice(startRange, endRange);
+  const { data, isLoading, isError, errorMessage } = useGetAllUsersQuery(
+    "learner",
+    page
+  );
+
+  const hasNoData = data?.total === 0;
+
+  if (isLoading) return <LoadingState />;
+  if (isError) <ErrorState error={errorMessage} />;
 
   return (
     <Box>
@@ -26,23 +31,36 @@ const Learners = () => {
             <Text fontSize="lg" fontWeight="semibold">
               Learners
             </Text>
+            {!hasNoData && (
+              <>
+                <Table
+                  headerChildren={<TableHeader headerItems={learnerHeaders} />}
+                  bodyChildren={
+                    <TableBody
+                      items={data?.data}
+                      currentPage={page}
+                      pageSize={pageSize}
+                    />
+                  }
+                />
 
-            <Table
-              headerChildren={<TableHeader headerItems={learnerHeaders} />}
-              bodyChildren={<TableBody items={visibleItems} />}
-            />
+                <Pagination
+                  page={page}
+                  pageSize={pageSize}
+                  items={data?.total}
+                  onPageChange={handlePageChange}
+                />
+              </>
+            )}
+            {hasNoData && (
+             <NoData
+             heading="No Learners Have Signed Up Yet!"
+             description="Learners who sign up will appear here."
+           ></NoData>
+            )}
           </Stack>
 
           <Separator />
-
-          <Box px={{ md: "5" }} mt="3">
-            <Pagination
-              page={page}
-              pageSize={pageSize}
-              items={duplicatedItems}
-              onPageChange={handlePageChange}
-            />
-          </Box>
         </Stack>
       </Card>
     </Box>

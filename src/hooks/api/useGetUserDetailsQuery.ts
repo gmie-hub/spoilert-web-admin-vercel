@@ -1,23 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 
-import type { CategoriesResponse } from "@spt/types/category";
 import type { ApiErrorResponse } from "@spt/types/error";
-// import type { CategoryResponse } from "@spt/types/spoils";
+import type { UserDetailsResponse } from "@spt/types/user";
 import apiCall from "@spt/utils/apiCall";
 
 import type { AxiosError } from "axios";
 
 
-export const useGetAllCategoriesQuery = ( page:number) => {
-  const fetchCategories = async (): Promise<CategoriesResponse> => {
-    return (await apiCall().get(`/categories?per_page=${20}&page=${page}`))?.data;
+export const useGetAllUserDetailsQuery = (id:number) => {
+  const fetchCategories = async (): Promise<UserDetailsResponse> => {
+    return (await apiCall().get(`/users/${id}`))?.data;
   };
 
   const { data, isLoading,isError, error } = useQuery<
-  CategoriesResponse,
+  UserDetailsResponse,
   AxiosError<ApiErrorResponse>
 >({
-    queryKey: ["categories",page],
+    queryKey: ["user-details"],
     queryFn: fetchCategories
   })
 
@@ -25,13 +24,13 @@ export const useGetAllCategoriesQuery = ( page:number) => {
   const errorMessage =
     error?.response?.data?.message ||
     error?.message ||
-    "Failed to fetch categories";
+    "Failed to fetch Users";
 
 
   return {
     data: data?.data,
     isLoading,
-    categoryErrorMessage: errorMessage,
+    errorMessage,
     isError,
   }
 };

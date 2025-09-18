@@ -42,7 +42,7 @@ export const useDeleteCategoryMutation = () => {
           });
 
           queryClient.invalidateQueries({
-            queryKey: ["category-details"],
+            queryKey: ["categories"],
           });
 
           navigate(routes.main.categories.home)

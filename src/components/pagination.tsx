@@ -12,7 +12,7 @@ import {
 interface ComponentProps {
   pageSize: number;
   page: number;
-  items: Array<any>;
+  items: any
   onPageChange: (details: any) => void;
 }
 
@@ -25,7 +25,7 @@ const CustomPagination: FC<ComponentProps> = ({
   const count = items.length;
   return (
     <Pagination.Root
-      count={count}
+      count={items || count}
       pageSize={pageSize}
       page={pageNumber}
       onPageChange={onPageChange}

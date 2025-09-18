@@ -3,15 +3,15 @@ export const routes = {
     dashboard: "/",
     learners: {
       home: "/learners",
-      viewDetails: "/view-learner-details",
+      viewDetails: "/view-learner-details/:id/:spoil_id?",
     },
     tutors: {
       home: "/tutors",
-      tutorDetails: "/tutors/tutor-details",
+      tutorDetails: "/tutors/tutor-details/:id/:spoil_id?",
     },
     categories: {
       home: "/categories",
-      categoryDetails: "/category-details/:id",
+      categoryDetails: "/category-details/:id/",
     },
     spoilMgt: {
       home: "/spoil-management",

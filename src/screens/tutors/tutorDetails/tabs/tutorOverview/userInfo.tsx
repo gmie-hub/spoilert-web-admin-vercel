@@ -1,10 +1,17 @@
+import type { FC } from "react";
+
 import { Box, Image, Separator, Stack } from "@chakra-ui/react";
 
 import { Card } from "@spt/components";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import InfoDisplayWrapper from "@spt/partials/infoDisplayWrapper";
+import type { UserDatum } from "@spt/types/user";
+import { formatDate } from "@spt/utils/dateTime";
 
-const UserInfo = () => {
+interface ComponentProps {
+  data: UserDatum;
+}
+const UserInfo: FC<ComponentProps> = ({ data }) => {
   return (
     <Card>
       <Stack gap="6">
@@ -13,30 +20,43 @@ const UserInfo = () => {
         </Box>
 
         <InfoDisplayWrapper>
-          <InfoDisplay flex="1" title="Name" value="Ogunsola Omorinsola" />
-          <InfoDisplay flex="1" title="Username" value="Omorinn" />
+          <InfoDisplay
+            flex="1"
+            title="Name"
+            value={`${data?.first_name}  ${data?.last_name} `}
+          />
+          <InfoDisplay flex="1" title="Username" value={data?.username} />
         </InfoDisplayWrapper>
 
         <Separator />
 
         <InfoDisplayWrapper>
-          <InfoDisplay flex="1" title="Email Address" value="(+44)0123456" />
-          <InfoDisplay flex="1" title="Phone Number" value="Omorinn" />
+          <InfoDisplay flex="1" title="Email Address" value={data?.email} />
+          <InfoDisplay
+            flex="1"
+            title="Phone Number"
+            value={data?.phone_number}
+          />
         </InfoDisplayWrapper>
 
         <Separator />
 
         <InfoDisplayWrapper>
-          <InfoDisplay flex="1" title="Expertise" value="UI/UX Designer" />
-          <InfoDisplay flex="1" title="Date Joined" value="12-02-2025" />
+          <InfoDisplay
+            flex="1"
+            title="Expertise"
+            value={data?.profile?.expertise?.join(", ")}
+          />
+          <InfoDisplay
+            flex="1"
+            title="Date Joined"
+            value={formatDate(data?.created_at)}
+          />
         </InfoDisplayWrapper>
 
         <Separator />
 
-        <InfoDisplay
-          title="Bio"
-          value="I am a dedicated professional with a deep understanding of design principles and user-centered development.  With years of experience in design, I have helped students navigate the complexities of user interface (UI) and user experience (UX) design."
-        />
+        <InfoDisplay title="Bio" value={data?.profile?.bio} />
       </Stack>
     </Card>
   );

@@ -5,9 +5,10 @@ import { Button, Dialog, HStack, Image, Stack, Text } from "@chakra-ui/react";
 interface ComponentProps {
   text: string;
   handleClick?: () => void;
+  disabled?:boolean;
 }
 
-const DeleteModalContent: FC<ComponentProps> = ({ handleClick, text }) => {
+const DeleteModalContent: FC<ComponentProps> = ({ handleClick, text ,disabled}) => {
   return (
     <Dialog.Content borderRadius="xl">
       <Dialog.Header>
@@ -36,7 +37,7 @@ const DeleteModalContent: FC<ComponentProps> = ({ handleClick, text }) => {
             </Button>
           </Dialog.ActionTrigger>
 
-          <Button variant="danger" w="50%" onClick={handleClick}>
+          <Button disabled={disabled} variant="danger" w="50%" onClick={handleClick}>
             Yes, Delete
           </Button>
         </HStack>

@@ -1,3 +1,5 @@
+import type { FC } from "react";
+
 import { Box, Separator, Stack } from "@chakra-ui/react";
 
 import { Pagination, Table } from "@spt/components";
@@ -9,7 +11,6 @@ import {
 } from "@spt/utils/spoilData";
 
 import EnrolledLearnersTableBody from "../table/enrolledLearnersTable";
-import type { FC } from "react";
 
 const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
   ...enrolledLearnersData,

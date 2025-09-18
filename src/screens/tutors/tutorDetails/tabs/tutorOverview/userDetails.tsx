@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { type FC, useState } from "react";
 
 import {
   Box,
@@ -14,9 +14,14 @@ import { Card, Modal } from "@spt/components";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import BlockWithdrawalModalContent from "@spt/screens/tutors/modal/blockWithdrawal";
 import UnblockWithdrawalModalContent from "@spt/screens/tutors/modal/unblockWithdrawal";
-import { tutorOverviewInfo } from "@spt/utils/tutorData";
+import type { UserDatum } from "@spt/types/user";
 
-const UserDetails = () => {
+interface ComponentProps {
+  data: UserDatum;
+}
+
+
+const UserDetails: FC<ComponentProps> = ({ data }) => {
   const [openBlock, setOpenBlock] = useState(false);
   const [openUnblock, setOpenUnblock] = useState(false);
   const [isBlocked, setIsBlock] = useState(false);
@@ -27,6 +32,28 @@ const UserDetails = () => {
   const handleCloseModal = () => setOpenBlock(false);
   const handleCloseUnblockModal = () => setOpenUnblock(false);
 
+  const tutorOverviewInfo = [
+    {
+      image: "/moneys.svg",
+      color: "#F0FFF4",
+      header: "Total Earnings",
+      amount: "N1,100,000",
+    },
+    {
+      image: "/yellow-book.svg",
+      color: "#D4A43714",
+      header: "Total Spoils Created",
+      amount: data?.total_spoils_created,
+    },
+    {
+      image: "/people.svg",
+      color: "#375AD414",
+      header: "Followers",
+      amount: data?.followers_count,
+    },
+  ];
+
+  
   return (
     <Stack gap="6">
       <Card pb="4" pt="3">
@@ -77,7 +104,7 @@ const UserDetails = () => {
                 Wallet Balance
               </Text>
 
-              <Text fontWeight="semibold">N800,000</Text>
+              <Text fontWeight="semibold">{`N ${data?.wallet?.balance}`}</Text>
             </Stack>
           </Box>
 
@@ -89,6 +116,8 @@ const UserDetails = () => {
                 </Center>
 
                 <InfoDisplay title={item.header} value={item.amount} md="sm" />
+
+
               </HStack>
             </Card>
           ))}

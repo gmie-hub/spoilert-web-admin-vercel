@@ -1,8 +1,16 @@
 import type { FC } from "react";
 
-import { Button, Dialog, HStack, Stack, useFileUpload } from "@chakra-ui/react";
-import { Form, Formik } from "formik";
+import {
+  Button,
+  Dialog,
+  HStack,
+  Stack,
+  Text,
+  useFileUpload,
+} from "@chakra-ui/react";
+import { ErrorMessage, Form, Formik } from "formik";
 import { object } from "yup";
+import * as Yup from "yup";
 
 import { FileUpload, Input, Modal } from "@spt/components";
 import SuccessModalContent from "@spt/components/successModalContent";
@@ -46,12 +54,17 @@ const CategoryModalContent: FC<ComponentProps> = ({
     setOpenModal(false);
   };
 
+
   const validationSchema = object().shape({
     categoryName: validations.name,
+    file: Yup.mixed().test("required", "File is required", function (value) {
+      return isEdit || !!value;
+    }),
   });
 
   const initialValues = {
     categoryName: data?.name || "",
+    file: data?.url || null,
   };
 
   return (
@@ -71,7 +84,7 @@ const CategoryModalContent: FC<ComponentProps> = ({
           validationSchema={validationSchema}
           enableReinitialize
         >
-          {() => (
+          {({ setFieldValue }) => (
             <Form>
               <Stack gap="8">
                 <Input
@@ -80,15 +93,26 @@ const CategoryModalContent: FC<ComponentProps> = ({
                   placeholder="Enter category name"
                 />
 
-                {/* <Textarea
-                  name="description"
-                  label="Category Description"
-                  placeholder="Enter category description"
-                /> */}
-                {(isEdit && file === undefined ) &&
-                <img src={data?.url} alt={data?.url}  width={100} />}
+                {isEdit && file === undefined && (
+                  <a href={data?.url} target="_blank" rel="noopener noreferrer">
+                    <img src={data?.url} alt={data?.url} width={100} />
+                  </a>
+                )}
 
-                <FileUpload fileUpload={fileUpload} />
+                <FileUpload
+                  fileUpload={fileUpload}
+                  onChange={() =>
+                    setFieldValue("file", fileUpload.acceptedFiles[0] || null)
+                  }
+                />
+                <ErrorMessage
+                  name="file"
+                  render={(msg) => (
+                    <Text color="red.500" fontSize="sm">
+                      {msg}
+                    </Text>
+                  )}
+                />
 
                 <HStack w="full" gap="5" justifyContent="center" mt="3">
                   <Dialog.ActionTrigger asChild>
