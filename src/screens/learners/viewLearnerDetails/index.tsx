@@ -1,12 +1,14 @@
 import { useCallback, useState } from "react";
 
 import { HStack, Heading, Image, Stack, Tabs } from "@chakra-ui/react";
+import { generatePath, useNavigate, useParams } from "react-router-dom";
 
 import { Breadcrumb, Card, Modal } from "@spt/components";
+import DeleteModalContent from "@spt/components/deleteModalContent";
 import CustomTabs from "@spt/components/tabs";
+import { useDeleteUserMutation } from "@spt/hooks/api/useDeleteUserMutation";
 import ProgressDetails from "@spt/partials/progressDetails";
-
-import DeleteAccountModalContent from "../modal/deleteAccountModalContent";
+import { routes } from "@spt/routes";
 
 import LearnerOverview from "./tabs/learnerOverview";
 import SpoilsEnrolled from "./tabs/spoilsEnrolled";
@@ -14,18 +16,32 @@ import SponsorshipUsed from "./tabs/sponsorshipUsed";
 
 const ViewLearnerDetails = () => {
   const [selectSpoil, setSelectSpoil] = useState("null");
+  const { isDeleteLoading, deleteUserHandler } = useDeleteUserMutation();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const handleViewDetails = useCallback((item: any) => {
     setSelectSpoil(item);
+    const path = generatePath(routes.main.learners.viewDetails, {
+      id: id,
+      spoil_id: item?.spoil_id,
+    });
+    navigate(path);
   }, []);
 
   const handleBackToTable = useCallback(() => {
     setSelectSpoil(null);
+    const path = generatePath(routes.main.learners.viewDetails, { id: id });
+    navigate(path);
   }, []);
 
   return (
     <Stack>
-      <Breadcrumb previousLink="Learners" currentLink="View Learner Details" showBackButton />
+      <Breadcrumb
+        previousLink="Learners"
+        currentLink="View Learner Details"
+        showBackButton
+      />
 
       <Card>
         <Stack mb="2" gap={{ base: "6", md: "4" }}>
@@ -37,7 +53,11 @@ const ViewLearnerDetails = () => {
               buttonText="Delete Account"
               variant="dangerOutline"
             >
-              <DeleteAccountModalContent />
+              <DeleteModalContent
+                disabled={isDeleteLoading}
+                handleClick={() => deleteUserHandler(parseInt(id))}
+                text={"User?"}
+              />
             </Modal>
           </HStack>
 
@@ -51,7 +71,7 @@ const ViewLearnerDetails = () => {
                 {selectSpoil === null ? (
                   <SpoilsEnrolled onClick={handleViewDetails} />
                 ) : (
-                  <ProgressDetails handleBack={handleBackToTable}  />
+                  <ProgressDetails handleBack={handleBackToTable} />
                 )}
               </Tabs.Content>
 

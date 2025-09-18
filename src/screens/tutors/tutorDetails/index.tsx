@@ -1,10 +1,12 @@
 import { useCallback, useState } from "react";
 
 import { HStack, Heading, Image, Stack, Tabs } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { generatePath, useNavigate, useParams } from "react-router-dom";
 
 import { Breadcrumb, Card, Modal } from "@spt/components";
+import DeleteModalContent from "@spt/components/deleteModalContent";
 import CustomTabs from "@spt/components/tabs";
+import { useDeleteUserMutation } from "@spt/hooks/api/useDeleteUserMutation";
 import ProgressDetails from "@spt/partials/progressDetails";
 import { routes } from "@spt/routes";
 import { tutorTabList } from "@spt/utils/tutorData";
@@ -19,13 +21,25 @@ import TutorOverview from "./tabs/tutorOverview/tutorOverview";
 const TutorDetails = () => {
   const [, setSelectSpoil] = useState(null);
   const [currentTab, setCurrentTab] = useState("spoilsCreated");
+  const { isDeleteLoading, deleteUserHandler } = useDeleteUserMutation();
+  const { id } = useParams();
 
   const navigate = useNavigate();
 
-  const handleNavigate = () => navigate(routes.main.learners.viewDetails);
 
+  
+  const handleNavigate = () => {
+    const path = generatePath(routes.main.learners.viewDetails, { id });
+    navigate(path);
+  };
+  
   const handleViewDetails = useCallback((item: any) => {
     setSelectSpoil(item);
+    const path = generatePath(routes.main.tutors.tutorDetails, {
+      id: id,
+      spoil_id: item?.id,
+    });
+    navigate(path);
     setCurrentTab("spoilDetails");
   }, []);
 
@@ -39,7 +53,13 @@ const TutorDetails = () => {
 
   const handleBackToTable = useCallback(() => {
     setSelectSpoil(null);
+
     setCurrentTab("spoilsCreated");
+
+    const path = generatePath(routes.main.tutors.tutorDetails, {
+      id: id,
+    });
+    navigate(path);
   }, []);
 
   const handleBackToSpoilDetails = useCallback(() => {
@@ -81,7 +101,11 @@ const TutorDetails = () => {
 
   return (
     <Stack>
-      <Breadcrumb previousLink="Tutors" currentLink="View Tutor Details" showBackButton />
+      <Breadcrumb
+        previousLink="Tutors"
+        currentLink="View Tutor Details"
+        showBackButton
+      />
 
       <Card>
         <Stack mb="2" gap={{ base: "6", md: "4" }}>
@@ -93,8 +117,11 @@ const TutorDetails = () => {
               buttonText="Delete Account"
               variant="dangerOutline"
             >
-              //TODO add the delete modal here
-              {/* <DeleteAccountModalContent /> */}
+              <DeleteModalContent
+                disabled={isDeleteLoading}
+                handleClick={() => deleteUserHandler(parseInt(id))}
+                text={"User?"}
+              />
             </Modal>
           </HStack>
 

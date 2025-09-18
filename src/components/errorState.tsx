@@ -1,6 +1,6 @@
 import { Text, VStack } from "@chakra-ui/react";
 
-const ErrorState = ({ error }: { error: string }) => {
+const ErrorState = ({ error }: { error: string | any }) => {
   return (
     <VStack w="100%">
       <Text>{error}</Text>
