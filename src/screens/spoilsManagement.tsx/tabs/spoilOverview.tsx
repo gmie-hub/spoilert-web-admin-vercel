@@ -69,13 +69,13 @@ const SpoilOverview: FC<ComponentProps> = ({ data }) => {
           <InfoDisplay
             flex={{ base: "0 0 25%", md: "0 0 25%" }}
             title="No of Likes"
-            value="30"
+            value={data?.likes_count?.toString()}
           />
 
           <InfoDisplay
             flex={{ base: "0 0 50%", md: "0 0 62.5%" }}
             title="No of Shares"
-            value="10"
+            value={data?.shares_count?.toString()}
           />
         </ProgressInfo>
 

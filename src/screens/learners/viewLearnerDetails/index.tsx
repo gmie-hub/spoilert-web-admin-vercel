@@ -13,7 +13,7 @@ import SpoilsEnrolled from "./tabs/spoilsEnrolled";
 import SponsorshipUsed from "./tabs/sponsorshipUsed";
 
 const ViewLearnerDetails = () => {
-  const [selectSpoil, setSelectSpoil] = useState("null");
+  const [selectSpoil, setSelectSpoil] = useState(null);
 
   const handleViewDetails = useCallback((item: any) => {
     setSelectSpoil(item);

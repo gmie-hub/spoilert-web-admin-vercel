@@ -21,7 +21,7 @@ const TableBody: FC<TableProps> = ({ data }) => {
   return (
     <>
       {data?.map((item) => (
-        <Table.Row py="16">
+        <Table.Row key={item?.id} py="16">
           <Table.Cell>
             <HStack>
               <Image src="/user-icon.svg" />
