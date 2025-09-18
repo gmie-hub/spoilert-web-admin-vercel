@@ -20,6 +20,41 @@ interface SpoilsData {
   total: number;
 }
 
+export interface UserSpoilsDatum {
+  id: number;
+  user_id: number;
+  spoil_id: number;
+  payment_id: number;
+  progress_percentage: number;
+  status: string;
+  current_lesson_id?: string;
+  deleted_at?: string;
+  created_at: string;
+  updated_at: string;
+  spoil: SpoilsDatum;
+}
+export interface UserSpoilsResponse {
+  message: string;
+  status: boolean;
+  data: UserSpoilsData;
+}
+
+interface UserSpoilsData {
+  current_page: number;
+  data: UserSpoilsDatum[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: Link[];
+  next_page_url: null;
+  path: string;
+  per_page: number;
+  prev_page_url: null;
+  to: number;
+  total: number;
+}
+
 interface Link {
   url: null | string;
   label: string;
@@ -27,6 +62,7 @@ interface Link {
 }
 
 export interface SpoilsDatum {
+  display_amount:string;
   id: number;
   title: string;
   slug: string;
@@ -78,39 +114,6 @@ interface Tutor {
   profile: null;
 }
 
-interface Category {
-  id: number;
-  name: string;
-  slug: string;
-  description: null;
-  url: string;
-  created_at: string;
-  updated_at: string;
-  deleted_at: null;
-  total_spoils: number;
-}
-
-interface CategoryData {
-  current_page: number;
-  data: Category[];
-  first_page_url: string;
-  from: number;
-  last_page: number;
-  last_page_url: string;
-  links: Link[];
-  next_page_url: null;
-  path: string;
-  per_page: number;
-  prev_page_url: null;
-  to: number;
-  total: number;
-}
-export interface CategoryResponse {
-  message: string;
-  status: boolean;
-  data: CategoryData;
-}
-
 export interface SpoilReview {
   id: number;
   spoil_id: number;
@@ -121,16 +124,15 @@ export interface SpoilReview {
   created_at: string;
   updated_at: string;
   spoil?: null;
-  user:user
+  user: user;
 }
-export interface user{
-email: string;
-first_name: string;
-id: number;
-last_name: string;
-profile: string;
+export interface user {
+  email: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  profile: string;
 }
-
 
 interface SpoilReviewData {
   current_page: number;
@@ -154,7 +156,6 @@ export interface SpoilReviewResponse {
   data: SpoilReviewData;
 }
 
-
 export interface SpoilResponse {
   message: string;
   status: boolean;
@@ -162,6 +163,8 @@ export interface SpoilResponse {
 }
 
 export interface SpoilData {
+  shares_count:number,
+  likes_count:number,
   id: number;
   title: string;
   slug: string;
@@ -175,7 +178,7 @@ export interface SpoilData {
   course_code: null;
   modules_no: number;
   lessons_no: number;
-  what_to_tearn: string;
+  what_to_tearn: any;
   status: number;
   is_draft: boolean;
   premiere_at: null;
@@ -225,19 +228,25 @@ interface Lesson {
   status: string;
 }
 
-interface Relatedspoil {
+export interface Relatedspoil {
   id: number;
   title: string;
   slug: string;
-  category_id: number;
-  cover_image_url: string;
-  description: string;
-  amount: number;
+  category_id: number | null;
+  cover_image_url: string | null;
+  description: string | null;
+  amount: number | null;
   modules_no: number;
   lessons_no: number;
   average_rating: number;
   ratings_count: number;
   enrolled_users: number;
+  is_enrolled: boolean;
+  likes_count: number;
+  shares_count: number;
+  is_liked_by_current_user: boolean;
   category: Category;
-  tutor: null;
+  tutor: any | null;
 }
+
+

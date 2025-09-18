@@ -1,4 +1,5 @@
 export const tutorHeaders = [
+  "S/N",
   "Full Name",
   "Email Address",
   "Username",
@@ -48,6 +49,7 @@ export const spoilsMgtData = {
 };
 
 export const categoriesHeader = [
+  "S/N",
   "Category Name",
   "No of Spoils",
   "Date Created",
@@ -110,7 +112,6 @@ export const communityData = {
   numberOfMembers: "Developers",
   status: "Active",
 };
-
 
 export const promotionsHeaders = [
   "Spoil Title",

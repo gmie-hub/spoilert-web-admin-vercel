@@ -5,8 +5,8 @@ import { Stack, Text } from "@chakra-ui/react";
 import { Tag } from "@spt/components";
 
 interface ComponentProps {
-  title: string;
-  value?: string;
+  title: string | number;
+  value?: string | number;
   status?: string;
   md?: string;
   flex?: Record<string, string> | string;

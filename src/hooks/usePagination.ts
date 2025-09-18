@@ -3,7 +3,7 @@ import { useState } from "react";
 export const usePagination = () => {
   const [page, setPage] = useState(1);
 
-  const pageSize = 10;
+  const pageSize = 20;
 
   const startRange = (page - 1) * pageSize;
   const endRange = startRange + pageSize;

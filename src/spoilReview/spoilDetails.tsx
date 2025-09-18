@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Breadcrumb, Card, Modal } from "@spt/components";
 import ApprovalModalContent from "@spt/components/approvalModalContent";
+import ErrorState from "@spt/components/errorState";
 import LoadingState from "@spt/components/loadingState";
 import RejectModalContent from "@spt/components/rejectModalContent";
 import CustomTabs from "@spt/components/tabs";
@@ -17,12 +18,16 @@ import SpoilOutline from "./tabs/spoilOutline";
 import SpoilOverview from "./tabs/spoilOverview";
 import SpoilQuiz from "./tabs/spoilQuiz";
 
+
 const SpoilReviewDetails = () => {
   const { id } = useParams();
-  const { data, isLoading } = useSpoilDetailsQuery(Number(id));
+
+  const { data, isLoading , isError, errorMessage } = useSpoilDetailsQuery(Number(id));
+ 
   const { isRejectSpoilLoading, rejectSpoilHandler } = useRejectSpoilMutation(
     Number(id)
   );
+  
   const { isApprovalLoading, approveSpoilHandler } = useApproveSpoilMutation(Number(id));
 
   const openApproval = useApprovalStore((state) => state.openApproval);
@@ -32,6 +37,8 @@ const SpoilReviewDetails = () => {
   const setOpenRejection = useRejectionStore((state) => state.setOpenRejection);
 
   if (isLoading) return <LoadingState />;
+  if (isError) <ErrorState error={errorMessage} />;
+
 
   return (
     <Stack>

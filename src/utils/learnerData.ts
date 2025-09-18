@@ -1,4 +1,5 @@
 export const learnerHeaders = [
+  "S/N",
   "Full Name",
   "Email Address",
   "Username",

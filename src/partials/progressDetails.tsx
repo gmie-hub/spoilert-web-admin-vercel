@@ -1,11 +1,16 @@
 import type { FC } from "react";
 
 import { Box, Button, Flex, HStack, Stack, Text } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
 
 import { BackButton, Card } from "@spt/components";
+import ErrorState from "@spt/components/errorState";
+import LoadingState from "@spt/components/loadingState";
+import { useSpoilProgressQuery } from "@spt/hooks/api/useGetSpoilProgressQuery";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
-import { progressBreakdownData } from "@spt/utils/learnerData";
+import { formatDate } from "@spt/utils/dateTime";
+
 
 interface ComponentProps {
   handleBack: () => void;
@@ -18,6 +23,20 @@ const ProgressDetails: FC<ComponentProps> = ({
   handleNavigation,
   showButton,
 }) => {
+  const { spoil_id } = useParams();
+
+  const { id } = useParams();
+
+
+  
+
+  const { data, isLoading, isError, errorMessage } = useSpoilProgressQuery(Number(spoil_id),
+    Number(id)
+  );
+  if (isLoading) return <LoadingState />;
+  if (isError) <ErrorState error={errorMessage} />;
+
+
   return (
     <Stack mt="6" gap="6">
       <HStack justifyContent="space-between" alignItems="center">
@@ -53,12 +72,11 @@ const ProgressDetails: FC<ComponentProps> = ({
                   <InfoDisplay
                     flex={{ base: "0 0 25%", md: "0 0 25%" }}
                     title="Progress"
-                    value="100%"
-                  />
+                    value={`${data?.learner_spoil?.progress_percentage ?? 0}%`}                  />
                   <InfoDisplay
                     flex={{ base: "0 0 50%", md: "0 0 62.5%" }}
                     title="Overall Modules"
-                    value="5"
+                    value={data?.modules_no}
                   />
                 </ProgressInfo>
 
@@ -66,12 +84,12 @@ const ProgressDetails: FC<ComponentProps> = ({
                   <InfoDisplay
                     flex={{ base: "0 0 25%", md: "0 0 25%" }}
                     title="Modules Completed"
-                    value="5"
+                    value={data?.total_modules_completed}
                   />
                   <InfoDisplay
                     flex={{ base: "0 0 50%", md: "0 0 62.5%" }}
                     title="Modules Pending"
-                    value="0"
+                    value={data?.total_modules_pending}
                   />
                 </ProgressInfo>
 
@@ -79,7 +97,7 @@ const ProgressDetails: FC<ComponentProps> = ({
                   <InfoDisplay
                     flex="1"
                     title="Current Module"
-                    value="Module 3- Introduction to Design"
+                    value={data?.current_module}
                   />
                 </ProgressInfo>
 
@@ -87,7 +105,7 @@ const ProgressDetails: FC<ComponentProps> = ({
                   <InfoDisplay
                     flex="1"
                     title="Current Lesson"
-                    value="What is design"
+                    value={data?.current_lesson}
                   />
                 </ProgressInfo>
 
@@ -95,12 +113,12 @@ const ProgressDetails: FC<ComponentProps> = ({
                   <InfoDisplay
                     flex={{ base: "0 0 25%", md: "0 0 25%" }}
                     title="Pre-Spoil Quiz Score"
-                    value="2500"
+                    value={data?.pre_spoil_quiz?.highest_score}
                   />
                   <InfoDisplay
                     flex={{ base: "0 0 50%", md: "0 0 62.5%" }}
                     title="Post-Spoil Quiz Score"
-                    value="-"
+                    value={data?.post_spoil_quiz?.highest_score}
                   />
                 </ProgressInfo>
 
@@ -108,7 +126,7 @@ const ProgressDetails: FC<ComponentProps> = ({
                   <InfoDisplay
                     flex={{ base: "0 0 25%", md: "0 0 25%" }}
                     title="Date Enrolled"
-                    value="12-02-2025"
+                    value={ formatDate(data?.created_at)}
                   />
                   <InfoDisplay
                     flex={{ base: "0 0 50%", md: "0 0 62.5%" }}
@@ -129,12 +147,12 @@ const ProgressDetails: FC<ComponentProps> = ({
                   </Text>
                 </ProgressInfo>
 
-                {progressBreakdownData.map((item, index) => (
+                {data?.modules.map((item, index) => (
                   <ProgressInfo key={index}>
                     <InfoDisplay
                       md="sm"
                       flex="1"
-                      title={item.heading}
+                      title={`module ${index + 1} (${item?.lessons?.length} ${item?.lessons?.length > 1 ? "lessons" : "lesson"})`}
                       value={item.title}
                       status={item.status}
                     />

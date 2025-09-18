@@ -5,12 +5,10 @@ import { generatePath, useNavigate } from "react-router-dom";
 
 import { routes } from "@spt/routes";
 import type { CategoryDatum } from "@spt/types/category";
+import type { TableBodyProps } from "@spt/utils/types";
 
-interface TableProps {
-  data: CategoryDatum[];
-}
 
-const TableBody: FC<TableProps> = ({ data }) => {
+const TableBody: FC<TableBodyProps> = ({ items, currentPage, pageSize }) => {
   const navigate = useNavigate();
 
   const handleRowClick = (id: number) => {
@@ -20,11 +18,18 @@ const TableBody: FC<TableProps> = ({ data }) => {
 
   return (
     <>
-      {data?.map((item) => (
-        <Table.Row key={item?.id} py="16">
+      {items?.map((item: CategoryDatum, index:number) => (
+        <Table.Row py="16">
+          <Table.Cell>{(currentPage - 1) * pageSize + index + 1}</Table.Cell>
+
           <Table.Cell>
             <HStack>
-              <Image src="/user-icon.svg" />
+              <Image
+                boxSize="50px"
+                borderRadius="50%"
+                objectFit="cover"
+                src={item?.url}
+              />
               <Text>{item?.name}</Text>
             </HStack>
           </Table.Cell>

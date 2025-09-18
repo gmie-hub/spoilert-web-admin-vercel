@@ -1,20 +1,18 @@
 import { Button, Flex, HStack, Heading, Stack, Tabs } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
 
 import { Breadcrumb, Card } from "@spt/components";
-import LoadingState from "@spt/components/loadingState";
+// import LoadingState from "@spt/components/loadingState";
 import CustomTabs from "@spt/components/tabs";
-import { useSpoilDetailsQuery } from "@spt/hooks/api/useSpoilDetailsQuery";
+// import { useSpoilDetailsQuery } from "@spt/hooks/api/useSpoilDetailsQuery";
 import { promotionsManagementTabList } from "@spt/utils/spoilData";
 
 // import Metrics from "./tabs/spoilOutline";
-import PromotionOverview from "./tabs/overview";
+// import PromotionOverview from "./tabs/overview";
 
 const PromotionManagementDetails = () => {
-  const { id } = useParams();
-  const { data, isLoading } = useSpoilDetailsQuery(Number(id));
+  // const { data, isLoading } = useSpoilDetailsQuery(Number(id));
 
-  if (isLoading) return <LoadingState />;
+  // if (isLoading) return <LoadingState />;
 
   return (
     <Stack>
@@ -52,7 +50,7 @@ const PromotionManagementDetails = () => {
           <CustomTabs tabList={promotionsManagementTabList}>
             <>
               <Tabs.Content value="Overview">
-                <PromotionOverview data={data} />
+                {/* <PromotionOverview data={} /> */}
               </Tabs.Content>
 
               {/* <Tabs.Content value="Metrics">

@@ -1,3 +1,4 @@
+
 export interface CategoriesResponse {
   message: string;
   status: boolean;

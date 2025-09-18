@@ -4,6 +4,7 @@ import { HStack, Heading, Image, Stack, Tabs, Text } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
 import { Breadcrumb, Card, Modal } from "@spt/components";
+import ErrorState from "@spt/components/errorState";
 import LoadingState from "@spt/components/loadingState";
 import CustomTabs from "@spt/components/tabs";
 import { useSpoilDetailsQuery } from "@spt/hooks/api/useSpoilDetailsQuery";
@@ -27,7 +28,7 @@ const SpoilDetails = () => {
   const { id } = useParams();
 
 
-  const { data, isLoading } = useSpoilDetailsQuery(Number(id));
+  const { data, isLoading,isError, errorMessage } = useSpoilDetailsQuery(Number(id));
 
   const handleDisableModal = (e: any) => setOpenDisableModal(e.open);
   const handleEnableModal = (e: any) => setOpenEnableModal(e.open);
@@ -46,6 +47,7 @@ const SpoilDetails = () => {
   }, []);
 
   if (isLoading) return <LoadingState />;
+  if (isError) <ErrorState error={errorMessage} />;
 
   return (
     <Stack>
