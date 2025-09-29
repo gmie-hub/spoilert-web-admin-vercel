@@ -1,8 +1,11 @@
 import type { FC } from "react";
 
-import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
+import { HStack, Image, Table, Text } from "@chakra-ui/react";
 
+import { Modal } from "@spt/components";
 import type { TableBodyProps } from "@spt/utils/types";
+
+import WithdrawalModalContent from "../modal/withdrawalModalContent";
 
 const TableBody: FC<TableBodyProps> = ({ items }) => {
   return (
@@ -21,9 +24,13 @@ const TableBody: FC<TableBodyProps> = ({ items }) => {
           <Table.Cell>{item.DateCreated}</Table.Cell>
 
           <Table.Cell>
-            <Button variant="yellowOutline" px="3" my="3">
+            {/* <Button variant="yellowOutline" px="3" my="3">
               View More
-            </Button>
+            </Button> */}
+
+            <Modal buttonText="View More" variant="yellowOutline" px="3" size="md">
+              <WithdrawalModalContent />
+            </Modal>
           </Table.Cell>
         </Table.Row>
       ))}
