@@ -18,7 +18,7 @@ const TableBody: FC<TableBodyProps> = ({ items, currentPage, pageSize }) => {
 
   return (
     <>
-      {items?.map((item:CategoryDatum,index:number) => (
+      {items?.map((item: CategoryDatum, index:number) => (
         <Table.Row py="16">
           <Table.Cell>{(currentPage - 1) * pageSize + index + 1}</Table.Cell>
 

@@ -10,7 +10,7 @@ interface ComponentProps {
 const CustomTable: FC<ComponentProps> = ({ headerChildren, bodyChildren }) => {
   return (
     <Table.ScrollArea>
-      <Table.Root size="md" interactive>
+      <Table.Root size="md">
         <Table.Header>{headerChildren}</Table.Header>
 
         <Table.Body color="gray">{bodyChildren}</Table.Body>

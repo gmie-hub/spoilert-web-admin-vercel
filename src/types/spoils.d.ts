@@ -195,6 +195,8 @@ export interface SpoilData {
   category: Category;
   tutor: Tutor;
   modules: Module[];
+  likes_count: number;
+  shares_count: number;
 }
 
 export interface Module {

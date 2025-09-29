@@ -63,7 +63,7 @@ const ApprovalModalContent: FC<ComponentProps> = ({
           </Dialog.ActionTrigger>
 
           <Modal
-            variant="yellow"
+          variant="yellow"
             isLoading={isLoading}
             buttonText={buttonText}
             onClick={onClick}

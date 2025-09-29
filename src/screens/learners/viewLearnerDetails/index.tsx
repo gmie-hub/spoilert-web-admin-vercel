@@ -15,7 +15,7 @@ import SpoilsEnrolled from "./tabs/spoilsEnrolled";
 import SponsorshipUsed from "./tabs/sponsorshipUsed";
 
 const ViewLearnerDetails = () => {
-  const [selectSpoil, setSelectSpoil] = useState("null");
+  const [selectSpoil, setSelectSpoil] = useState(null);
   const { isDeleteLoading, deleteUserHandler } = useDeleteUserMutation();
   const { id } = useParams();
   const navigate = useNavigate();
