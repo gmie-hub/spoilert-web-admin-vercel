@@ -18,8 +18,8 @@ export interface ComponentProps {
   placeholder: string;
   buttonText: string;
   onClose: () => void;
-  rejectHandler: (values: FormikValues) => Promise<void>;
-  isLoading: boolean;
+  rejectHandler?: (values: FormikValues) => Promise<void>;
+  isLoading?: boolean;
   successMessage: string;
   route;
 }

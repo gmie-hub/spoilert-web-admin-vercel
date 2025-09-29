@@ -12,9 +12,10 @@ interface ComponentProps {
   heading: string;
   onClick?: () => void;
   buttonText: string;
-  isLoading: boolean;
+  isLoading?: boolean;
   successMessage: string;
   route: string;
+  content?: string;
 }
 
 const ApprovalModalContent: FC<ComponentProps> = ({
@@ -23,7 +24,8 @@ const ApprovalModalContent: FC<ComponentProps> = ({
   onClick,
   isLoading,
   successMessage,
-  route
+  route,
+  content = "This action cannot be undone",
 }) => {
   const openSuccess = useSuccessStore((state) => state.openSuccess);
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
@@ -49,7 +51,7 @@ const ApprovalModalContent: FC<ComponentProps> = ({
               Are You Sure You Want To {heading}?
             </Text>
 
-            <Text color="gray">This action cannot be undone</Text>
+            <Text color="gray">{content}</Text>
           </Stack>
         </Stack>
       </Dialog.Body>
@@ -63,7 +65,7 @@ const ApprovalModalContent: FC<ComponentProps> = ({
           </Dialog.ActionTrigger>
 
           <Modal
-          variant="yellow"
+            variant="yellow"
             isLoading={isLoading}
             buttonText={buttonText}
             onClick={onClick}

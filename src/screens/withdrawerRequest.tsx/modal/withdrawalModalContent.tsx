@@ -1,17 +1,26 @@
-import {
-  Button,
-  Dialog,
-  HStack,
-  Image,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Dialog, HStack, Image, Stack, Text } from "@chakra-ui/react";
 
 import { Card, Modal } from "@spt/components";
+import ApprovalModalContent from "@spt/components/approvalModalContent";
+import RejectModalContent from "@spt/components/rejectModalContent";
 import ProgressInfo from "@spt/partials/progressInfo";
 import WithdrawalDisplay from "@spt/partials/withdrawalDisplay";
+import { routes } from "@spt/routes";
+import { useSuccessStore } from "@spt/store";
 
 const WithdrawalModalContent = () => {
+  const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
+
+  // const setOpenRejectSuccess = useSuccessStore((state) => state.setOpenSuccess);
+
+  const handleOpenSuccessModal = () => {
+    setOpenSuccess(true);
+  };
+
+  // const handleOpenRejectModal = () => {
+  //   setOpenRejectSuccess(true);
+  // };
+
   return (
     <Dialog.Content borderRadius="xl">
       <Dialog.Header>
@@ -95,11 +104,34 @@ const WithdrawalModalContent = () => {
               </Stack>
 
               <HStack justifyContent="space-between">
-                <Modal buttonText="Reject Withdrawal" variant="yellowOutline" px="8">
-
+                <Modal
+                  buttonText="Reject Withdrawal"
+                  variant="yellowOutline"
+                  px="8"
+                >
+                  <RejectModalContent
+                    buttonText="Yes, Reject Withdrawal"
+                    heading="Reject This Withdrawal Request"
+                    description="Let the user know why you’re rejecting this request"
+                    label="Rejection"
+                    placeholder="rejecting this withdrawal"
+                    onClose={() => {}}
+                    // isLoading={isRejectLoading}
+                    // rejectHandler={handleOpenRejectModal}
+                    successMessage="Withdrawal Request Has Been Successfully Rejected"
+                    route={routes.main.pendingVerification.home}
+                  />
                 </Modal>
-                <Modal buttonText="Approve Withdrawal" variant="yellow" px="8">
 
+                <Modal buttonText="Approve Withdrawal" variant="yellow" px="8">
+                  <ApprovalModalContent
+                    heading="Approve This Withdrawal Request?"
+                    content="Once you approve, this action cannot be undone and ₦500,000 will be sent to Ogunsola Omorinsola"
+                    buttonText="Yes, Approve"
+                    successMessage="Withdrawal Request Has Been Successfully Approved"
+                    route={routes.main.withdrawalRequest.home}
+                    onClick={handleOpenSuccessModal}
+                  />
                 </Modal>
               </HStack>
             </Stack>
