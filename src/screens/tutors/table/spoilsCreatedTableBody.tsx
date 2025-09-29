@@ -19,14 +19,14 @@ const SpoilsCreatedTableBody: FC<ComponentProps> = ({
 }) => {
   return (
     <>
-      {items.map((item:SpoilsDatum, index:number) => (
+      {items.map((item: SpoilsDatum, index: number) => (
         <Table.Row key={index} py="16">
           <Table.Cell>{(currentPage - 1) * pageSize + index + 1}</Table.Cell>
 
           <Table.Cell>
             <HStack>
-            <Image src={item?.tutor?.avatar || "/user-icon.svg"} />
-            <Text color="gray">{item.title}</Text>
+              <Image src={item?.tutor?.avatar || "/user-icon.svg"} />
+              <Text color="gray">{item.title}</Text>
             </HStack>
           </Table.Cell>
 

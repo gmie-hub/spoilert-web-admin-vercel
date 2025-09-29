@@ -8,7 +8,7 @@ import Withdrawal from "../assets/moneys.svg";
 import Learners from "../assets/people2.svg";
 import Tutors from "../assets/profile-2user.svg";
 import Settings from "../assets/setting-2.svg";
-// import Transactions from "../assets/wallet-3.svg";
+import Transactions from "../assets/wallet-3.svg";
 import { routes } from "../routes";
 import "../App.css";
 
@@ -84,12 +84,12 @@ const Sidebar = () => {
       icon: <img src={Withdrawal} alt="Withdrawal" />,
       to: routes.main.withdrawalRequest.home,
     },
-    // {
-    //   key: "Transactions",
-    //   label: "Transactions",
-    //   icon: <img src={Transactions} alt="Transactions" />,
-    //   // to: routes.main.transactions.home
-    // },
+    {
+      key: "Transactions",
+      label: "Transactions",
+      icon: <img src={Transactions} alt="Transactions" />,
+      to: routes.main.transactions.home
+    },
     {
       key: "Community",
       label: "Community",
