@@ -25,6 +25,7 @@ import TutorDetails from "./screens/tutors/tutorDetails/index.tsx";
 import WithdrawerRequest from "./screens/withdrawerRequest.tsx";
 import SpoilsReview from "./spoilReview/index.tsx";
 import SpoilReviewDetails from "./spoilReview/spoilDetails.tsx";
+import Settings from "./screens/settings/index.tsx";
 
 
 function App() {
@@ -59,6 +60,10 @@ function App() {
 
     { path: routes.main.pendingVerification.home, element: <PendingVerification /> },
     { path: routes.main.pendingVerification.details, element: <VerificationDetails /> },
+    
+    { path: routes.main.settings.home, element: <Settings /> },
+
+
   ];
 
   return (
