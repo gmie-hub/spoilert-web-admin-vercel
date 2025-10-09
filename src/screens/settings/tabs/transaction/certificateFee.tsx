@@ -1,15 +1,30 @@
+import type { FC } from "react";
+
 import { Box, Flex, Image, Stack, Text } from "@chakra-ui/react";
 
 import { Modal } from "@spt/components";
 import { useModalStore } from "@spt/store";
+import type { SettingsDatum } from "@spt/types/settings";
 
 import CertificateFeeModalContent from "../../modal/certificateFeeModal";
 
-const CertificateFee = () => {
+interface ComponentProps {
+  data: SettingsDatum[];
+}
+
+const CertificateFee: FC<ComponentProps> = ({ data }) => {
   const openModal = useModalStore((state) => state.openModal);
   const setOpenModal = useModalStore((state) => state.setOpenModal);
 
-  const hasCertFee = true;
+  const TRANSACTION = "transaction";
+
+  const filteredData = (data || []).filter(
+    (item) => item?.section === TRANSACTION
+  );
+  const certificateFeeData = filteredData?.[0];  
+
+  const hasCertFee =
+    !!certificateFeeData && Object.keys(certificateFeeData).length > 0;
 
   const buttonIcon = hasCertFee ? "/edit.svg" : "/award.svg";
 
@@ -26,7 +41,7 @@ const CertificateFee = () => {
           </Text>
 
           <Text fontSize={{ base: "md", md: "lg" }}>
-            {hasCertFee ? "₦500" : "Not Set"}
+            {hasCertFee ? certificateFeeData?.value : "Not Set"}
           </Text>
         </Stack>
 

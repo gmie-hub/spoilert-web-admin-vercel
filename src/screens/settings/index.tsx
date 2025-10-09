@@ -1,12 +1,15 @@
 import { Heading, Stack, Tabs } from "@chakra-ui/react";
 
 import { Card } from "@spt/components";
+import ErrorState from "@spt/components/errorState";
+import LoadingState from "@spt/components/loadingState";
 import CustomTabs from "@spt/components/tabs";
+import { useSettingsQuery } from "@spt/hooks/api/useSettingsQuery";
 import { useEditStore } from "@spt/store";
 import { useAddAdminChargeStore } from "@spt/store/transaction";
 
 import EditProfile from "./tabs/editProfile";
-import General from "./tabs/general";
+import General from "./tabs/general/general";
 import Profile from "./tabs/profile";
 import Transaction from "./tabs/transaction";
 import AddAdminCharge from "./tabs/transaction/addAdminCharge";
@@ -16,6 +19,12 @@ const Settings = () => {
   const isAddAdminCharge = useAddAdminChargeStore(
     (state) => state.isAddAdminCharge
   );
+
+  const { data, isLoading, isError, errorMessage } = useSettingsQuery();  
+
+  if (isLoading) <LoadingState />;
+
+  if (isError) <ErrorState error={errorMessage} />;
 
   return (
     <Card>
@@ -29,7 +38,7 @@ const Settings = () => {
             </Tabs.Content>
 
             <Tabs.Content value="general">
-              <General />
+              <General data={data?.data?.data} />
             </Tabs.Content>
 
             <Tabs.Content value="transaction">
