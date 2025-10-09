@@ -22,3 +22,7 @@ export interface EditState {
   isEdit: boolean;
   setIsEdit: (value: boolean) => void;
 }
+export interface AddAdminChargeState {
+  isAddAdminCharge: boolean;
+  setIsAddAdminCharge: (value: boolean) => void;
+}

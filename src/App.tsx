@@ -13,6 +13,8 @@ import PendingVerification from "./screens/pendingVerification/index.tsx";
 import VerificationDetails from "./screens/pendingVerification/verificationDetails.tsx";
 import PromotionsManagement from "./screens/promotion/promotionsManagement/index.tsx";
 import PromotionManagementDetails from "./screens/promotion/promotionsManagement/promotionDetails.tsx";
+import Settings from "./screens/settings/index.tsx";
+import EditProfile from "./screens/settings/tabs/editProfile.tsx";
 import SpoilsManagement from "./screens/spoilsManagement.tsx";
 import SpoilDetails from "./screens/spoilsManagement.tsx/spoilDetails.tsx";
 import Sponsorships from "./screens/sponsorships";
@@ -25,8 +27,6 @@ import TutorDetails from "./screens/tutors/tutorDetails/index.tsx";
 import WithdrawerRequest from "./screens/withdrawerRequest.tsx";
 import SpoilsReview from "./spoilReview/index.tsx";
 import SpoilReviewDetails from "./spoilReview/spoilDetails.tsx";
-import Settings from "./screens/settings/index.tsx";
-
 
 function App() {
   const appRoutes = [
@@ -41,29 +41,55 @@ function App() {
     { path: routes.main.spoilMgt.spoilDetails, element: <SpoilDetails /> },
 
     { path: routes.main.spoilReview.home, element: <SpoilsReview /> },
-    { path: routes.main.spoilReview.spoilDetails, element: <SpoilReviewDetails /> },
+    {
+      path: routes.main.spoilReview.spoilDetails,
+      element: <SpoilReviewDetails />,
+    },
 
-    { path: routes.main.promotionsManagement.home, element: <PromotionsManagement /> },
-    { path: routes.main.promotionsManagement.promotionsManagementDetails, element: <PromotionManagementDetails /> },
+    {
+      path: routes.main.promotionsManagement.home,
+      element: <PromotionsManagement />,
+    },
+    {
+      path: routes.main.promotionsManagement.promotionsManagementDetails,
+      element: <PromotionManagementDetails />,
+    },
 
     { path: routes.main.categories.home, element: <Categories /> },
-    { path: routes.main.categories.categoryDetails, element: <CategoryDetails /> },
+    {
+      path: routes.main.categories.categoryDetails,
+      element: <CategoryDetails />,
+    },
 
     { path: routes.main.sponsorships.home, element: <Sponsorships /> },
     { path: routes.main.sponsorships.details, element: <SponsorshipDetails /> },
-    { path: routes.main.sponsorships.sponsorASpoil, element: <SponsorshipASpoil /> },
-    { path: routes.main.sponsorships.sponsorshipCodes, element: <SponsorshipCodes /> },
+    {
+      path: routes.main.sponsorships.sponsorASpoil,
+      element: <SponsorshipASpoil />,
+    },
+    {
+      path: routes.main.sponsorships.sponsorshipCodes,
+      element: <SponsorshipCodes />,
+    },
 
     { path: routes.main.transactions.home, element: <Transactions /> },
-    { path: routes.main.withdrawalRequest.home, element: <WithdrawerRequest />, },
+    {
+      path: routes.main.withdrawalRequest.home,
+      element: <WithdrawerRequest />,
+    },
     { path: routes.main.community.home, element: <Community /> },
 
-    { path: routes.main.pendingVerification.home, element: <PendingVerification /> },
-    { path: routes.main.pendingVerification.details, element: <VerificationDetails /> },
-    
+    {
+      path: routes.main.pendingVerification.home,
+      element: <PendingVerification />,
+    },
+    {
+      path: routes.main.pendingVerification.details,
+      element: <VerificationDetails />,
+    },
+
     { path: routes.main.settings.home, element: <Settings /> },
-
-
+    { path: routes.main.settings.editProfile, element: <EditProfile /> },
   ];
 
   return (

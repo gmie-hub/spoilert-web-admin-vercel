@@ -54,7 +54,6 @@ const CategoryModalContent: FC<ComponentProps> = ({
     setOpenModal(false);
   };
 
-
   const validationSchema = object().shape({
     categoryName: validations.name,
     file: Yup.mixed().test("required", "File is required", function (value) {

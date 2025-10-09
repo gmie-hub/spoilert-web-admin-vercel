@@ -10,16 +10,18 @@ interface NoDataProps extends PropsWithChildren {
 const NoData: FC<NoDataProps> = ({ children, description, heading }) => {
   return (
     <HStack justifyContent="center" alignItems="center" w="100%" my="4">
-      <Stack textAlign="center" w={{ md: "35%" }}>
+      <Stack gap={{ base: "6", md: "10" }} textAlign="center" w={{ md: "35%" }}>
         <HStack justifyContent="center">
           <Image src="/empty.png" alt="empty" />
         </HStack>
 
-        <Text fontSize="xl" fontWeight="semibold">
-          {heading}
-        </Text>
+        <Stack gap={{ md: "4" }}>
+          <Text fontSize="xl" fontWeight="semibold">
+            {heading}
+          </Text>
 
-        <Text color="gray">{description}</Text>
+          <Text color="gray">{description}</Text>
+        </Stack>
 
         {children && children}
       </Stack>

@@ -50,6 +50,7 @@ export const routes = {
     },
     settings: {
       home: "/settings",
+      editProfile: "/edit-profile",
     },
     pendingVerification: {
       home: "/pending-verifications",
