@@ -1,13 +1,26 @@
+import type { FC } from "react";
+
 import { Button, Dialog, Flex, Stack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { object } from "yup";
 
 import { Input } from "@spt/components";
-import { useEditStore } from "@spt/store";
+import { useUpdateSettingsMutation } from "@spt/hooks/api/useUpdateSettingsMutation";
 import { validations } from "@spt/utils/validations";
 
-const CertificateFeeModalContent = () => {
-  const isEdit = useEditStore((state) => state.isEdit);
+interface ComponentProps {
+  hasCertFee: boolean;
+  certFee: string;
+  id: number;
+}
+
+const CertificateFeeModalContent: FC<ComponentProps> = ({
+  hasCertFee,
+  certFee,
+  id,
+}) => {
+  const { isUpdateLoading, updateSettingsHandler } =
+    useUpdateSettingsMutation(id);
 
   const validationSchema = object().shape({
     certificateFee: validations.certificateFee,
@@ -17,14 +30,16 @@ const CertificateFeeModalContent = () => {
     <Dialog.Content>
       <Dialog.Header>
         <Dialog.Title>
-          {`${isEdit ? "Edit" : "Set"}`} Certificate Fee
+          {`${hasCertFee ? "Edit" : "Set"}`} Certificate Fee
         </Dialog.Title>
       </Dialog.Header>
 
       <Dialog.Body>
         <Formik
-          initialValues={{}}
-          onSubmit={() => {}}
+          initialValues={{ certificateFee: certFee || "" }}
+          onSubmit={(values) => {
+            updateSettingsHandler(values);
+          }}
           validationSchema={validationSchema}
           enableReinitialize
         >
@@ -50,8 +65,8 @@ const CertificateFeeModalContent = () => {
                     </Button>
                   </Dialog.ActionTrigger>
 
-                  <Button variant="yellow" w="50%">
-                    Save {isEdit && " Changes"}
+                  <Button type="submit" variant="yellow" loading={isUpdateLoading} w="50%">
+                    Save {hasCertFee && " Changes"}
                   </Button>
                 </Flex>
               </Stack>

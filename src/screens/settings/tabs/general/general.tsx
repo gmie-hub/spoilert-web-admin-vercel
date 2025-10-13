@@ -16,12 +16,11 @@ const General: FC<GeneralProps> = ({ data }) => {
 
   const filteredData = (data || []).filter((item) => item?.section === GENERAL);
 
-  const socialMediaData = filteredData?.[0]?.metadata?.[1] as Metadatum;
-  const contactInfoData = filteredData?.[1]?.metadata?.[0] as Metadata2;
+  const socialMediaData = filteredData?.[0]?.metadata?.[0] as Metadatum;
+  const contactInfoData = filteredData?.[1]?.metadata?.[0] as Metadata2;  
 
   return (
     <Stack>
-      {/* Contact Information Form */}
       <ContactInfo
         contactInfoData={contactInfoData}
         id={filteredData?.[1]?.id}
@@ -29,7 +28,6 @@ const General: FC<GeneralProps> = ({ data }) => {
 
       <Separator />
 
-      {/* Social Media Links Form */}
       <SocialMediaLinks socialMediaData={socialMediaData} id={filteredData?.[0]?.id} />
     </Stack>
   );

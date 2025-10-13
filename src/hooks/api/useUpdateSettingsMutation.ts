@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { toaster } from "@spt/components/ui/toaster";
+import { useModalStore, useSuccessStore } from "@spt/store";
 import apiCall from "@spt/utils/apiCall";
 
 import type { FormikValues } from "formik";
@@ -13,14 +14,21 @@ type MetaData = {
   facebook?: string;
   linkedin?: string;
   instagram?: string;
+  max: number,
+  min: number;
+  charge: number;
 };
 
 interface Payload {
   id: number;
   metadata: MetaData[];
+  value: string;
 }
 
 export const useUpdateSettingsMutation = (id: number) => {
+  const setOpenModal = useModalStore((state) => state.setOpenModal);
+  const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
+
   const queryClient = useQueryClient();
 
   const updateSettings = async (payload: Payload) => {
@@ -44,8 +52,12 @@ export const useUpdateSettingsMutation = (id: number) => {
           facebook: values.facebook,
           linkedin: values.linkedin,
           instagram: values.instagram,
+          max: values.maxSpoilPrice,
+          min: values.minSpoilPrice,
+          charge: values.adminCharge,
         },
       ],
+      value: values.certificateFee,
     };
 
     try {
@@ -59,6 +71,9 @@ export const useUpdateSettingsMutation = (id: number) => {
           queryClient.invalidateQueries({
             queryKey: ["get-settings"],
           });
+
+          setOpenModal(false);
+          setOpenSuccess(true);
         },
       });
     } catch (error: any) {

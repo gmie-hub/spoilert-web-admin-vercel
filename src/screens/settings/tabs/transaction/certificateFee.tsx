@@ -4,15 +4,12 @@ import { Box, Flex, Image, Stack, Text } from "@chakra-ui/react";
 
 import { Modal } from "@spt/components";
 import { useModalStore } from "@spt/store";
-import type { SettingsDatum } from "@spt/types/settings";
+import type { SettingProps } from "@spt/types/settings";
 
 import CertificateFeeModalContent from "../../modal/certificateFeeModal";
 
-interface ComponentProps {
-  data: SettingsDatum[];
-}
 
-const CertificateFee: FC<ComponentProps> = ({ data }) => {
+const CertificateFee: FC<SettingProps> = ({ data }) => {
   const openModal = useModalStore((state) => state.openModal);
   const setOpenModal = useModalStore((state) => state.setOpenModal);
 
@@ -21,7 +18,7 @@ const CertificateFee: FC<ComponentProps> = ({ data }) => {
   const filteredData = (data || []).filter(
     (item) => item?.section === TRANSACTION
   );
-  const certificateFeeData = filteredData?.[0];  
+  const certificateFeeData = filteredData?.[0];
 
   const hasCertFee =
     !!certificateFeeData && Object.keys(certificateFeeData).length > 0;
@@ -54,7 +51,11 @@ const CertificateFee: FC<ComponentProps> = ({ data }) => {
             open={openModal}
             onOpenChange={(e) => setOpenModal(e.open)}
           >
-            <CertificateFeeModalContent />
+            <CertificateFeeModalContent
+              hasCertFee={hasCertFee}
+              certFee={certificateFeeData?.value}
+              id={certificateFeeData?.id}
+            />
           </Modal>
         </Box>
       </Flex>

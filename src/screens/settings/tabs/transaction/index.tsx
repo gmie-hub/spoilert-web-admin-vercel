@@ -14,7 +14,7 @@ const Transaction = () => {
 
       <Separator />
 
-      <AdminCharges />
+      <AdminCharges data={data?.data?.data} />
     </Stack>
   );
 };
