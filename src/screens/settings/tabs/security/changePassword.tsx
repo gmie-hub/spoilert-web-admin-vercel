@@ -43,6 +43,7 @@ const ChangePassword = () => {
                   hasAsterisk
                 />
               </Box>
+
               <Flex direction="row" columnGap="6" rowGap="6" flexWrap="wrap">
                 <Box w={{ base: "full", sm: "calc(50% - 12px)" }}>
                   <Input
@@ -52,6 +53,7 @@ const ChangePassword = () => {
                     hasAsterisk
                   />
                 </Box>
+                
                 <Box w={{ base: "full", sm: "calc(50% - 12px)" }}>
                   <Input
                     name="confirmPassword"
@@ -75,7 +77,7 @@ const ChangePassword = () => {
                 w={{ base: "full", md: "20%" }}
                 disabled={isLoading}
               >
-               {isLoading ? 'loading...' :'Save Changes'}
+                {isLoading ? "loading..." : "Save Changes"}
               </Button>
             </Flex>
           </Stack>

@@ -11,25 +11,22 @@ export const useUserDetailsQuery = (id: number) => {
     return (await apiCall().get(`/users/${id}`))?.data;
   };
 
-  const { data, isLoading,isError, error } = useQuery<
-  UserDetailsResponse,
-  AxiosError<ApiErrorResponse>
->({
+  const { data, isLoading, isError, error } = useQuery<
+    UserDetailsResponse,
+    AxiosError<ApiErrorResponse>
+  >({
     queryKey: ["userDetails"],
     queryFn: fetchUserDetails,
-    enabled:!!id
+    enabled: !!id,
   });
-  
-  const errorMessage =
-  error?.response?.data?.message ||
-  error?.message ||
-  "Failed to fetch Users";
 
+  const errorMessage =
+    error?.response?.data?.message || error?.message || "Failed to fetch Users";
 
   return {
     userData: data?.data,
-    userLoading:isLoading,
+    userLoading: isLoading,
     userIsError: isError,
-    userErrorMessage:errorMessage
+    userErrorMessage: errorMessage,
   };
 };

@@ -1,4 +1,3 @@
-// useEditProfileMutation.ts
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { toaster } from "@spt/components/ui/toaster";
@@ -18,7 +17,7 @@ interface Payload {
 export const useEditProfileMutation = (
   avatar: File,
   id?: number,
-  onSuccessCallback?: () => void // ✅ allow external success callback
+  onSuccessCallback?: () => void 
 ) => {
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
   const queryClient = useQueryClient();
@@ -58,7 +57,7 @@ export const useEditProfileMutation = (
           });
 
           setOpenSuccess(true);
-          onSuccessCallback?.(); // ✅ trigger external callback
+          onSuccessCallback?.(); 
         },
       });
     } catch (error: any) {
