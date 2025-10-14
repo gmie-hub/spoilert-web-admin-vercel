@@ -56,3 +56,9 @@ export interface Metadatum {
   linkedin: string;
   instagram: string;
 }
+
+export interface SettingProps {
+  data: SettingsDatum[];
+}
+
+// export const TRANSACTION = "transaction";

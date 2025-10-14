@@ -20,8 +20,8 @@ const CategoryDetails = () => {
   const { categoryDetailsData, isLoading, isError, errorMessage } =
     useCategoryDetailsQuery(Number(id));
 
-    const { isDeleteLoading, deleteCategoryHandler } = useDeleteCategoryMutation()
-  
+  const { isDeleteLoading, deleteCategoryHandler } =
+    useDeleteCategoryMutation();
 
   const openModal = useModalStore((state) => state.openModal);
   const setOpenModal = useModalStore((state) => state.setOpenModal);
@@ -81,7 +81,14 @@ const CategoryDetails = () => {
                 buttonText="Delete Category"
                 variant="dangerOutline"
               >
-                <DeleteModalContent handleClick={() => deleteCategoryHandler(parseInt(id))} text={isDeleteLoading ? 'deleting...' : `${categoryDetailsData?.name} Category`}/>
+                <DeleteModalContent
+                  handleClick={() => deleteCategoryHandler(parseInt(id))}
+                  text={
+                    isDeleteLoading
+                      ? "deleting..."
+                      : `${categoryDetailsData?.name} Category`
+                  }
+                />
               </Modal>
             </HStack>
           </HStack>
