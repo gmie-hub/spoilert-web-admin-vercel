@@ -14,7 +14,7 @@ type MetaData = {
   facebook?: string;
   linkedin?: string;
   instagram?: string;
-  max: number,
+  max: number;
   min: number;
   charge: number;
 };
@@ -41,23 +41,34 @@ export const useUpdateSettingsMutation = (id: number) => {
   });
 
   const updateSettingsHandler = async (values: FormikValues) => {
+    // If caller passes a pre-built metadata array (for admin charges add/edit), use it directly.
+    // Otherwise, build metadata from individual fields (for other settings forms).
+    const metadataFromValues =
+      (values?.metadata as MetaData[] | undefined) ||
+      (values?.metadataArray as MetaData[] | undefined);
+
     const payload: Payload = {
       id,
-      metadata: [
-        {
-          contact_email_id: values.contactEmailID,
-          contact_location: values.contactLocation,
-          contact_phone_number: values.contactPhoneNumber,
-          twitter: values.twitter,
-          facebook: values.facebook,
-          linkedin: values.linkedin,
-          instagram: values.instagram,
-          max: values.maxSpoilPrice,
-          min: values.minSpoilPrice,
-          charge: values.adminCharge,
-        },
-      ],
-      value: values.certificateFee,
+      metadata:
+        metadataFromValues &&
+        Array.isArray(metadataFromValues) &&
+        metadataFromValues.length > 0
+          ? metadataFromValues
+          : [
+              {
+                contact_email_id: values.contactEmailID,
+                contact_location: values.contactLocation,
+                contact_phone_number: values.contactPhoneNumber,
+                twitter: values.twitter,
+                facebook: values.facebook,
+                linkedin: values.linkedin,
+                instagram: values.instagram,
+                max: values.maxSpoilPrice,
+                min: values.minSpoilPrice,
+                charge: values.adminCharge,
+              },
+            ],
+      value: values.certificateFee ?? "",
     };
 
     try {

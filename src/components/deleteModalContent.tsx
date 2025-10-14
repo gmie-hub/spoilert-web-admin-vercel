@@ -6,9 +6,10 @@ interface ComponentProps {
   text: string;
   handleClick?: () => void;
   disabled?:boolean;
+  isLoading?: boolean;
 }
 
-const DeleteModalContent: FC<ComponentProps> = ({ handleClick, text ,disabled}) => {
+const DeleteModalContent: FC<ComponentProps> = ({ handleClick, text ,disabled, isLoading }) => {
   return (
     <Dialog.Content borderRadius="xl">
       <Dialog.Header>
@@ -37,7 +38,7 @@ const DeleteModalContent: FC<ComponentProps> = ({ handleClick, text ,disabled}) 
             </Button>
           </Dialog.ActionTrigger>
 
-          <Button disabled={disabled} variant="danger" w="50%" onClick={handleClick}>
+          <Button disabled={disabled} loading={isLoading} variant="danger" w="50%" onClick={handleClick}>
             Yes, Delete
           </Button>
         </HStack>

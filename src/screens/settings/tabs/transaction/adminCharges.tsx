@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import { useEffect } from "react";
 
 import { Box, Button, Flex, Image, Stack } from "@chakra-ui/react";
 
@@ -29,15 +30,13 @@ const AdminCharges: FC<SettingProps> = ({ data }) => {
 
   const hasData = adminChargesData?.length > 0;
 
+  // Ensure store is initialized for edit/delete flows as well
+  useEffect(() => {
+    if (settingsId) setSettingsId(settingsId);
+    if (adminChargesData) setAdminChargesData(adminChargesData);
+  }, [settingsId, adminChargesData, setSettingsId, setAdminChargesData]);
+
   const handleAddAdminCharge = () => {
-    // Set the settings ID when Add New is clicked
-    if (settingsId) {
-      setSettingsId(settingsId);
-    }
-    // Set the current admin charges data in the store
-    if (adminChargesData) {
-      setAdminChargesData(adminChargesData);
-    }
     setIsAdminCharge(true);
   };
 

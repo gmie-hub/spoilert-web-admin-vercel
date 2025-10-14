@@ -2,22 +2,60 @@ import type { FC } from "react";
 
 import { HStack, IconButton, Image, Table } from "@chakra-ui/react";
 
-import { useAdminChargesStore } from "@spt/store/transaction";
+import { Modal } from "@spt/components";
+import DeleteModalContent from "@spt/components/deleteModalContent";
+import { useUpdateSettingsMutation } from "@spt/hooks/api/useUpdateSettingsMutation";
+import {
+  useAddAdminChargeStore,
+  useAdminChargesStore,
+} from "@spt/store/transaction";
 import type { Metadata3 } from "@spt/types/settings";
 import type { TableBodyProps } from "@spt/utils/types";
 
 const AdminChargesTable: FC<TableBodyProps> = ({ items }) => {
-  const { setEditingData, deleteAdminCharge } = useAdminChargesStore();
+  const {
+    setEditingData,
+    deleteAdminCharge,
+    setAdminChargesData,
+    adminChargesData,
+    settingsId,
+  } = useAdminChargesStore();
+  const setIsAdminCharge = useAddAdminChargeStore(
+    (state) => state.setIsAddAdminCharge
+  );
+
+  const { isUpdateLoading, updateSettingsHandler } = useUpdateSettingsMutation(
+    settingsId || 0
+  );
 
   const handleEdit = (index: number, item: Metadata3) => {
+    // Ensure the store has the latest table data before editing
+    if (Array.isArray(items)) {
+      setAdminChargesData(items as Metadata3[]);
+    }
     setEditingData(index, {
       max: item.max || undefined,
       min: item.min,
       charge: item.charge,
     });
+
+    setIsAdminCharge(true);
   };
 
-  const handleDelete = (index: number) => {
+  const handleDelete = async (index: number) => {
+    // Build filtered metadata and send full array so others are preserved
+    const source =
+      Array.isArray(adminChargesData) && adminChargesData.length > 0
+        ? adminChargesData
+        : (items as Metadata3[]);
+
+    const filtered = (source || [])
+      .filter((_, i) => i !== index)
+      .map((c) => ({ max: c.max, min: c.min, charge: c.charge }));
+
+    await updateSettingsHandler({ metadata: filtered });
+
+    // Update local store after successful request
     deleteAdminCharge(index);
   };
 
@@ -39,13 +77,19 @@ const AdminChargesTable: FC<TableBodyProps> = ({ items }) => {
                 <Image src="/edit-dark.svg" alt="edit" />
               </IconButton>
 
-              <IconButton
+              <Modal
+                buttonIcon={<Image src="/trash.svg" alt="delete" />}
+                buttonText=""
                 variant="ghost"
-                onClick={() => handleDelete(index)}
-                aria-label="Delete admin charge"
+                px="0"
               >
-                <Image src="/trash.svg" alt="delete" />
-              </IconButton>
+                <DeleteModalContent
+                  handleClick={() => handleDelete(index)}
+                  text="Admin Charge"
+                  isLoading={isUpdateLoading}
+                  disabled={isUpdateLoading}
+                />
+              </Modal>
             </HStack>
           </Table.Cell>
         </Table.Row>
