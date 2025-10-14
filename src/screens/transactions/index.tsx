@@ -4,7 +4,7 @@ import { Card } from "@spt/components";
 import CustomTabs from "@spt/components/tabs";
 import { transactionsList } from "@spt/utils/transactions";
 
-import AirtimeAndData from "./tabs/airtimeAndData";
+// import AirtimeAndData from "./tabs/airtimeAndData";
 import SpoilPurchase from "./tabs/spoilPurchase";
 import Sponsorship from "./tabs/sponsorship";
 import Withdrawal from "./tabs/withdrawal";
@@ -25,9 +25,9 @@ const Transactions = () => {
               <Withdrawal />
             </Tabs.Content>
 
-            <Tabs.Content value="airtimeData">
+            {/* <Tabs.Content value="airtimeData">
               <AirtimeAndData />
-            </Tabs.Content>
+            </Tabs.Content> */}
 
             <Tabs.Content value="sponsorship">
               <Sponsorship />
