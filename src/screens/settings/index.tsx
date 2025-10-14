@@ -11,6 +11,7 @@ import { useAddAdminChargeStore } from "@spt/store/transaction";
 import EditProfile from "./tabs/editProfile";
 import General from "./tabs/general/general";
 import Profile from "./tabs/profile";
+import ChangePassword from "./tabs/security/changePassword";
 import Transaction from "./tabs/transaction";
 import AddAdminCharge from "./tabs/transaction/addAdminCharge";
 
@@ -22,6 +23,7 @@ const Settings = () => {
 
   const { data, isLoading, isError, errorMessage } = useSettingsQuery();  
 
+  
   if (isLoading) <LoadingState />;
 
   if (isError) <ErrorState error={errorMessage} />;
@@ -34,7 +36,9 @@ const Settings = () => {
         <CustomTabs tabList={tabList}>
           <>
             <Tabs.Content value="profile">
-              {isEdit ? <EditProfile /> : <Profile />}
+              {isEdit  ?
+               <EditProfile /> 
+               : <Profile />}
             </Tabs.Content>
 
             <Tabs.Content value="general">
@@ -45,7 +49,7 @@ const Settings = () => {
               {isAddAdminCharge ? <AddAdminCharge /> : <Transaction />}
             </Tabs.Content>
 
-            <Tabs.Content value="security"></Tabs.Content>
+            <Tabs.Content value="security"><ChangePassword/></Tabs.Content>
           </>
         </CustomTabs>
       </Stack>

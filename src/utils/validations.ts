@@ -1,6 +1,21 @@
-import { number, string } from "yup";
+import { number, ref, string } from "yup";
 
 export const validations = {
+  newPassword: string()
+    .required("New Password is required")
+    .min(8, "The password field must be at least 8 characters."),
+
+  currentPassword: string()
+    .required("Current Password is required")
+    .min(8, "The password field must be at least 8 characters."),
+
+  confirmPassword: string()
+    .required("Confirm Password is required")
+    .oneOf([ref("newPassword")], "Passwords must match")
+    .min(8, "The password field must be at least 8 characters."),
+  firstName: string().required("First Name is required"),
+  lastName: string().required("Last Name is required"),
+  middleName: string().required("Middle Name is required"),
   reason: string().required("Reason for rejection is required"),
   name: string().required("Name is required"),
   certificateFee: number().required("Amount is required"),
