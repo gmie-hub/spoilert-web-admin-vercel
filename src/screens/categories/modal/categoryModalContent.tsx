@@ -56,9 +56,16 @@ const CategoryModalContent: FC<ComponentProps> = ({
 
   const validationSchema = object().shape({
     categoryName: validations.name,
-    file: Yup.mixed().test("required", "File is required", function (value) {
-      return isEdit || !!value;
-    }),
+    // file: Yup.mixed().test("required", "File is required", function (value) {
+    //   return isEdit || !!value;
+    // }),
+
+     file: Yup.mixed()
+      .required("File is required")
+      .test("fileType", "Only JPG files are allowed", (value:any) => {
+        if (!value) return false;
+        return value && ["image/jpeg", "image/jpg"].includes(value.type);
+      }),
   });
 
   const initialValues = {

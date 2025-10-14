@@ -7,10 +7,10 @@ export const transactionsList = [
     value: "withdrawal",
     text: "Withdrawal",
   },
-  {
-    value: "airtimeData",
-    text: "Airtime and Data",
-  },
+  // {
+  //   value: "airtimeData",
+  //   text: "Airtime and Data",
+  // },
   {
     value: "sponsorship",
     text: "Sponsorship",
