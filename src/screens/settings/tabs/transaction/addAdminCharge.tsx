@@ -163,7 +163,6 @@ const AddAdminCharge = () => {
                     variant="yellow"
                     type="submit"
                     open={openSuccess}
-                    // onOpenChange={(e) => setOpenSuccess(e.open)}
                     px="8"
                   >
                     <Dialog.Content>
