@@ -57,11 +57,11 @@ export const routes = {
       details: "/view-pending-verification/:id",
     },
   },
-  // auth: {
-  //   login: '/',
-  //   forgotPassword: '/forgot-password',
-  //   resetPassword: '/reset-password/:email',
-  //   ResetPasswordVerificationCode: '/reset-password-verification-code/:email/',
-  //   passwordResetSuccessful: '/password-reset-successful',
-  // },
+  auth: {
+    login: '/login',
+    // forgotPassword: '/forgot-password',
+    // resetPassword: '/reset-password/:email',
+    // ResetPasswordVerificationCode: '/reset-password-verification-code/:email/',
+    // passwordResetSuccessful: '/password-reset-successful',
+  },
 };
