@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import Management from "../assets/book.svg";
 import Overview from "../assets/category.svg";
-// import Sponsorships from "../assets/discount-circle.svg";
+import Sponsorships from "../assets/discount-circle.svg";
 import Withdrawal from "../assets/moneys.svg";
 import Learners from "../assets/people2.svg";
 import Tutors from "../assets/profile-2user.svg";
@@ -58,12 +58,12 @@ const Sidebar = () => {
       icon: <img src="/verify.svg" alt="Management" />,
       to: routes.main.pendingVerification.home,
     },
-    // {
-    //   key: "Sponsorships",
-    //   label: "Sponsorships",
-    //   icon: <img src={Sponsorships} alt="Sponsorships" />,
-    //   // to: routes.main.sponsorships.home
-    // },
+    {
+      key: "Sponsorships",
+      label: "Sponsorships",
+      icon: <img src={Sponsorships} alt="Sponsorships" />,
+      to: routes.main.sponsorships.home
+    },
     {
       key: "Promotions",
       label: "Promotions ",

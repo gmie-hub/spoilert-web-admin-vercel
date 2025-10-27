@@ -1,29 +1,30 @@
+import type { FC } from "react";
+
 import { Box, Stack, Text } from "@chakra-ui/react";
 
 import { Card, Pagination, Table } from "@spt/components";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
+import type { SponsorshipDetailsDatum } from "@spt/types/sponsorship";
 import {
-  sponsorshipBreakdownData,
   sponsorshipBreakdownHeaders,
 } from "@spt/utils/sponsorshipData";
 
 import SponsorshipBreakdownTableBody from "../../table/sponsorshipBreakdownTableBody";
 
-const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...sponsorshipBreakdownData,
-  key: index,
-}));
-
-const SponsorshipBreakdown = ({
-  handleNavigate,
-}: {
+interface SponsorshipBreakdownProps {
   handleNavigate: () => void;
+  data: SponsorshipDetailsDatum[];
+}
+
+const SponsorshipBreakdown: FC<SponsorshipBreakdownProps> = ({
+  data,
+  handleNavigate,
 }) => {
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
 
-  const visibleItems = duplicatedItems.slice(startRange, endRange);
+  const visibleItems = data?.slice(startRange, endRange);
 
   return (
     <Box>
@@ -48,7 +49,7 @@ const SponsorshipBreakdown = ({
           <Pagination
             page={page}
             pageSize={pageSize}
-            items={duplicatedItems}
+            items={data}
             onPageChange={handlePageChange}
           />
         </Stack>

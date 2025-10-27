@@ -4,7 +4,10 @@ import { Box, Button, Flex, Image, Stack, Tabs, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 import { Card } from "@spt/components";
+import ErrorState from "@spt/components/errorState";
+import LoadingState from "@spt/components/loadingState";
 import CustomTabs from "@spt/components/tabs";
+import { useGetAllSponsorshipQuery } from "@spt/hooks/api/useGetAllSponsorshipQuery";
 import { routes } from "@spt/routes";
 import { sponsorshipsTabList } from "@spt/utils/sponsorshipData";
 
@@ -16,12 +19,18 @@ const Sponsorships = () => {
   const [showDetails, setShowDetails] = useState(false);
   const navigate = useNavigate();
 
+   const { data, isLoading, isError, errorMessage } =
+      useGetAllSponsorshipQuery();
+
   const handleNavigation = () =>
     navigate(routes.main.sponsorships.sponsorASpoil);
 
   const handleShowDetails = () => {
     setShowDetails((prevState) => !prevState);
   };
+
+  if (isLoading) return <LoadingState />;
+  if (isError) return <ErrorState error={errorMessage} />;
 
   return (
     <Box>
@@ -45,7 +54,7 @@ const Sponsorships = () => {
           <CustomTabs tabList={sponsorshipsTabList}>
             <>
               <Tabs.Content value="allSponsorships">
-                <AllSponsorships />
+                <AllSponsorships data={data} />
               </Tabs.Content>
 
               <Tabs.Content value="createdByMe">

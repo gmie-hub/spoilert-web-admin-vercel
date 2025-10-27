@@ -3,10 +3,12 @@ import type { FC } from "react";
 import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
 
 import { Tag } from "@spt/components";
-import type { TableBodyProps } from "@spt/utils/types";
+import type { SponsorshipDetailsDatum } from "@spt/types/sponsorship";
+import { formatDate } from "@spt/utils/dateTime";
 
-interface ComponentProps extends TableBodyProps {
+interface ComponentProps {
   handleNavigation: () => void;
+  items: SponsorshipDetailsDatum[];
 }
 
 const SponsorshipBreakdownTableBody: FC<ComponentProps> = ({ items, handleNavigation }) => {
@@ -17,20 +19,20 @@ const SponsorshipBreakdownTableBody: FC<ComponentProps> = ({ items, handleNaviga
           <Table.Cell>
             <HStack>
               <Image src="/enrolled_spoils.png" boxSize="10" />
-              <Text color="gray">{item.spoilTitle}</Text>
+              <Text color="gray">{item?.spoil_title}</Text>
             </HStack>
           </Table.Cell>
 
           <Table.Cell>
             <HStack>
               <Image src="/user-icon.svg" />
-              <Text color="gray">{item.nameOfTutor}</Text>
+              <Text color="gray">{item?.tutor_name}</Text>
             </HStack>
           </Table.Cell>
 
-          <Table.Cell>{item.learnersSponsored}</Table.Cell>
-          <Table.Cell>{item.amountPaid}</Table.Cell>
-          <Table.Cell>{item.dateSponsored}</Table.Cell>
+          <Table.Cell>{item?.total_sponsored}</Table.Cell>
+          <Table.Cell>{item?.total_amount}</Table.Cell>
+          <Table.Cell>{formatDate(item?.date_sponsored)}</Table.Cell>
           
           <Table.Cell>
             <Tag status={item.status} />

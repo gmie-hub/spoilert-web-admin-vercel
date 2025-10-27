@@ -27,12 +27,6 @@ export const sponsorshipsTabList = [
   },
 ];
 
-export const sponsorshipOverviewDetails = [
-  { title: "Name of Sponsor", value: "Ogunsola Omorinsola" },
-  { title: "Email Address", value: "ogunsolaomorinsola@gmail.com" },
-  { title: "Total Amount Sponsored", value: "₦500,000" },
-];
-
 export const sponsorshipDetailsTabList = [
   {
     value: "sponsorshipOverview",
