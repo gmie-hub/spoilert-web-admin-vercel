@@ -68,16 +68,6 @@ export const sponsorshipBreakdownData = {
   status: "Expired",
 };
 
-export const createdByMeData = {
-  key: 1,
-  nameOfSponsor: "Ogunsola Omorinsola",
-  spoilTitle: "Understanding Design Principles",
-  learnersSponsored: "50",
-  amountPaid: "₦500,000",
-  dateSponsored: "12-02-2025",
-  status: "Expired",
-};
-
 export const codeGeneratedData = [
   { code: "ABC123", usedBy: "Tobi Smallz", dateUsed: "20-02-2024", status: "Used", },
   { code: "PRS456", usedBy: "Eniola Debby", dateUsed: "20-02-2024", status: "Used", },

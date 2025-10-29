@@ -3,6 +3,7 @@ import type { FC } from "react";
 import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
 
 import { Tag } from "@spt/components";
+import { useSpoilIDStore } from "@spt/store";
 import type { SponsorshipDetailsDatum } from "@spt/types/sponsorship";
 import { formatDate } from "@spt/utils/dateTime";
 
@@ -11,7 +12,17 @@ interface ComponentProps {
   items: SponsorshipDetailsDatum[];
 }
 
-const SponsorshipBreakdownTableBody: FC<ComponentProps> = ({ items, handleNavigation }) => {
+const SponsorshipBreakdownTableBody: FC<ComponentProps> = ({
+  items,
+  handleNavigation,
+}) => {
+  const setSpoilID = useSpoilIDStore((state) => state.setSpoilID);
+
+  const handleClick = (id: number) => {
+    handleNavigation();
+    setSpoilID(id);
+  };
+
   return (
     <>
       {items.map((item, index) => (
@@ -33,7 +44,7 @@ const SponsorshipBreakdownTableBody: FC<ComponentProps> = ({ items, handleNaviga
           <Table.Cell>{item?.total_sponsored}</Table.Cell>
           <Table.Cell>{item?.total_amount}</Table.Cell>
           <Table.Cell>{formatDate(item?.date_sponsored)}</Table.Cell>
-          
+
           <Table.Cell>
             <Tag status={item.status} />
           </Table.Cell>
@@ -43,7 +54,7 @@ const SponsorshipBreakdownTableBody: FC<ComponentProps> = ({ items, handleNaviga
               variant="yellowOutline"
               px="3"
               my="3"
-              onClick={handleNavigation}
+              onClick={() => handleClick(item?.spoil_id)}
             >
               View More
             </Button>

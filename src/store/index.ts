@@ -5,6 +5,7 @@ import type {
   EditState,
   ModalState,
   RejectionState,
+  SpoilIDState,
   SuccessState,
 } from "./type";
 
@@ -26,6 +27,13 @@ export const useRejectionStore = create<RejectionState>((set) => ({
   openRejection: false,
   setOpenRejection: (value) => {
     set({ openRejection: value });
+  },
+}));
+
+export const useSpoilIDStore = create<SpoilIDState>((set) => ({
+  spoilID: 0,
+  setSpoilID: (value) => {
+    set({ spoilID: value });
   },
 }));
 

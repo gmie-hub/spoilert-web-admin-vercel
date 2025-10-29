@@ -5,13 +5,15 @@ import { HStack, Image, Stack, Text } from "@chakra-ui/react";
 import { BackButton } from "@spt/components";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
-import { codeGeneratedData } from "@spt/utils/sponsorshipData";
+import type { AdminSponsorshipsDatum } from "@spt/types/sponsorship";
+import { formatDate } from "@spt/utils/dateTime";
 
 interface ComponentProps {
   handleBack: () => void;
+  data: AdminSponsorshipsDatum;
 }
 
-const CreatedByMeDetails: FC<ComponentProps> = ({ handleBack }) => {
+const CreatedByMeDetails: FC<ComponentProps> = ({ data, handleBack }) => {
   return (
     <Stack gap="5" mt="3">
       <Stack>
@@ -26,38 +28,54 @@ const CreatedByMeDetails: FC<ComponentProps> = ({ handleBack }) => {
 
       <Stack gap="4">
         <ProgressInfo>
-          <InfoDisplay title="Name of Sponsor" value="Ogunsola Omorinsola" />
           <InfoDisplay
-            title="Spoil Title"
-            value="Understanding Design Principles"
+            title="Name of Sponsor"
+            value={`${data?.sponsor?.first_name} ${data?.sponsor?.last_name}`}
           />
+          <InfoDisplay title="Spoil Title" value={data?.spoil?.title} />
           <InfoDisplay title="Name of Tutor" value="Adeyemi John" />
         </ProgressInfo>
 
         <ProgressInfo>
-          <InfoDisplay title="Amount" value="₦500,000" />
-          <InfoDisplay title="Learner’s Sponsored" value="5" />
-          <InfoDisplay title="Date Sponsored" value="12-02-2025" />
+          <InfoDisplay title="Amount" value={`₦${data?.total_amount}`} />
+          <InfoDisplay
+            title="Learner’s Sponsored"
+            value={data?.spoil?.enrolled_users}
+          />
+          <InfoDisplay
+            title="Date Sponsored"
+            value={formatDate(data?.created_at)}
+          />
         </ProgressInfo>
 
         <ProgressInfo>
-          <InfoDisplay flex="0 0 25%" title="Status" status="Active" />
-          <InfoDisplay flex={{ base: "0 0 50%", md: "0 0 62.5%"}} title="Codes Used" value="2 of 5" />
+          <InfoDisplay flex="0 0 25%" title="Status" status={data?.status} />
+          <InfoDisplay
+            flex={{ base: "0 0 50%", md: "0 0 62.5%" }}
+            title="Codes Used"
+            value={`${data?.total_redeemed} of ${data?.total_codes}`}
+          />
         </ProgressInfo>
 
         <Text fontSize="lg" fontWeight="semibold">
           Code Generated
         </Text>
 
-        {codeGeneratedData.map((item, index) => (
+        {data?.codes?.map((item, index) => (
           <ProgressInfo key={index}>
             <InfoDisplay title={"Code " + index + 1} value={item.code} />
-            <InfoDisplay title="Used By" value={item.usedBy} />
-            <InfoDisplay title="Date Used" value={item.dateUsed} />
+            <InfoDisplay
+              title="Used By"
+              value={`${item?.learner?.first_name ?? ""} ${item?.learner?.last_name ?? ""}`}
+            />
+            <InfoDisplay
+              title="Date Used"
+              value={formatDate(item?.redeemed_at)}
+            />
             <InfoDisplay
               title="Status"
               status={item.status}
-              icon={item.status === "Used" ? <Image src="/check.svg" /> : ""}
+              icon={item.status === "redeemed" ? <Image src="/check.svg" /> : ""}
             />
           </ProgressInfo>
         ))}

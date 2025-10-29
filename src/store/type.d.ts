@@ -13,6 +13,11 @@ export interface RejectionState {
   setOpenRejection: (value: boolean) => void;
 }
 
+export interface SpoilIDState {
+  spoilID: number;
+  setSpoilID: (value: number) => void;
+}
+
 export interface ModalState {
   openModal: boolean;
   setOpenModal: (value: boolean) => void;

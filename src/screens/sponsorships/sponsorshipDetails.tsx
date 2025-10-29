@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { Stack, Tabs, Text } from "@chakra-ui/react";
 import { useSearchParams } from "react-router-dom";
@@ -7,8 +7,10 @@ import { Breadcrumb, Card } from "@spt/components";
 import ErrorState from "@spt/components/errorState";
 import LoadingState from "@spt/components/loadingState";
 import CustomTabs from "@spt/components/tabs";
+import { useGetAdminSponsorshipDetailsQuery } from "@spt/hooks/api/useGetAdminSponsorshipDetailsQuery";
 import { useGetSponsorshipDetailsQuery } from "@spt/hooks/api/useGetSponsorshipDetailsQuery";
 import { useGetSponsorshipSummaryQuery } from "@spt/hooks/api/useGetSponsorshipSummaryQuery";
+import { useSpoilIDStore } from "@spt/store";
 import { sponsorshipDetailsTabList } from "@spt/utils/sponsorshipData";
 
 import SponsorshipBreakdown from "./tabs/sponsorshipBreakdown/sponsorshipBreakdown";
@@ -17,6 +19,8 @@ import SponsorshipOverview from "./tabs/sponsorshipOverview";
 
 const SponsorshipDetails = () => {
   const [showDetails, setShowDetails] = useState(false);
+  const spoilID = useSpoilIDStore((state) => state.spoilID);
+  const setSpoilID = useSpoilIDStore((state) => state.setSpoilID);
   const [searchParams] = useSearchParams();
 
   const sponsorId = searchParams.get("sponsorId");
@@ -31,9 +35,12 @@ const SponsorshipDetails = () => {
     sponsorshipBreakdownErrorMessage,
   } = useGetSponsorshipDetailsQuery(Number(sponsorId));
 
-  const handleShowDetails = () => {
+  const admin = useGetAdminSponsorshipDetailsQuery(0, spoilID);
+
+  const handleShowDetails = useCallback(() => {
     setShowDetails((prevState) => !prevState);
-  };
+    setSpoilID(0);
+  }, []);
 
   if (isLoading || isSponsorshipBreakdownLoading) return <LoadingState />;
   if (isError || isSponsorshipBreakdownError)
@@ -62,7 +69,13 @@ const SponsorshipDetails = () => {
 
               <Tabs.Content value="sponsorshipBreakdown">
                 {showDetails ? (
-                  <SponsorshipBreakdownDetails handleBack={handleShowDetails} />
+                  <SponsorshipBreakdownDetails
+                    data={admin?.data?.data?.[0]}
+                    handleBack={handleShowDetails}
+                    isLoading={admin.isLoading}
+                    isError={admin.isError}
+                    errorMessage={admin.errorMessage}
+                  />
                 ) : (
                   <SponsorshipBreakdown
                     data={sponsorshipBreakdownData?.data}
