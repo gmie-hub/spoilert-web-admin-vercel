@@ -1,16 +1,10 @@
-import React from "react";
-
 import { Box, Button, HStack, Image, Stack } from "@chakra-ui/react";
 
 import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
 import type { SponsorshipsDatum } from "@spt/types/sponsorship";
 
-const SponsorshipOverview = ({
-  data,
-}: {
-  data: SponsorshipsDatum;
-}) => {
+const SponsorshipOverview = ({ data }: { data: SponsorshipsDatum }) => {
   const sponsorshipOverviewDetails = [
     { title: "Name of Sponsor", value: data?.sponsor_name },
     { title: "Email Address", value: data?.sponsor_email },

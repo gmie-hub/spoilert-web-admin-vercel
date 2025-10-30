@@ -29,4 +29,9 @@ export const validations = {
   minSpoilPrice: number().required("Minimum spoil price is required"),
   maxSpoilPrice: number().required("Maximum spoil price is required"),
   adminCharge: number().required("Admin charge is required"),
+  nameOfSponsor: string().required("Name of Sponsor is required"),
+  spoilTitle: string().required("Spoil Title is required"),
+  tutorName: string().required("Tutor's Name is required"),
+  sponsoredLearners: number().required("Number of learners to sponsor is required"),
+  amount: number().required("Amount is required"),
 };
