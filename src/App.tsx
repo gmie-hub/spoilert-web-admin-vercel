@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Layout from "./layouts";
 import { routes } from "./routes";
+import Login from "./screens/auth/login.tsx";
 import Categories from "./screens/categories";
 import CategoryDetails from "./screens/categories/categoryDetails.tsx";
 import Community from "./screens/community/index.tsx";
@@ -99,6 +100,7 @@ function App() {
           <Route path={item.path} element={item.element} />
         ))}
       </Route> */}
+      <Route path={routes.auth.login} element={<Login/>} />
 
       <Route element={<Layout />}>
         {appRoutes?.map((item, index) => (

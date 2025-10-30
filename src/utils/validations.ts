@@ -4,6 +4,8 @@ export const validations = {
   newPassword: string()
     .required("New Password is required")
     .min(8, "The password field must be at least 8 characters."),
+  password: string()
+    .required("Password is required"),
 
   currentPassword: string()
     .required("Current Password is required")
@@ -15,6 +17,7 @@ export const validations = {
     .min(8, "The password field must be at least 8 characters."),
   firstName: string().required("First Name is required"),
   lastName: string().required("Last Name is required"),
+    email: string().required("email is required"),
   middleName: string().required("Middle Name is required"),
   reason: string().required("Reason for rejection is required"),
   name: string().required("Name is required"),
