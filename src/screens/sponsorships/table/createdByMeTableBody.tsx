@@ -53,7 +53,7 @@ const CreatedByMeTableBody: FC<ComponentProps> = ({
               variant="yellowOutline"
               px="3"
               my="3"
-              onClick={() => handleClick(item?.spoil_id)}
+              onClick={() => handleClick(item?.id)}
             >
               View More
             </Button>

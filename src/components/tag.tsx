@@ -15,6 +15,7 @@ const CustomTag: FC<ComponentProps> = ({ icon, status }) => {
       case "successful":
       case "active":
       case "redeemed":
+      case "issued":
         return "#F0FFF4";
       case "inactive":
         return "#FFF5F6";
@@ -40,6 +41,7 @@ const CustomTag: FC<ComponentProps> = ({ icon, status }) => {
       case "successful":
       case "active":
       case "redeemed":
+      case "issued":
         return "#28A745";
       case "inactive":
         return "red";

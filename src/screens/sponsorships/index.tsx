@@ -22,7 +22,6 @@ const Sponsorships = () => {
   const [showDetails, setShowDetails] = useState(false);
   const navigate = useNavigate();
   const spoilID = useSpoilIDStore((state) => state.spoilID);
-  const setSpoilID = useSpoilIDStore((state) => state.setSpoilID);
 
   const { data, isLoading, isError, errorMessage } =
     useGetAllSponsorshipQuery();
@@ -34,7 +33,7 @@ const Sponsorships = () => {
     isAdminSponsorshipLoading,
   } = useGetAdminSponsorshipsQuery();
 
-  const admin = useGetAdminSponsorshipDetailsQuery(1, spoilID);
+  const admin = useGetAdminSponsorshipDetailsQuery(spoilID);
 
   const handleNavigation = useCallback(
     () => navigate(routes.main.sponsorships.sponsorASpoil),
@@ -43,7 +42,7 @@ const Sponsorships = () => {
 
   const handleShowDetails = useCallback(() => {
     setShowDetails((prevState) => !prevState);
-    setSpoilID(0);
+    // setSpoilID(0);
   }, []);
 
   if (isLoading || isAdminSponsorshipLoading || admin.isLoading)

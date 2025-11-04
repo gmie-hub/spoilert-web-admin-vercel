@@ -20,7 +20,6 @@ import SponsorshipOverview from "./tabs/sponsorshipOverview";
 const SponsorshipDetails = () => {
   const [showDetails, setShowDetails] = useState(false);
   const spoilID = useSpoilIDStore((state) => state.spoilID);
-  const setSpoilID = useSpoilIDStore((state) => state.setSpoilID);
   const [searchParams] = useSearchParams();
 
   const sponsorId = searchParams.get("sponsorId");
@@ -35,11 +34,11 @@ const SponsorshipDetails = () => {
     sponsorshipBreakdownErrorMessage,
   } = useGetSponsorshipDetailsQuery(Number(sponsorId));
 
-  const admin = useGetAdminSponsorshipDetailsQuery(0, spoilID);
+  const admin = useGetAdminSponsorshipDetailsQuery(spoilID);
 
   const handleShowDetails = useCallback(() => {
     setShowDetails((prevState) => !prevState);
-    setSpoilID(0);
+    // setSpoilID(0);
   }, []);
 
   if (isLoading || isSponsorshipBreakdownLoading) return <LoadingState />;

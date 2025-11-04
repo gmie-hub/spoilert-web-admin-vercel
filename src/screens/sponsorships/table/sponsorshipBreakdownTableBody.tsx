@@ -54,7 +54,7 @@ const SponsorshipBreakdownTableBody: FC<ComponentProps> = ({
               variant="yellowOutline"
               px="3"
               my="3"
-              onClick={() => handleClick(item?.spoil_id)}
+              onClick={() => handleClick(item?.sponsorship_id)}
             >
               View More
             </Button>

@@ -6,9 +6,10 @@ import apiCall from "@spt/utils/apiCall";
 
 import type { AxiosError } from "axios";
 
-export const useGetAdminSponsorshipDetailsQuery = (isAdmin: number, id: number) => {
+export const useGetAdminSponsorshipDetailsQuery = (id: number) => {
   const fetchAdminSponsorshipDetails = async (): Promise<AdminSponsorshipsResponse> => {
-    return (await apiCall().get(`sponsorships?is_admin=${isAdmin}&spoil_id=${id}`))?.data;
+    // return (await apiCall().get(`sponsorships?is_admin=${isAdmin}&spoil_id=${id}`))?.data;
+    return (await apiCall().get(`sponsorships?id=${id}`))?.data;
   };
 
   const { data, isLoading, isError, error } = useQuery<

@@ -21,6 +21,7 @@ export interface SponsorshipsData {
 }
 
 export interface SponsorshipsDatum {
+  sponsorship_id: number;
   sponsor_id: number;
   sponsor_name: string;
   sponsor_email: string;
@@ -54,6 +55,7 @@ interface SponsorshipDetailsData {
 }
 
 interface SponsorshipDetailsDatum {
+  sponsorship_id: number;
   spoil_id: number;
   spoil_title: string;
   tutor_name: string;

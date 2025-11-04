@@ -32,6 +32,7 @@ const CreatedByMeDetails: FC<ComponentProps> = ({ data, handleBack }) => {
             title="Name of Sponsor"
             value={`${data?.sponsor?.first_name} ${data?.sponsor?.last_name}`}
           />
+
           <InfoDisplay title="Spoil Title" value={data?.spoil?.title} />
           <InfoDisplay title="Name of Tutor" value="Adeyemi John" />
         </ProgressInfo>
@@ -42,6 +43,7 @@ const CreatedByMeDetails: FC<ComponentProps> = ({ data, handleBack }) => {
             title="Learner’s Sponsored"
             value={data?.spoil?.enrolled_users}
           />
+
           <InfoDisplay
             title="Date Sponsored"
             value={formatDate(data?.created_at)}
