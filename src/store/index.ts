@@ -3,6 +3,7 @@ import { create } from "zustand";
 import type {
   ApprovalState,
   EditState,
+  IDState,
   ModalState,
   RejectionState,
   SpoilIDState,
@@ -34,6 +35,13 @@ export const useSpoilIDStore = create<SpoilIDState>((set) => ({
   spoilID: 0,
   setSpoilID: (value) => {
     set({ spoilID: value });
+  },
+}));
+
+export const useIDStore = create<IDState>((set) => ({
+  id: 0,
+  setID: (value) => {
+    set({ id: value });
   },
 }));
 

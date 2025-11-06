@@ -18,6 +18,11 @@ export interface SpoilIDState {
   setSpoilID: (value: number) => void;
 }
 
+export interface IDState {
+  id: number;
+  setID: (value: number) => void;
+}
+
 export interface ModalState {
   openModal: boolean;
   setOpenModal: (value: boolean) => void;

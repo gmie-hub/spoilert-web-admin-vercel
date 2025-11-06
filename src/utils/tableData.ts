@@ -104,15 +104,6 @@ export const communityHeader = [
   "Action",
 ];
 
-export const communityData = {
-  key: 1,
-  communityName: "Developers",
-  spoilTitle: "Understanding Design Principles",
-  nameOfTutor: "Ogunsola Omorinsola",
-  numberOfMembers: "Developers",
-  status: "Active",
-};
-
 export const promotionsHeaders = [
   "Spoil Title",
   "Name of Tutor",

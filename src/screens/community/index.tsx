@@ -1,22 +1,26 @@
 import { Box, Stack, Text } from "@chakra-ui/react";
 
 import { Card, Pagination, Table } from "@spt/components";
+import ErrorState from "@spt/components/errorState";
+import LoadingState from "@spt/components/loadingState";
+import { useGetCommunitiesQuery } from "@spt/hooks/api/useGetCommunitiesQuery";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
-import { communityData, communityHeader } from "@spt/utils/tableData";
+import { communityHeader } from "@spt/utils/tableData";
 
 import TableBody from "./table/tableBody";
-
-const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...communityData,
-  key: index,
-}));
 
 const Community = () => {
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
 
-  const visibleItems = duplicatedItems.slice(startRange, endRange);
+  const { data, isLoading, isError, errorMessage } =
+    useGetCommunitiesQuery(page);
+
+  const visibleItems = data?.data?.slice(startRange, endRange);
+
+  if (isLoading) return <LoadingState />;
+  if (isError) return <ErrorState error={errorMessage} />;
 
   return (
     <Box>
@@ -34,7 +38,7 @@ const Community = () => {
           <Pagination
             page={page}
             pageSize={pageSize}
-            items={duplicatedItems}
+            items={data?.data}
             onPageChange={handlePageChange}
           />
         </Stack>

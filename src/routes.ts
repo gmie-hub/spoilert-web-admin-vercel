@@ -44,6 +44,7 @@ export const routes = {
     },
     community: {
       home: "/community",
+      details: "/community-details",
     },
     customerSupport: {
       home: "/customer-support",

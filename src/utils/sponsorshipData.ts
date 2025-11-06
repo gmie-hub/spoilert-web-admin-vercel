@@ -38,6 +38,17 @@ export const sponsorshipDetailsTabList = [
   },
 ];
 
+export const communityDetailsTabList = [
+  {
+    value: "communityOverview",
+    text: "Commnunity Overview",
+  },
+  {
+    value: "communityPosts",
+    text: "Community Posts",
+  },
+];
+
 export const sponsorshipBreakdownHeaders = [
   "Spoil Title",
   "Name of Tutor",

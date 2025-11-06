@@ -7,7 +7,7 @@ import apiCall from "@spt/utils/apiCall";
 import type { AxiosError } from "axios";
 
 
-export const useGetAllUsersQuery = (role:string, page:number) => {
+export const useGetAllUsersQuery = (role:string, page: number) => {
   const fetchUsers = async (): Promise<UserResponse> => {
     return (await apiCall().get(`/users?role=${role}&page=${page}&per_page=${20}`))?.data;
   };
