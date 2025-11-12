@@ -18,7 +18,10 @@ const CommunityOverview = ({ data }: { data: CommunitiesDatum }) => {
   const communityOverviewDetails_2 = [
     { title: "Number of Members", value: data?.total_members.toString() },
     { title: "Date Created", value: formatDate(data?.created_at) },
-    { title: "Status", value: "", status: "Active" },
+    {
+      title: "Status",
+      status: data?.locked === 1 ? "Disabled" : "Active",
+    },
   ];
 
   return (

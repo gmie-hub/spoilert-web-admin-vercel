@@ -26,12 +26,6 @@ export interface CommunitiesData {
   total: number;
 }
 
-interface Link {
-  url: null | string;
-  label: string;
-  active: boolean;
-}
-
 export interface CommunitiesDatum {
   id: number;
   name: string;
@@ -218,4 +212,123 @@ interface Category {
   description: null;
   url: string;
   total_spoils: number;
+}
+
+interface CommunityPostResponse {
+  message: string;
+  status: boolean;
+  data: CommunityPostData;
+}
+
+interface CommunityPostData {
+  current_page: number;
+  data: CommunityPostDatum[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: Link[];
+  next_page_url: null;
+  path: string;
+  per_page: number;
+  prev_page_url: null;
+  to: number;
+  total: number;
+}
+
+interface CommunityPostDatum {
+  id: number;
+  community_id: number;
+  user_id: number;
+  content: null | string;
+  images: any[];
+  created_at: string;
+  updated_at: string;
+  deleted_at: null;
+  total_likes: number;
+  total_comments: number;
+  has_liked: boolean;
+}
+
+interface CommentResponse {
+  message: string;
+  status: boolean;
+  data: CommentData;
+}
+
+interface CommentData {
+  current_page: number;
+  data: CommentDatum[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: Link[];
+  next_page_url: null;
+  path: string;
+  per_page: number;
+  prev_page_url: null;
+  to: number;
+  total: number;
+}
+
+interface CommentDatum {
+  id: number;
+  post_id: number;
+  user_id: number;
+  comment: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: null;
+}
+
+interface CommunityUserResponse {
+  message: string;
+  status: boolean;
+  data: CommunityUserData;
+}
+
+interface CommunityUserData {
+  current_page: number;
+  data: CommunityUserDatum[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: Link[];
+  next_page_url: null;
+  path: string;
+  per_page: number;
+  prev_page_url: null;
+  to: number;
+  total: number;
+}
+
+interface Link {
+  url: null | string;
+  label: string;
+  active: boolean;
+}
+
+interface CommunityUserDatum {
+  id: number;
+  user_id: number;
+  spoil_id: number;
+  community_id: number;
+  type: string;
+  deleted_at: null;
+  created_at: string;
+  updated_at: string;
+  user: User;
+}
+
+interface User {
+  id: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  profile: null;
+  total_spoils_created: null;
+  followers_count: null;
 }

@@ -6,9 +6,11 @@ import ErrorState from "@spt/components/errorState";
 import LoadingState from "@spt/components/loadingState";
 import CustomTabs from "@spt/components/tabs";
 import { useGetCommunityDetailsQuery } from "@spt/hooks/api/useGetCommunityDetailsQuery";
+import { useGetCommunityPostsQuery } from "@spt/hooks/api/useGetCommunityPostsQuery";
 import { communityDetailsTabList } from "@spt/utils/sponsorshipData";
 
 import CommunityOverview from "./tabs/communityOverview";
+import CommunityPosts from "./tabs/communityPosts/communityPosts";
 
 const CommunityDetails = () => {
   const id = useSearchParams()[0].get("id");
@@ -16,8 +18,12 @@ const CommunityDetails = () => {
   const { data, isLoading, isError, errorMessage } =
     useGetCommunityDetailsQuery(Number(id));
 
-  if (isLoading) return <LoadingState />;
-  if (isError) return <ErrorState error={errorMessage} />;
+  const { postData, isPostLoading, isPostError, postErrorMessage } =
+    useGetCommunityPostsQuery();
+
+  if (isLoading || isPostLoading) return <LoadingState />;
+  if (isError || isPostError)
+    return <ErrorState error={errorMessage || postErrorMessage} />;
 
   return (
     <Stack gap="4">
@@ -44,7 +50,13 @@ const CommunityDetails = () => {
                 <CommunityOverview data={data} />
               </Tabs.Content>
 
-              <Tabs.Content value="communityPosts"></Tabs.Content>
+              <Tabs.Content value="communityPosts">
+                <CommunityPosts
+                  communityData={data}
+                  postData={postData?.data}
+                  communityId={Number(id)}
+                />
+              </Tabs.Content>
             </>
           </CustomTabs>
         </Stack>
