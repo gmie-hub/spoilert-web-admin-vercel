@@ -7,8 +7,8 @@ import { formatDate } from "@spt/utils/dateTime";
 
 const CommunityOverview = ({ data }: { data: CommunitiesDatum }) => {
   const communityOverviewDetails_1 = [
-    { title: "Community Name", value: data?.name },
-    { title: "Spoil Title", value: data?.spoil?.title },
+    { title: "Community Name", value: data?.name ?? "N/A" },
+    { title: "Spoil Title", value: data?.spoil?.title ?? "N/A" },
     {
       title: "Name of Tutor",
       value: data?.spoil?.tutor
@@ -45,7 +45,7 @@ const CommunityOverview = ({ data }: { data: CommunitiesDatum }) => {
 
         <ProgressInfo>
           {communityOverviewDetails_2.map((item, index) => (
-            <InfoDisplay title={item.title} value={item.value} key={index} />
+            <InfoDisplay title={item.title} value={item.value} status={item.status} key={index} />
           ))}
         </ProgressInfo>
 

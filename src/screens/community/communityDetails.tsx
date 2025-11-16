@@ -1,7 +1,7 @@
 import {
   Button,
   Dialog,
-  HStack,
+  Flex,
   Image,
   Portal,
   Stack,
@@ -71,7 +71,11 @@ const CommunityDetails = () => {
 
       <Card>
         <Stack gap="4">
-          <HStack justifyContent="space-between">
+          <Flex
+            flexDir={{ base: "column", md: "row" }}
+            justifyContent="space-between"
+            rowGap="3"
+          >
             <Text fontSize="lg" fontWeight="semibold">
               Community Details
             </Text>
@@ -87,7 +91,7 @@ const CommunityDetails = () => {
               />{" "}
               {isDisabled ? "Re-enable Community" : "Disable Community"}
             </Button>
-          </HStack>
+          </Flex>
 
           <CustomTabs tabList={communityDetailsTabList}>
             <>

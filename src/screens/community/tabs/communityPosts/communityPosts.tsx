@@ -1,8 +1,14 @@
 import type { FC } from "react";
 
-import { Box, HStack, Heading, Separator, Stack, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  HStack,
+  Heading,
+  Separator,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 
-import { Back } from "@spt/components";
 import { useGetCommunityUsersQuery } from "@spt/hooks/api/useGetCommunityUsersQuery";
 import type {
   CommunitiesDatum,
@@ -11,6 +17,7 @@ import type {
 
 import { CommunityMembers } from "./communityMembers";
 import { CommunityPostThread } from "./communityPostThread";
+import { PostInput } from "./postInput";
 
 interface CommunityPostsProps {
   communityData: CommunitiesDatum;
@@ -29,9 +36,9 @@ const CommunityPosts: FC<CommunityPostsProps> = ({
   return (
     <Stack>
       <Stack>
-        <Box>
+        {/* <Box>
           <Back onClick={() => {}} />
-        </Box>
+        </Box> */}
 
         <HStack>
           <Heading>{communityData?.name}</Heading>
@@ -43,7 +50,12 @@ const CommunityPosts: FC<CommunityPostsProps> = ({
 
       <Separator />
 
-      <HStack mt="3" gap="8" alignItems="flex-start">
+      <Flex
+        flexDir={{ base: "column", md: "row" }}
+        mt="3"
+        gap="8"
+        alignItems="flex-start"
+      >
         <Stack gap="3" w={{ md: "65%" }}>
           {hasPosts ? (
             postData.map((post) => (
@@ -55,7 +67,11 @@ const CommunityPosts: FC<CommunityPostsProps> = ({
         </Stack>
 
         <CommunityMembers data={communityUserData} />
-      </HStack>
+      </Flex>
+
+      <Separator />
+
+      <PostInput communityId={communityId} />
     </Stack>
   );
 };
