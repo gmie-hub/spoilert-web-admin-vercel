@@ -32,6 +32,11 @@ export interface EditState {
   isEdit: boolean;
   setIsEdit: (value: boolean) => void;
 }
+
+export interface DeleteState {
+  openDelete: boolean;
+  setOpenDelete: (value: boolean) => void;
+}
 export interface AddAdminChargeState {
   isAddAdminCharge: boolean;
   setIsAddAdminCharge: (value: boolean) => void;

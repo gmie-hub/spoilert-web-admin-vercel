@@ -240,6 +240,7 @@ interface CommunityPostDatum {
   id: number;
   community_id: number;
   user_id: number;
+  user: User2;
   content: null | string;
   images: any[];
   created_at: string;
@@ -275,6 +276,7 @@ interface CommentData {
 interface CommentDatum {
   id: number;
   post_id: number;
+  user: User;
   user_id: number;
   comment: string;
   created_at: string;
@@ -328,6 +330,33 @@ interface User {
   first_name: string;
   last_name: string;
   email: string;
+  profile: null;
+  total_spoils_created: null;
+  followers_count: null;
+}
+
+interface User2 {
+  id: number;
+  email: string;
+  username: string;
+  first_name: string;
+  last_name: string;
+  middie_name: null;
+  country: string;
+  country_code: string;
+  preferred_currency: string;
+  phone_number: string;
+  avatar: null;
+  role: string;
+  email_verified_at: string;
+  phone_verified_at: string;
+  kyc_verified_at: null;
+  is_active: number;
+  last_login: string;
+  is_password_changed: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: null;
   profile: null;
   total_spoils_created: null;
   followers_count: null;

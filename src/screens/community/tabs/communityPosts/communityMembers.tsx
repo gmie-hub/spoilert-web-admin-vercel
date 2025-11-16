@@ -15,7 +15,7 @@ import type { CommunityUserDatum } from "@spt/types/community";
 
 export const CommunityMembers = ({ data }: { data: CommunityUserDatum[] }) => {
   return (
-    <Card>
+    <Card hasBoxShadow>
       <Stack>
         <Heading>{`Members (${data?.length})`}</Heading>
 
@@ -25,16 +25,16 @@ export const CommunityMembers = ({ data }: { data: CommunityUserDatum[] }) => {
           <Input placeholder="Username" />
         </InputGroup>
 
-        <Stack>
+        <Stack  mt="3">
           {data?.map((item) => (
             <Stack key={item?.id}>
               <HStack justifyContent="space-between" alignItems="center">
                 <HStack>
                   <Image src="/user-icon.svg" alt="user" boxSize={6} />
-                  <Text>{`${item?.user?.first_name} ${item?.user?.last_name}`}</Text>
+                  <Text fontSize="sm">{`${item?.user?.first_name} ${item?.user?.last_name}`}</Text>
                 </HStack>
 
-                <Button variant="yellowOutline">Profile</Button>
+                <Button variant="yellowOutline" fontSize="sm">View Profile</Button>
               </HStack>
 
               <Separator />

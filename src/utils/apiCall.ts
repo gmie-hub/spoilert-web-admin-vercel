@@ -8,7 +8,7 @@ export const apiCall = () => {
   // Set up axios request interceptors
   instance.interceptors.request.use(
     function (config) {
-      let token = "107|4giVmAQ74IuWS5sfowwYiQ4ZaSxTVztNrWJAqA3gc043688b";
+      let token = "386|WZVEhaJ5HdtzpGYmO3yp9tX1SHEWuTbiD5l6dzUl5869a933";
 
       if (typeof (config?.headers as any).authorization === "undefined") {
         const tokenModel = JSON.parse(

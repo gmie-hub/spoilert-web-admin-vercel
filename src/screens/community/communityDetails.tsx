@@ -1,12 +1,26 @@
-import { Button, HStack, Image, Stack, Tabs, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Dialog,
+  HStack,
+  Image,
+  Portal,
+  Stack,
+  Tabs,
+  Text,
+} from "@chakra-ui/react";
 import { useSearchParams } from "react-router-dom";
 
 import { Breadcrumb, Card } from "@spt/components";
+import ApprovalModalContent from "@spt/components/approvalModalContent";
 import ErrorState from "@spt/components/errorState";
 import LoadingState from "@spt/components/loadingState";
+import RejectModalContent from "@spt/components/rejectModalContent";
 import CustomTabs from "@spt/components/tabs";
 import { useGetCommunityDetailsQuery } from "@spt/hooks/api/useGetCommunityDetailsQuery";
 import { useGetCommunityPostsQuery } from "@spt/hooks/api/useGetCommunityPostsQuery";
+import { useToggleCommunityStatusMutation } from "@spt/hooks/api/useToggleCommunityStatusMutation";
+import { routes } from "@spt/routes";
+import { useApprovalStore, useRejectionStore } from "@spt/store";
 import { communityDetailsTabList } from "@spt/utils/sponsorshipData";
 
 import CommunityOverview from "./tabs/communityOverview";
@@ -20,6 +34,29 @@ const CommunityDetails = () => {
 
   const { postData, isPostLoading, isPostError, postErrorMessage } =
     useGetCommunityPostsQuery();
+
+  const openRejection = useRejectionStore((state) => state.openRejection);
+  const setOpenRejection = useRejectionStore((state) => state.setOpenRejection);
+  const openApproval = useApprovalStore((state) => state.openApproval);
+  const setOpenApproval = useApprovalStore((state) => state.setOpenApproval);
+  const { isToggleLoading, toggleCommunityStatusHandler } =
+    useToggleCommunityStatusMutation();
+
+  const isDisabled = data?.locked === 1;
+
+  const handleToggleCommunity = () => {
+    if (id) {
+      toggleCommunityStatusHandler(Number(id), isDisabled);
+    }
+  };
+
+  const handleModalOpen = () => {
+    if (isDisabled) {
+      setOpenApproval(true);
+    } else {
+      setOpenRejection(true);
+    }
+  };
 
   if (isLoading || isPostLoading) return <LoadingState />;
   if (isError || isPostError)
@@ -39,8 +76,16 @@ const CommunityDetails = () => {
               Community Details
             </Text>
 
-            <Button variant="dangerOutline">
-              {<Image src="/trash.svg" alt="delete" />} Disable Community
+            <Button
+              variant={isDisabled ? "yellowOutline" : "dangerOutline"}
+              color={isDisabled ? "blue.100" : undefined}
+              onClick={handleModalOpen}
+            >
+              <Image
+                src={isDisabled ? "/repeat.svg" : "/danger.svg"}
+                alt={isDisabled ? "enable" : "disable"}
+              />{" "}
+              {isDisabled ? "Re-enable Community" : "Disable Community"}
             </Button>
           </HStack>
 
@@ -61,6 +106,57 @@ const CommunityDetails = () => {
           </CustomTabs>
         </Stack>
       </Card>
+
+      {/* Disable Community Modal */}
+      <Dialog.Root
+        open={openRejection}
+        onOpenChange={(details) => setOpenRejection(details.open)}
+        placement="center"
+        motionPreset="slide-in-bottom"
+      >
+        <Portal>
+          <Dialog.Backdrop bg="blackAlpha.300" backdropFilter="blur(2px)" />
+          <Dialog.Positioner>
+            <RejectModalContent
+              buttonText="Yes, Disable"
+              heading="Disable This Community"
+              description="Disabling this community will prevent all members from accessing or engaging in discussions."
+              label="Disable"
+              placeholder="disabling this community"
+              onClose={() => {}}
+              onClick={handleToggleCommunity}
+              isLoading={isToggleLoading}
+              successMessage="Community Disabled Successfully"
+              route={routes.main.community.home}
+              skipNavigation
+            />
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
+
+      {/* Re-enable Community Modal */}
+      <Dialog.Root
+        open={openApproval}
+        onOpenChange={(details) => setOpenApproval(details.open)}
+        placement="center"
+        motionPreset="slide-in-bottom"
+      >
+        <Portal>
+          <Dialog.Backdrop bg="blackAlpha.300" backdropFilter="blur(2px)" />
+          <Dialog.Positioner>
+            <ApprovalModalContent
+              buttonText="Yes, Re-enable"
+              heading="Re-enable This Community"
+              onClick={handleToggleCommunity}
+              isLoading={isToggleLoading}
+              successMessage="Community Re-enabled Successfully"
+              route={routes.main.community.home}
+              content="Re-enabling this community will restore access for all members to engage in discussions."
+              skipNavigation
+            />
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     </Stack>
   );
 };

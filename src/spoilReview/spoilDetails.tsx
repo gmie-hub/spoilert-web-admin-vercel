@@ -93,6 +93,7 @@ const SpoilReviewDetails = () => {
                 rejectHandler={rejectSpoilHandler}
                 isLoading={isRejectSpoilLoading}
                 route={routes.main.spoilReview.home}
+                showForm
               />
             </Modal>
 

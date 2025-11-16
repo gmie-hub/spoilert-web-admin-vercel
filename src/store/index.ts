@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 import type {
   ApprovalState,
+  DeleteState,
   EditState,
   IDState,
   ModalState,
@@ -56,5 +57,12 @@ export const useEditStore = create<EditState>((set) => ({
   isEdit: false,
   setIsEdit: (value) => {
     set({ isEdit: value });
+  },
+}));
+
+export const useDeleteStore = create<DeleteState>((set) => ({
+  openDelete: false,
+  setOpenDelete: (value) => {
+    set({ openDelete: value });
   },
 }));

@@ -11,7 +11,9 @@ const CommunityOverview = ({ data }: { data: CommunitiesDatum }) => {
     { title: "Spoil Title", value: data?.spoil?.title },
     {
       title: "Name of Tutor",
-      value: `${data?.spoil?.tutor?.first_name} ${data?.spoil?.tutor?.last_name}`,
+      value: data?.spoil?.tutor
+        ? `${data?.spoil?.tutor?.first_name ?? ""} ${data?.spoil?.tutor?.last_name ?? ""}`
+        : "N/A",
     },
   ];
 

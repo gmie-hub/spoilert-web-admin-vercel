@@ -1,15 +1,8 @@
 import type { FC } from "react";
 
-import {
-  Button,
-  HStack,
-  Heading,
-  Image,
-  Separator,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Box, HStack, Heading, Separator, Stack, Text } from "@chakra-ui/react";
 
+import { Back } from "@spt/components";
 import { useGetCommunityUsersQuery } from "@spt/hooks/api/useGetCommunityUsersQuery";
 import type {
   CommunitiesDatum,
@@ -35,25 +28,23 @@ const CommunityPosts: FC<CommunityPostsProps> = ({
 
   return (
     <Stack>
-      <HStack justifyContent="space-between" alignItems="center">
-        <Stack>
-          <HStack>
-            <Heading>{communityData?.name}</Heading>
-          </HStack>
+      <Stack>
+        <Box>
+          <Back onClick={() => {}} />
+        </Box>
 
-          <Text color="gray.500">{communityData?.total_members} Members</Text>
-          <Text color="gray.500">{communityData?.description}</Text>
-        </Stack>
+        <HStack>
+          <Heading>{communityData?.name}</Heading>
+        </HStack>
 
-        <Button variant="yellow">
-          <Image src="/edit_new.svg" alt="edit" /> Write A Post
-        </Button>
-      </HStack>
+        <Text color="gray.500">{communityData?.total_members} Members</Text>
+        <Text color="gray.500">{communityData?.description}</Text>
+      </Stack>
 
       <Separator />
 
       <HStack mt="3" gap="8" alignItems="flex-start">
-        <Stack gap="3" w={{ md: "70%" }}>
+        <Stack gap="3" w={{ md: "65%" }}>
           {hasPosts ? (
             postData.map((post) => (
               <CommunityPostThread key={post?.id} post={post} />

@@ -16,6 +16,8 @@ interface ComponentProps {
   successMessage: string;
   route: string;
   content?: string;
+  skipNavigation?: boolean;
+  onSuccessDone?: () => void;
 }
 
 const ApprovalModalContent: FC<ComponentProps> = ({
@@ -26,6 +28,8 @@ const ApprovalModalContent: FC<ComponentProps> = ({
   successMessage,
   route,
   content = "This action cannot be undone",
+  skipNavigation = false,
+  onSuccessDone,
 }) => {
   const openSuccess = useSuccessStore((state) => state.openSuccess);
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
@@ -35,7 +39,11 @@ const ApprovalModalContent: FC<ComponentProps> = ({
   const handleSuccessDone = () => {
     setOpenApproval(false);
     setOpenSuccess(false);
-    navigate(route);
+    if (onSuccessDone) {
+      onSuccessDone();
+    } else if (!skipNavigation) {
+      navigate(route);
+    }
   };
 
   return (
