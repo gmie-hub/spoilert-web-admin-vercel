@@ -30,6 +30,8 @@ interface CommunityPostCardProps {
   >;
   stackProps?: StackProps;
   onDeleteClick?: () => void;
+  onEditClick?: () => void;
+  onClick?: () => void;
   showMenu?: boolean;
 }
 
@@ -43,12 +45,19 @@ const CommunityPostCard: FC<CommunityPostCardProps> = ({
   cardProps,
   stackProps,
   onDeleteClick,
+  onEditClick,
+  onClick,
   showMenu = true,
 }) => {
   const hasTimestamp = Boolean(createdAt);
 
   return (
-    <Card hasBoxShadow {...cardProps}>
+    <Card
+      hasBoxShadow
+      {...cardProps}
+      onClick={onClick}
+      cursor={onClick ? "pointer" : "default"}
+    >
       <Stack gap="3" {...stackProps}>
         <HStack justifyContent="space-between">
           <HStack gap="3">
@@ -76,6 +85,7 @@ const CommunityPostCard: FC<CommunityPostCardProps> = ({
                   size="sm"
                   _hover={{ backgroundColor: "transparent" }}
                   _focus={{ backgroundColor: "transparent" }}
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <Image src="/more.svg" alt="more" />
                 </IconButton>
@@ -90,14 +100,26 @@ const CommunityPostCard: FC<CommunityPostCardProps> = ({
                     gap="2"
                     px="3"
                   >
-                    <Menu.Item value="edit">
+                    <Menu.Item
+                      value="edit"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onEditClick?.();
+                      }}
+                    >
                       <Image src="/edit-dark.svg" alt="edit" />
                       <Box flex="1">Edit Post</Box>
                     </Menu.Item>
 
                     <Separator />
 
-                    <Menu.Item value="delete-post" onClick={onDeleteClick}>
+                    <Menu.Item
+                      value="delete-post"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDeleteClick?.();
+                      }}
+                    >
                       <Image src="/trash.svg" alt="delete" />
                       <Box flex="1" color="red">
                         Delete Post

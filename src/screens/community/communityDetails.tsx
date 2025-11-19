@@ -13,6 +13,7 @@ import { useSearchParams } from "react-router-dom";
 import { Breadcrumb, Card } from "@spt/components";
 import ApprovalModalContent from "@spt/components/approvalModalContent";
 import ErrorState from "@spt/components/errorState";
+import Info from "@spt/components/info";
 import LoadingState from "@spt/components/loadingState";
 import RejectModalContent from "@spt/components/rejectModalContent";
 import CustomTabs from "@spt/components/tabs";
@@ -92,6 +93,13 @@ const CommunityDetails = () => {
               {isDisabled ? "Re-enable Community" : "Disable Community"}
             </Button>
           </Flex>
+
+          {isDisabled && (
+            <Info
+              info="This community has been disabled, you can enable it by clicking on the button that says"
+              actionText='"Re-enable Community"'
+            />
+          )}
 
           <CustomTabs tabList={communityDetailsTabList}>
             <>

@@ -1,15 +1,26 @@
 import type { FC } from "react";
+import { useState } from "react";
 
 import {
+  Box,
+  Dialog,
   Flex,
   HStack,
   Heading,
+  Portal,
   Separator,
   Stack,
   Text,
 } from "@chakra-ui/react";
 
+import { Back } from "@spt/components";
+import DeleteModalContent from "@spt/components/deleteModalContent";
+import { useDeletePostMutation } from "@spt/hooks/api/useDeletePostMutation";
 import { useGetCommunityUsersQuery } from "@spt/hooks/api/useGetCommunityUsersQuery";
+import { useLikePostMutation } from "@spt/hooks/api/useLikePostMutation";
+import CommunityPostCard from "@spt/partials/communityPostCard";
+import LikeAndComment from "@spt/partials/likeAndComment";
+import { useDeleteStore } from "@spt/store";
 import type {
   CommunitiesDatum,
   CommunityPostDatum,
@@ -17,6 +28,7 @@ import type {
 
 import { CommunityMembers } from "./communityMembers";
 import { CommunityPostThread } from "./communityPostThread";
+import { PostImages } from "./postImages";
 import { PostInput } from "./postInput";
 
 interface CommunityPostsProps {
@@ -30,15 +42,53 @@ const CommunityPosts: FC<CommunityPostsProps> = ({
   postData,
   communityId,
 }) => {
-  const hasPosts = postData?.length > 0;
+  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+  const [editingPostId, setEditingPostId] = useState<number | null>(null);
+  // const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [deletePostId, setDeletePostId] = useState<number | null>(null);
+
+  const setIsDeleteOpen = useDeleteStore((state) => state.setOpenDelete);
+  const isDeleteOpen = useDeleteStore((state) => state.openDelete);
+
+
   const { communityUserData } = useGetCommunityUsersQuery(communityId);
+  const { isDeleteLoading, deletePostHandler } = useDeletePostMutation();
+  const { isLiking, likePostHandler } = useLikePostMutation();
+
+  const selectedPost = postData.find((p) => p.id === selectedPostId);
+  const editingPost = postData.find((p) => p.id === editingPostId);
+  const deletingPost = postData.find((p) => p.id === deletePostId);
+
+  const hasPosts = postData?.length > 0;
+
+  const handleDeleteClick = (postId: number) => {
+    setDeletePostId(postId);
+    setIsDeleteOpen(true);
+  };
+
+  const handleDeletePost = () => {
+    if (deletePostId !== null) {
+      deletePostHandler(deletePostId);
+    }
+  };
+
+  const handleStartEdit = (postId: number) => {
+    setEditingPostId(postId);
+    setSelectedPostId(null); 
+  };
+
+  const handleEditComplete = () => {
+    setEditingPostId(null);
+  };
 
   return (
     <Stack>
       <Stack>
-        {/* <Box>
-          <Back onClick={() => {}} />
-        </Box> */}
+        {selectedPostId !== null && (
+          <Box>
+            <Back onClick={() => setSelectedPostId(null)} />
+          </Box>
+        )}
 
         <HStack>
           <Heading>{communityData?.name}</Heading>
@@ -57,9 +107,43 @@ const CommunityPosts: FC<CommunityPostsProps> = ({
         alignItems="flex-start"
       >
         <Stack gap="3" w={{ md: "65%" }}>
-          {hasPosts ? (
+          {selectedPostId !== null && selectedPost ? (
+            <CommunityPostThread
+              post={selectedPost}
+              onDeleteClick={() => handleDeleteClick(deletingPost.id)}
+            />
+          ) : hasPosts ? (
             postData.map((post) => (
-              <CommunityPostThread key={post?.id} post={post} />
+              <CommunityPostCard
+                key={post?.id}
+                content={post?.content ?? ""}
+                createdAt={post?.created_at}
+                extraContent={<PostImages images={post?.images} />}
+                authorName={`${post?.user?.first_name} ${post?.user?.last_name}`}
+                onDeleteClick={() => handleDeleteClick(post.id)}
+                onEditClick={() => handleStartEdit(post.id)}
+                actions={
+                  <HStack gap="4">
+                    <LikeAndComment
+                      icon="/heart.svg"
+                      filledIcon="/heart-filled.svg"
+                      alt="like"
+                      value={post.total_likes}
+                      isLiked={!!post.has_liked}
+                      onClick={() => likePostHandler(post.id)}
+                      isLoading={isLiking}
+                    />
+
+                    <LikeAndComment
+                      icon="/message-text.svg"
+                      alt="comment"
+                      value={post?.total_comments}
+                    />
+                  </HStack>
+                }
+                onClick={() => setSelectedPostId(post.id)}
+                showMenu={true}
+              />
             ))
           ) : (
             <Text color="gray.500">No posts yet.</Text>
@@ -71,7 +155,31 @@ const CommunityPosts: FC<CommunityPostsProps> = ({
 
       <Separator />
 
-      <PostInput communityId={communityId} />
+      <PostInput
+        postId={selectedPostId || editingPostId}
+        communityId={communityId}
+        initialContent={editingPost?.content || ""}
+        onEditComplete={handleEditComplete}
+      />
+
+      <Dialog.Root
+        open={isDeleteOpen}
+        onOpenChange={(details) => setIsDeleteOpen(details.open)}
+        placement="center"
+        motionPreset="slide-in-bottom"
+      >
+        <Portal>
+          <Dialog.Backdrop bg="blackAlpha.300" backdropFilter="blur(2px)" />
+          <Dialog.Positioner>
+            <DeleteModalContent
+              text="Post"
+              handleClick={handleDeletePost}
+              isLoading={isDeleteLoading}
+              successMessage="Post deleted successfully!"
+            />
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     </Stack>
   );
 };

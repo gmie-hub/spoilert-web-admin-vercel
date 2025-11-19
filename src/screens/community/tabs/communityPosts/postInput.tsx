@@ -1,5 +1,5 @@
 import type { ChangeEvent, FC } from "react";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   Box,
@@ -12,18 +12,51 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 
+import { useCreateCommentMutation } from "@spt/hooks/api/useCreateCommentMutation";
 import { useCreatePostMutation } from "@spt/hooks/api/useCreatePostMutation";
+import { useUpdatePostMutation } from "@spt/hooks/api/useUpdatePostMutation";
 import { EMOJIS } from "@spt/utils";
 
 interface PostInputProps {
-  communityId: number;
+  communityId?: number;
+  postId?: number;
+  initialContent?: string;
+  onEditComplete?: () => void;
 }
 
-export const PostInput: FC<PostInputProps> = ({ communityId }) => {
+export const PostInput: FC<PostInputProps> = ({
+  communityId,
+  postId,
+  initialContent = "",
+  onEditComplete,
+}) => {
   const [content, setContent] = useState("");
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const { isCreateLoading, createPostHandler } = useCreatePostMutation();
+  const { createComment, isLoading } = useCreateCommentMutation();
+  const { isUpdateLoading, updatePostHandler } = useUpdatePostMutation(postId);
+
+  useEffect(() => {
+    if (postId && initialContent) {
+      setContent(initialContent);
+      // Focus and put cursor at the end
+      setTimeout(() => {
+        textareaRef.current?.focus();
+        textareaRef.current?.setSelectionRange(
+          initialContent.length,
+          initialContent.length
+        );
+      }, 100);
+    } else {
+      setContent("");
+    }
+    setSelectedImages([]);
+  }, [postId, initialContent]);
+
+  const isEditing = !!postId && !!communityId;
 
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
@@ -45,14 +78,27 @@ export const PostInput: FC<PostInputProps> = ({ communityId }) => {
   const handleSubmit = async () => {
     if (!content.trim()) return;
 
-    await createPostHandler({
-      community_id: communityId,
-      content: content.trim(),
-      images: selectedImages.length > 0 ? selectedImages : undefined,
-    });
+    if (isEditing) {
+      await updatePostHandler({
+        community_id: communityId!,
+        content: content.trim(),
+        files: selectedImages.length > 0 ? selectedImages : undefined,
+      });
 
-    setContent("");
-    setSelectedImages([]);
+      onEditComplete?.();
+    } else if (postId) {
+      await createComment({ post_id: postId, comment: content.trim() });
+      setContent("");
+    } else {
+      await createPostHandler({
+        community_id: communityId!,
+        content: content.trim(),
+        files: selectedImages.length > 0 ? selectedImages : undefined,
+      });
+
+      setContent("");
+      setSelectedImages([]);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -76,7 +122,6 @@ export const PostInput: FC<PostInputProps> = ({ communityId }) => {
       mb="4"
     >
       <HStack gap="3" alignItems="flex-start">
-        {/* Emoji Icon */}
         <Popover.Root
           open={isEmojiPickerOpen}
           onOpenChange={(details) => setIsEmojiPickerOpen(details.open)}
@@ -92,7 +137,7 @@ export const PostInput: FC<PostInputProps> = ({ communityId }) => {
               <Image src="/emoji.svg" alt="emoji" />
             </IconButton>
           </Popover.Trigger>
-          
+
           <Portal>
             <Popover.Positioner>
               <Popover.Content p="3" w="300px">
@@ -119,8 +164,8 @@ export const PostInput: FC<PostInputProps> = ({ communityId }) => {
           </Portal>
         </Popover.Root>
 
-        {/* Textarea */}
         <Textarea
+          ref={textareaRef}
           value={content}
           onChange={handleContentChange}
           onKeyDown={handleKeyDown}
@@ -143,7 +188,6 @@ export const PostInput: FC<PostInputProps> = ({ communityId }) => {
           }}
         />
 
-        {/* Attachment Icon */}
         <Box position="relative">
           <input
             ref={fileInputRef}
@@ -166,13 +210,12 @@ export const PostInput: FC<PostInputProps> = ({ communityId }) => {
           </IconButton>
         </Box>
 
-        {/* Send Button */}
         <IconButton
           aria-label="Send post"
           onClick={handleSubmit}
-          loading={isCreateLoading}
-          disabled={!content.trim() || isCreateLoading}
-          bg="blue.100"
+          loading={isLoading || isCreateLoading || isUpdateLoading}
+          disabled={!content.trim() || isCreateLoading || isLoading}
+          bg="#013B4D"
           color="white"
           borderRadius="full"
           size="sm"
@@ -188,7 +231,6 @@ export const PostInput: FC<PostInputProps> = ({ communityId }) => {
         </IconButton>
       </HStack>
 
-      {/* Show selected images count */}
       {selectedImages.length > 0 && (
         <Box mt="2" fontSize="xs" color="gray.500">
           {selectedImages.length} image(s) selected

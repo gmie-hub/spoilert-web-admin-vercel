@@ -1,36 +1,32 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { toaster } from "@spt/components/ui/toaster";
-import { useSuccessStore } from "@spt/store";
 import apiCall from "@spt/utils/apiCall";
 
-export const useDeletePostMutation = () => {
+export const useLikePostMutation = () => {
   const queryClient = useQueryClient();
-  const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
 
-  const deletePost = async (id: number) => {
-    return (await apiCall().delete(`/communities/posts/${id}`))?.data;
+  const likePost = async (postId: number) => {
+    return (await apiCall().post(`/communities/posts/likes/${postId}`))?.data;
   };
 
-  const deletePostMutation = useMutation({
-    mutationKey: ["delete-post"],
-    mutationFn: deletePost,
+  const mutation = useMutation({
+    mutationKey: ["like-post"],
+    mutationFn: likePost,
   });
 
-  const deletePostHandler = async (id: number) => {
+  const likePostHandler = async (postId: number) => {
     try {
-      await deletePostMutation.mutateAsync(id, {
+      await mutation.mutateAsync(postId, {
         onSuccess: (data) => {
           toaster.create({
             type: "success",
-            description: data?.message || "Post deleted successfully!",
+            description: data?.message || "Post liked successfully!",
           });
 
           queryClient.invalidateQueries({
             queryKey: ["community-posts"],
           });
-
-          setOpenSuccess(true);
         },
       });
     } catch (error: any) {
@@ -45,7 +41,7 @@ export const useDeletePostMutation = () => {
   };
 
   return {
-    isDeleteLoading: deletePostMutation.isPending,
-    deletePostHandler,
+    isLiking: mutation.isPending,
+    likePostHandler,
   };
 };

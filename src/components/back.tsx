@@ -15,6 +15,7 @@ const Back: FC<BackProps> = ({ onClick }) => {
       color="blue.100"
       onClick={onClick}
       fontSize="md"
+      _hover={{ backgroundColor: "transparent" }}
     >
       <Image src="/arrow-left.svg" alt="arrow" /> Back
     </Button>
