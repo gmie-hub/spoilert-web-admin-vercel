@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import {
   Box,
+  Flex,
   HStack,
   IconButton,
   Image,
@@ -188,47 +189,49 @@ export const PostInput: FC<PostInputProps> = ({
           }}
         />
 
-        <Box position="relative">
-          <input
-            ref={fileInputRef}
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ display: "none" }}
-          />
-          <IconButton
-            aria-label="Attach file"
-            variant="ghost"
-            colorScheme="gray"
-            size="sm"
-            onClick={handleAttachmentClick}
-            cursor="pointer"
-            _hover={{ backgroundColor: "transparent" }}
-          >
-            <Image src="/attachment.svg" alt="attach" />
-          </IconButton>
-        </Box>
+        <Flex flexDir={{ base: "column-reverse", md: "row" }} columnGap="2">
+          <Box position="relative">
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={handleImageChange}
+              style={{ display: "none" }}
+            />
+            <IconButton
+              aria-label="Attach file"
+              variant="ghost"
+              colorScheme="gray"
+              size="sm"
+              onClick={handleAttachmentClick}
+              cursor="pointer"
+              _hover={{ backgroundColor: "transparent" }}
+            >
+              <Image src="/attachment.svg" alt="attach" />
+            </IconButton>
+          </Box>
 
-        <IconButton
-          aria-label="Send post"
-          onClick={handleSubmit}
-          loading={isLoading || isCreateLoading || isUpdateLoading}
-          disabled={!content.trim() || isCreateLoading || isLoading}
-          bg="#013B4D"
-          color="white"
-          borderRadius="full"
-          size="sm"
-          _hover={{
-            bg: "teal.700",
-          }}
-          _disabled={{
-            bg: "gray.300",
-            cursor: "not-allowed",
-          }}
-        >
-          <Image src="/send.svg" alt="send" />
-        </IconButton>
+          <IconButton
+            aria-label="Send post"
+            onClick={handleSubmit}
+            loading={isLoading || isCreateLoading || isUpdateLoading}
+            disabled={!content.trim() || isCreateLoading || isLoading}
+            bg="#013B4D"
+            color="white"
+            borderRadius="full"
+            size="sm"
+            _hover={{
+              bg: "teal.700",
+            }}
+            _disabled={{
+              bg: "gray.300",
+              cursor: "not-allowed",
+            }}
+          >
+            <Image src="/send.svg" alt="send" />
+          </IconButton>
+        </Flex>
       </HStack>
 
       {selectedImages.length > 0 && (

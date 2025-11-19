@@ -18,6 +18,7 @@ export const useUpdatePostMutation = (postId: number) => {
     const formData = new FormData();
     formData.append("community_id", payload.community_id.toString());
     formData.append("content", payload.content);
+    formData.append("_method", "patch");
 
     if (payload.files && payload.files.length > 0) {
       payload.files.forEach((image) => {
@@ -26,7 +27,7 @@ export const useUpdatePostMutation = (postId: number) => {
     }
 
     return (
-      await apiCall().patch(`/communities/posts/${postId}`, formData, {
+      await apiCall().post(`/communities/posts/${postId}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
     )?.data;

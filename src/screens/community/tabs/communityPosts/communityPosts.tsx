@@ -44,12 +44,10 @@ const CommunityPosts: FC<CommunityPostsProps> = ({
 }) => {
   const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
   const [editingPostId, setEditingPostId] = useState<number | null>(null);
-  // const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [deletePostId, setDeletePostId] = useState<number | null>(null);
 
   const setIsDeleteOpen = useDeleteStore((state) => state.setOpenDelete);
   const isDeleteOpen = useDeleteStore((state) => state.openDelete);
-
 
   const { communityUserData } = useGetCommunityUsersQuery(communityId);
   const { isDeleteLoading, deletePostHandler } = useDeletePostMutation();
@@ -74,7 +72,7 @@ const CommunityPosts: FC<CommunityPostsProps> = ({
 
   const handleStartEdit = (postId: number) => {
     setEditingPostId(postId);
-    setSelectedPostId(null); 
+    setSelectedPostId(null);
   };
 
   const handleEditComplete = () => {
@@ -100,67 +98,71 @@ const CommunityPosts: FC<CommunityPostsProps> = ({
 
       <Separator />
 
-      <Flex
-        flexDir={{ base: "column", md: "row" }}
-        mt="3"
-        gap="8"
-        alignItems="flex-start"
-      >
-        <Stack gap="3" w={{ md: "65%" }}>
-          {selectedPostId !== null && selectedPost ? (
-            <CommunityPostThread
-              post={selectedPost}
-              onDeleteClick={() => handleDeleteClick(deletingPost.id)}
-            />
-          ) : hasPosts ? (
-            postData.map((post) => (
-              <CommunityPostCard
-                key={post?.id}
-                content={post?.content ?? ""}
-                createdAt={post?.created_at}
-                extraContent={<PostImages images={post?.images} />}
-                authorName={`${post?.user?.first_name} ${post?.user?.last_name}`}
-                onDeleteClick={() => handleDeleteClick(post.id)}
-                onEditClick={() => handleStartEdit(post.id)}
-                actions={
-                  <HStack gap="4">
-                    <LikeAndComment
-                      icon="/heart.svg"
-                      filledIcon="/heart-filled.svg"
-                      alt="like"
-                      value={post.total_likes}
-                      isLiked={!!post.has_liked}
-                      onClick={() => likePostHandler(post.id)}
-                      isLoading={isLiking}
-                    />
-
-                    <LikeAndComment
-                      icon="/message-text.svg"
-                      alt="comment"
-                      value={post?.total_comments}
-                    />
-                  </HStack>
-                }
-                onClick={() => setSelectedPostId(post.id)}
-                showMenu={true}
+      <Stack gap="5">
+        <Flex
+          flexDir={{ base: "column-reverse", xl: "row" }}
+          mt="3"
+          gap="8"
+          alignItems="flex-start"
+        >
+          <Stack gap="3" w={{ xl: "65%" }}>
+            {selectedPostId !== null && selectedPost ? (
+              <CommunityPostThread
+                post={selectedPost}
+                onDeleteClick={() => handleDeleteClick(deletingPost.id)}
               />
-            ))
-          ) : (
-            <Text color="gray.500">No posts yet.</Text>
-          )}
-        </Stack>
+            ) : hasPosts ? (
+              postData.map((post) => (
+                <CommunityPostCard
+                  key={post?.id}
+                  content={post?.content ?? ""}
+                  createdAt={post?.created_at}
+                  extraContent={<PostImages images={post?.images} />}
+                  authorName={`${post?.user?.first_name} ${post?.user?.last_name}`}
+                  onDeleteClick={() => handleDeleteClick(post.id)}
+                  onEditClick={() => handleStartEdit(post.id)}
+                  actions={
+                    <HStack gap="4">
+                      <LikeAndComment
+                        icon="/heart.svg"
+                        filledIcon="/heart-filled.svg"
+                        alt="like"
+                        value={post.total_likes}
+                        isLiked={!!post.has_liked}
+                        onClick={() => likePostHandler(post.id)}
+                        isLoading={isLiking}
+                      />
 
-        <CommunityMembers data={communityUserData} />
-      </Flex>
+                      <LikeAndComment
+                        icon="/message-text.svg"
+                        alt="comment"
+                        value={post?.total_comments}
+                      />
+                    </HStack>
+                  }
+                  onClick={() => setSelectedPostId(post.id)}
+                  showMenu={true}
+                />
+              ))
+            ) : (
+              <Text color="gray.500">No posts yet.</Text>
+            )}
+          </Stack>
 
-      <Separator />
+          <Box w={{ base: "full", xl: "35%" }}>
+            <CommunityMembers data={communityUserData} />
+          </Box>
+        </Flex>
 
-      <PostInput
-        postId={selectedPostId || editingPostId}
-        communityId={communityId}
-        initialContent={editingPost?.content || ""}
-        onEditComplete={handleEditComplete}
-      />
+        <Separator />
+
+        <PostInput
+          postId={selectedPostId || editingPostId}
+          communityId={communityId}
+          initialContent={editingPost?.content || ""}
+          onEditComplete={handleEditComplete}
+        />
+      </Stack>
 
       <Dialog.Root
         open={isDeleteOpen}
