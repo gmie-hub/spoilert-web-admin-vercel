@@ -18,7 +18,6 @@ interface ComponentProps {
 const DeleteModalContent: FC<ComponentProps> = ({
   handleClick,
   text,
-  disabled,
   isLoading,
   successMessage = "Post deleted successfully!",
 }) => {
