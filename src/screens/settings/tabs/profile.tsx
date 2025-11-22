@@ -6,13 +6,15 @@ import { useUserDetailsQuery } from "@spt/hooks/api/useGetUserByIdQuery";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
 import { useEditStore } from "@spt/store";
+import { useAuthStore } from "@spt/store/useAuthStore";
 
 const Profile = () => {
   const setIsEdit = useEditStore((state) => state.setIsEdit);
+  const user = useAuthStore((state) => state.user);
 
   const handleEdit = () => setIsEdit(true);
   const { userData, userLoading, userIsError, userErrorMessage } =
-    useUserDetailsQuery(Number(9));
+    useUserDetailsQuery(Number(user?.id));
 
   if (userLoading) return <LoadingState />;
 

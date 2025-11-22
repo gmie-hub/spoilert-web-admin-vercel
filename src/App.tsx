@@ -28,6 +28,7 @@ import TutorDetails from "./screens/tutors/tutorDetails/index.tsx";
 import WithdrawerRequest from "./screens/withdrawerRequest.tsx";
 import SpoilsReview from "./spoilReview/index.tsx";
 import SpoilReviewDetails from "./spoilReview/spoilDetails.tsx";
+import ProtectedRoute from "./utils/protectedRoute.tsx";
 
 function App() {
   const appRoutes = [
@@ -100,12 +101,13 @@ function App() {
           <Route path={item.path} element={item.element} />
         ))}
       </Route> */}
-      <Route path={routes.auth.login} element={<Login/>} />
-
-      <Route element={<Layout />}>
-        {appRoutes?.map((item, index) => (
-          <Route key={index} path={item.path} element={item.element} />
-        ))}
+      <Route path={routes.auth.login} element={<Login />} />
+      <Route element={<ProtectedRoute />}>
+        <Route element={<Layout />}>
+          {appRoutes?.map((item, index) => (
+            <Route key={index} path={item.path} element={item.element} />
+          ))}
+        </Route>
       </Route>
     </Routes>
   );

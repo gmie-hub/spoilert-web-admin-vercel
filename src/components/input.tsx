@@ -8,6 +8,7 @@ interface ComponentProps {
   label: string;
   placeholder: string;
   hasAsterisk?: boolean;
+    type?: string;   
 }
 
 const CustomInput: FC<ComponentProps> = ({
@@ -15,6 +16,7 @@ const CustomInput: FC<ComponentProps> = ({
   name,
   label,
   placeholder,
+  type,
 }) => {
   return (
     <FormikField name={name}>
@@ -26,6 +28,7 @@ const CustomInput: FC<ComponentProps> = ({
 
           <Input
             {...field}
+             type={type} 
             bg="#FBFBFB"
             border="1px solid #EFEFEF"
             placeholder={placeholder}

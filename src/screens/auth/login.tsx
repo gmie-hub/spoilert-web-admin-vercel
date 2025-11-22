@@ -1,6 +1,6 @@
 // import { useState } from "react";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Box,
@@ -23,15 +23,14 @@ import { validations } from "@spt/utils/validations";
 
 const Login = () => {
   const { isLoading, loginHandler } = useLoginMutation();
-//   const [showPassword, setShowPassword] = useState(false);
-const user = useAuthStore((state) => state.user);
-const navigate=useNavigate()
-useEffect(()=>{
-    if(user){
-        navigate('/')
+  const [showPassword, setShowPassword] = useState(false);
+  const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
     }
-
-},[user])
+  }, [user]);
 
   const initialValues = {
     email: "",
@@ -44,11 +43,7 @@ useEffect(()=>{
   });
 
   return (
-    <Flex
-      minH="100vh"
-      direction={{ base: "column", md: "row" }}
-      bg="gray.50"
-    >
+    <Flex minH="100vh" direction={{ base: "column", md: "row" }} bg="gray.50">
       {/* Left side */}
       <Box
         flex="1"
@@ -99,13 +94,7 @@ useEffect(()=>{
         />
 
         {/* Card */}
-        <Box
-          w={{ base: "100%"}}
-          bg="white"
-          p={8}
-          rounded="xl"
-          boxShadow="lg"
-        >
+        <Box w={{ base: "100%" }} bg="white" p={8} rounded="xl" boxShadow="lg">
           <Stack gap={6}>
             <Box textAlign="start">
               <Heading fontSize="2xl">
@@ -135,15 +124,37 @@ useEffect(()=>{
                         hasAsterisk
                       />
                     </Box>
-
+{/* 
                     <Box w="full">
                       <Input
                         name="password"
                         label="Password"
                         placeholder="Input your password"
                         hasAsterisk
-                        // type={showPassword ? "text" : "password"}
+                        type={showPassword ? "text" : "password"}
                       />
+                      {showPassword ? "👁️" : "🙈"}
+                    </Box> */}
+                    <Box w="full" position="relative">
+                      <Input
+                        name="password"
+                        label="Password"
+                        placeholder="Input your password"
+                        hasAsterisk
+                        type={showPassword ? "text" : "password"}
+                      />
+
+                      <Box
+                        position="absolute"
+                        right="12px"
+                        top="65%"
+                        transform="translateY(-50%)"
+                        cursor="pointer"
+                        fontSize="20px"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? "👁️" : "🙈"}
+                      </Box>
                     </Box>
 
                     <Flex justify="flex-end">

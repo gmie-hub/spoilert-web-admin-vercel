@@ -7,7 +7,6 @@ import apiCall from "@spt/utils/apiCall";
 
 import type { FormikValues } from "formik";
 
-
 interface Payload {
   email: string;
   password: string;
@@ -15,7 +14,7 @@ interface Payload {
 
 export const useLoginMutation = () => {
   const { setAuth } = useAuthStore();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const Login = async (payload: Payload) => {
     return (await apiCall().post("/auth/login", payload))?.data;
@@ -35,17 +34,20 @@ export const useLoginMutation = () => {
     try {
       await mutation.mutateAsync(payload, {
         onSuccess: (data) => {
+          // setAuth({
+          //   user: data?.data,
+          //   token: data.token,
+          // });
 
           setAuth({
-            user: data?.data,
-            token: data.token,
+            user: data?.data.user, // ✅ only the actual user object
+            token: data?.data.token, // ✅ the token
           });
           toaster.create({
             type: "success",
             description: data?.message || "Password updated!",
           });
-          navigate('/')
-
+          navigate("/");
         },
       });
     } catch (error: any) {
