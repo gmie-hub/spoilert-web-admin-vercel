@@ -1,7 +1,7 @@
 import { format, parseISO } from "date-fns";
 
 export const formatDate = (date?: string) => {
-  if (!date) return "Invalid date";
+  if (!date) return "N/A";
   try {
     const parsedDate = parseISO(date);
     return format(parsedDate, "dd-MM-yyyy");

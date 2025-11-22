@@ -6,6 +6,7 @@ import { routes } from "./routes";
 import Login from "./screens/auth/login.tsx";
 import Categories from "./screens/categories";
 import CategoryDetails from "./screens/categories/categoryDetails.tsx";
+import CommunityDetails from "./screens/community/communityDetails.tsx";
 import Community from "./screens/community/index.tsx";
 import Dashboard from "./screens/dashBoard/index.tsx";
 import Learners from "./screens/learners";
@@ -79,7 +80,9 @@ function App() {
       path: routes.main.withdrawalRequest.home,
       element: <WithdrawerRequest />,
     },
+
     { path: routes.main.community.home, element: <Community /> },
+    { path: routes.main.community.details, element: <CommunityDetails /> },
 
     {
       path: routes.main.pendingVerification.home,

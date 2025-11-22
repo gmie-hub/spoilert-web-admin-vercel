@@ -27,12 +27,6 @@ export const sponsorshipsTabList = [
   },
 ];
 
-export const sponsorshipOverviewDetails = [
-  { title: "Name of Sponsor", value: "Ogunsola Omorinsola" },
-  { title: "Email Address", value: "ogunsolaomorinsola@gmail.com" },
-  { title: "Total Amount Sponsored", value: "₦500,000" },
-];
-
 export const sponsorshipDetailsTabList = [
   {
     value: "sponsorshipOverview",
@@ -41,6 +35,17 @@ export const sponsorshipDetailsTabList = [
   {
     value: "sponsorshipBreakdown",
     text: "Sponsorship Breakdown",
+  },
+];
+
+export const communityDetailsTabList = [
+  {
+    value: "communityOverview",
+    text: "Commnunity Overview",
+  },
+  {
+    value: "communityPosts",
+    text: "Community Posts",
   },
 ];
 
@@ -68,16 +73,6 @@ export const sponsorshipBreakdownData = {
   key: 1,
   spoilTitle: "Understanding Design Principles",
   nameOfTutor: "Tayo Adebanjo",
-  learnersSponsored: "50",
-  amountPaid: "₦500,000",
-  dateSponsored: "12-02-2025",
-  status: "Expired",
-};
-
-export const createdByMeData = {
-  key: 1,
-  nameOfSponsor: "Ogunsola Omorinsola",
-  spoilTitle: "Understanding Design Principles",
   learnersSponsored: "50",
   amountPaid: "₦500,000",
   dateSponsored: "12-02-2025",

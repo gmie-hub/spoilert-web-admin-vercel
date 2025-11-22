@@ -123,6 +123,7 @@ const VerificationDetails = () => {
                 rejectHandler={rejectKYCHandler}
                 successMessage="Verification Rejected Successfully"
                 route={routes.main.pendingVerification.home}
+                showForm
               />
             </Modal>
 

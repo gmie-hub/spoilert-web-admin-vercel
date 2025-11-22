@@ -13,6 +13,16 @@ export interface RejectionState {
   setOpenRejection: (value: boolean) => void;
 }
 
+export interface SpoilIDState {
+  spoilID: number;
+  setSpoilID: (value: number) => void;
+}
+
+export interface IDState {
+  id: number;
+  setID: (value: number) => void;
+}
+
 export interface ModalState {
   openModal: boolean;
   setOpenModal: (value: boolean) => void;
@@ -21,6 +31,11 @@ export interface ModalState {
 export interface EditState {
   isEdit: boolean;
   setIsEdit: (value: boolean) => void;
+}
+
+export interface DeleteState {
+  openDelete: boolean;
+  setOpenDelete: (value: boolean) => void;
 }
 export interface AddAdminChargeState {
   isAddAdminCharge: boolean;

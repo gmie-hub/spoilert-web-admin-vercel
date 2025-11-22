@@ -1,10 +1,11 @@
 import { lazy, useCallback, useState } from "react";
 
-import { HStack, Heading, Image, Stack, Tabs, Text } from "@chakra-ui/react";
+import { HStack, Heading, Image, Stack, Tabs } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
 import { Breadcrumb, Card, Modal } from "@spt/components";
 import ErrorState from "@spt/components/errorState";
+import Info from "@spt/components/info";
 import LoadingState from "@spt/components/loadingState";
 import CustomTabs from "@spt/components/tabs";
 import { useSpoilDetailsQuery } from "@spt/hooks/api/useSpoilDetailsQuery";
@@ -27,8 +28,9 @@ const SpoilDetails = () => {
   const [openEnableModal, setOpenEnableModal] = useState(false);
   const { id } = useParams();
 
-
-  const { data, isLoading,isError, errorMessage } = useSpoilDetailsQuery(Number(id));
+  const { data, isLoading, isError, errorMessage } = useSpoilDetailsQuery(
+    Number(id)
+  );
 
   const handleDisableModal = (e: any) => setOpenDisableModal(e.open);
   const handleEnableModal = (e: any) => setOpenEnableModal(e.open);
@@ -85,23 +87,11 @@ const SpoilDetails = () => {
           </HStack>
 
           {isDisabled && (
-            <HStack
-              border="1px solid #A7E1FB"
-              bg="#E0F4FD"
-              py="2"
-              px="3"
-              borderRadius="lg"
-              alignItems="center"
-            >
-              <Image src="/info.svg" alt="info" />
-              <Text color="blue.100">
-                This spoil has been disabled, you can enable it by clicking on
-                the button that says{" "}
-                <Text as="span" fontWeight="semibold">
-                  “Re-enable spoil”
-                </Text>
-              </Text>
-            </HStack>
+            <Info
+              info="This spoil has been disabled, you can enable it by clicking on
+                the button that says"
+              actionText="Re-enable spoil"
+            />
           )}
 
           <CustomTabs tabList={spoilMgtTabList}>
@@ -115,7 +105,7 @@ const SpoilDetails = () => {
               </Tabs.Content>
 
               <Tabs.Content value="spoilQuiz">
-                <SpoilQuiz id={Number(id)}  />
+                <SpoilQuiz id={Number(id)} />
               </Tabs.Content>
 
               <Tabs.Content value="spoilReviews">

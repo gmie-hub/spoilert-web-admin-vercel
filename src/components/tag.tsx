@@ -9,26 +9,25 @@ interface ComponentProps {
 
 const CustomTag: FC<ComponentProps> = ({ icon, status }) => {
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Completed":
+    switch (status?.toLowerCase()) {
+      case "completed":
+      case "paid":
+      case "successful":
+      case "active":
+      case "redeemed":
+      case "issued":
         return "#F0FFF4";
-      case "Successful":
-        return "#F0FFF4";
-      case "Active":
-        return "#F0FFF4";
-      case "Used":
-        return "#F0FFF4";
-      case "Inactive":
+      case "inactive":
         return "#FFF5F6";
-      case "Unpublished":
+      case "unpublished":
         return "#FFF5F6";
-      case "Failed":
+      case "failed":
         return "#FFF5F6";
-      case "Expired":
+      case "expired":
         return "#FFF5F6";
-      case "Ongoing":
+      case "ongoing":
         return "#FFF9E9";
-      case "Pending":
+      case "pending":
         return "#FFF9E9";
       default:
         return "#F4F4F4";
@@ -36,28 +35,27 @@ const CustomTag: FC<ComponentProps> = ({ icon, status }) => {
   };
 
   const getTextColor = (status: string) => {
-    switch (status) {
-      case "Completed":
+    switch (status?.toLowerCase()) {
+      case "completed":
+      case "paid":
+      case "successful":
+      case "active":
+      case "redeemed":
+      case "issued":
         return "#28A745";
-      case "Successful":
-        return "#28A745";
-      case "Active":
-        return "#28A745";
-      case "Used":
-        return "#28A745";
-      case "Inactive":
+      case "inactive":
         return "red";
-      case "Unpublished":
+      case "unpublished":
         return "red";
-      case "Failed":
+      case "failed":
         return "red";
-      case "Unused":
+      case "unused":
         return "red";
-      case "Expired":
+      case "expired":
         return "red";
-      case "Ongoing":
+      case "ongoing":
         return "#FFC107";
-      case "Pending":
+      case "pending":
         return "#FFC107";
       default:
         return "#495057";

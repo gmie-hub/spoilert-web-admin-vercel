@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
   Button,
   HStack,
@@ -9,14 +11,45 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { BackButton, Breadcrumb, Card } from "@spt/components";
+import ErrorState from "@spt/components/errorState";
+import LoadingState from "@spt/components/loadingState";
+import { toaster } from "@spt/components/ui/toaster";
+import { useGetAdminSponsorshipDetailsQuery } from "@spt/hooks/api/useGetAdminSponsorshipDetailsQuery";
 import { routes } from "@spt/routes";
+import { useSpoilIDStore } from "@spt/store";
 
 const SponsorshipCodes = () => {
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const navigate = useNavigate();
+  const id = useSpoilIDStore((state) => state.spoilID);
+
+  const { data, isLoading, isError, errorMessage } =
+    useGetAdminSponsorshipDetailsQuery(id);
 
   const handleNavigation = () => navigate(routes.main.sponsorships.home);
 
   let codeNumber = 1;
+
+  const copyToClipboard = async (code: string, index: number) => {
+    if (!code) return;
+
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopiedIndex(index);
+
+      setTimeout(() => {
+        setCopiedIndex(null);
+      }, 2000);
+    } catch (error: any) {
+      toaster.create({
+        type: "success",
+        description: error?.message || "Unable to copy code",
+      });
+    }
+  };
+
+  if (isLoading) return <LoadingState />;
+  if (isError) return <ErrorState error={errorMessage} />;
 
   return (
     <Stack gap="4">
@@ -25,7 +58,7 @@ const SponsorshipCodes = () => {
       <Card>
         <Stack gap="5">
           <HStack justifyContent="flex-start">
-            <BackButton handleNavigation={() => {}} />
+            <BackButton handleNavigation={() => navigate(-1)} />
           </HStack>
 
           <Stack gap="4">
@@ -55,18 +88,22 @@ const SponsorshipCodes = () => {
             </Stack>
 
             <Stack gap="4" mt="2">
-              {codes.map((item, index) => (
+              {data?.data?.[0]?.codes.map((item, index) => (
                 <Stack key={index}>
                   <HStack justifyContent="space-between">
                     <Text>
                       Code {codeNumber++}:{" "}
                       <Text as="span" fontWeight="medium">
-                        {item}
+                        {item?.code}
                       </Text>
                     </Text>
 
-                    <Button variant="yellowOutline">
-                      <Image src="/copy.svg" alt="copy" /> Copy
+                    <Button
+                      variant="yellowOutline"
+                      onClick={() => copyToClipboard(item?.code, index)}
+                    >
+                      <Image src="/copy.svg" alt="copy" />
+                      {copiedIndex === index ? "Copied!" : "Copy"}
                     </Button>
                   </HStack>
 
@@ -77,7 +114,9 @@ const SponsorshipCodes = () => {
           </Stack>
 
           <HStack justifyContent="end" mt="3">
-            <Button borderRadius="xl" onClick={handleNavigation}>View All Sponsorships</Button>
+            <Button borderRadius="xl" onClick={handleNavigation}>
+              View All Sponsorships
+            </Button>
           </HStack>
         </Stack>
       </Card>
@@ -86,5 +125,3 @@ const SponsorshipCodes = () => {
 };
 
 export default SponsorshipCodes;
-
-const codes = ["ABC123", "XYZ789", "PRE904"];

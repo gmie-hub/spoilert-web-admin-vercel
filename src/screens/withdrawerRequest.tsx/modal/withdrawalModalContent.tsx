@@ -120,6 +120,7 @@ const WithdrawalModalContent = () => {
                     // rejectHandler={handleOpenRejectModal}
                     successMessage="Withdrawal Request Has Been Successfully Rejected"
                     route={routes.main.pendingVerification.home}
+                    showForm
                   />
                 </Modal>
 

@@ -5,8 +5,8 @@ import { Box, Stack } from "@chakra-ui/react";
 import { NoData, Pagination, Table } from "@spt/components";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
+import type { AdminSponsorshipsDatum } from "@spt/types/sponsorship";
 import {
-  createdByMeData,
   createdByMeHeaders,
 } from "@spt/utils/sponsorshipData";
 
@@ -14,20 +14,16 @@ import CreatedByMeTableBody from "../../table/createdByMeTableBody";
 
 interface ComponentProps {
   handleNavigation: () => void;
+  data: AdminSponsorshipsDatum[]
 }
 
-const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...createdByMeData,
-  key: index,
-}));
-
-const CreatedByMe: FC<ComponentProps> = ({ handleNavigation }) => {
+const CreatedByMe: FC<ComponentProps> = ({ data, handleNavigation }) => {
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
 
-  const isEmpty = false;
+  const isEmpty = data?.length === 0;
 
-  const visibleItems = duplicatedItems.slice(startRange, endRange);
+  const visibleItems = data?.slice(startRange, endRange);
 
   return (
     <Box>
@@ -53,7 +49,7 @@ const CreatedByMe: FC<ComponentProps> = ({ handleNavigation }) => {
           <Pagination
             page={page}
             pageSize={pageSize}
-            items={duplicatedItems}
+            items={data}
             onPageChange={handlePageChange}
           />
         </Stack>

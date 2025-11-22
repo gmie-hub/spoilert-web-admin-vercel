@@ -1,33 +1,35 @@
-import type { FC } from "react";
-
 import { Button, Table, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 import { routes } from "@spt/routes";
-import type { TableBodyProps } from "@spt/utils/types";
+import type { SponsorshipsDatum } from "@spt/types/sponsorship";
 
-const TableBody: FC<TableBodyProps> = ({ items }) => {
+const TableBody = ({ data }: { data: SponsorshipsDatum[] }) => {
   const navigate = useNavigate();
 
-  const handleNavigate = () => {
-    navigate(routes.main.sponsorships.details);
+  const handleNavigate = (sponsorId: number) => {
+    navigate(`${routes.main.sponsorships.details}?sponsorId=${sponsorId}`);
   };
 
   return (
     <>
-      {items.map((item, index) => (
+      {data?.map((item, index) => (
         <Table.Row key={index}>
           <Table.Cell>
-            <Text>{item.sponsor}</Text>
+            <Text>{item?.sponsor_name}</Text>
           </Table.Cell>
 
-          <Table.Cell>{item.email}</Table.Cell>
-          <Table.Cell>{item.amountSponsored}</Table.Cell>
-          <Table.Cell>{item.spoilsSponsored}</Table.Cell>
-          <Table.Cell>{item.learnersSponsored}</Table.Cell>
+          <Table.Cell>{item?.sponsor_email}</Table.Cell>
+          <Table.Cell>{`₦${item?.total_amount}`}</Table.Cell>
+          <Table.Cell>{item?.total_spoils_sponsored}</Table.Cell>
+          <Table.Cell>{item?.total_learners_sponsored}</Table.Cell>
 
           <Table.Cell>
-            <Button variant="yellowOutline" px="3" onClick={handleNavigate}>
+            <Button
+              variant="yellowOutline"
+              px="3"
+              onClick={() => handleNavigate(item?.sponsor_id)}
+            >
               View More
             </Button>
           </Table.Cell>
