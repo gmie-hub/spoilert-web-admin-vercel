@@ -10,6 +10,7 @@ import LoadingState from "@spt/components/loadingState";
 import { useEditProfileMutation } from "@spt/hooks/api/editProfileMutation";
 import { useUserDetailsQuery } from "@spt/hooks/api/useGetUserByIdQuery";
 import { useEditStore } from "@spt/store";
+import { useAuthStore } from "@spt/store/useAuthStore";
 import { validations } from "@spt/utils/validations";
 
 const EditProfile = () => {
@@ -19,13 +20,14 @@ const EditProfile = () => {
   const [preview, setPreview] = useState<string | null>(null);
   const [fileError, setFileError] = useState<string | null>(null); // ✅ for file format validation
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const user = useAuthStore((state) => state.user);
 
   const { userData, userLoading, userIsError, userErrorMessage } =
-    useUserDetailsQuery(Number(9));
+    useUserDetailsQuery(Number(user?.id));
 
   const { isEditLoading, editProfileHandler } = useEditProfileMutation(
     null,
-    9,
+    Number(user?.id),
     () => setIsEdit(false)
   );
   const initialValues = {

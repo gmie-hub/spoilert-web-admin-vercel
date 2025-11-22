@@ -1,6 +1,6 @@
 export const routes = {
   main: {
-    dashboard: "/",
+    dashboard: "/dashboard",
     learners: {
       home: "/learners",
       viewDetails: "/view-learner-details/:id/:spoil_id?",
@@ -59,7 +59,7 @@ export const routes = {
     },
   },
   auth: {
-    login: '/login',
+    login: '/',
     // forgotPassword: '/forgot-password',
     // resetPassword: '/reset-password/:email',
     // ResetPasswordVerificationCode: '/reset-password-verification-code/:email/',
