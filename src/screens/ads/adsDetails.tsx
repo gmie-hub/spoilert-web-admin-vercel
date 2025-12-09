@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { Breadcrumb, Card } from "@spt/components";
 import DeleteModalContent from "@spt/components/deleteModalContent";
 import InfoDisplay from "@spt/partials/infoDisplay";
-import ProgressInfo from "@spt/partials/progressInfo";
 import { routes } from "@spt/routes";
 import { useDeleteStore, useEditStore, useSuccessStore } from "@spt/store";
 
