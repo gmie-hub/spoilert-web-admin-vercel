@@ -32,7 +32,7 @@ const CustomFileUpload = ({
         onChange={(e) => {
           const files = e.target.files;
           if (files && files[0]) {
-            onChange?.(files[0]); // ✅ send file back
+            onChange?.(files[0]); 
           } else {
             onChange?.(null);
           }

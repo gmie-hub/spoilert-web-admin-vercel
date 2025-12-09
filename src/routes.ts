@@ -59,6 +59,12 @@ export const routes = {
       home: "/pending-verifications",
       details: "/view-pending-verification/:id",
     },
+    ads: {
+      home: "/ads",
+      adsDetails: "/ads-details/:id",
+      createAd: "/create-ad",
+      editAd: "/edit-ad/:id",
+    },
   },
   auth: {
     login: '/',

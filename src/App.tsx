@@ -3,6 +3,9 @@ import { Route, Routes } from "react-router-dom";
 
 import Layout from "./layouts";
 import { routes } from "./routes";
+import AdsDetails from "./screens/ads/adsDetails.tsx";
+import CreateAds from "./screens/ads/createAds.tsx";
+import Ads from "./screens/ads/index.tsx";
 import Login from "./screens/auth/login.tsx";
 import Categories from "./screens/categories";
 import CategoryDetails from "./screens/categories/categoryDetails.tsx";
@@ -72,6 +75,22 @@ function App() {
     {
       path: routes.main.promotions.promotionsDetails,
       element: <PromotionDetails />,
+    },
+    {
+      path: routes.main.ads.home,
+      element: <Ads />,
+    },
+    {
+      path: routes.main.ads.createAd,
+      element: <CreateAds />,
+    },
+    {
+      path: routes.main.ads.editAd,
+      element: <CreateAds />,
+    },
+    {
+      path: routes.main.ads.adsDetails,
+      element: <AdsDetails />,
     },
 
     { path: routes.main.categories.home, element: <Categories /> },

@@ -76,8 +76,6 @@ const Sidebar = () => {
       icon: <img src={Withdrawal} alt="PromotionsManagement" />,
       to: routes.main.promotions.promotionsManagement,
     },
-
-
     {
       key: "Withdrawal Requests",
       label: "Withdrawal Requests",
@@ -95,6 +93,12 @@ const Sidebar = () => {
       label: "Community",
       icon: <img src="/community.svg" alt="Community" />,
       to: routes.main.community.home,
+    },
+    {
+      key: "ads",
+      label: "Ads",
+      icon: <img src="/ads.svg" alt="ads" />,
+      to: routes.main.ads.home,
     },
     {
       key: "Customer Support",
