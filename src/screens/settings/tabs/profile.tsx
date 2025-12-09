@@ -23,10 +23,14 @@ const Profile = () => {
   return (
     <Stack gap="6">
       <HStack justifyContent="space-between" alignItems="center">
-        <Image  borderRadius="full"
-                  overflow="hidden"
-                  h="80px"
-                  w="80px" src={userData?.avatar || "/user-icon.svg" }alt="info" />
+        <Image
+          borderRadius="full"
+          overflow="hidden"
+          h="80px"
+          w="80px"
+          src={userData?.avatar || "/user-icon.svg"}
+          alt="info"
+        />
 
         <Button variant="yellow" onClick={handleEdit}>
           <Image src="edit.svg" alt="edit" /> Edit Profile

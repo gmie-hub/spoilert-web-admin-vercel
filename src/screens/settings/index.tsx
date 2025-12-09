@@ -21,9 +21,8 @@ const Settings = () => {
     (state) => state.isAddAdminCharge
   );
 
-  const { data, isLoading, isError, errorMessage } = useSettingsQuery();  
+  const { data, isLoading, isError, errorMessage } = useSettingsQuery();
 
-  
   if (isLoading) <LoadingState />;
 
   if (isError) <ErrorState error={errorMessage} />;
@@ -36,9 +35,7 @@ const Settings = () => {
         <CustomTabs tabList={tabList}>
           <>
             <Tabs.Content value="profile">
-              {isEdit  ?
-               <EditProfile /> 
-               : <Profile />}
+              {isEdit ? <EditProfile /> : <Profile />}
             </Tabs.Content>
 
             <Tabs.Content value="general">
@@ -49,7 +46,9 @@ const Settings = () => {
               {isAddAdminCharge ? <AddAdminCharge /> : <Transaction />}
             </Tabs.Content>
 
-            <Tabs.Content value="security"><ChangePassword/></Tabs.Content>
+            <Tabs.Content value="security">
+              <ChangePassword />
+            </Tabs.Content>
           </>
         </CustomTabs>
       </Stack>

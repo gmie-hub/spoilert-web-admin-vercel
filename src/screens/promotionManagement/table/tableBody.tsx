@@ -3,12 +3,12 @@ import type { FC } from "react";
 import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
 import { generatePath, useNavigate } from "react-router-dom";
 
+import { Tag } from "@spt/components";
 import { routes } from "@spt/routes";
-import type { SpoilsDatum } from "@spt/types/spoils";
-import { formatDate } from "@spt/utils/dateTime";
+import type { PromotionManagementData } from "@spt/utils/promotionsData";
 
 interface TableProps {
-  data: SpoilsDatum[];
+  data: PromotionManagementData;
 }
 
 const TableBody: FC<TableProps> = ({ data }) => {
@@ -19,30 +19,33 @@ const TableBody: FC<TableProps> = ({ data }) => {
     navigate(path);
   };
 
+  let serialNumber = 1;
+
   return (
     <>
       {data?.map((item) => (
         <Table.Row key={item?.id} py="16">
+          <Table.Cell>{serialNumber++}</Table.Cell>
           <Table.Cell>
             <HStack>
-              <Image src={item?.cover_image_url} boxSize="10" borderRadius="md" />
-              <Text color="gray">{item?.title}</Text>
+              <Image src={""} boxSize="10" borderRadius="md" />
+              <Text color="gray">{item?.spoilTitle}</Text>
             </HStack>
           </Table.Cell>
 
           <Table.Cell>
             <HStack>
               <Image src="/user-icon.svg" />
-              <Text color="gray">{`${item?.tutor?.first_name} ${item?.tutor?.last_name}`}</Text>
+              <Text color="gray">{`${item?.nameOfTutor}`}</Text>
             </HStack>
           </Table.Cell>
 
-          <Table.Cell>{item?.category?.name}</Table.Cell>
+          <Table.Cell>{item?.promotionPackage}</Table.Cell>
           <Table.Cell>{item?.amount}</Table.Cell>
-          <Table.Cell>{item?.course_code}</Table.Cell>
-          <Table.Cell>{item?.course_code}</Table.Cell>
+          <Table.Cell>{item?.startDate}</Table.Cell>
+          <Table.Cell>{item?.endDate}</Table.Cell>
 
-          <Table.Cell>{`${formatDate(item?.created_at)}`}</Table.Cell>
+          <Table.Cell><Tag status={item.status} /></Table.Cell>
 
           <Table.Cell>
             <Button

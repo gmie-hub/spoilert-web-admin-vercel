@@ -24,6 +24,8 @@ export const routes = {
     promotions: {
       home: "/promotions",
       promotionsDetails: "/promotions-details/:id",
+      setupPromotion: "/setup-promotion",
+      editPromotion: "/edit-promotion/:id",
       promotionsManagement: "/promotions-management",
     },
     promotionsManagement:{

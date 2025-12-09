@@ -13,8 +13,11 @@ import Learners from "./screens/learners";
 import ViewLearnerDetails from "./screens/learners/viewLearnerDetails";
 import PendingVerification from "./screens/pendingVerification/index.tsx";
 import VerificationDetails from "./screens/pendingVerification/verificationDetails.tsx";
-import PromotionsManagement from "./screens/promotion/promotionsManagement/index.tsx";
-import PromotionManagementDetails from "./screens/promotion/promotionsManagement/promotionDetails.tsx";
+import Promotion from "./screens/promotion/index.tsx";
+import PromotionDetails from "./screens/promotion/promotionDetails.tsx";
+import SetupPromotion from "./screens/promotion/setupPromotion.tsx";
+import PromotionsManagement from "./screens/promotionManagement/index.tsx";
+import PromotionManagementDetails from "./screens/promotionManagement/promotionDetails.tsx";
 import Settings from "./screens/settings/index.tsx";
 import EditProfile from "./screens/settings/tabs/editProfile.tsx";
 import SpoilsManagement from "./screens/spoilsManagement.tsx";
@@ -56,6 +59,19 @@ function App() {
     {
       path: routes.main.promotionsManagement.promotionsManagementDetails,
       element: <PromotionManagementDetails />,
+    },
+
+    {
+      path: routes.main.promotions.home,
+      element: <Promotion />,
+    },
+    {
+      path: routes.main.promotions.setupPromotion,
+      element: <SetupPromotion />,
+    },
+    {
+      path: routes.main.promotions.promotionsDetails,
+      element: <PromotionDetails />,
     },
 
     { path: routes.main.categories.home, element: <Categories /> },
