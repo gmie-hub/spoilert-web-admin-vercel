@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { type FC, useEffect } from "react";
 
 import {
   Accordion,
@@ -26,6 +26,10 @@ interface ComponentProps {
 
 const CourseContent: FC<ComponentProps> = ({ modules, onHide }) => {
   const setVideoUrl = useVideoStore((state) => state.setVideoUrl);
+
+  useEffect(() => {
+    setVideoUrl(modules[0]?.lessons[0]?.content_url);
+  }, []);
 
   return (
     <MotionBox
