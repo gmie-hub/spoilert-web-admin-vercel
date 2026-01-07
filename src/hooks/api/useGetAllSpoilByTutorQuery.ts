@@ -7,12 +7,6 @@ import apiCall from "@spt/utils/apiCall";
 import type { AxiosError } from "axios";
 
 
-const MyFunction =(age:number, gender:string)=>{
-
-}
-
-MyFunction(2,"female")
-
 
 export const useGetAllSpoilByTutorQuery = (tutor_id:number, page:number) => {
   const fetchSpoil = async (): Promise<UserResponse> => {
