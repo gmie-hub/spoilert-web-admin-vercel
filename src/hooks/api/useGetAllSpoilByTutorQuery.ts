@@ -7,6 +7,13 @@ import apiCall from "@spt/utils/apiCall";
 import type { AxiosError } from "axios";
 
 
+const MyFunction =(age:number, gender:string)=>{
+
+}
+
+MyFunction(2,"female")
+
+
 export const useGetAllSpoilByTutorQuery = (tutor_id:number, page:number) => {
   const fetchSpoil = async (): Promise<UserResponse> => {
     return (await apiCall().get(`/spoils?tutor_id=${tutor_id}&page=${page}&per_page=${20}`))?.data;

@@ -23,6 +23,7 @@ const SpoilOutline: FC<ComponentProps> = ({ data }) => {
     setShowCourseContent((prev) => !prev);
   };
 
+
   return (
     <Flex
       flexDir={{ base: "column", md: "row" }}
