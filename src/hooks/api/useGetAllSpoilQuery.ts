@@ -6,16 +6,16 @@ import apiCall from "@spt/utils/apiCall";
 
 import type { AxiosError } from "axios";
 
-export const useGetAllSpoilQuery = () => {
+export const useGetAllSpoilQuery = ( page?:number) => {
   const fetchAllSpoil = async (): Promise<SpoilsResponse> => {
-    return (await apiCall().get("/spoils"))?.data;
+    return (await apiCall().get(`/spoils?per_page=${20}&page=${page}`))?.data;
   };
 
   const { data, isLoading, isError, error } = useQuery<
     SpoilsResponse,
     AxiosError<ApiErrorResponse>
   >({
-    queryKey: ["allSpoil"],
+    queryKey: ["allSpoil",page],
     queryFn: fetchAllSpoil,
   });
 

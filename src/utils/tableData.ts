@@ -18,6 +18,7 @@ export const tutorData = {
 };
 
 export const spoilsMgtHeaders = [
+  "S/N",
   "Spoil Title",
   "Name of Tutor",
   "Category",
@@ -29,6 +30,7 @@ export const spoilsMgtHeaders = [
 ];
 
 export const spoilsReviewHeaders = [
+   "S/N",
   "Spoil Title",
   "Name of Tutor",
   "Category",

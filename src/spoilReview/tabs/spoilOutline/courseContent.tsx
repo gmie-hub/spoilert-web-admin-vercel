@@ -29,7 +29,7 @@ const CourseContent: FC<ComponentProps> = ({ modules, onHide }) => {
 
    useEffect(() => {
       setVideoUrl(modules[0]?.lessons[0]?.content_url);
-    }, []);
+    }, [modules[0]?.lessons[0]?.content_url]);
 
   return (
     <MotionBox

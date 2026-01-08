@@ -10,15 +10,12 @@ import { spoilsMgtHeaders } from "@spt/utils/tableData";
 import TableBody from "./table/tableBody";
 
 const SpoilsManagement = () => {
-  const { page, pageSize, startRange, endRange, handlePageChange } =
-    usePagination();
+  const { page, pageSize, handlePageChange } = usePagination();
 
-  const { data, isLoading } = useGetAllSpoilQuery();
-
-  const visibleItems = data?.data?.slice(startRange, endRange);
+  const { data, isLoading } = useGetAllSpoilQuery(page);
 
   if (isLoading) return <LoadingState />;
-  
+
   return (
     <Box>
       <Card>
@@ -29,13 +26,19 @@ const SpoilsManagement = () => {
 
           <Table
             headerChildren={<TableHeader headerItems={spoilsMgtHeaders} />}
-            bodyChildren={<TableBody data={visibleItems} />}
+            bodyChildren={
+              <TableBody
+                data={data?.data}
+                currentPage={page}
+                pageSize={pageSize}
+              />
+            }
           />
 
           <Pagination
             page={page}
             pageSize={pageSize}
-            items={data?.data}
+            items={data?.total}
             onPageChange={handlePageChange}
           />
         </Stack>

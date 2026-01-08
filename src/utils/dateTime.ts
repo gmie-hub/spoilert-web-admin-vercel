@@ -19,3 +19,9 @@ export const formatTime = (date?: string) => {
     return "Invalid time";
   }
 };
+
+
+export const truncateText = (text: string | undefined, limit = 10): string => {
+  if (!text) return "";
+  return text.length > limit ? `${text.slice(0, limit)}...` : text;
+};

@@ -10,12 +10,11 @@ import { spoilsReviewHeaders } from "@spt/utils/tableData";
 import TableBody from "./table/tableBody";
 
 const SpoilsReview = () => {
-  const { page, pageSize, startRange, endRange, handlePageChange } =
+  const { page, pageSize, handlePageChange } =
     usePagination();
 
-  const { data, isLoading } = useGetSpoilsQuery();
+  const { data, isLoading } = useGetSpoilsQuery(page);
 
-  const visibleItems = data?.data?.slice(startRange, endRange);
 
   if (isLoading) return <LoadingState />;
 
@@ -29,13 +28,19 @@ const SpoilsReview = () => {
 
           <Table
             headerChildren={<TableHeader headerItems={spoilsReviewHeaders} />}
-            bodyChildren={<TableBody data={visibleItems} />}
+            bodyChildren={
+              <TableBody
+                data={data?.data}
+                currentPage={page}
+                pageSize={pageSize}
+              />
+            }
           />
 
           <Pagination
             page={page}
             pageSize={pageSize}
-            items={data?.data}
+            items={data?.total}
             onPageChange={handlePageChange}
           />
         </Stack>
