@@ -11,14 +11,27 @@ interface ComponentProps extends PropsWithChildren {
   rounded?: string;
   p?: string;
   hasIndicator?: boolean;
-  onClick?: () => void;
+  onValueChange?: (details: any) => void;
+  value?: string;
 }
 
 const CustomTabs: FC<ComponentProps> = (props) => {
-  const { bg, children, hasIndicator, onClick, p, rounded, tabList, variant } = props;
+  const {
+    bg,
+    children,
+    hasIndicator,
+    onValueChange,
+    p,
+    rounded,
+    tabList,
+    value,
+    variant,
+  } = props;
 
   return (
     <Tabs.Root
+      value={value}
+      onValueChange={onValueChange}
       defaultValue={tabList[0].value}
       colorPalette="blue.100"
       variant={variant}
@@ -39,7 +52,6 @@ const CustomTabs: FC<ComponentProps> = (props) => {
                 color: hasIndicator ? "white" : "blue.100",
                 fontWeight: "semibold",
               }}
-              onClick={onClick}
               textWrap="nowrap"
               color="gray"
               fontSize="md"

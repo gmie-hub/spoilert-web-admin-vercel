@@ -15,7 +15,7 @@ export const useSpoilDetailsQuery = (id: number) => {
   SpoilResponse,
   AxiosError<ApiErrorResponse>
 >({
-    queryKey: ["spoilDetails"],
+    queryKey: ["spoilDetails", id],
     queryFn: fetchSpoilDetails,
     enabled:!!id
   });

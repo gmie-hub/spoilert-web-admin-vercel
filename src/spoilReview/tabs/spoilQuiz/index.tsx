@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { type FC, useEffect, useState } from "react";
 
 import {
   Flex,
@@ -14,14 +14,29 @@ import { Card } from "@spt/components";
 import ErrorState from "@spt/components/errorState";
 import LoadingState from "@spt/components/loadingState";
 import CustomTabs from "@spt/components/tabs";
-import { useGetQuizBySpoilId } from "@spt/hooks/api/useGetQuizBySpoilId";
+import { useGetQuizDetailsQuery } from "@spt/hooks/api/useGetQuizDetailsQuery";
+import type { QuizDatum } from "@spt/types/quiz";
 
 import Quiz from "./quiz";
 import QuizOverview from "./quizOverview";
 
-const SpoilQuiz = ({ id }: { id: number }) => {
-  const [currentIndex, setCurrentIndex] = useState(1);
+interface ComponentProps {
+  quizData: QuizDatum[];
+  isQuizLoading: boolean;
+  isError: boolean;
+  quizErrorMessage: string;
+}
+
+const SpoilQuiz: FC<ComponentProps> = ({
+  quizData,
+  isQuizLoading,
+  isError,
+  quizErrorMessage,
+}) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [quizId, setQuizId] = useState<number>();
   const [isQuizVisible, setIsQuizVisible] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("preSpoilQuiz");
   const [isLargeScreen] = useMediaQuery(["(min-width: 768px)"], {
     fallback: [true],
   });
@@ -29,34 +44,71 @@ const SpoilQuiz = ({ id }: { id: number }) => {
     fallback: [true],
   });
 
-  const { quizData, isQuizLoading, isError, quizErrorMessage } =
-    useGetQuizBySpoilId(id);
+  const PRE = "pre";
 
-  const handleItemClick = (index) => {
+  const spoilQuizOptions =
+    quizData?.map((item, index) => ({
+      id: index + 1,
+      text: item?.type === PRE ? "Pre-Spoil Quiz" : "Post-Spoil Quiz",
+      value: item?.type === PRE ? "preSpoilQuiz" : "postSpoilQuiz",
+    })) || [];
+
+  const {
+    quizDetailsData,
+    isQuizDetailsError,
+    isQuizDetailsLoading,
+    quizDetailsErrorMessage,
+  } = useGetQuizDetailsQuery(quizId);
+
+  useEffect(() => {
+    setQuizId(quizData[currentIndex]?.id);
+  }, [quizData]);
+
+  const handleItemClick = (index: number, quizId: number) => {
     setCurrentIndex(index);
+    setQuizId(quizId);
     setIsQuizVisible(false);
   };
+
   const handleQuizVisibility = () => setIsQuizVisible((prev) => !prev);
 
   const handleVisibility = (id: number) => {
     switch (id) {
       case 1:
         return !isQuizVisible ? (
-          <QuizOverview data={quizData} onClick={handleQuizVisibility} />
+          <QuizOverview
+            data={quizDetailsData}
+            onClick={handleQuizVisibility}
+            isQuizDetailsLoading={isQuizDetailsLoading}
+            isError={isQuizDetailsError}
+            quizDetailsErrorMessage={quizDetailsErrorMessage}
+          />
         ) : (
-          <Quiz data={quizData} />
+          <Quiz data={quizDetailsData} />
         );
       case 2:
         return !isQuizVisible ? (
-          <QuizOverview data={quizData} onClick={handleQuizVisibility} />
+          <QuizOverview
+            data={quizDetailsData}
+            onClick={handleQuizVisibility}
+            isQuizDetailsLoading={isQuizDetailsLoading}
+            isError={isQuizDetailsError}
+            quizDetailsErrorMessage={quizDetailsErrorMessage}
+          />
         ) : (
-          <Quiz data={quizData} />
+          <Quiz data={quizDetailsData} />
         );
       default:
         return !isQuizVisible ? (
-          <QuizOverview data={quizData} onClick={handleQuizVisibility} />
+          <QuizOverview
+            data={quizDetailsData}
+            onClick={handleQuizVisibility}
+            isQuizDetailsLoading={isQuizDetailsLoading}
+            isError={isQuizDetailsError}
+            quizDetailsErrorMessage={quizDetailsErrorMessage}
+          />
         ) : (
-          <Quiz data={quizData} />
+          <Quiz data={quizDetailsData} />
         );
     }
   };
@@ -70,9 +122,9 @@ const SpoilQuiz = ({ id }: { id: number }) => {
       {isLargeScreen && (
         <Card flex={1} px="4">
           <Stack gap="6">
-            {spoilQuizOptions?.map((item) => (
+            {quizData?.map((item, index) => (
               <HStack
-                key={item.id}
+                key={index}
                 justifyContent="space-between"
                 _selected={{ bg: "#D4A4371A" }}
                 cursor="pointer"
@@ -80,10 +132,12 @@ const SpoilQuiz = ({ id }: { id: number }) => {
                 py="3"
                 px="5"
                 borderRadius="lg"
-                onClick={() => handleItemClick(item.id)}
+                onClick={() => handleItemClick(index, item.id)}
                 bg={currentIndex === item.id ? "#D4A4371A" : "transparent"}
               >
-                <Text>{item?.text}</Text>
+                <Text>
+                  {item?.type === PRE ? "Pre-Spoil Quiz" : "Post-Spoil Quiz"}
+                </Text>
                 <Image src="/arrow-right.svg" />
               </HStack>
             ))}
@@ -97,8 +151,15 @@ const SpoilQuiz = ({ id }: { id: number }) => {
           variant="plain"
           bg="#F0FBFF"
           p="1"
-          // onClick={() => handleItemClick(item.id)}
           hasIndicator
+          value={selectedTab}
+          onValueChange={(e) => {
+            const { value } = e;
+
+            setSelectedTab(value);
+            const index = value === "preSpoilQuiz" ? 0 : 1;
+            handleItemClick(index, quizData[index]?.id);
+          }}
         >
           <>
             <Tabs.Content value="preSpoilQuiz">
@@ -118,8 +179,3 @@ const SpoilQuiz = ({ id }: { id: number }) => {
 };
 
 export default SpoilQuiz;
-
-const spoilQuizOptions = [
-  { id: 1, text: "Pre-Spoil Quiz", value: "preSpoilQuiz" },
-  { id: 2, text: "Post-Spoil Quiz", value: "postSpoilQuiz" },
-];

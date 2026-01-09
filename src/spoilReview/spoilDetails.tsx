@@ -8,6 +8,7 @@ import LoadingState from "@spt/components/loadingState";
 import RejectModalContent from "@spt/components/rejectModalContent";
 import CustomTabs from "@spt/components/tabs";
 import { useApproveSpoilMutation } from "@spt/hooks/api/useApproveSpoilMutation";
+import { useGetQuizBySpoilId } from "@spt/hooks/api/useGetQuizBySpoilId";
 import { useRejectSpoilMutation } from "@spt/hooks/api/useRejectSpoilMutation";
 import { useSpoilDetailsQuery } from "@spt/hooks/api/useSpoilDetailsQuery";
 import { routes } from "@spt/routes";
@@ -18,17 +19,27 @@ import SpoilOutline from "./tabs/spoilOutline";
 import SpoilOverview from "./tabs/spoilOverview";
 import SpoilQuiz from "./tabs/spoilQuiz";
 
-
 const SpoilReviewDetails = () => {
   const { id } = useParams();
 
-  const { data, isLoading , isError, errorMessage } = useSpoilDetailsQuery(Number(id));
- 
+  const { data, isLoading, isError, errorMessage } = useSpoilDetailsQuery(
+    Number(id)
+  );
+
   const { isRejectSpoilLoading, rejectSpoilHandler } = useRejectSpoilMutation(
     Number(id)
   );
-  
-  const { isApprovalLoading, approveSpoilHandler } = useApproveSpoilMutation(Number(id));
+
+  const { isApprovalLoading, approveSpoilHandler } = useApproveSpoilMutation(
+    Number(id)
+  );
+
+  const {
+      quizData,
+      isQuizLoading,
+      isError: isQuizError,
+      quizErrorMessage,
+    } = useGetQuizBySpoilId(Number(id));
 
   const openApproval = useApprovalStore((state) => state.openApproval);
   const setOpenApproval = useApprovalStore((state) => state.setOpenApproval);
@@ -38,7 +49,6 @@ const SpoilReviewDetails = () => {
 
   if (isLoading) return <LoadingState />;
   if (isError) <ErrorState error={errorMessage} />;
-
 
   return (
     <Stack>
@@ -61,11 +71,16 @@ const SpoilReviewDetails = () => {
               </Tabs.Content>
 
               <Tabs.Content value="spoilOutline">
-                <SpoilOutline data={data}  />
+                <SpoilOutline data={data} />
               </Tabs.Content>
 
               <Tabs.Content value="spoilQuiz">
-                <SpoilQuiz id={Number(id)} />
+                <SpoilQuiz
+                  quizData={quizData}
+                  isQuizLoading={isQuizLoading}
+                  isError={isQuizError}
+                  quizErrorMessage={quizErrorMessage}
+                />{" "}
               </Tabs.Content>
             </>
           </CustomTabs>

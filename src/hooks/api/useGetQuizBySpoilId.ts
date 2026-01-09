@@ -8,14 +8,14 @@ import type { AxiosError } from "axios";
 
 export const useGetQuizBySpoilId = (id: number) => {
   const fetchQuiz = async (): Promise<QuizResponse> => {
-    return (await apiCall().get(`quiz/${id}`))?.data;
+    return (await apiCall().get(`quiz?spoil_id=${id}`))?.data;
   };
 
   const { data, isLoading, isError, error } = useQuery<
     QuizResponse,
     AxiosError<ApiErrorResponse>
   >({
-    queryKey: ["getQuizBySpoilId"],
+    queryKey: ["getQuizBySpoilId", id],
     queryFn: fetchQuiz,
   });
 
@@ -25,7 +25,7 @@ export const useGetQuizBySpoilId = (id: number) => {
     "Failed to fetch quizzes details";
 
   return {
-    quizData: data?.data,
+    quizData: data?.data?.data,
     isQuizLoading: isLoading,
     quizErrorMessage: errorMessage,
     isError,
