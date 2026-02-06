@@ -19,7 +19,7 @@ const CustomTabs: FC<ComponentProps> = (props) => {
 
   return (
     <Tabs.Root
-      defaultValue={tabList[0].value}
+      defaultValue={tabList[0]?.value}
       colorPalette="blue.100"
       variant={variant}
     >
@@ -31,7 +31,7 @@ const CustomTabs: FC<ComponentProps> = (props) => {
           overflowY="hidden"
           w="100%"
         >
-          {tabList.map((item, index) => (
+          {tabList?.map((item, index) => (
             <Tabs.Trigger
               key={index}
               value={item.value}
@@ -44,7 +44,7 @@ const CustomTabs: FC<ComponentProps> = (props) => {
               color="gray"
               fontSize="md"
             >
-              {item.text}
+              {item?.text}
             </Tabs.Trigger>
           ))}
         </HStack>

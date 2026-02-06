@@ -62,7 +62,7 @@ const CourseContent: FC<ComponentProps> = ({ modules, onHide }) => {
 
           {modules?.map((item, index) => (
             <Box key={index} border="1px solid #EFEFEF" borderRadius="xl">
-              <CustomAccordion value={index.toString()} variant="plain">
+              <CustomAccordion value={index?.toString()} variant="plain">
                 <>
                   <Accordion.ItemTrigger>
                     <HStack

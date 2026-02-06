@@ -36,10 +36,10 @@ const SpoilReviews = () => {
                   <Image src="/review-img.svg" />
 
                   <Stack>
-                    <Text>{item.name}</Text>
+                    <Text>{item?.name}</Text>
                     <HStack>
-                      {duplicateStars.map((star) => (
-                        <Image key={star.key} src={star.src} />
+                      {duplicateStars?.map((star) => (
+                        <Image key={star.key} src={star?.src} />
                       ))}
                       <Image src="/plain-star.svg" />
                     </HStack>
@@ -48,17 +48,17 @@ const SpoilReviews = () => {
 
                 <Stack>
                   <Text color="gray.800" fontSize="sm">
-                    {item.review}
+                    {item?.review}
                   </Text>
 
                   <HStack fontSize="sm">
-                    <Text color="gray">{item.date}</Text>
+                    <Text color="gray">{item?.date}</Text>
                     <Separator
                       orientation="vertical"
                       h="full"
                       borderColor="#666869"
                     />
-                    <Text color="gray">{item.time}</Text>
+                    <Text color="gray">{item?.time}</Text>
                   </HStack>
                 </Stack>
               </Stack>
