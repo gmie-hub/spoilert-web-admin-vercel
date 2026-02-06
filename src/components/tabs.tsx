@@ -30,13 +30,9 @@ const CustomTabs: FC<ComponentProps> = (props) => {
 
   return (
     <Tabs.Root
-<<<<<<< HEAD
-      defaultValue={tabList[0]?.value}
-=======
       value={value}
       onValueChange={onValueChange}
-      defaultValue={tabList[0].value}
->>>>>>> de3c8903259a63a2bf51cbee2fccc20f3f172f1e
+      defaultValue={tabList[0]?.value}
       colorPalette="blue.100"
       variant={variant}
     >
