@@ -8,6 +8,7 @@ import ErrorState from "@spt/components/errorState";
 import Info from "@spt/components/info";
 import LoadingState from "@spt/components/loadingState";
 import CustomTabs from "@spt/components/tabs";
+import { useGetQuizBySpoilId } from "@spt/hooks/api/useGetQuizBySpoilId";
 import { useSpoilDetailsQuery } from "@spt/hooks/api/useSpoilDetailsQuery";
 import { spoilMgtTabList } from "@spt/utils/spoilData";
 
@@ -31,6 +32,13 @@ const SpoilDetails = () => {
   const { data, isLoading, isError, errorMessage } = useSpoilDetailsQuery(
     Number(id)
   );
+
+  const {
+    quizData,
+    isQuizLoading,
+    isError: isQuizError,
+    quizErrorMessage,
+  } = useGetQuizBySpoilId(Number(id));
 
   const handleDisableModal = (e: any) => setOpenDisableModal(e.open);
   const handleEnableModal = (e: any) => setOpenEnableModal(e.open);
@@ -105,7 +113,12 @@ const SpoilDetails = () => {
               </Tabs.Content>
 
               <Tabs.Content value="spoilQuiz">
-                <SpoilQuiz id={Number(id)} />
+                <SpoilQuiz
+                  quizData={quizData}
+                  isQuizLoading={isQuizLoading}
+                  isError={isQuizError}
+                  quizErrorMessage={quizErrorMessage}
+                />
               </Tabs.Content>
 
               <Tabs.Content value="spoilReviews">

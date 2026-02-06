@@ -12,11 +12,11 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 
-import type { QuizData } from "@spt/types/quiz";
+import type { QuizDetailsData } from "@spt/types/quiz";
 import { FILL_IN_THE_BLANK, MULTIPLE_CHOICE } from "@spt/utils";
 
 interface ComponentProps {
-  data: QuizData;
+  data: QuizDetailsData;
 }
 
 const Quiz: FC<ComponentProps> = ({ data }) => {

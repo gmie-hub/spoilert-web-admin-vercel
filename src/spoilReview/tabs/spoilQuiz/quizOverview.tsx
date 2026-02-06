@@ -2,15 +2,26 @@ import type { FC } from "react";
 
 import { Button, HStack, Image, Stack, Text } from "@chakra-ui/react";
 
-import type { QuizData } from "@spt/types/quiz";
+import ErrorState from "@spt/components/errorState";
+import LoadingState from "@spt/components/loadingState";
+import type { QuizDetailsData } from "@spt/types/quiz";
 import { FILL_IN_THE_BLANK, MULTIPLE_CHOICE } from "@spt/utils";
 
 interface ComponentProps {
   onClick: () => void;
-  data: QuizData;
+  data: QuizDetailsData;
+  isQuizDetailsLoading: boolean;
+  isError: boolean;
+  quizDetailsErrorMessage: string;
 }
 
-const QuizOverview: FC<ComponentProps> = ({ data, onClick }) => {
+const QuizOverview: FC<ComponentProps> = ({
+  data,
+  isError,
+  isQuizDetailsLoading,
+  quizDetailsErrorMessage,
+  onClick,
+}) => {
   const findFillInTheBlanksQuestions = data?.questions?.filter(
     (item) => item?.type === FILL_IN_THE_BLANK
   )?.length;
@@ -20,11 +31,15 @@ const QuizOverview: FC<ComponentProps> = ({ data, onClick }) => {
   )?.length;
 
   const quizInstructions = [
-  { id: 1, name: `${data?.no_of_questions} Questions` },
-  { id: 2, name: `${findMultipleChoiceQuestions} Multiple choice` },
-  { id: 3, name: `${findFillInTheBlanksQuestions} Fill in the blank` },
-  { id: 4, name: `${data?.time_limit} Minutes` },
-];
+    { id: 1, name: `${data?.no_of_questions ?? 0} Questions` },
+    { id: 2, name: `${findMultipleChoiceQuestions ?? 0} Multiple choice` },
+    { id: 3, name: `${findFillInTheBlanksQuestions ?? 0} Fill in the blank` },
+    { id: 4, name: `${data?.time_limit} Minutes` },
+  ];
+
+  if (isQuizDetailsLoading) <LoadingState />;
+
+  if (isError) <ErrorState error={quizDetailsErrorMessage} />;
 
   return (
     <Stack gap="6">
@@ -33,9 +48,7 @@ const QuizOverview: FC<ComponentProps> = ({ data, onClick }) => {
       </HStack>
 
       <Stack gap="6">
-        <Text color="gray.500">
-          {data?.description}
-        </Text>
+        <Text color="gray.500">{data?.description}</Text>
 
         <Stack gap="4">
           {quizInstructions.map((item) => (

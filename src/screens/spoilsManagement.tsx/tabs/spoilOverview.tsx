@@ -21,7 +21,7 @@ const SpoilOverview: FC<ComponentProps> = ({ data }) => {
         alignItems="center"
       >
         <Box h="80px" w="80px">
-          <Image src="/enrolled_spoils.png" alt="enrolled" w="inherit" />
+          <Image src={data?.cover_image_url} alt="enrolled" w="inherit" />
         </Box>
 
         <Modal variant="yellow" px="8" buttonText="View Certificate">

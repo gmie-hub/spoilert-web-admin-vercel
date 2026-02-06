@@ -32,7 +32,7 @@ const CourseOverview: FC<ComponentProps> = ({ data }) => {
           height="100%"
           style={{ position: "absolute", top: "0", left: "0" }}
           controls
-          playing
+          // playing
         />
       </Box>
 
