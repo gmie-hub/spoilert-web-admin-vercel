@@ -22,24 +22,26 @@ const QuizOverview: FC<ComponentProps> = ({
   quizDetailsErrorMessage,
   onClick,
 }) => {
-  const findFillInTheBlanksQuestions = data?.questions?.filter(
-    (item) => item?.type === FILL_IN_THE_BLANK
-  )?.length;
+  const questions = data?.questions ?? [];
 
-  const findMultipleChoiceQuestions = data?.questions?.filter(
+  const findFillInTheBlanksQuestions = questions.filter(
+    (item) => item?.type === FILL_IN_THE_BLANK
+  ).length;
+
+  const findMultipleChoiceQuestions = questions.filter(
     (item) => item?.type === MULTIPLE_CHOICE
-  )?.length;
+  ).length;
 
   const quizInstructions = [
     { id: 1, name: `${data?.no_of_questions ?? 0} Questions` },
-    { id: 2, name: `${findMultipleChoiceQuestions ?? 0} Multiple choice` },
-    { id: 3, name: `${findFillInTheBlanksQuestions ?? 0} Fill in the blank` },
-    { id: 4, name: `${data?.time_limit} Minutes` },
+    { id: 2, name: `${findMultipleChoiceQuestions} Multiple choice` },
+    { id: 3, name: `${findFillInTheBlanksQuestions} Fill in the blank` },
+    { id: 4, name: `${data?.time_limit ?? 0} Minutes` },
   ];
 
-  if (isQuizDetailsLoading) <LoadingState />;
+  if (isQuizDetailsLoading) return <LoadingState />;
 
-  if (isError) <ErrorState error={quizDetailsErrorMessage} />;
+  if (isError) return <ErrorState error={quizDetailsErrorMessage} />;
 
   return (
     <Stack gap="6">

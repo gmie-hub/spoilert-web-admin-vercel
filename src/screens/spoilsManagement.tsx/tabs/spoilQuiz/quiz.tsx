@@ -31,9 +31,22 @@ const Quiz: FC<ComponentProps> = ({ data }) => {
   const correctAnswer = quizData?.[currentIndex - 1]?.answer;
 
   let parsedOptions: string[] = [];
-  try {
-    parsedOptions = currentQuestion?.options ? JSON.parse(currentQuestion.options) : [];
-  } catch (e) {
+  const rawOptions = currentQuestion?.options;
+  if (Array.isArray(rawOptions)) {
+    parsedOptions = rawOptions as string[];
+  } else if (typeof rawOptions === "string") {
+    const trimmed = rawOptions.trim();
+    if (trimmed && trimmed !== "undefined") {
+      try {
+        const parsed = JSON.parse(trimmed);
+        parsedOptions = Array.isArray(parsed) ? parsed : [];
+      } catch  {
+        parsedOptions = [];
+      }
+    } else {
+      parsedOptions = [];
+    }
+  } else {
     parsedOptions = [];
   }
 
@@ -88,7 +101,7 @@ const Quiz: FC<ComponentProps> = ({ data }) => {
           </Text>
           of{" "}
           <Text as="span" fontWeight="medium" fontSize="sm">
-            {quizData.length}
+            {quizData?.length}
           </Text>
         </Text>
 

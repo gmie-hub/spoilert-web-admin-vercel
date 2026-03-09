@@ -1,4 +1,6 @@
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { useState } from "react";
+
+import { Box, HStack, Input, Stack, Text } from "@chakra-ui/react";
 
 import { Card, Pagination, Table } from "@spt/components";
 import LoadingState from "@spt/components/loadingState";
@@ -10,13 +12,10 @@ import { spoilsReviewHeaders } from "@spt/utils/tableData";
 import TableBody from "./table/tableBody";
 
 const SpoilsReview = () => {
-  const { page, pageSize, handlePageChange } =
-    usePagination();
+  const { page, pageSize, handlePageChange } = usePagination();
+  const [search, setSearch] = useState<string>("");
 
-  const { data, isLoading } = useGetSpoilsQuery(page);
-
-
-  if (isLoading) return <LoadingState />;
+  const { data, isLoading } = useGetSpoilsQuery(page, search);
 
   return (
     <Box>
@@ -26,23 +25,42 @@ const SpoilsReview = () => {
             Spoil Review
           </Text>
 
-          <Table
-            headerChildren={<TableHeader headerItems={spoilsReviewHeaders} />}
-            bodyChildren={
-              <TableBody
-                data={data?.data}
-                currentPage={page}
-                pageSize={pageSize}
-              />
-            }
-          />
+          <HStack justify="flex-start">
+            <Input
+              placeholder="Search"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                handlePageChange(1);
+              }}
+              maxW="420px"
+              w="100%"
+            />
+          </HStack>
 
-          <Pagination
-            page={page}
-            pageSize={pageSize}
-            items={data?.total}
-            onPageChange={handlePageChange}
-          />
+          {isLoading ? (
+            <LoadingState />
+          ) : (
+            <>
+              <Table
+                headerChildren={<TableHeader headerItems={spoilsReviewHeaders} />}
+                bodyChildren={
+                  <TableBody
+                    data={data?.data}
+                    currentPage={page}
+                    pageSize={pageSize}
+                  />
+                }
+              />
+
+              <Pagination
+                page={page}
+                pageSize={pageSize}
+                items={data?.total}
+                onPageChange={handlePageChange}
+              />
+            </>
+          )}
         </Stack>
       </Card>
     </Box>

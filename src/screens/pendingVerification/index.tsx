@@ -1,4 +1,6 @@
-import { Box, Separator, Stack, Text } from "@chakra-ui/react";
+import { useState } from "react";
+
+import { Box, HStack, Input, Separator, Stack, Text } from "@chakra-ui/react";
 
 import { Card, Pagination, Table } from "@spt/components";
 import LoadingState from "@spt/components/loadingState";
@@ -12,11 +14,23 @@ const PendingVerification = () => {
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
 
+  const [search, setSearch] = useState<string>("");
+
   const { data, isLoading } = useAllPendingVerification();
 
-  const visibleItems = data?.data?.slice(startRange, endRange);
+  const filtered = data?.data?.filter((item) => {
+    if (!search) return true;
+    const s = search.toLowerCase();
+    const fullName = `${item.user.first_name} ${item.user.last_name}`.toLowerCase();
+    return (
+      fullName.includes(s) ||
+      item.user.email.toLowerCase().includes(s) ||
+      (item.user.country_code || "").toLowerCase().includes(s) ||
+      (item.type || "").toLowerCase().includes(s)
+    );
+  });
 
-  if (isLoading) return <LoadingState />;
+  const visibleItems = filtered?.slice(startRange, endRange);
 
   return (
     <Box>
@@ -27,10 +41,27 @@ const PendingVerification = () => {
               Pending Verifications
             </Text>
 
-            <Table
-              headerChildren={<TableHeader headerItems={tableHeader} />}
-              bodyChildren={<TableBody data={visibleItems} />}
-            />
+            <HStack justify="flex-start">
+              <Input
+                placeholder="Search"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  handlePageChange(1);
+                }}
+                maxW="420px"
+                w="100%"
+              />
+            </HStack>
+
+            {isLoading ? (
+              <LoadingState />
+            ) : (
+              <Table
+                headerChildren={<TableHeader headerItems={tableHeader} />}
+                bodyChildren={<TableBody data={visibleItems} />}
+              />
+            )}
           </Stack>
 
           <Separator />
@@ -39,7 +70,7 @@ const PendingVerification = () => {
             <Pagination
               page={page}
               pageSize={pageSize}
-              items={data?.data}
+              items={filtered || []}
               onPageChange={handlePageChange}
             />
           </Box>
