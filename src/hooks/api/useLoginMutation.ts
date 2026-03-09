@@ -40,12 +40,12 @@ export const useLoginMutation = () => {
           // });
 
           setAuth({
-            user: data?.data.user, // ✅ only the actual user object
-            token: data?.data.token, // ✅ the token
+            user: data?.data?.user, // ✅ only the actual user object
+            token: data?.data?.token ?? data?.token, // ✅ the token (fallback to top-level token)
           });
           toaster.create({
             type: "success",
-            description: data?.message || "Password updated!",
+            description: data?.message ?? "Password updated!",
           });
           navigate("/");
         },

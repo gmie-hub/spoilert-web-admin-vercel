@@ -23,13 +23,19 @@ const Quiz: FC<ComponentProps> = ({ data }) => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [visitedIndices, setVisitedIndices] = useState<number[]>([]);
 
-  const quizData = data?.questions;
+  const quizData = data?.questions ?? [];
 
-  const questionLength = Array.from({ length: quizData?.length }, (_, i) => i);
+  const questionLength = Array.from({ length: quizData.length }, (_, i) => i);
 
-  const currentQuestion = quizData[currentIndex - 1];
-  const correctAnswer = quizData[currentIndex - 1]?.answer;
-  const parsedOptions: [] = JSON.parse(currentQuestion.options);
+  const currentQuestion = quizData?.[currentIndex - 1];
+  const correctAnswer = quizData?.[currentIndex - 1]?.answer;
+
+  let parsedOptions: string[] = [];
+  try {
+    parsedOptions = currentQuestion?.options ? JSON.parse(currentQuestion.options) : [];
+  } catch (e) {
+    parsedOptions = [];
+  }
 
   const handlePrevious = () => {
     setVisitedIndices((prev) => prev.filter((index) => index !== currentIndex));
@@ -82,13 +88,13 @@ const Quiz: FC<ComponentProps> = ({ data }) => {
           </Text>
           of{" "}
           <Text as="span" fontWeight="medium" fontSize="sm">
-            {quizData?.length}
+            {quizData.length}
           </Text>
         </Text>
 
         <HStack>
           <Image src="/table-clock.svg" />
-          <Text fontWeight="medium">{`00:${data?.time_limit}`}</Text>
+          <Text fontWeight="medium">{`00:${data?.time_limit ?? "00"}`}</Text>
         </HStack>
       </HStack>
 
@@ -98,7 +104,7 @@ const Quiz: FC<ComponentProps> = ({ data }) => {
         </Box>
 
         {currentQuestion?.type === MULTIPLE_CHOICE &&
-          parsedOptions?.map((item, index) => {
+          parsedOptions.map((item, index) => {
             const isCorrectAnswer = correctAnswer === item;
 
             return (
@@ -152,7 +158,7 @@ const Quiz: FC<ComponentProps> = ({ data }) => {
           </Button>
         )}
 
-        {currentIndex !== quizData?.length && (
+        {currentIndex < quizData.length && (
           <Button
             variant="yellow"
             flex="1"
