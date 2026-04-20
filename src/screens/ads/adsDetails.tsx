@@ -10,28 +10,35 @@ import {
   Separator,
   Stack,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+  import { useNavigate, useParams } from "react-router-dom";
+
 
 import { Breadcrumb, Card } from "@spt/components";
 import DeleteModalContent from "@spt/components/deleteModalContent";
+import LoadingState from "@spt/components/loadingState";
+import { useDeleteAdMutation } from "@spt/hooks/api/useDeleteAdMutation";
+import { useGetAdDetailsQuery } from "@spt/hooks/api/useGetAdDetailsQuery";
 import InfoDisplay from "@spt/partials/infoDisplay";
-import { routes } from "@spt/routes";
-import { useDeleteStore, useEditStore, useSuccessStore } from "@spt/store";
+import { useDeleteStore, useEditStore } from "@spt/store";
+
 
 const AdsDetails = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const setIsEdit = useEditStore((state) => state.setIsEdit);
   const setIsDeleteOpen = useDeleteStore((state) => state.setOpenDelete);
   const isDeleteOpen = useDeleteStore((state) => state.openDelete);
-  const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
 
-  // const { data, isLoading } = useSpoilDetailsQuery(Number(id));
-
-  // if (isLoading) return <LoadingState />;
+  const { data: ad, isLoading, isError, adDetailsErrorMessage } = useGetAdDetailsQuery(Number(id));
+  const { deleteAdHandler, isDeleteLoading, goToAds } = useDeleteAdMutation();
+  if (isLoading) return <LoadingState  />;
+  if (isError || !ad) return <div style={{ color: 'red' }}>{adDetailsErrorMessage || 'Failed to load ad details.'}</div>;
 
   const handleEditAds = () => {
     setIsEdit(true);
-    navigate(routes.main.ads.editAd);
+    if (id) {
+      navigate(`/edit-ad/${id}`);
+    }
   };
 
   const handleDeleteClick = () => {
@@ -39,28 +46,20 @@ const AdsDetails = () => {
   };
 
   const handleDeleteAds = () => {
-    setOpenSuccess(true);
+    if (id) {
+      deleteAdHandler(Number(id));
+    }
   };
-
+ 
   const adsDetails = [
-    { title: "Title", value: "Ads 1" },
-    { title: "URL", value: "www.shopify.com" },
-    {
-      title: "Start Date",
-      value: "12-10-2025",
-    },
-    {
-      title: "End Date",
-      value: "12-10-2025",
-    },
-    {
-      title: "Category",
-      value: "UI/UX Design",
-    },
-    {
-      title: "Ad Size",
-      value: "Medium",
-    },
+    { title: "Title", value: ad[0]?.title },
+    { title: "URL", value: ad[0]?.url },
+    { title: "Start Date", value: ad[0]?.start_date },
+    { title: "End Date", value: ad[0]?.end_date },
+    { title: "Category", value: ad[0]?.category?.name ?? '' },
+    { title: "Ad Size", value: ad[0]?.size },
+    { title: "Status", value: ad[0]?.status },
+    { title: "Clicks", value: ad[0]?.clicks },
   ];
 
   return (
@@ -126,8 +125,9 @@ const AdsDetails = () => {
             <DeleteModalContent
               text="Ad"
               handleClick={handleDeleteAds}
-              // isLoading={isDeleteLoading}
+              isLoading={isDeleteLoading}
               successMessage="Ads deleted successfully!"
+              onSuccessDone={goToAds}
             />
           </Dialog.Positioner>
         </Portal>

@@ -5,10 +5,11 @@ import { generatePath, useNavigate } from "react-router-dom";
 
 import { Tag } from "@spt/components";
 import { routes } from "@spt/routes";
-import type { AdsData } from "@spt/utils/adsData";
+import type { Ad } from "@spt/types/ads";
+import { formatDate } from "@spt/utils/dateTime";
 
 interface TableProps {
-  data: AdsData;
+  data: Ad[];
 }
 
 const TableBody: FC<TableProps> = ({ data }) => {
@@ -27,12 +28,12 @@ const TableBody: FC<TableProps> = ({ data }) => {
         <Table.Row key={item.id} py="16">
           <Table.Cell>{serialNumber++}</Table.Cell>
           <Table.Cell>{item?.title}</Table.Cell>
-          <Table.Cell>{item?.noOfClicks}</Table.Cell>
+          <Table.Cell>{item?.clicks}</Table.Cell>
           <Table.Cell>
             <Tag status={item.status} />
           </Table.Cell>
-          <Table.Cell>{item?.startDate}</Table.Cell>
-          <Table.Cell>{item?.endDate}</Table.Cell>
+          <Table.Cell>{formatDate(item?.created_at)} | {formatDate(item?.start_date)}</Table.Cell>
+          <Table.Cell>{formatDate(item?.end_date)}</Table.Cell>
 
           <Table.Cell>
             <Button

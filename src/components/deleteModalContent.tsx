@@ -13,6 +13,7 @@ interface ComponentProps {
   disabled?: boolean;
   isLoading?: boolean;
   successMessage?: string;
+  onSuccessDone?: () => void;
 }
 
 const DeleteModalContent: FC<ComponentProps> = ({
@@ -20,6 +21,7 @@ const DeleteModalContent: FC<ComponentProps> = ({
   text,
   isLoading,
   successMessage = "Post deleted successfully!",
+  onSuccessDone,
 }) => {
   const openSuccess = useSuccessStore((state) => state.openSuccess);
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
@@ -28,6 +30,7 @@ const DeleteModalContent: FC<ComponentProps> = ({
   const handleSuccessDone = () => {
     setOpenDelete(false);
     setOpenSuccess(false);
+    if (onSuccessDone) onSuccessDone();
   };
 
   return (

@@ -1,4 +1,7 @@
+import { useEffect } from "react";
+
 import { Dialog, Heading, Portal, Stack } from "@chakra-ui/react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Breadcrumb, Card } from "@spt/components";
 import SuccessModalContent from "@spt/components/successModalContent";
@@ -10,7 +13,19 @@ const CreateAds = () => {
   const openSuccess = useSuccessStore((state) => state.openSuccess);
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
   const isEdit = useEditStore((state) => state.isEdit);
-  // const setIsEdit = useEditStore((state) => state.setIsEdit);
+  const setIsEdit = useEditStore((state) => state.setIsEdit);
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  useEffect(() => {
+    setIsEdit(!!id);
+  }, [id, setIsEdit]);
+
+  const handleSuccessDone = () => {
+    setOpenSuccess(false);
+    navigate("/ads");
+  };
+
 
   return (
     <Stack gap="5">
@@ -41,7 +56,7 @@ const CreateAds = () => {
               <Dialog.Body>
                 <SuccessModalContent
                   heading="Ads Created Successfully"
-                  onClick={() => setOpenSuccess(false)}
+                  onClick={handleSuccessDone}
                 />
               </Dialog.Body>
             </Dialog.Content>

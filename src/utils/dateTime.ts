@@ -10,6 +10,9 @@ export const formatDate = (date?: string) => {
   }
 };
 
+/*************  ✨ Windsurf Command ⭐  *************/
+/*******  6344c812-cd61-4331-83b8-ffb55d4ded23  *******/
+
 export const formatTime = (date?: string) => {
   if (!date) return "Invalid time";
   try {

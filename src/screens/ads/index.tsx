@@ -2,24 +2,29 @@ import { Box, Button, Flex, Heading, Image, Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 import { Card, NoData, Pagination, Table } from "@spt/components";
+import LoadingState from "@spt/components/loadingState";
+import { useGetAllAdsQuery } from "@spt/hooks/api/useGetAllAdsQuery";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
 import { routes } from "@spt/routes";
-import { adsData, adsHeader } from "@spt/utils/adsData";
+import { adsHeader } from "@spt/utils/adsData";
 
 import TableBody from "./table/tableBody";
 
+// import TableBody from "./table/tableBody";
+
 const Ads = () => {
   const navigate = useNavigate();
-  const { page, pageSize, startRange, endRange, handlePageChange } =
-    usePagination();
 
-  const visibleItems = adsData?.slice(startRange, endRange);
-
+  const { page, pageSize, handlePageChange } = usePagination();
+  const {
+    data: adsData,
+    isLoading,
+    isError,
+    adsErrorMessage,
+  } = useGetAllAdsQuery(page);
   const handleCreateAd = () => navigate(routes.main.ads.createAd);
-
-  const hasAdsData = adsData.length > 0;
-
+  const hasAdsData = Array.isArray(adsData) && adsData.length > 0;
   // if (isLoading) return <LoadingState />;
 
   return (
@@ -41,13 +46,16 @@ const Ads = () => {
             )}
           </Flex>
 
-          {hasAdsData ? (
+          {isLoading ? (
+            <LoadingState />
+          ) : isError ? (
+            <div style={{ color: "red" }}>{adsErrorMessage}</div>
+          ) : hasAdsData ? (
             <>
               <Table
                 headerChildren={<TableHeader headerItems={adsHeader} />}
-                bodyChildren={<TableBody data={visibleItems} />}
+                bodyChildren={<TableBody data={adsData} />}
               />
-
               <Pagination
                 page={page}
                 pageSize={pageSize}
