@@ -60,9 +60,15 @@ const SpoilQuiz: FC<ComponentProps> = ({
     quizDetailsErrorMessage,
   } = useGetQuizDetailsQuery(quizId);
 
+  // useEffect(() => {
+  //   setQuizId(quizData[currentIndex]?.id);
+  // }, [quizData]);
+
   useEffect(() => {
+  if (quizData && quizData.length > 0) {
     setQuizId(quizData[currentIndex]?.id);
-  }, [quizData]);
+  }
+}, [quizData, currentIndex]);
 
   const handleItemClick = (index: number, quizId: number) => {
     setCurrentIndex(index);
