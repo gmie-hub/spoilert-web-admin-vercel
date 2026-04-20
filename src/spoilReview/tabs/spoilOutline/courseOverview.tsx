@@ -10,31 +10,101 @@ interface ComponentProps {
   data?: SpoilData;
 }
 
+const VIDEO_EXTENSIONS = /\.(mp4|webm|ogg|mov|avi|mkv|m3u8)(\?.*)?$/i;
+const AUDIO_EXTENSIONS = /\.(mp3|wav|aac|flac|m4a|ogg)(\?.*)?$/i;
+const IMAGE_EXTENSIONS = /\.(png|jpe?g|gif|webp|svg|bmp)(\?.*)?$/i;
+const PDF_EXTENSIONS = /\.pdf(\?.*)?$/i;
+const TEXT_EXTENSIONS = /\.(txt|md)(\?.*)?$/i;
+const DOC_EXTENSIONS = /\.(docx?|odt|rtf)(\?.*)?$/i;
+
 const CourseOverview: FC<ComponentProps> = ({ data }) => {
-  const videoUrl = useVideoStore((state) => state.videoUrl);
+  const lessonContent = useVideoStore((state) => state.lessonContent);
+
+  const url = lessonContent?.content_url ?? null;
+  const text = lessonContent?.content ?? null;
+
+  const renderContent = () => {
+    if (url) {
+      if (VIDEO_EXTENSIONS.test(url)) {
+        return (
+          <Box
+            position="relative"
+            pt="56.25%"
+            borderRadius="lg"
+            overflow="hidden"
+            width="100%"
+          >
+            <ReactPlayer
+              src={url}
+              width="100%"
+              height="100%"
+              style={{ position: "absolute", top: "0", left: "0" }}
+              controls
+            />
+          </Box>
+        );
+      }
+
+      if (IMAGE_EXTENSIONS.test(url)) {
+        return (
+          <Box borderRadius="lg" overflow="hidden" width="100%">
+            <Image src={url} alt="lesson content" width="100%" />
+          </Box>
+        );
+      }
+
+      if (PDF_EXTENSIONS.test(url)) {
+        return (
+          <Box
+            as="iframe"
+            src={url}
+            width="100%"
+            height="600px"
+            borderRadius="lg"
+            border="none"
+          />
+        );
+      }
+
+      return (
+        <Box
+          p="4"
+          borderRadius="lg"
+          border="1px solid"
+          borderColor="gray.200"
+          bg="gray.50"
+        >
+          <Text fontSize="sm" color="gray.600">
+            Attached file:{" "}
+            <Box as="a" href={url} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">
+              {url.split("/").pop()}
+            </Box>
+          </Text>
+        </Box>
+      );
+    }
+
+    if (text) {
+      return (
+        <Box
+          p="4"
+          borderRadius="lg"
+          border="1px solid"
+          borderColor="gray.200"
+          bg="white"
+          whiteSpace="pre-wrap"
+        >
+          <Text color="gray.700">{text}</Text>
+        </Box>
+      );
+    }
+
+    return null;
+  };
 
   return (
     <Stack gap="4" w="100%">
-      {/* <Image src="/video-banner.png" alt="banner" /> */}
-
-      <Box
-        position="relative"
-        pt="56.25%"
-        borderRadius="lg"
-        overflow="hidden"
-        // aspectRatio="16/9"
-        width="100%"
-        height="100%"
-      >
-        <ReactPlayer
-          src={videoUrl}
-          width="100%"
-          height="100%"
-          style={{ position: "absolute", top: "0", left: "0" }}
-          controls
-          // playing
-        />
-      </Box>
+      {renderContent()}
 
       <Stack gap="3" mt="2">
         <Text fontSize="lg" fontWeight="semibold">

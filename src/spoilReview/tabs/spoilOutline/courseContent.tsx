@@ -25,11 +25,14 @@ interface ComponentProps {
 }
 
 const CourseContent: FC<ComponentProps> = ({ modules, onHide }) => {
-  const setVideoUrl = useVideoStore((state) => state.setVideoUrl);
+  const setLessonContent = useVideoStore((state) => state.setLessonContent);
 
-   useEffect(() => {
-      setVideoUrl(modules[0]?.lessons[0]?.content_url);
-    }, [modules[0]?.lessons[0]?.content_url]);
+  useEffect(() => {
+    const first = modules?.[0]?.lessons?.[0];
+    if (first) {
+      setLessonContent({ content: first.content ?? null, content_url: first.content_url ?? null });
+    }
+  }, [modules?.[0]?.lessons?.[0]]);
 
   return (
     <MotionBox
@@ -98,7 +101,7 @@ const CourseContent: FC<ComponentProps> = ({ modules, onHide }) => {
                               w="full"
                               p="0"
                               onClick={() =>
-                                setVideoUrl(lessonItem?.content_url)
+                                setLessonContent({ content: lessonItem?.content ?? null, content_url: lessonItem?.content_url ?? null })
                               }
                               _hover={{ backgroundColor: "transparent" }}
                             >
