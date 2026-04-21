@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { Box, HStack, Image, Stack, Tag, Text } from "@chakra-ui/react";
+import { Box, HStack, Image, Link, Stack, Tag, Text } from "@chakra-ui/react";
 import ReactPlayer from "react-player";
 
 import { useVideoStore } from "@spt/store/videoStore";
@@ -45,6 +45,17 @@ const CourseOverview: FC<ComponentProps> = ({ data }) => {
         );
       }
 
+      if (AUDIO_EXTENSIONS.test(url)) {
+        return (
+          <Box borderRadius="lg" overflow="hidden" width="100%">
+            <audio controls style={{ width: "100%" }}>
+              <source src={url} />
+              Your browser does not support the audio element.
+            </audio>
+          </Box>
+        );
+      }
+
       if (IMAGE_EXTENSIONS.test(url)) {
         return (
           <Box borderRadius="lg" overflow="hidden" width="100%">
@@ -53,16 +64,59 @@ const CourseOverview: FC<ComponentProps> = ({ data }) => {
         );
       }
 
+
       if (PDF_EXTENSIONS.test(url)) {
         return (
+          <Box borderRadius="lg" overflow="hidden" width="100%">
+            <iframe
+              src={url}
+              width="100%"
+              height="600px"
+              style={{ border: "none", borderRadius: "inherit" }}
+              title="PDF content"
+            />
+          </Box>
+        );
+      }
+
+      if (TEXT_EXTENSIONS.test(url)) {
+        // Fetch and display text file content
+        // For simplicity, show a download link
+        return (
           <Box
-            as="iframe"
-            src={url}
-            width="100%"
-            height="600px"
+            p="4"
             borderRadius="lg"
-            border="none"
-          />
+            border="1px solid"
+            borderColor="gray.200"
+            bg="gray.50"
+          >
+            <Text fontSize="sm" color="gray.600">
+              Text file: {" "}
+              <Link href={url} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">
+                {url.split("/").pop()}
+              </Link>
+            </Text>
+          </Box>
+        );
+      }
+
+      if (DOC_EXTENSIONS.test(url)) {
+        // For doc files, show download link
+        return (
+          <Box
+            p="4"
+            borderRadius="lg"
+            border="1px solid"
+            borderColor="gray.200"
+            bg="gray.50"
+          >
+            <Text fontSize="sm" color="gray.600">
+              Document file: {" "}
+              <Link href={url} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">
+                {url.split("/").pop()}
+              </Link>
+            </Text>
+          </Box>
         );
       }
 
@@ -76,9 +130,9 @@ const CourseOverview: FC<ComponentProps> = ({ data }) => {
         >
           <Text fontSize="sm" color="gray.600">
             Attached file:{" "}
-            <Box as="a" href={url} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">
+            <Link href={url} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">
               {url.split("/").pop()}
-            </Box>
+            </Link>
           </Text>
         </Box>
       );

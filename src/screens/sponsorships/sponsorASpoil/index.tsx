@@ -99,7 +99,11 @@ const SponsorshipASpoil = () => {
                     name="spoilTitle"
                     label="Spoil Title"
                     placeholder="Enter spoil"
-                    collection={spoilTitleCollection}
+                    options={
+                      spoilTitleCollection.items
+                        ? spoilTitleCollection.items
+                        : []
+                    }
                   />
                   <Input
                     name="tutorName"
