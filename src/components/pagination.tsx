@@ -22,7 +22,7 @@ const CustomPagination: FC<ComponentProps> = ({
   pageSize,
   items,
 }) => {
-  const count = items.length;
+  const count = items && items?.length;
   return (
     <Pagination.Root
       count={items || count}
