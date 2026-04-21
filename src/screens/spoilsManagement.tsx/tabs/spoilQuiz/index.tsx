@@ -74,6 +74,7 @@ useEffect(() => {
     setQuizId(quizId);
     setIsQuizVisible(false);
   };
+  
 
   const handleQuizVisibility = () => setIsQuizVisible((prev) => !prev);
 
