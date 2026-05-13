@@ -68,7 +68,8 @@
 
 import { useState } from "react";
 
-import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { Box, Drawer, HStack, IconButton, Image, Text, VStack } from "@chakra-ui/react";
+import { HiMenu } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
 import { routes } from "@spt/routes";
@@ -81,12 +82,12 @@ import ProfileIcon from "../assets/profile-circle.svg";
 const Header = () => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogout = () => {
-    logout(); // clear user & token
-    window.location.replace("/"); // redirect to login page
+    logout();
+    window.location.replace("/");
   };
 
   const handleProfile = () => {
@@ -97,70 +98,91 @@ const navigate = useNavigate()
     <HStack
       justifyContent="space-between"
       borderBlockEnd="1px solid #efefef"
-      borderInlineStart="1px solid #efefef"
+      borderInlineStart={{ base: "none", md: "1px solid #efefef" }}
       p="4"
       position="sticky"
       bg="white"
       zIndex={10}
     >
-      {/* Left Section */}
-      <Box>
+      {/* Logo — mobile only */}
+      <Text
+        fontSize="xl"
+        fontWeight="500"
+        display={{ base: "block", md: "none" }}
+      >
+        LOGO
+      </Text>
+
+      {/* Welcome text — desktop only */}
+      <Box display={{ base: "none", md: "block" }}>
         <Text>Welcome Back, {user?.first_name || "Admin"}</Text>
         <Text fontSize="sm" color="gray">
-          Here's a quick overview of Spoilert’s latest activities
+          Here’s a quick overview of Spoilert’s latest activities
         </Text>
       </Box>
 
-      {/* Right Section - Profile + Dropdown */}
-      <Box position="relative">
-        <HStack
-          cursor="pointer"
-          onClick={() => setDropdownOpen(!dropdownOpen)}
-        >
-          <Image
-            src={ProfileIcon}
-            alt="Profile Icon"
-            boxSize="8"
-            borderRadius="full"
-          />
-          <Image src={ArrowDown} alt="Arrow Down" boxSize="3" />
-        </HStack>
-
-        {/* Dropdown */}
-        {dropdownOpen && (
-          <VStack
-            position="absolute"
-            right={0}
-            mt={2}
-            bg="white"
-            border="1px solid #ddd"
-            borderRadius="md"
-            boxShadow="md"
-            p={2}
-            gap={1}
-            zIndex={20}
+      {/* Right Section — profile dropdown + hamburger (mobile only) */}
+      <HStack gap={2}>
+        <Box position="relative">
+          <HStack
+            cursor="pointer"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
           >
-            <Text
-              cursor="pointer"
-              _hover={{ bg: "gray.100" }}
-              w="full"
-              p={1}
-              onClick={handleProfile}
+            <Image
+              src={ProfileIcon}
+              alt="Profile Icon"
+              boxSize="8"
+              borderRadius="full"
+            />
+            <Image src={ArrowDown} alt="Arrow Down" boxSize="3" />
+          </HStack>
+
+          {dropdownOpen && (
+            <VStack
+              position="absolute"
+              right={0}
+              mt={2}
+              bg="white"
+              border="1px solid #ddd"
+              borderRadius="md"
+              boxShadow="md"
+              p={2}
+              gap={1}
+              zIndex={20}
             >
-              Profile
-            </Text>
-            <Text
-              cursor="pointer"
-              _hover={{ bg: "red.50", color: "red.500" }}
-              w="full"
-              p={1}
-              onClick={handleLogout}
-            >
-              Logout
-            </Text>
-          </VStack>
-        )}
-      </Box>
+              <Text
+                cursor="pointer"
+                _hover={{ bg: "gray.100" }}
+                w="full"
+                p={1}
+                onClick={handleProfile}
+              >
+                Profile
+              </Text>
+              <Text
+                cursor="pointer"
+                _hover={{ bg: "red.50", color: "red.500" }}
+                w="full"
+                p={1}
+                onClick={handleLogout}
+              >
+                Logout
+              </Text>
+            </VStack>
+          )}
+        </Box>
+
+        {/* Hamburger — mobile only */}
+        <Drawer.Trigger asChild>
+          <IconButton
+            aria-label="Open menu"
+            variant="ghost"
+            display={{ base: "flex", md: "none" }}
+          >
+            <HiMenu size={22} />
+          </IconButton>
+        </Drawer.Trigger>
+      </HStack>
     </HStack>
   );
 };
