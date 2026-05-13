@@ -48,7 +48,7 @@ const Layout = () => {
                   </Drawer.CloseTrigger>
                 </HStack>
                 <Drawer.Body p="0">
-                  <Sidebar hideLogo />
+                  <Sidebar hideLogo onNavClick={() => setMenuOpen(false)} />
                 </Drawer.Body>
               </Drawer.Content>
             </Drawer.Positioner>

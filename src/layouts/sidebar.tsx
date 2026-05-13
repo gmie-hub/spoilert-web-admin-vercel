@@ -14,7 +14,7 @@ import "../App.css";
 
 
 
-const Sidebar = ({ hideLogo }: { hideLogo?: boolean }) => {
+const Sidebar = ({ hideLogo, onNavClick }: { hideLogo?: boolean; onNavClick?: () => void }) => {
   const items = [
     {
       key: "Overview",
@@ -134,6 +134,7 @@ const Sidebar = ({ hideLogo }: { hideLogo?: boolean }) => {
           <NavLink
             key={item.key}
             to={item.to}
+            onClick={onNavClick}
             className={({ isActive }) =>
               isActive ? "navLink active" : "navLink"
             }
