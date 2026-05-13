@@ -1,13 +1,21 @@
-import { Box, Container, Drawer, Flex, Portal } from "@chakra-ui/react";
+import { useState } from "react";
+
+import { Box, Container, Drawer, Flex, HStack, IconButton, Portal, Text } from "@chakra-ui/react";
+import { HiX } from "react-icons/hi";
 import { Outlet } from "react-router-dom";
 
 import Header from "./header";
 import Sidebar from "./sidebar";
 
 const Layout = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <main>
-      <Drawer.Root>
+      <Drawer.Root
+        open={menuOpen}
+        onOpenChange={(e) => setMenuOpen(e.open)}
+      >
         <Flex overflow="hidden" h="100vh">
           <Box
             h="100vh"
@@ -25,8 +33,22 @@ const Layout = () => {
             <Drawer.Backdrop />
             <Drawer.Positioner>
               <Drawer.Content>
-                <Drawer.Body>
-                  <Sidebar />
+                <HStack
+                  justify="space-between"
+                  align="center"
+                  px="4"
+                  py="4"
+                  borderBlockEnd="1px solid #efefef"
+                >
+                  <Text fontSize="xl" fontWeight="500">LOGO</Text>
+                  <Drawer.CloseTrigger asChild>
+                    <IconButton aria-label="Close menu" variant="ghost" size="sm">
+                      <HiX size={22} />
+                    </IconButton>
+                  </Drawer.CloseTrigger>
+                </HStack>
+                <Drawer.Body p="0">
+                  <Sidebar hideLogo />
                 </Drawer.Body>
               </Drawer.Content>
             </Drawer.Positioner>
@@ -40,7 +62,7 @@ const Layout = () => {
             flex="1"
           >
             <Box position="sticky" top="0" bg="white" zIndex="10">
-              <Header />
+              <Header menuOpen={menuOpen} onMenuToggle={() => setMenuOpen((v) => !v)} />
             </Box>
 
             <Container
