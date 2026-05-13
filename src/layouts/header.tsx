@@ -68,8 +68,8 @@
 
 import { useState } from "react";
 
-import { Box, Drawer, HStack, IconButton, Image, Text, VStack } from "@chakra-ui/react";
-import { HiMenu } from "react-icons/hi";
+import { Box, HStack, IconButton, Image, Text, VStack } from "@chakra-ui/react";
+import { HiMenu, HiX } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
 import { routes } from "@spt/routes";
@@ -79,7 +79,12 @@ import ArrowDown from "../assets/arrow-down.svg";
 import ProfileIcon from "../assets/profile-circle.svg";
 
 
-const Header = () => {
+interface HeaderProps {
+  menuOpen: boolean;
+  onMenuToggle: () => void;
+}
+
+const Header = ({ menuOpen, onMenuToggle }: HeaderProps) => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
@@ -172,16 +177,15 @@ const Header = () => {
           )}
         </Box>
 
-        {/* Hamburger — mobile only */}
-        <Drawer.Trigger asChild>
-          <IconButton
-            aria-label="Open menu"
-            variant="ghost"
-            display={{ base: "flex", md: "none" }}
-          >
-            <HiMenu size={22} />
-          </IconButton>
-        </Drawer.Trigger>
+        {/* Hamburger / Close — mobile only */}
+        <IconButton
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          variant="ghost"
+          display={{ base: "flex", md: "none" }}
+          onClick={onMenuToggle}
+        >
+          {menuOpen ? <HiX size={22} /> : <HiMenu size={22} />}
+        </IconButton>
       </HStack>
     </HStack>
   );

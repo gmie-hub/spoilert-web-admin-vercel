@@ -14,7 +14,7 @@ import "../App.css";
 
 
 
-const Sidebar = () => {
+const Sidebar = ({ hideLogo }: { hideLogo?: boolean }) => {
   const items = [
     {
       key: "Overview",
@@ -116,11 +116,13 @@ const Sidebar = () => {
 
   return (
     <Flex flexDir="column" h="100%">
-      <Box py="6" ps="4">
-        <Text fontSize="xl" fontWeight="500">
-          LOGO
-        </Text>
-      </Box>
+      {!hideLogo && (
+        <Box py="6" ps="4">
+          <Text fontSize="xl" fontWeight="500">
+            LOGO
+          </Text>
+        </Box>
+      )}
 
       <Stack
         py="6"
