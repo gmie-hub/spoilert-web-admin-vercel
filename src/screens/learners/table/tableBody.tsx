@@ -22,7 +22,7 @@ const TableBody: FC<TableBodyProps> = ({ items, currentPage, pageSize }) => {
           <Table.Cell>{(currentPage - 1) * pageSize + index + 1}</Table.Cell>
           <Table.Cell>
             <HStack>
-              <Image src={item?.avatar || "/user-icon.svg"} />
+              <Image src={item?.avatar || "/user-icon.svg"} boxSize="40px" borderRadius="full" />
               <Text
                 textOverflow={
                   item.first_name?.length > 10 ? "ellipsis" : "initial"
