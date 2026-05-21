@@ -23,6 +23,11 @@ export const formatTime = (date?: string) => {
   }
 };
 
+export const formatDateTime = (date?: string) => {
+  if (!date) return "N/A";
+  return `${formatDate(date)} | ${formatTime(date)}`;
+};
+
 
 export const truncateText = (text: string | undefined, limit = 10): string => {
   if (!text) return "";

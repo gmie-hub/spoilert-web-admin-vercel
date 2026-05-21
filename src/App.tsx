@@ -35,6 +35,13 @@ import TutorDetails from "./screens/tutors/tutorDetails/index.tsx";
 import WithdrawerRequest from "./screens/withdrawerRequest.tsx";
 import SpoilsReview from "./spoilReview/index.tsx";
 import SpoilReviewDetails from "./spoilReview/spoilDetails.tsx";
+import RevenueGenerated from "./screens/analytics/revenueGenerated/index.tsx";
+import SpoilOverTime from "./screens/analytics/spoilPerformance/spoilOverTime/index.tsx";
+import SpoilPerCategory from "./screens/analytics/spoilPerformance/spoilPerCategory/index.tsx";
+import SpoilTypeAnalytics from "./screens/analytics/spoilTypeAnalytics/index.tsx";
+import SpoilsCreated from "./screens/analytics/spoilsCreated/index.tsx";
+import UserInsights from "./screens/analytics/userInsights/index.tsx";
+import UserRegistration from "./screens/analytics/userRegistration/index.tsx";
 import ProtectedRoute from "./utils/protectedRoute.tsx";
 
 function App() {
@@ -130,6 +137,14 @@ function App() {
 
     { path: routes.main.settings.home, element: <Settings /> },
     { path: routes.main.settings.editProfile, element: <EditProfile /> },
+
+    { path: routes.main.analytics.userInsights, element: <UserInsights /> },
+    { path: routes.main.analytics.userRegistration, element: <UserRegistration /> },
+    { path: routes.main.analytics.spoilsCreated, element: <SpoilsCreated /> },
+    { path: routes.main.analytics.revenueGenerated, element: <RevenueGenerated /> },
+    { path: routes.main.analytics.spoilTypeAnalytics, element: <SpoilTypeAnalytics /> },
+    { path: routes.main.analytics.spoilPerformance.spoilOverTime, element: <SpoilOverTime /> },
+    { path: routes.main.analytics.spoilPerformance.spoilPerCategory, element: <SpoilPerCategory /> },
   ];
 
   return (

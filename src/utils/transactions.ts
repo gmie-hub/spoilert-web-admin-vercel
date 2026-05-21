@@ -3,10 +3,6 @@ export const transactionsList = [
     value: "spoilPurchase",
     text: "Spoil Purchase",
   },
-  {
-    value: "withdrawal",
-    text: "Withdrawal",
-  },
   // {
   //   value: "airtimeData",
   //   text: "Airtime and Data",
