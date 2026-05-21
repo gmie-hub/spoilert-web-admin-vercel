@@ -65,6 +65,18 @@ export const routes = {
       createAd: "/create-ad",
       editAd: "/edit-ad/:id",
     },
+    analytics: {
+      userInsights: "/analytics/user-insights",
+      userRegistration: "/analytics/user-registration",
+      spoilsCreated: "/analytics/spoils-created",
+      revenueGenerated: "/analytics/revenue-generated",
+      spoilTypeAnalytics: "/analytics/spoil-type-analytics",
+      spoilPerformance: {
+        home: "/analytics/spoil-performance",
+        spoilOverTime: "/analytics/spoil-performance/spoil-over-time",
+        spoilPerCategory: "/analytics/spoil-performance/spoil-per-category",
+      },
+    },
   },
   auth: {
     login: '/',

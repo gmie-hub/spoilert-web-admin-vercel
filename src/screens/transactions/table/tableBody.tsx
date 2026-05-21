@@ -4,7 +4,15 @@ import { Table } from "@chakra-ui/react";
 
 import { Modal, Tag } from "@spt/components";
 import TransactionDetails from "@spt/partials/transactionDetailsModalContent";
+import { formatDateTime } from "@spt/utils/dateTime";
 import type { TableBodyProps } from "@spt/utils/types";
+
+// Maps the API payment `type` to the human-readable label the table and the
+// details modal switch on.
+const typeLabels: Record<string, string> = {
+  spoil: "Spoil Purchase",
+  sponsored_spoil: "Sponsorship",
+};
 
 const TableBody: FC<TableBodyProps> = ({ items }) => {
   const [transactionItem, setTransactionItem] =
@@ -16,32 +24,40 @@ const TableBody: FC<TableBodyProps> = ({ items }) => {
 
   return (
     <>
-      {items.map((item) => (
-        <Table.Row py="16">
-          <Table.Cell>{item.transactionType}</Table.Cell>
+      {items?.map((item: Record<string, any>, index: number) => {
+        const transactionType =
+          item.transactionType ?? typeLabels[item.type] ?? item.type;
+        const transactionID = item.transactionID ?? item.reference ?? item.id;
+        const dateTime = item.dateTime ?? formatDateTime(item.created_at);
+        const row = { ...item, transactionType, transactionID, dateTime };
 
-          <Table.Cell>{item.transactionID}</Table.Cell>
+        return (
+          <Table.Row key={transactionID ?? index} py="16">
+            <Table.Cell>{transactionType}</Table.Cell>
 
-          <Table.Cell>{item.amount}</Table.Cell>
+            <Table.Cell>{transactionID}</Table.Cell>
 
-          <Table.Cell>{item.dateTime}</Table.Cell>
+            <Table.Cell>{item.amount}</Table.Cell>
 
-          <Table.Cell>
-            <Tag status={item.status} />
-          </Table.Cell>
+            <Table.Cell>{dateTime}</Table.Cell>
 
-          <Table.Cell>
-            <Modal
-              buttonText="View More"
-              variant="yellowOutline"
-              size="md"
-              onClick={() => handleTransactionItem(item)}
-            >
-              <TransactionDetails item={transactionItem} />
-            </Modal>
-          </Table.Cell>
-        </Table.Row>
-      ))}
+            <Table.Cell>
+              <Tag status={item.status} />
+            </Table.Cell>
+
+            <Table.Cell>
+              <Modal
+                buttonText="View More"
+                variant="yellowOutline"
+                size="md"
+                onClick={() => handleTransactionItem(row)}
+              >
+                <TransactionDetails item={transactionItem} />
+              </Modal>
+            </Table.Cell>
+          </Table.Row>
+        );
+      })}
     </>
   );
 };

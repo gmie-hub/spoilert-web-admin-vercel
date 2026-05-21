@@ -10,5 +10,5 @@ export const usePagination = () => {
 
   const handlePageChange = (e) => setPage(e.page);
 
-  return { page, pageSize, startRange, endRange, handlePageChange };
+  return { page, pageSize, startRange, endRange, handlePageChange, setPage };
 };
