@@ -68,6 +68,7 @@ const CommunityDetails = () => {
       <Breadcrumb
         previousLink="Community"
         currentLink="View Community Details"
+        previousHref={routes.main.community.home}
       />
 
       <Card>

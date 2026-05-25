@@ -11,6 +11,7 @@ import Categories from "./screens/categories";
 import CategoryDetails from "./screens/categories/categoryDetails.tsx";
 import CommunityDetails from "./screens/community/communityDetails.tsx";
 import Community from "./screens/community/index.tsx";
+import CustomerSupport from "./screens/customerSupport/index.tsx";
 import Dashboard from "./screens/dashBoard/index.tsx";
 import Learners from "./screens/learners";
 import ViewLearnerDetails from "./screens/learners/viewLearnerDetails";
@@ -125,6 +126,8 @@ function App() {
 
     { path: routes.main.community.home, element: <Community /> },
     { path: routes.main.community.details, element: <CommunityDetails /> },
+
+    { path: routes.main.customerSupport.home, element: <CustomerSupport /> },
 
     {
       path: routes.main.pendingVerification.home,

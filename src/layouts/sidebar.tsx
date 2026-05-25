@@ -5,11 +5,13 @@ import { NavLink, useLocation } from "react-router-dom";
 
 import "../App.css";
 import AnalyticsAccordion from "./analyticsAccordion";
+import PromotionsAccordion from "./promotionsAccordion";
 import {
   type NavItem,
   analyticsSubItems,
   bottomItems,
   mainItems,
+  promotionsSubItems,
   spoilPerformanceSubItems,
 } from "./sidebarItems";
 import SpoilPerformanceAccordion from "./spoilPerformanceAccordion";
@@ -18,6 +20,7 @@ const Sidebar = ({ hideLogo, onNavClick }: { hideLogo?: boolean; onNavClick?: ()
   const location = useLocation();
   const [analyticsOpen, setAnalyticsOpen] = useState(false);
   const [spoilPerfOpen, setSpoilPerfOpen] = useState(false);
+  const [promotionsOpen, setPromotionsOpen] = useState(false);
 
   useEffect(() => {
     if (location.pathname.startsWith("/analytics")) {
@@ -25,6 +28,9 @@ const Sidebar = ({ hideLogo, onNavClick }: { hideLogo?: boolean; onNavClick?: ()
     }
     if (location.pathname.startsWith("/analytics/spoil-performance")) {
       setSpoilPerfOpen(true);
+    }
+    if (location.pathname.startsWith("/promotions")) {
+      setPromotionsOpen(true);
     }
   }, [location.pathname]);
 
@@ -94,6 +100,13 @@ const Sidebar = ({ hideLogo, onNavClick }: { hideLogo?: boolean; onNavClick?: ()
           subItems={analyticsSubItems}
           renderItem={renderNavItem}
           footer={spoilPerfNode}
+        />
+
+        <PromotionsAccordion
+          isOpen={promotionsOpen}
+          onToggle={() => setPromotionsOpen((prev) => !prev)}
+          subItems={promotionsSubItems}
+          renderItem={renderNavItem}
         />
 
         {bottomItems.map(renderNavItem)}

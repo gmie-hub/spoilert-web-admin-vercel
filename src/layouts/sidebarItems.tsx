@@ -77,18 +77,6 @@ export const mainItems: NavItem[] = [
     to: routes.main.sponsorships.home,
   },
   {
-    key: "Promotions",
-    label: "Promotions ",
-    icon: <img src={Withdrawal} alt="Promotions" />,
-    to: routes.main.promotions.home,
-  },
-  {
-    key: "PromotionsManagement",
-    label: "Promotions Management",
-    icon: <img src={Withdrawal} alt="PromotionsManagement" />,
-    to: routes.main.promotions.promotionsManagement,
-  },
-  {
     key: "Withdrawal Requests",
     label: "Withdrawal Requests",
     icon: <img src={Withdrawal} alt="Withdrawal" />,
@@ -150,15 +138,30 @@ export const analyticsSubItems: NavItem[] = [
 export const spoilPerformanceSubItems: NavItem[] = [
   {
     key: "SpoilOverTime",
-    label: "Spoil Over Time",
+    label: "Over Time",
     icon: <HiOutlineChartBar size={20} />,
     to: routes.main.analytics.spoilPerformance.spoilOverTime,
   },
   {
     key: "SpoilPerCategory",
-    label: "Spoil Per Category",
+    label: "Per Category",
     icon: <HiOutlineViewList size={20} />,
     to: routes.main.analytics.spoilPerformance.spoilPerCategory,
+  },
+];
+
+export const promotionsSubItems: NavItem[] = [
+  {
+    key: "Promotions",
+    label: "Promotions",
+    icon: <img src={Withdrawal} alt="Promotions" />,
+    to: routes.main.promotions.home,
+  },
+  {
+    key: "PromotionsManagement",
+    label: "Promotions Management",
+    icon: <img src={Withdrawal} alt="PromotionsManagement" />,
+    to: routes.main.promotions.promotionsManagement,
   },
 ];
 

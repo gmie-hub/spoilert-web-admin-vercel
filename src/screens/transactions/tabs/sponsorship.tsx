@@ -15,22 +15,31 @@ import TableBody from "../table/tableBody";
 interface ComponentProps {
   status?: string;
   search?: string;
+  fromDate?: string;
+  toDate?: string;
 }
 
-const Sponsorship: FC<ComponentProps> = ({ status, search }) => {
+const Sponsorship: FC<ComponentProps> = ({
+  status,
+  search,
+  fromDate,
+  toDate,
+}) => {
   const { page, pageSize, handlePageChange, setPage } = usePagination();
 
   const { data, isLoading, isError, errorMessage } = useGetPaymentsQuery(
     "sponsored_spoil",
     page,
     status,
-    search
+    search,
+    fromDate,
+    toDate
   );
 
   // Reset to the first page whenever a filter changes.
   useEffect(() => {
     setPage(1);
-  }, [status, search, setPage]);
+  }, [status, search, fromDate, toDate, setPage]);
 
   const hasNoData = data?.total === 0;
 
