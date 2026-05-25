@@ -11,20 +11,20 @@ import {
   YAxis,
 } from "recharts";
 
+import { useGetSpoilsCreatedQuery } from "@spt/hooks/api/useGetSpoilsCreatedQuery";
+
 import {
   DatePickerButton,
   FilterSelect,
 } from "../components/filterControls";
 
-const weekData = [
-  { day: "Sun", value: 38 },
-  { day: "Mon", value: 105 },
-  { day: "Tue", value: 50 },
-  { day: "Wed", value: 68 },
-  { day: "Thu", value: 38 },
-  { day: "Fri", value: 35 },
-  { day: "Sat", value: 85 },
-];
+// Turns a "YYYY-MM" bucket into a short readable label e.g. "Aug 25".
+const formatMonthLabel = (label: string) => {
+  const [year, month] = label.split("-");
+  const date = new Date(Number(year), Number(month) - 1);
+  if (Number.isNaN(date.getTime())) return label;
+  return `${date.toLocaleString("en-US", { month: "short" })} ${year.slice(2)}`;
+};
 
 const ORANGE = "#D4A437";
 const periodOptions = ["This Week", "This Month", "This Year", "All Time"];
@@ -59,6 +59,19 @@ const CustomTooltip = ({
 export default function SpoilsCreated() {
   const [period, setPeriod] = useState("This Week");
 
+  const {
+    data: spoilsCreated,
+    isLoading,
+    isError,
+    errorMessage,
+  } = useGetSpoilsCreatedQuery();
+
+  const spoilsData =
+    spoilsCreated?.graph?.map((point) => ({
+      month: formatMonthLabel(point.label),
+      value: point.total_spoils,
+    })) ?? [];
+
   return (
     <Box
       bg="white"
@@ -88,38 +101,58 @@ export default function SpoilsCreated() {
         </Flex>
       </Flex>
 
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart
-          data={weekData}
-          barSize={60}
-          margin={{ top: 5, right: 20, left: -20, bottom: 5 }}
-        >
-          <CartesianGrid
-            strokeDasharray=""
-            stroke="#f0f0f0"
-            vertical={false}
-          />
-          <XAxis
-            dataKey="day"
-            axisLine={false}
-            tickLine={false}
-            tick={{ fill: "#9ca3af", fontSize: 12 }}
-          />
-          <YAxis
-            domain={[0, 120]}
-            ticks={[0, 20, 40, 60, 80, 100, 120]}
-            axisLine={false}
-            tickLine={false}
-            tick={{ fill: "#9ca3af", fontSize: 12 }}
-          />
-          <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(0,0,0,0.04)" }} />
-          <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-            {weekData.map((entry) => (
-              <Cell key={entry.day} fill={ORANGE} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+      {isLoading ? (
+        <Flex h="300px" align="center" justify="center">
+          <Text fontSize="sm" color="#9ca3af">
+            Loading…
+          </Text>
+        </Flex>
+      ) : isError ? (
+        <Flex h="300px" align="center" justify="center">
+          <Text fontSize="sm" color="red.500">
+            {errorMessage}
+          </Text>
+        </Flex>
+      ) : spoilsData.length === 0 ? (
+        <Flex h="300px" align="center" justify="center">
+          <Text fontSize="sm" color="#9ca3af">
+            No data
+          </Text>
+        </Flex>
+      ) : (
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart
+            data={spoilsData}
+            barSize={60}
+            margin={{ top: 5, right: 20, left: -20, bottom: 5 }}
+          >
+            <CartesianGrid
+              strokeDasharray=""
+              stroke="#f0f0f0"
+              vertical={false}
+            />
+            <XAxis
+              dataKey="month"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: "#9ca3af", fontSize: 12 }}
+            />
+            <YAxis
+              domain={[0, "auto"]}
+              allowDecimals={false}
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: "#9ca3af", fontSize: 12 }}
+            />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(0,0,0,0.04)" }} />
+            <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+              {spoilsData.map((entry) => (
+                <Cell key={entry.month} fill={ORANGE} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      )}
     </Box>
   );
 }

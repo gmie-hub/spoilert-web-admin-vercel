@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+
 import { Box, Flex, Text } from "@chakra-ui/react";
 import {
   Bar,
@@ -11,26 +12,20 @@ import {
   YAxis,
 } from "recharts";
 
+import { useGetBestPerformingQuery } from "@spt/hooks/api/useGetBestPerformingQuery";
+
 import { FilterSelect } from "../../components/filterControls";
 
 const TEAL = "#013B4D";
 
-const monthlyData = [
-  { month: "Jan", value: 38, spoil: "Introduction to React" },
-  { month: "Feb", value: 105, spoil: "JavaScript Fundamentals" },
-  { month: "Mar", value: 48, spoil: "CSS Mastery" },
-  { month: "Apr", value: 68, spoil: "Node.js Basics" },
-  { month: "May", value: 38, spoil: "Python for Beginners" },
-  { month: "Jun", value: 35, spoil: "Data Structures" },
-  { month: "Jul", value: 82, spoil: "Basic Design Principles" },
-  { month: "Aug", value: 28, spoil: "UX Writing" },
-  { month: "Sep", value: 58, spoil: "TypeScript Deep Dive" },
-  { month: "Oct", value: 85, spoil: "React Advanced Patterns" },
-  { month: "Nov", value: 17, spoil: "GraphQL Basics" },
-  { month: "Dec", value: 45, spoil: "Next.js Framework" },
-];
+// Turns a "YYYY-MM" bucket into a short readable label e.g. "Aug 25".
+const formatMonthLabel = (label: string) => {
+  const [year, month] = label.split("-");
+  const date = new Date(Number(year), Number(month) - 1);
+  if (Number.isNaN(date.getTime())) return label;
+  return `${date.toLocaleString("en-US", { month: "short" })} ${year.slice(2)}`;
+};
 
-const currentMonth = "Dec";
 const periodOptions = ["Monthly", "Weekly", "Daily"];
 
 const CustomTooltip = ({
@@ -61,10 +56,12 @@ const CustomXTick = ({
   x,
   y,
   payload,
+  currentMonth,
 }: {
   x?: number;
   y?: number;
   payload?: { value: string };
+  currentMonth?: string;
 }) => {
   const isCurrent = payload?.value === currentMonth;
   return (
@@ -84,6 +81,34 @@ const CustomXTick = ({
 export default function SpoilOverTime() {
   const [period, setPeriod] = useState("Monthly");
 
+  const { data, isLoading, isError, errorMessage } = useGetBestPerformingQuery();
+
+  // The graph holds one row per (month, spoil); for each month keep only the
+  // top-performing spoil, then sort the months chronologically.
+  const monthlyData = useMemo(() => {
+    const byMonth = new Map<
+      string,
+      { label: string; spoil_name: string; total_enrollments: number }
+    >();
+
+    for (const point of data?.graph ?? []) {
+      const existing = byMonth.get(point.label);
+      if (!existing || point.total_enrollments > existing.total_enrollments) {
+        byMonth.set(point.label, point);
+      }
+    }
+
+    return Array.from(byMonth.values())
+      .sort((a, b) => a.label.localeCompare(b.label))
+      .map((point) => ({
+        month: formatMonthLabel(point.label),
+        value: point.total_enrollments,
+        spoil: point.spoil_name,
+      }));
+  }, [data]);
+
+  const currentMonth = monthlyData[monthlyData.length - 1]?.month;
+
   return (
     <Box>
       <Text fontSize="2xl" fontWeight="600" mb={6} color="#212529">
@@ -102,35 +127,55 @@ export default function SpoilOverTime() {
           />
         </Flex>
 
-        <ResponsiveContainer width="100%" height={320}>
-          <BarChart
-            data={monthlyData}
-            barSize={48}
-            margin={{ top: 5, right: 20, left: -20, bottom: 10 }}
-          >
-            <CartesianGrid strokeDasharray="" stroke="#f0f0f0" vertical={false} />
-            <XAxis
-              dataKey="month"
-              axisLine={false}
-              tickLine={false}
-              tick={<CustomXTick />}
-              interval={0}
-            />
-            <YAxis
-              domain={[0, 120]}
-              ticks={[0, 20, 40, 60, 80, 100, 120]}
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: "#9ca3af", fontSize: 12 }}
-            />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(1,59,77,0.08)" }} />
-            <Bar dataKey="value" radius={[3, 3, 0, 0]}>
-              {monthlyData.map((entry) => (
-                <Cell key={entry.month} fill={TEAL} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        {isLoading ? (
+          <Flex h="320px" align="center" justify="center">
+            <Text fontSize="sm" color="#9ca3af">
+              Loading…
+            </Text>
+          </Flex>
+        ) : isError ? (
+          <Flex h="320px" align="center" justify="center">
+            <Text fontSize="sm" color="red.500">
+              {errorMessage}
+            </Text>
+          </Flex>
+        ) : monthlyData.length === 0 ? (
+          <Flex h="320px" align="center" justify="center">
+            <Text fontSize="sm" color="#9ca3af">
+              No data
+            </Text>
+          </Flex>
+        ) : (
+          <ResponsiveContainer width="100%" height={320}>
+            <BarChart
+              data={monthlyData}
+              barSize={48}
+              margin={{ top: 5, right: 20, left: -20, bottom: 10 }}
+            >
+              <CartesianGrid strokeDasharray="" stroke="#f0f0f0" vertical={false} />
+              <XAxis
+                dataKey="month"
+                axisLine={false}
+                tickLine={false}
+                tick={<CustomXTick currentMonth={currentMonth} />}
+                interval={0}
+              />
+              <YAxis
+                domain={[0, "auto"]}
+                allowDecimals={false}
+                axisLine={false}
+                tickLine={false}
+                tick={{ fill: "#9ca3af", fontSize: 12 }}
+              />
+              <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(1,59,77,0.08)" }} />
+              <Bar dataKey="value" radius={[3, 3, 0, 0]}>
+                {monthlyData.map((entry) => (
+                  <Cell key={entry.month} fill={TEAL} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        )}
       </Box>
     </Box>
   );

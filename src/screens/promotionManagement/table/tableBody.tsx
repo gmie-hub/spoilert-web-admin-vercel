@@ -5,18 +5,34 @@ import { generatePath, useNavigate } from "react-router-dom";
 
 import { Tag } from "@spt/components";
 import { routes } from "@spt/routes";
-import type { PromotionManagementData } from "@spt/utils/promotionsData";
+import type { Promotion } from "@spt/types/promotion";
 
 interface TableProps {
-  data: PromotionManagementData;
+  data: Promotion[];
 }
+
+const formatAmount = (amount: string | number) => {
+  const value = Number(amount);
+  if (Number.isNaN(value)) return String(amount);
+  return `₦${value.toLocaleString()}`;
+};
+
+const formatDate = (value?: string) => {
+  if (!value) return "";
+  const date = new Date(value.replace(" ", "T"));
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString();
+};
 
 const TableBody: FC<TableProps> = ({ data }) => {
   const navigate = useNavigate();
 
-  const handleRowClick = (id: number) => {
-    const path = generatePath(routes.main.promotionsManagement.promotionsManagementDetails, { id });
-    navigate(path);
+  const handleRowClick = (item: Promotion) => {
+    const path = generatePath(
+      routes.main.promotionsManagement.promotionsManagementDetails,
+      { id: item.id }
+    );
+    navigate(path, { state: { promotion: item } });
   };
 
   let serialNumber = 1;
@@ -28,31 +44,39 @@ const TableBody: FC<TableProps> = ({ data }) => {
           <Table.Cell>{serialNumber++}</Table.Cell>
           <Table.Cell>
             <HStack>
-              <Image src={""} boxSize="10" borderRadius="md" />
-              <Text color="gray">{item?.spoilTitle}</Text>
+              <Image
+                src={item?.spoil?.cover_image_url ?? ""}
+                boxSize="10"
+                borderRadius="md"
+              />
+              <Text color="gray">{item?.spoil?.title}</Text>
             </HStack>
           </Table.Cell>
 
           <Table.Cell>
             <HStack>
               <Image src="/user-icon.svg" />
-              <Text color="gray">{`${item?.nameOfTutor}`}</Text>
+              <Text color="gray">
+                {item?.spoil?.tutor
+                  ? `${item.spoil.tutor.first_name} ${item.spoil.tutor.last_name}`
+                  : ""}
+              </Text>
             </HStack>
           </Table.Cell>
 
-          <Table.Cell>{item?.promotionPackage}</Table.Cell>
-          <Table.Cell>{item?.amount}</Table.Cell>
-          <Table.Cell>{item?.startDate}</Table.Cell>
-          <Table.Cell>{item?.endDate}</Table.Cell>
+          <Table.Cell>{item?.promotion_package_id}</Table.Cell>
+          <Table.Cell>{formatAmount(item?.amount)}</Table.Cell>
+          <Table.Cell>{formatDate(item?.start_date)}</Table.Cell>
+          <Table.Cell>{formatDate(item?.end_date)}</Table.Cell>
 
-          <Table.Cell><Tag status={item.status} /></Table.Cell>
+          <Table.Cell>{item?.status && <Tag status={item.status} />}</Table.Cell>
 
           <Table.Cell>
             <Button
               variant="yellowOutline"
               px="3"
               my="3"
-              onClick={() => handleRowClick(item?.id)}
+              onClick={() => handleRowClick(item)}
             >
               View More
             </Button>

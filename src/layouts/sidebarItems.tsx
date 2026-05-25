@@ -76,12 +76,12 @@ export const mainItems: NavItem[] = [
     icon: <img src={Sponsorships} alt="Sponsorships" />,
     to: routes.main.sponsorships.home,
   },
-  {
-    key: "Withdrawal Requests",
-    label: "Withdrawal Requests",
-    icon: <img src={Withdrawal} alt="Withdrawal" />,
-    to: routes.main.withdrawalRequest.home,
-  },
+  // {
+  //   key: "Withdrawal Requests",
+  //   label: "Withdrawal Requests",
+  //   icon: <img src={Withdrawal} alt="Withdrawal" />,
+  //   to: routes.main.withdrawalRequest.home,
+  // },
   {
     key: "Transactions",
     label: "Transactions",
@@ -166,12 +166,12 @@ export const promotionsSubItems: NavItem[] = [
 ];
 
 export const bottomItems: NavItem[] = [
-  {
-    key: "Customer Support",
-    label: "Customer Support",
-    icon: <img src="/customer.svg" alt="CustomerSupport" />,
-    to: routes.main.customerSupport.home,
-  },
+  // {
+  //   key: "Customer Support",
+  //   label: "Customer Support",
+  //   icon: <img src="/customer.svg" alt="CustomerSupport" />,
+  //   to: routes.main.customerSupport.home,
+  // },
   {
     key: "Settings",
     label: "Settings",
