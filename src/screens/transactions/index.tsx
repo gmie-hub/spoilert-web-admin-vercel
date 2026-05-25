@@ -31,6 +31,8 @@ const statusCollection = createListCollection({
 const Transactions = () => {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("all");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
   // "all" means no status filter, so it isn't sent to the endpoint.
   const statusFilter = status === "all" ? "" : status;
@@ -56,6 +58,32 @@ const Transactions = () => {
             h="48px"
             maxW={{ md: "420px" }}
             w="100%"
+          />
+
+          <Input
+            type="date"
+            aria-label="From date"
+            value={fromDate}
+            onChange={(e) => setFromDate(e.target.value)}
+            max={toDate || undefined}
+            bg="#FBFBFB"
+            border="1px solid #EFEFEF"
+            borderRadius="xl"
+            h="48px"
+            w={{ base: "100%", md: "180px" }}
+          />
+
+          <Input
+            type="date"
+            aria-label="To date"
+            value={toDate}
+            onChange={(e) => setToDate(e.target.value)}
+            min={fromDate || undefined}
+            bg="#FBFBFB"
+            border="1px solid #EFEFEF"
+            borderRadius="xl"
+            h="48px"
+            w={{ base: "100%", md: "180px" }}
           />
 
           <Select.Root
@@ -94,7 +122,12 @@ const Transactions = () => {
         <CustomTabs tabList={transactionsList}>
           <>
             <Tabs.Content value="spoilPurchase">
-              <SpoilPurchase status={statusFilter} search={search} />
+              <SpoilPurchase
+                status={statusFilter}
+                search={search}
+                fromDate={fromDate}
+                toDate={toDate}
+              />
             </Tabs.Content>
 
             {/* <Tabs.Content value="airtimeData">
@@ -102,7 +135,12 @@ const Transactions = () => {
             </Tabs.Content> */}
 
             <Tabs.Content value="sponsorship">
-              <Sponsorship status={statusFilter} search={search} />
+              <Sponsorship
+                status={statusFilter}
+                search={search}
+                fromDate={fromDate}
+                toDate={toDate}
+              />
             </Tabs.Content>
           </>
         </CustomTabs>

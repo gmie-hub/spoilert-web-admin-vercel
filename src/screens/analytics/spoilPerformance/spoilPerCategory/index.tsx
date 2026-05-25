@@ -3,27 +3,25 @@ import { Box, Button, Flex, HStack, Input, Text } from "@chakra-ui/react";
 import { HiOutlineSearch, HiOutlineRefresh } from "react-icons/hi";
 import { HiOutlineUser } from "react-icons/hi";
 
+import { useGetBestPerformingCategoryQuery } from "@spt/hooks/api/useGetBestPerformingCategoryQuery";
+
 import { DatePickerButton, FilterSelect } from "../../components/filterControls";
 
 const TEAL = "#013B4D";
-
-const rows = [
-  { sn: 1, category: "UI/UX Design", bestSpoil: "Basic Design Principles", tutor: "Jane Coker", enrollment: 200 },
-  { sn: 2, category: "Digital Marketing", bestSpoil: "Introduction to Digital Marketing", tutor: "Ogunsola Omorinsola", enrollment: 185 },
-  { sn: 3, category: "Finance", bestSpoil: "Accounting For Beginners", tutor: "Oluwatoba Adejare", enrollment: 150 },
-  { sn: 4, category: "Medical Science", bestSpoil: "Pharmacological Biochemistry", tutor: "Bolanle Ayomikun", enrollment: 120 },
-  { sn: 5, category: "Branding", bestSpoil: "Branding 101", tutor: "Jane Coker", enrollment: 100 },
-  { sn: 6, category: "Tech", bestSpoil: "Tech Guide For Beginners", tutor: "Ogunsola Omorinsola", enrollment: 80 },
-  { sn: 7, category: "Human Resources", bestSpoil: "Human Resource Management", tutor: "Oluwatoba Adejare", enrollment: 75 },
-];
-
-const totalPages = [1, 2, 3, 8, 9, 10];
 
 export default function SpoilPerCategory() {
   const [period, setPeriod] = useState("Today");
   const [status, setStatus] = useState("Status");
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+
+  const { data, isLoading, isError, errorMessage } =
+    useGetBestPerformingCategoryQuery(currentPage);
+
+  const rows = data?.data ?? [];
+  const lastPage = data?.last_page ?? 1;
+  const from = data?.from ?? 0;
+  const pageNumbers = Array.from({ length: lastPage }, (_, i) => i + 1);
 
   return (
     <Box>
@@ -104,37 +102,57 @@ export default function SpoilPerCategory() {
               </tr>
             </thead>
             <tbody>
-              {rows.map((row) => (
-                <tr key={row.sn} style={{ borderBottom: "1px solid #f9f9f9" }}>
-                  <td style={{ padding: "14px 16px", fontSize: "14px", color: "#495057" }}>{row.sn}</td>
-                  <td style={{ padding: "14px 16px", fontSize: "14px", color: "#212529" }}>{row.category}</td>
-                  <td style={{ padding: "14px 16px", fontSize: "14px", color: "#212529" }}>{row.bestSpoil}</td>
-                  <td style={{ padding: "14px 16px" }}>
-                    <HStack gap={2}>
-                      <Box w="28px" h="28px" borderRadius="full" bg="#e2e8f0" display="flex" alignItems="center" justifyContent="center" flexShrink={0}>
-                        <HiOutlineUser size={14} color="#718096" />
-                      </Box>
-                      <Text fontSize="14px" color="#212529">{row.tutor}</Text>
-                    </HStack>
-                  </td>
-                  <td style={{ padding: "14px 16px", fontSize: "14px", color: "#212529" }}>{row.enrollment}</td>
-                  <td style={{ padding: "14px 16px" }}>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      borderColor="#e2e8f0"
-                      color="#212529"
-                      borderRadius="md"
-                      fontSize="13px"
-                      fontWeight="500"
-                      px={4}
-                      _hover={{ bg: TEAL, color: "white", borderColor: TEAL }}
-                    >
-                      View Details
-                    </Button>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={6} style={{ padding: "40px 16px", textAlign: "center", fontSize: "14px", color: "#9ca3af" }}>
+                    Loading…
                   </td>
                 </tr>
-              ))}
+              ) : isError ? (
+                <tr>
+                  <td colSpan={6} style={{ padding: "40px 16px", textAlign: "center", fontSize: "14px", color: "#e53e3e" }}>
+                    {errorMessage}
+                  </td>
+                </tr>
+              ) : rows.length === 0 ? (
+                <tr>
+                  <td colSpan={6} style={{ padding: "40px 16px", textAlign: "center", fontSize: "14px", color: "#9ca3af" }}>
+                    No data
+                  </td>
+                </tr>
+              ) : (
+                rows.map((row, index) => (
+                  <tr key={row.spoilId} style={{ borderBottom: "1px solid #f9f9f9" }}>
+                    <td style={{ padding: "14px 16px", fontSize: "14px", color: "#495057" }}>{from + index}</td>
+                    <td style={{ padding: "14px 16px", fontSize: "14px", color: "#212529" }}>{row.categoryName ?? "—"}</td>
+                    <td style={{ padding: "14px 16px", fontSize: "14px", color: "#212529" }}>{row.spoilName}</td>
+                    <td style={{ padding: "14px 16px" }}>
+                      <HStack gap={2}>
+                        <Box w="28px" h="28px" borderRadius="full" bg="#e2e8f0" display="flex" alignItems="center" justifyContent="center" flexShrink={0}>
+                          <HiOutlineUser size={14} color="#718096" />
+                        </Box>
+                        <Text fontSize="14px" color="#212529">{row.tutorName || "—"}</Text>
+                      </HStack>
+                    </td>
+                    <td style={{ padding: "14px 16px", fontSize: "14px", color: "#212529" }}>{row.totalEnrollments}</td>
+                    <td style={{ padding: "14px 16px" }}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        borderColor="#e2e8f0"
+                        color="#212529"
+                        borderRadius="md"
+                        fontSize="13px"
+                        fontWeight="500"
+                        px={4}
+                        _hover={{ bg: TEAL, color: "white", borderColor: TEAL }}
+                      >
+                        View Details
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </Box>
@@ -153,27 +171,24 @@ export default function SpoilPerCategory() {
           </Button>
 
           <HStack gap={1}>
-            {totalPages.map((page, i) => (
-              <>
-                {i === 3 && <Text key="ellipsis" color="#9ca3af" px={1}>...</Text>}
-                <Button
-                  key={page}
-                  size="sm"
-                  borderRadius="full"
-                  w="32px"
-                  h="32px"
-                  p={0}
-                  minW="32px"
-                  bg={currentPage === page ? TEAL : "transparent"}
-                  color={currentPage === page ? "white" : "#495057"}
-                  border={currentPage === page ? "none" : "1px solid transparent"}
-                  fontWeight={currentPage === page ? "600" : "400"}
-                  _hover={{ bg: currentPage === page ? TEAL : "#f5f5f5" }}
-                  onClick={() => setCurrentPage(page)}
-                >
-                  {page}
-                </Button>
-              </>
+            {pageNumbers.map((page) => (
+              <Button
+                key={page}
+                size="sm"
+                borderRadius="full"
+                w="32px"
+                h="32px"
+                p={0}
+                minW="32px"
+                bg={currentPage === page ? TEAL : "transparent"}
+                color={currentPage === page ? "white" : "#495057"}
+                border={currentPage === page ? "none" : "1px solid transparent"}
+                fontWeight={currentPage === page ? "600" : "400"}
+                _hover={{ bg: currentPage === page ? TEAL : "#f5f5f5" }}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </Button>
             ))}
           </HStack>
 
@@ -183,7 +198,7 @@ export default function SpoilPerCategory() {
             borderColor="#e2e8f0"
             color="#495057"
             borderRadius="md"
-            onClick={() => setCurrentPage((p) => p + 1)}
+            onClick={() => setCurrentPage((p) => Math.min(lastPage, p + 1))}
           >
             Next →
           </Button>

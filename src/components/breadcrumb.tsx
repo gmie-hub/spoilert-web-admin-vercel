@@ -9,16 +9,30 @@ interface ComponentProps {
   previousLink: string;
   currentLink: string;
   showBackButton?: boolean;
+  /**
+   * Where the `previousLink` crumb navigates when clicked. Pass a route
+   * string for absolute navigation, or omit to fall back to history-back.
+   */
+  previousHref?: string;
 }
 
 const CustomBreadcrumb: FC<ComponentProps> = ({
   currentLink,
   previousLink,
   showBackButton,
+  previousHref,
 }) => {
   const navigate = useNavigate();
 
   const handleNavigation = () => navigate(-1);
+
+  const handlePreviousClick = () => {
+    if (previousHref) {
+      navigate(previousHref);
+    } else {
+      navigate(-1);
+    }
+  };
 
   return (
     <HStack>
@@ -37,6 +51,8 @@ const CustomBreadcrumb: FC<ComponentProps> = ({
               color="blue.100"
               fontWeight="medium"
               fontSize={{ mdDown: "xs", md: "md" }}
+              cursor="pointer"
+              onClick={handlePreviousClick}
             >
               {previousLink}
             </Breadcrumb.Link>

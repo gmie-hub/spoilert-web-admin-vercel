@@ -41,7 +41,7 @@ const TableBody: FC<TableBodyProps> = ({
           <Table.Cell>
             <HStack>
               {item?.spoil?.tutor?.avatar && (
-                <Image src={item?.spoil?.tutor?.avatar ?? ""} />
+                <Image src={item?.spoil?.tutor?.avatar ?? ""} w={10} h={10}  />
               )}
               <Text>{`${item?.spoil?.tutor?.first_name ?? ""} ${item?.spoil?.tutor?.last_name ?? ""}`}</Text>
             </HStack>

@@ -31,6 +31,8 @@ export interface ModalState {
 export interface EditState {
   isEdit: boolean;
   setIsEdit: (value: boolean) => void;
+  editingId: number | null;
+  setEditingId: (value: number | null) => void;
 }
 
 export interface DeleteState {

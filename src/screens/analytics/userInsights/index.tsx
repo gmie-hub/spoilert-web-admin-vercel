@@ -1,42 +1,34 @@
 import { useState } from "react";
+
 import { Box, Flex, Text } from "@chakra-ui/react";
 import {
+  Bar,
+  BarChart,
   CartesianGrid,
+  Cell,
   Line,
   LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
-  Bar,
-  BarChart,
-  Cell,
 } from "recharts";
+
+import { useGetActiveLearnersQuery } from "@spt/hooks/api/useGetActiveLearnersQuery";
+import { useGetSignupMethodQuery } from "@spt/hooks/api/useGetSignupMethodQuery";
 
 import {
   DatePickerButton,
   FilterSelect,
 } from "../components/filterControls";
 
-const activeLearnerData = [
-  { month: "Jan", active: 20 },
-  { month: "Feb", active: 38 },
-  { month: "Mar", active: 57 },
-  { month: "Apr", active: 43 },
-  { month: "May", active: 20 },
-  { month: "Jun", active: 105 },
-  { month: "Jul", active: 88 },
-  { month: "Aug", active: 75 },
-  { month: "Sep", active: 45 },
-  { month: "Oct", active: 24 },
-  { month: "Nov", active: 68 },
-  { month: "Dec", active: 103 },
-];
-
-const signUpData = [
-  { name: "WEB", value: 85 },
-  { name: "APP", value: 115 },
-];
+// Turns a "YYYY-MM" bucket into a short readable label e.g. "Aug 25".
+const formatMonthLabel = (label: string) => {
+  const [year, month] = label.split("-");
+  const date = new Date(Number(year), Number(month) - 1);
+  if (Number.isNaN(date.getTime())) return label;
+  return `${date.toLocaleString("en-US", { month: "short" })} ${year.slice(2)}`;
+};
 
 const ORANGE = "#D4A437";
 const TEAL = "#013B4D";
@@ -68,6 +60,33 @@ export default function UserInsights() {
   const [activePeriod, setActivePeriod] = useState("This Month");
   const [signUpPeriod, setSignUpPeriod] = useState("Today");
 
+  const {
+    data: activeLearners,
+    isLoading: isActiveLearnersLoading,
+    isError: isActiveLearnersError,
+    errorMessage: activeLearnersError,
+  } = useGetActiveLearnersQuery();
+
+  const activeLearnerData =
+    activeLearners?.graph?.map((point) => ({
+      month: formatMonthLabel(point.label),
+      active: point.active_learners,
+    })) ?? [];
+
+  const {
+    data: signupMethod,
+    isLoading: isSignUpsLoading,
+    isError: isSignUpsError,
+    errorMessage: signUpsError,
+  } = useGetSignupMethodQuery();
+
+  const signUpData = signupMethod
+    ? [
+        { name: "WEB", value: signupMethod.overview.web },
+        { name: "APP", value: signupMethod.overview.app },
+      ]
+    : [];
+
   return (
     <Box>
       <Text fontSize="2xl" fontWeight="600" mb={6} color="#212529">
@@ -92,40 +111,60 @@ export default function UserInsights() {
             </Flex>
           </Flex>
 
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart
-              data={activeLearnerData}
-              margin={{ top: 5, right: 20, left: -20, bottom: 5 }}
-            >
-              <CartesianGrid
-                strokeDasharray=""
-                stroke="#f0f0f0"
-                vertical={false}
-              />
-              <XAxis
-                dataKey="month"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: "#9ca3af", fontSize: 12 }}
-              />
-              <YAxis
-                domain={[0, 120]}
-                ticks={[0, 20, 40, 60, 80, 100, 120]}
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: "#9ca3af", fontSize: 12 }}
-              />
-              <Tooltip content={<CustomTooltip />} cursor={false} />
-              <Line
-                type="monotone"
-                dataKey="active"
-                stroke={ORANGE}
-                strokeWidth={2.5}
-                dot={false}
-                activeDot={{ r: 6, fill: "white", stroke: ORANGE, strokeWidth: 2 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          {isActiveLearnersLoading ? (
+            <Flex h="300px" align="center" justify="center">
+              <Text fontSize="sm" color="#9ca3af">
+                Loading…
+              </Text>
+            </Flex>
+          ) : isActiveLearnersError ? (
+            <Flex h="300px" align="center" justify="center">
+              <Text fontSize="sm" color="red.500">
+                {activeLearnersError}
+              </Text>
+            </Flex>
+          ) : activeLearnerData.length === 0 ? (
+            <Flex h="300px" align="center" justify="center">
+              <Text fontSize="sm" color="#9ca3af">
+                No data
+              </Text>
+            </Flex>
+          ) : (
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart
+                data={activeLearnerData}
+                margin={{ top: 5, right: 20, left: -20, bottom: 5 }}
+              >
+                <CartesianGrid
+                  strokeDasharray=""
+                  stroke="#f0f0f0"
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="month"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: "#9ca3af", fontSize: 12 }}
+                />
+                <YAxis
+                  domain={[0, "auto"]}
+                  allowDecimals={false}
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: "#9ca3af", fontSize: 12 }}
+                />
+                <Tooltip content={<CustomTooltip />} cursor={false} />
+                <Line
+                  type="monotone"
+                  dataKey="active"
+                  stroke={ORANGE}
+                  strokeWidth={2.5}
+                  dot={false}
+                  activeDot={{ r: 6, fill: "white", stroke: ORANGE, strokeWidth: 2 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
         </Box>
 
         {/* User Sign Ups */}
@@ -156,40 +195,57 @@ export default function UserInsights() {
             </Flex>
           </Flex>
 
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart
-              data={signUpData}
-              barSize={220}
-              margin={{ top: 5, right: 20, left: -20, bottom: 5 }}
-            >
-              <CartesianGrid
-                strokeDasharray=""
-                stroke="#f0f0f0"
-                vertical={false}
-              />
-              <XAxis
-                dataKey="name"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: "#9ca3af", fontSize: 12 }}
-              />
-              <YAxis
-                domain={[0, 120]}
-                ticks={[0, 20, 40, 60, 80, 100, 120]}
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: "#9ca3af", fontSize: 12 }}
-              />
-              <Tooltip
-                cursor={{ fill: "rgba(0,0,0,0.04)" }}
-                contentStyle={{ borderRadius: "8px", border: "1px solid #e2e8f0" }}
-              />
-              <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                <Cell fill={TEAL} />
-                <Cell fill={ORANGE} />
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+          {isSignUpsLoading ? (
+            <Flex h="300px" align="center" justify="center">
+              <Text fontSize="sm" color="#9ca3af">
+                Loading…
+              </Text>
+            </Flex>
+          ) : isSignUpsError ? (
+            <Flex h="300px" align="center" justify="center">
+              <Text fontSize="sm" color="red.500">
+                {signUpsError}
+              </Text>
+            </Flex>
+          ) : signUpData.length === 0 ? (
+            <Flex h="300px" align="center" justify="center">
+              <Text fontSize="sm" color="#9ca3af">
+                No data
+              </Text>
+            </Flex>
+          ) : (
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart
+                data={signUpData}
+                barSize={220}
+                margin={{ top: 5, right: 20, left: -20, bottom: 5 }}
+              >
+                <CartesianGrid
+                  strokeDasharray=""
+                  stroke="#f0f0f0"
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: "#9ca3af", fontSize: 12 }}
+                />
+                <YAxis
+                  domain={[0, "auto"]}
+                  allowDecimals={false}
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: "#9ca3af", fontSize: 12 }}
+                />
+                <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(0,0,0,0.04)" }} />
+                <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                  <Cell fill={TEAL} />
+                  <Cell fill={ORANGE} />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          )}
         </Box>
       </Flex>
     </Box>

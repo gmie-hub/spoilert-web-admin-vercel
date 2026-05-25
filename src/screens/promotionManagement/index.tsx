@@ -1,24 +1,24 @@
 import { Box, Heading, Stack } from "@chakra-ui/react";
 
 import { Card, NoData, Pagination, Table } from "@spt/components";
+import LoadingState from "@spt/components/loadingState";
+import { useGetPromotionsQuery } from "@spt/hooks/api/useGetPromotionsQuery";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
-import {
-  promotionManagementData,
-  promotionManagementHeader,
-} from "@spt/utils/promotionsData";
+import { promotionManagementHeader } from "@spt/utils/promotionsData";
 
 import TableBody from "./table/tableBody";
 
 const PromotionsManagement = () => {
-  const { page, pageSize, startRange, endRange, handlePageChange } =
-    usePagination();
+  const { page, pageSize, handlePageChange } = usePagination();
 
-  const visibleItems = promotionManagementData?.slice(startRange, endRange);
+  const { data, isLoading, isError, errorMessage } =
+    useGetPromotionsQuery(page);
 
-  const hasPromotionData = promotionManagementData.length > 0;
+  const items = data?.data ?? [];
+  const hasPromotionData = items.length > 0;
 
-  // if (isLoading) return <LoadingState />;
+  if (isLoading) return <LoadingState />;
 
   return (
     <Box>
@@ -26,27 +26,35 @@ const PromotionsManagement = () => {
         <Stack gap="4">
           <Heading size={{ base: "md", md: "xl" }}>Promotions Management</Heading>
 
+          {isError && (
+            <Box color="red.500">
+              {errorMessage || "Failed to load promotions."}
+            </Box>
+          )}
+
           {hasPromotionData ? (
             <>
               <Table
                 headerChildren={
                   <TableHeader headerItems={promotionManagementHeader} />
                 }
-                bodyChildren={<TableBody data={visibleItems} />}
+                bodyChildren={<TableBody data={items} />}
               />
 
               <Pagination
                 page={page}
                 pageSize={pageSize}
-                items={promotionManagementData}
+                items={items}
                 onPageChange={handlePageChange}
               />
             </>
           ) : (
-            <NoData
-              heading="No Promotion Yet"
-              description="Tutors haven’t promoted any spoil yet. You get to see all promoted Spoils here."
-            />
+            !isError && (
+              <NoData
+                heading="No Promotion Yet"
+                description="Tutors haven’t promoted any spoil yet. You get to see all promoted Spoils here."
+              />
+            )
           )}
         </Stack>
       </Card>

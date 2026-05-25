@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Dialog,
   Flex,
@@ -8,29 +9,61 @@ import {
   Portal,
   Stack,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Breadcrumb, Card } from "@spt/components";
 import DeleteModalContent from "@spt/components/deleteModalContent";
+import LoadingState from "@spt/components/loadingState";
+import { useDeletePromotionPackageMutation } from "@spt/hooks/api/useDeletePromotionPackageMutation";
+import { useGetPromotionPackagesQuery } from "@spt/hooks/api/useGetPromotionPackagesQuery";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
 import { routes } from "@spt/routes";
-import { useDeleteStore, useEditStore, useSuccessStore } from "@spt/store";
+import { useDeleteStore, useEditStore } from "@spt/store";
+
+const formatAmount = (amount: string | number) => {
+  const value = Number(amount);
+  if (Number.isNaN(value)) return String(amount);
+  return `₦${value.toLocaleString()}`;
+};
+
+const formatDate = (iso?: string) => {
+  if (!iso) return "";
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+  const dateStr = date.toLocaleDateString();
+  const timeStr = date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  return `${dateStr} | ${timeStr}`;
+};
 
 const PromotionDetails = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const packageId = Number(id);
+
   const setIsEdit = useEditStore((state) => state.setIsEdit);
+  const setEditingId = useEditStore((state) => state.setEditingId);
   const setIsDeleteOpen = useDeleteStore((state) => state.setOpenDelete);
   const isDeleteOpen = useDeleteStore((state) => state.openDelete);
-  const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
 
-  // const { data, isLoading } = useSpoilDetailsQuery(Number(id));
+  const { data, isLoading, isError, errorMessage } =
+    useGetPromotionPackagesQuery(1);
 
-  // if (isLoading) return <LoadingState />;
+  const { deletePromotionPackageHandler, isDeleteLoading } =
+    useDeletePromotionPackageMutation();
+
+  const promotionPackage = data?.data?.find((p) => p.id === packageId);
 
   const handleEditPromotion = () => {
+    if (!promotionPackage) return;
     setIsEdit(true);
-    navigate(routes.main.promotions.setupPromotion);
+    setEditingId(promotionPackage.id);
+    navigate(routes.main.promotions.setupPromotion, {
+      state: { promotionPackage },
+    });
   };
 
   const handleDeleteClick = () => {
@@ -38,16 +71,28 @@ const PromotionDetails = () => {
   };
 
   const handleDeletePromotion = () => {
-    setOpenSuccess(true);
+    deletePromotionPackageHandler(packageId);
   };
 
+  if (isLoading) return <LoadingState />;
+  if (isError)
+    return (
+      <Box color="red.500">
+        {errorMessage || "Failed to load promotion package."}
+      </Box>
+    );
+  if (!promotionPackage)
+    return <Box>Promotion package not found.</Box>;
+
   const promotionDetails = [
-    { title: "Promotion Name", value: "Basic" },
-    { title: "Duration", value: "7 days" },
+    { title: "Promotion Name", value: promotionPackage.name },
     {
-      title: "Amount",
-      value: "N20,000",
+      title: "Duration",
+      value: `${promotionPackage.duration} ${
+        Number(promotionPackage.duration) === 1 ? "day" : "days"
+      }`,
     },
+    { title: "Amount", value: formatAmount(promotionPackage.amount) },
   ];
 
   return (
@@ -84,7 +129,10 @@ const PromotionDetails = () => {
             ))}
           </ProgressInfo>
 
-          <InfoDisplay title="Date Created" value="12-10-2025 | 09:43 am" />
+          <InfoDisplay
+            title="Date Created"
+            value={formatDate(promotionPackage.created_at)}
+          />
         </Stack>
       </Card>
 
@@ -98,9 +146,9 @@ const PromotionDetails = () => {
           <Dialog.Backdrop bg="blackAlpha.300" backdropFilter="blur(2px)" />
           <Dialog.Positioner>
             <DeleteModalContent
-              text="Post"
+              text="Promotion Package"
               handleClick={handleDeletePromotion}
-              // isLoading={isDeleteLoading}
+              isLoading={isDeleteLoading}
               successMessage="Promotion package deleted successfully!"
             />
           </Dialog.Positioner>

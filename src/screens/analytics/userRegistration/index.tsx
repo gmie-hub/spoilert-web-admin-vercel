@@ -10,20 +10,20 @@ import {
   YAxis,
 } from "recharts";
 
+import { useGetUserSignupsQuery } from "@spt/hooks/api/useGetUserSignupsQuery";
+
 import {
   DatePickerButton,
   FilterSelect,
 } from "../components/filterControls";
 
-const weekData = [
-  { day: "Sun", value: 120 },
-  { day: "Mon", value: 88 },
-  { day: "Tue", value: 118 },
-  { day: "Wed", value: 100 },
-  { day: "Thu", value: 118 },
-  { day: "Fri", value: 100 },
-  { day: "Sat", value: 120 },
-];
+// Turns a "YYYY-MM" bucket into a short readable label e.g. "Aug 25".
+const formatMonthLabel = (label: string) => {
+  const [year, month] = label.split("-");
+  const date = new Date(Number(year), Number(month) - 1);
+  if (Number.isNaN(date.getTime())) return label;
+  return `${date.toLocaleString("en-US", { month: "short" })} ${year.slice(2)}`;
+};
 
 const ORANGE = "#D4A437";
 const periodOptions = ["This Week", "This Month", "This Year", "All Time"];
@@ -55,6 +55,19 @@ const CustomTooltip = ({
 export default function UserRegistration() {
   const [period, setPeriod] = useState("This Week");
 
+  const {
+    data: userSignups,
+    isLoading,
+    isError,
+    errorMessage,
+  } = useGetUserSignupsQuery();
+
+  const registrationData =
+    userSignups?.graph?.map((point) => ({
+      month: formatMonthLabel(point.label),
+      value: point.total_users,
+    })) ?? [];
+
   return (
     <Box
       bg="white"
@@ -84,53 +97,73 @@ export default function UserRegistration() {
         </Flex>
       </Flex>
 
-      <ResponsiveContainer width="100%" height={300}>
-        <AreaChart
-          data={weekData}
-          margin={{ top: 10, right: 20, left: -20, bottom: 5 }}
-        >
-          <defs>
-            <linearGradient id="registrationFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={ORANGE} stopOpacity={0.18} />
-              <stop offset="100%" stopColor={ORANGE} stopOpacity={0.02} />
-            </linearGradient>
-          </defs>
+      {isLoading ? (
+        <Flex h="300px" align="center" justify="center">
+          <Text fontSize="sm" color="#9ca3af">
+            Loading…
+          </Text>
+        </Flex>
+      ) : isError ? (
+        <Flex h="300px" align="center" justify="center">
+          <Text fontSize="sm" color="red.500">
+            {errorMessage}
+          </Text>
+        </Flex>
+      ) : registrationData.length === 0 ? (
+        <Flex h="300px" align="center" justify="center">
+          <Text fontSize="sm" color="#9ca3af">
+            No data
+          </Text>
+        </Flex>
+      ) : (
+        <ResponsiveContainer width="100%" height={300}>
+          <AreaChart
+            data={registrationData}
+            margin={{ top: 10, right: 20, left: -20, bottom: 5 }}
+          >
+            <defs>
+              <linearGradient id="registrationFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={ORANGE} stopOpacity={0.18} />
+                <stop offset="100%" stopColor={ORANGE} stopOpacity={0.02} />
+              </linearGradient>
+            </defs>
 
-          <CartesianGrid
-            strokeDasharray=""
-            stroke="#f0f0f0"
-            vertical={false}
-          />
-          <XAxis
-            dataKey="day"
-            axisLine={false}
-            tickLine={false}
-            tick={{ fill: "#9ca3af", fontSize: 12 }}
-          />
-          <YAxis
-            domain={[0, 120]}
-            ticks={[0, 20, 40, 60, 80, 100, 120]}
-            axisLine={false}
-            tickLine={false}
-            tick={{ fill: "#9ca3af", fontSize: 12 }}
-          />
-          <Tooltip content={<CustomTooltip />} cursor={false} />
-          <Area
-            type="monotone"
-            dataKey="value"
-            stroke={ORANGE}
-            strokeWidth={2.5}
-            fill="url(#registrationFill)"
-            dot={false}
-            activeDot={{
-              r: 6,
-              fill: "white",
-              stroke: ORANGE,
-              strokeWidth: 2,
-            }}
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+            <CartesianGrid
+              strokeDasharray=""
+              stroke="#f0f0f0"
+              vertical={false}
+            />
+            <XAxis
+              dataKey="month"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: "#9ca3af", fontSize: 12 }}
+            />
+            <YAxis
+              domain={[0, "auto"]}
+              allowDecimals={false}
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: "#9ca3af", fontSize: 12 }}
+            />
+            <Tooltip content={<CustomTooltip />} cursor={false} />
+            <Area
+              type="monotone"
+              dataKey="value"
+              stroke={ORANGE}
+              strokeWidth={2.5}
+              fill="url(#registrationFill)"
+              dot={false}
+              activeDot={{
+                r: 6,
+                fill: "white",
+                stroke: ORANGE,
+                strokeWidth: 2,
+              }}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      )}
     </Box>
   );
 }

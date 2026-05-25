@@ -58,6 +58,10 @@ export const useEditStore = create<EditState>((set) => ({
   setIsEdit: (value) => {
     set({ isEdit: value });
   },
+  editingId: null,
+  setEditingId: (value) => {
+    set({ editingId: value });
+  },
 }));
 
 export const useDeleteStore = create<DeleteState>((set) => ({
