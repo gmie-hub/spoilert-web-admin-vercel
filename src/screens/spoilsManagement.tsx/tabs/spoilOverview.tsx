@@ -1,8 +1,7 @@
 import type { FC } from "react";
 
-import { Box, Dialog, Flex, Image, List, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, List, Stack, Text } from "@chakra-ui/react";
 
-import { Modal } from "@spt/components";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
 import type { SpoilData } from "@spt/types/spoils";
