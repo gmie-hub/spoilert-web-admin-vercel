@@ -6,12 +6,38 @@ import apiCall from "@spt/utils/apiCall";
 
 import type { AxiosError } from "axios";
 
-export const useGetBestPerformingCategoryQuery = (page: number) => {
+export interface BestPerformingCategoryParams {
+  page: number;
+  interval?: string;
+  from?: string;
+  to?: string;
+  status?: string;
+  search?: string;
+}
+
+export const useGetBestPerformingCategoryQuery = ({
+  page,
+  interval,
+  from,
+  to,
+  status,
+  search,
+}: BestPerformingCategoryParams) => {
   const fetchBestPerformingCategory =
     async (): Promise<BestPerformingCategoryResponse> => {
       return (
         await apiCall().get(
-          `/analytics/spoil/group/best-performing/category?page=${page}`
+          `/analytics/spoil/group/best-performing/category`,
+          {
+            params: {
+              page,
+              interval,
+              from: from || undefined,
+              to: to || undefined,
+              status: status || undefined,
+              search: search || undefined,
+            },
+          }
         )
       )?.data;
     };
@@ -20,7 +46,15 @@ export const useGetBestPerformingCategoryQuery = (page: number) => {
     BestPerformingCategoryResponse,
     AxiosError<ApiErrorResponse>
   >({
-    queryKey: ["best-performing-category", page],
+    queryKey: [
+      "best-performing-category",
+      page,
+      interval,
+      from,
+      to,
+      status,
+      search,
+    ],
     queryFn: fetchBestPerformingCategory,
   });
 

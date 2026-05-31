@@ -1,6 +1,7 @@
 import { useState } from "react";
+
 import { Box, Button, Flex, HStack, Input, Text } from "@chakra-ui/react";
-import { HiOutlineSearch, HiOutlineRefresh } from "react-icons/hi";
+import { HiOutlineRefresh, HiOutlineSearch } from "react-icons/hi";
 import { HiOutlineUser } from "react-icons/hi";
 
 import { useGetBestPerformingCategoryQuery } from "@spt/hooks/api/useGetBestPerformingCategoryQuery";
@@ -9,14 +10,44 @@ import { DatePickerButton, FilterSelect } from "../../components/filterControls"
 
 const TEAL = "#013B4D";
 
+const intervalOptions = ["Today", "This Week", "This Month"];
+const statusOptions = ["Status", "Active", "Inactive"];
+
 export default function SpoilPerCategory() {
-  const [period, setPeriod] = useState("Today");
+  const [interval, setInterval] = useState("Today");
   const [status, setStatus] = useState("Status");
   const [search, setSearch] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
+  // Any filter change should send the user back to the first page.
+  const onFilterChange =
+    <T,>(setter: (value: T) => void) =>
+    (value: T) => {
+      setter(value);
+      setCurrentPage(1);
+    };
+
+  const resetFilters = () => {
+    setSearch("");
+    setInterval("Today");
+    setStatus("Status");
+    setFromDate("");
+    setToDate("");
+    setCurrentPage(1);
+  };
+
   const { data, isLoading, isError, errorMessage } =
-    useGetBestPerformingCategoryQuery(currentPage);
+    useGetBestPerformingCategoryQuery({
+      page: currentPage,
+      interval,
+      from: fromDate,
+      to: toDate,
+      // "Status" is the placeholder option — treat it as no filter.
+      status: status === "Status" ? undefined : status.toLowerCase(),
+      search,
+    });
 
   const rows = data?.data ?? [];
   const lastPage = data?.last_page ?? 1;
@@ -25,11 +56,23 @@ export default function SpoilPerCategory() {
 
   return (
     <Box>
-      <Text fontSize="2xl" fontWeight="600" mb={6} color="#212529">
+      <Text
+        fontSize={{ base: "xl", md: "2xl" }}
+        fontWeight="600"
+        mb={{ base: 4, md: 6 }}
+        color="#212529"
+      >
         Spoil Performance
       </Text>
 
-      <Box bg="white" p={6} borderRadius="xl" border="1px solid #efefef" boxShadow="sm">
+      <Box
+        bg="white"
+        p={{ base: 4, md: 6 }}
+        borderRadius="xl"
+        border="1px solid #efefef"
+        boxShadow="sm"
+        w="100%"
+      >
         <Text fontSize="md" fontWeight="600" color="#212529" mb={4}>
           Best Performing Spoil Per Category
         </Text>
@@ -64,16 +107,26 @@ export default function SpoilPerCategory() {
               fontSize="sm"
               placeholder="Search for a category..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => onFilterChange(setSearch)(e.target.value)}
               _focus={{ boxShadow: "none" }}
             />
           </Flex>
 
           <Text fontSize="sm" color="#495057" fontWeight="500">Filter by</Text>
-          <FilterSelect options={["Today", "This Week", "This Month"]} value={period} onChange={setPeriod} />
-          <FilterSelect options={["Status", "Active", "Inactive"]} value={status} onChange={setStatus} />
-          <DatePickerButton label="From" />
-          <DatePickerButton label="To" />
+          <FilterSelect options={intervalOptions} value={interval} onChange={onFilterChange(setInterval)} />
+          <FilterSelect options={statusOptions} value={status} onChange={onFilterChange(setStatus)} />
+          <DatePickerButton
+            label="From"
+            value={fromDate}
+            max={toDate || undefined}
+            onChange={onFilterChange(setFromDate)}
+          />
+          <DatePickerButton
+            label="To"
+            value={toDate}
+            min={fromDate || undefined}
+            onChange={onFilterChange(setToDate)}
+          />
 
           <Flex
             align="center"
@@ -82,7 +135,7 @@ export default function SpoilPerCategory() {
             color={TEAL}
             fontSize="sm"
             fontWeight="500"
-            onClick={() => { setSearch(""); setPeriod("Today"); setStatus("Status"); }}
+            onClick={resetFilters}
           >
             <HiOutlineRefresh size={14} />
             <Text>Reset Filter</Text>

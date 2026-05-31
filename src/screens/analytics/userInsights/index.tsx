@@ -18,58 +18,39 @@ import { useGetActiveLearnersQuery } from "@spt/hooks/api/useGetActiveLearnersQu
 import { useGetSignupMethodQuery } from "@spt/hooks/api/useGetSignupMethodQuery";
 
 import {
-  DatePickerButton,
-  FilterSelect,
-} from "../components/filterControls";
-
-// Turns a "YYYY-MM" bucket into a short readable label e.g. "Aug 25".
-const formatMonthLabel = (label: string) => {
-  const [year, month] = label.split("-");
-  const date = new Date(Number(year), Number(month) - 1);
-  if (Number.isNaN(date.getTime())) return label;
-  return `${date.toLocaleString("en-US", { month: "short" })} ${year.slice(2)}`;
-};
-
-const ORANGE = "#D4A437";
-const TEAL = "#013B4D";
-
-const periodOptions = ["This Month", "This Week", "This Year", "All Time"];
-const signUpPeriodOptions = ["Today", "This Week", "This Month", "All Time"];
-
-const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: { value: number }[] }) => {
-  if (active && payload?.length) {
-    return (
-      <Box
-        bg={ORANGE}
-        color="white"
-        px="3"
-        py="1"
-        borderRadius="md"
-        fontSize="sm"
-        fontWeight="bold"
-        boxShadow="md"
-      >
-        {payload[0].value}
-      </Box>
-    );
-  }
-  return null;
-};
+  CustomTooltip,
+  FilterControls,
+  type Interval,
+  ORANGE,
+  TEAL,
+  formatLabel,
+} from "./insightsFilters";
 
 export default function UserInsights() {
-  const [activePeriod, setActivePeriod] = useState("This Month");
-  const [signUpPeriod, setSignUpPeriod] = useState("Today");
+  // Active Learners filter UI is currently disabled, so only the values are read.
+  const [activeFrom] = useState("2026-04-30");
+  const [activeTo] = useState("2026-05-31");
+  const [activeInterval] = useState<Interval>("daily");
+
+  const [signUpFrom, setSignUpFrom] = useState("2026-04-30");
+  const [signUpTo, setSignUpTo] = useState("2026-05-31");
+  // Sign Ups has no interval dropdown; value is fixed.
+  const [signUpInterval] = useState<Interval>("daily");
 
   const {
     data: activeLearners,
     isLoading: isActiveLearnersLoading,
     isError: isActiveLearnersError,
     errorMessage: activeLearnersError,
-  } = useGetActiveLearnersQuery();
+  } = useGetActiveLearnersQuery({
+    from: activeFrom,
+    to: activeTo,
+    interval: activeInterval,
+  });
 
   const activeLearnerData =
     activeLearners?.graph?.map((point) => ({
-      month: formatMonthLabel(point.label),
+      month: formatLabel(point.label),
       active: point.active_learners,
     })) ?? [];
 
@@ -78,7 +59,11 @@ export default function UserInsights() {
     isLoading: isSignUpsLoading,
     isError: isSignUpsError,
     errorMessage: signUpsError,
-  } = useGetSignupMethodQuery();
+  } = useGetSignupMethodQuery({
+    from: signUpFrom,
+    to: signUpTo,
+    interval: signUpInterval,
+  });
 
   const signUpData = signupMethod
     ? [
@@ -89,26 +74,44 @@ export default function UserInsights() {
 
   return (
     <Box>
-      <Text fontSize="2xl" fontWeight="600" mb={6} color="#212529">
+      <Text
+        fontSize={{ base: "xl", md: "2xl" }}
+        fontWeight="600"
+        mb={{ base: 4, md: 6 }}
+        color="#212529"
+      >
         User Insights
       </Text>
 
       <Flex direction="column" gap={6}>
         {/* Active Learners */}
-        <Box bg="white" p={6} borderRadius="xl" border="1px solid #efefef" boxShadow="sm">
-          <Flex justify="space-between" align="center" mb={6} wrap="wrap" gap={3}>
+        <Box
+          bg="white"
+          p={{ base: 4, md: 6 }}
+          borderRadius="xl"
+          border="1px solid #efefef"
+          boxShadow="sm"
+          w="100%"
+        >
+          <Flex
+            justify="space-between"
+            align={{ base: "flex-start", md: "center" }}
+            direction={{ base: "column", md: "row" }}
+            mb={6}
+            wrap="wrap"
+            gap={3}
+          >
             <Text fontSize="md" fontWeight="600" color="#212529">
               Active Learners
             </Text>
-            <Flex gap={2} align="center" wrap="wrap">
-              <FilterSelect
-                options={periodOptions}
-                value={activePeriod}
-                onChange={setActivePeriod}
-              />
-              <DatePickerButton label="From" />
-              <DatePickerButton label="To" />
-            </Flex>
+            {/* <FilterControls
+              from={activeFrom}
+              to={activeTo}
+              interval={activeInterval}
+              onFromChange={setActiveFrom}
+              onToChange={setActiveTo}
+              onIntervalChange={setActiveInterval}
+            /> */}
           </Flex>
 
           {isActiveLearnersLoading ? (
@@ -135,16 +138,14 @@ export default function UserInsights() {
                 data={activeLearnerData}
                 margin={{ top: 5, right: 20, left: -20, bottom: 5 }}
               >
-                <CartesianGrid
-                  strokeDasharray=""
-                  stroke="#f0f0f0"
-                  vertical={false}
-                />
+                <CartesianGrid strokeDasharray="" stroke="#f0f0f0" vertical={false} />
                 <XAxis
                   dataKey="month"
                   axisLine={false}
                   tickLine={false}
                   tick={{ fill: "#9ca3af", fontSize: 12 }}
+                  interval="preserveStartEnd"
+                  minTickGap={20}
                 />
                 <YAxis
                   domain={[0, "auto"]}
@@ -168,30 +169,47 @@ export default function UserInsights() {
         </Box>
 
         {/* User Sign Ups */}
-        <Box bg="white" p={6} borderRadius="xl" border="1px solid #efefef" boxShadow="sm">
-          <Flex justify="space-between" align="center" mb={4} wrap="wrap" gap={3}>
+        <Box
+          bg="white"
+          p={{ base: 4, md: 6 }}
+          borderRadius="xl"
+          border="1px solid #efefef"
+          boxShadow="sm"
+          w="100%"
+        >
+          <Flex
+            justify="space-between"
+            align={{ base: "flex-start", md: "center" }}
+            direction={{ base: "column", md: "row" }}
+            mb={4}
+            wrap="wrap"
+            gap={3}
+          >
             <Text fontSize="md" fontWeight="600" color="#212529">
               User Sign Ups
             </Text>
-            <Flex gap={2} align="center" wrap="wrap">
-              <FilterSelect
-                options={signUpPeriodOptions}
-                value={signUpPeriod}
-                onChange={setSignUpPeriod}
-              />
-              <DatePickerButton label="From" />
-              <DatePickerButton label="To" />
-            </Flex>
+            <FilterControls
+              from={signUpFrom}
+              to={signUpTo} 
+              // interval={signUpInterval}
+              onFromChange={setSignUpFrom}
+              onToChange={setSignUpTo}
+              // onIntervalChange={setSignUpInterval}
+            />
           </Flex>
 
           <Flex align="center" gap={5} mb={5}>
             <Flex align="center" gap={2}>
               <Box w="10px" h="10px" bg={TEAL} borderRadius="full" />
-              <Text fontSize="sm" color="#495057">Web</Text>
+              <Text fontSize="sm" color="#495057">
+                Web
+              </Text>
             </Flex>
             <Flex align="center" gap={2}>
               <Box w="10px" h="10px" bg={ORANGE} borderRadius="full" />
-              <Text fontSize="sm" color="#495057">App</Text>
+              <Text fontSize="sm" color="#495057">
+                App
+              </Text>
             </Flex>
           </Flex>
 
@@ -217,14 +235,11 @@ export default function UserInsights() {
             <ResponsiveContainer width="100%" height={300}>
               <BarChart
                 data={signUpData}
-                barSize={220}
+                maxBarSize={180}
+                barCategoryGap="20%"
                 margin={{ top: 5, right: 20, left: -20, bottom: 5 }}
               >
-                <CartesianGrid
-                  strokeDasharray=""
-                  stroke="#f0f0f0"
-                  vertical={false}
-                />
+                <CartesianGrid strokeDasharray="" stroke="#f0f0f0" vertical={false} />
                 <XAxis
                   dataKey="name"
                   axisLine={false}

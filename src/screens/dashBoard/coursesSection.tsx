@@ -1,34 +1,26 @@
 import { Box, Image, Text, VStack } from "@chakra-ui/react";
 
-const courses = [
-  {
-    title: "Understanding Design Principles",
-    enrollments: "1,500 Enrollments",
-    image: "/enrolled_spoils.png",
-  },
-  {
-    title: "Financial Literacy",
-    enrollments: "1,200 Enrollments",
-    image: "/enrolled_spoils.png",
-  },
-  {
-    title: "CHM204-Pharmacological Biochemistry",
-    enrollments: "1,000 Enrollments",
-    image: "/enrolled_spoils.png",
-  },
-];
+import { useGetBestPerformingQuery } from "@spt/hooks/api/useGetBestPerformingQuery";
 
 export default function CoursesSection() {
+  const { data } = useGetBestPerformingQuery();
+
+  const courses = (data?.overview ?? []).slice(0, 3);
+
   return (
     <Box flex={1} bg="white" p={6} borderRadius="lg" boxShadow="md">
-
-      <Text fontWeight="500" fontSize={{ base: "sm", md: "md" }} mb={4} color="var(--color-back)">
+      <Text
+        fontWeight="500"
+        fontSize={{ base: "sm", md: "md" }}
+        mb={4}
+        color="var(--color-back)"
+      >
         Top 3 Most Enrolled Spoils
       </Text>
       <VStack gap={4} width="100%">
-        {courses?.map((course, index) => (
+        {courses.map((course) => (
           <Box
-            key={index}
+            key={course.spoil_id}
             display="flex"
             alignItems="center"
             gap={4}
@@ -39,18 +31,19 @@ export default function CoursesSection() {
             boxShadow="sm"
           >
             <Image
-              src={course.image}
+              src={course.cover_image ?? "/enrolled_spoils.png"}
               boxSize="53px"
               height="47px"
               bg="#EFEFEF"
               borderRadius="12px"
+              objectFit="cover"
             />
             <Box>
               <Text fontWeight="500" fontSize="md" color="#212529">
-                {course.title}
+                {course.spoil_name}
               </Text>
               <Text fontWeight="400" fontSize="12px" color="#666869">
-                {course.enrollments}
+                {course.total_enrollments.toLocaleString()} Enrollments
               </Text>
             </Box>
           </Box>

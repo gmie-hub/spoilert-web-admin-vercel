@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { Box, Flex, Text } from "@chakra-ui/react";
 import {
   Bar,
@@ -14,20 +15,11 @@ import {
 import { useGetSpoilsCreatedQuery } from "@spt/hooks/api/useGetSpoilsCreatedQuery";
 
 import {
-  DatePickerButton,
-  FilterSelect,
-} from "../components/filterControls";
-
-// Turns a "YYYY-MM" bucket into a short readable label e.g. "Aug 25".
-const formatMonthLabel = (label: string) => {
-  const [year, month] = label.split("-");
-  const date = new Date(Number(year), Number(month) - 1);
-  if (Number.isNaN(date.getTime())) return label;
-  return `${date.toLocaleString("en-US", { month: "short" })} ${year.slice(2)}`;
-};
-
-const ORANGE = "#D4A437";
-const periodOptions = ["This Week", "This Month", "This Year", "All Time"];
+  FilterControls,
+  type Interval,
+  ORANGE,
+  formatLabel,
+} from "../userInsights/insightsFilters";
 
 const CustomTooltip = ({
   active,
@@ -57,32 +49,36 @@ const CustomTooltip = ({
 };
 
 export default function SpoilsCreated() {
-  const [period, setPeriod] = useState("This Week");
+  const [from, setFrom] = useState("2026-04-30");
+  const [to, setTo] = useState("2026-05-31");
+  const [interval, setInterval] = useState<Interval>("daily");
 
   const {
     data: spoilsCreated,
     isLoading,
     isError,
     errorMessage,
-  } = useGetSpoilsCreatedQuery();
+  } = useGetSpoilsCreatedQuery({ from, to, interval });
 
   const spoilsData =
     spoilsCreated?.graph?.map((point) => ({
-      month: formatMonthLabel(point.label),
+      month: formatLabel(point.label),
       value: point.total_spoils,
     })) ?? [];
 
   return (
     <Box
       bg="white"
-      p={6}
+      p={{ base: 4, md: 6 }}
       borderRadius="xl"
       border="1px solid #efefef"
       boxShadow="sm"
+      w="100%"
     >
       <Flex
         justify="space-between"
-        align="center"
+        align={{ base: "flex-start", md: "center" }}
+        direction={{ base: "column", md: "row" }}
         mb={6}
         wrap="wrap"
         gap={3}
@@ -90,15 +86,14 @@ export default function SpoilsCreated() {
         <Text fontSize="md" fontWeight="600" color="#212529">
           Spoils Created
         </Text>
-        <Flex gap={2} align="center" wrap="wrap">
-          <FilterSelect
-            options={periodOptions}
-            value={period}
-            onChange={setPeriod}
-          />
-          <DatePickerButton label="From" />
-          <DatePickerButton label="To" />
-        </Flex>
+        <FilterControls
+          from={from}
+          to={to}
+          interval={interval}
+          onFromChange={setFrom}
+          onToChange={setTo}
+          onIntervalChange={setInterval}
+        />
       </Flex>
 
       {isLoading ? (
@@ -136,6 +131,8 @@ export default function SpoilsCreated() {
               axisLine={false}
               tickLine={false}
               tick={{ fill: "#9ca3af", fontSize: 12 }}
+              interval="preserveStartEnd"
+              minTickGap={16}
             />
             <YAxis
               domain={[0, "auto"]}

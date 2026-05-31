@@ -26,7 +26,8 @@ const formatMonthLabel = (label: string) => {
   return `${date.toLocaleString("en-US", { month: "short" })} ${year.slice(2)}`;
 };
 
-const periodOptions = ["Monthly", "Weekly", "Daily"];
+type Interval = "monthly" | "weekly" | "daily";
+const intervalOptions: Interval[] = ["monthly", "weekly", "daily"];
 
 const CustomTooltip = ({
   active,
@@ -79,9 +80,11 @@ const CustomXTick = ({
 };
 
 export default function SpoilOverTime() {
-  const [period, setPeriod] = useState("Monthly");
+  const [interval, setInterval] = useState<Interval>("monthly");
 
-  const { data, isLoading, isError, errorMessage } = useGetBestPerformingQuery();
+  const { data, isLoading, isError, errorMessage } = useGetBestPerformingQuery({
+    interval,
+  });
 
   // The graph holds one row per (month, spoil); for each month keep only the
   // top-performing spoil, then sort the months chronologically.
@@ -111,19 +114,38 @@ export default function SpoilOverTime() {
 
   return (
     <Box>
-      <Text fontSize="2xl" fontWeight="600" mb={6} color="#212529">
+      <Text
+        fontSize={{ base: "xl", md: "2xl" }}
+        fontWeight="600"
+        mb={{ base: 4, md: 6 }}
+        color="#212529"
+      >
         Spoil Performance
       </Text>
 
-      <Box bg="white" p={6} borderRadius="xl" border="1px solid #efefef" boxShadow="sm">
-        <Flex justify="space-between" align="center" mb={6} wrap="wrap" gap={3}>
+      <Box
+        bg="white"
+        p={{ base: 4, md: 6 }}
+        borderRadius="xl"
+        border="1px solid #efefef"
+        boxShadow="sm"
+        w="100%"
+      >
+        <Flex
+          justify="space-between"
+          align={{ base: "flex-start", md: "center" }}
+          direction={{ base: "column", md: "row" }}
+          mb={6}
+          wrap="wrap"
+          gap={3}
+        >
           <Text fontSize="md" fontWeight="600" color="#212529">
             Best Performing Spoil Over Time
           </Text>
           <FilterSelect
-            options={periodOptions}
-            value={period}
-            onChange={setPeriod}
+            options={intervalOptions}
+            value={interval}
+            onChange={(value) => setInterval(value as Interval)}
           />
         </Flex>
 
@@ -149,7 +171,8 @@ export default function SpoilOverTime() {
           <ResponsiveContainer width="100%" height={320}>
             <BarChart
               data={monthlyData}
-              barSize={48}
+              maxBarSize={48}
+              barCategoryGap="20%"
               margin={{ top: 5, right: 20, left: -20, bottom: 10 }}
             >
               <CartesianGrid strokeDasharray="" stroke="#f0f0f0" vertical={false} />
@@ -158,7 +181,8 @@ export default function SpoilOverTime() {
                 axisLine={false}
                 tickLine={false}
                 tick={<CustomXTick currentMonth={currentMonth} />}
-                interval={0}
+                interval="preserveStartEnd"
+                minTickGap={12}
               />
               <YAxis
                 domain={[0, "auto"]}

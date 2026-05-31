@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { Box, Flex, Text } from "@chakra-ui/react";
 import {
   Area,
@@ -13,72 +14,44 @@ import {
 import { useGetUserSignupsQuery } from "@spt/hooks/api/useGetUserSignupsQuery";
 
 import {
-  DatePickerButton,
-  FilterSelect,
-} from "../components/filterControls";
-
-// Turns a "YYYY-MM" bucket into a short readable label e.g. "Aug 25".
-const formatMonthLabel = (label: string) => {
-  const [year, month] = label.split("-");
-  const date = new Date(Number(year), Number(month) - 1);
-  if (Number.isNaN(date.getTime())) return label;
-  return `${date.toLocaleString("en-US", { month: "short" })} ${year.slice(2)}`;
-};
-
-const ORANGE = "#D4A437";
-const periodOptions = ["This Week", "This Month", "This Year", "All Time"];
-
-const CustomTooltip = ({
-  active,
-  payload,
-}: {
-  active?: boolean;
-  payload?: { value: number }[];
-}) => {
-  if (!active || !payload?.length) return null;
-  return (
-    <Box
-      bg={ORANGE}
-      color="white"
-      px="3"
-      py="1"
-      borderRadius="md"
-      fontSize="sm"
-      fontWeight="bold"
-      boxShadow="md"
-    >
-      {payload[0].value}
-    </Box>
-  );
-};
+  CustomTooltip,
+  FilterControls,
+  type Interval,
+  ORANGE,
+  formatLabel,
+} from "../userInsights/insightsFilters";
 
 export default function UserRegistration() {
-  const [period, setPeriod] = useState("This Week");
+  const [from, setFrom] = useState("2026-04-30");
+  const [to, setTo] = useState("2026-05-31");
+  const [interval, setInterval] = useState<Interval>("daily");
 
   const {
     data: userSignups,
     isLoading,
     isError,
     errorMessage,
-  } = useGetUserSignupsQuery();
+  } = useGetUserSignupsQuery({ from, to, interval });
 
   const registrationData =
     userSignups?.graph?.map((point) => ({
-      month: formatMonthLabel(point.label),
+      month: formatLabel(point.label),
       value: point.total_users,
     })) ?? [];
 
   return (
     <Box
       bg="white"
-      p={6}
+      p={{ base: 4, md: 6 }}
       borderRadius="xl"
       border="1px solid #efefef"
       boxShadow="sm"
+      w="100%"
     >
       <Flex
         justify="space-between"
-        align="center"
+        align={{ base: "flex-start", md: "center" }}
+        direction={{ base: "column", md: "row" }}
         mb={6}
         wrap="wrap"
         gap={3}
@@ -86,15 +59,14 @@ export default function UserRegistration() {
         <Text fontSize="md" fontWeight="600" color="#212529">
           User Registration
         </Text>
-        <Flex gap={2} align="center" wrap="wrap">
-          <FilterSelect
-            options={periodOptions}
-            value={period}
-            onChange={setPeriod}
-          />
-          <DatePickerButton label="From" />
-          <DatePickerButton label="To" />
-        </Flex>
+        <FilterControls
+          from={from}
+          to={to}
+          interval={interval}
+          onFromChange={setFrom}
+          onToChange={setTo}
+          onIntervalChange={setInterval}
+        />
       </Flex>
 
       {isLoading ? (
@@ -138,6 +110,8 @@ export default function UserRegistration() {
               axisLine={false}
               tickLine={false}
               tick={{ fill: "#9ca3af", fontSize: 12 }}
+              interval="preserveStartEnd"
+              minTickGap={20}
             />
             <YAxis
               domain={[0, "auto"]}
