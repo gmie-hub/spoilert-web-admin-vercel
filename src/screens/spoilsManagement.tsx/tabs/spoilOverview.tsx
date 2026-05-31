@@ -24,11 +24,11 @@ const SpoilOverview: FC<ComponentProps> = ({ data }) => {
           <Image src={data?.cover_image_url} alt="enrolled" w="inherit" />
         </Box>
 
-        <Modal variant="yellow" px="8" buttonText="View Certificate">
+        {/* <Modal variant="yellow" px="8" buttonText="View Certificate">
           <Dialog.Content>
             <Image src="/certificate.png" alt="certificate" />
           </Dialog.Content>
-        </Modal>
+        </Modal> */}
       </Flex>
 
       <Stack gap="4">
