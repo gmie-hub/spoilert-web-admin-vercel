@@ -1,8 +1,7 @@
 import type { FC } from "react";
 
-import { Box, Dialog, Flex, Image, List, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, List, Stack, Text } from "@chakra-ui/react";
 
-import { Modal } from "@spt/components";
 import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
 import type { SpoilData } from "@spt/types/spoils";
@@ -24,11 +23,11 @@ const SpoilOverview: FC<ComponentProps> = ({ data }) => {
           <Image src={data?.cover_image_url} alt="enrolled" w="inherit" />
         </Box>
 
-        <Modal variant="yellow" px="8" buttonText="View Certificate">
+        {/* <Modal variant="yellow" px="8" buttonText="View Certificate">
           <Dialog.Content>
             <Image src="/certificate.png" alt="certificate" />
           </Dialog.Content>
-        </Modal>
+        </Modal> */}
       </Flex>
 
       <Stack gap="4">
