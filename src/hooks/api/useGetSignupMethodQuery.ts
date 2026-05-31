@@ -6,16 +6,30 @@ import apiCall from "@spt/utils/apiCall";
 
 import type { AxiosError } from "axios";
 
-export const useGetSignupMethodQuery = () => {
+export interface SignupMethodParams {
+  from?: string;
+  to?: string;
+  interval?: "daily" | "weekly" | "monthly";
+}
+
+export const useGetSignupMethodQuery = ({
+  from,
+  to,
+  interval,
+}: SignupMethodParams = {}) => {
   const fetchSignupMethod = async (): Promise<SignupMethodResponse> => {
-    return (await apiCall().get(`/analytics/user/group/signup_method`))?.data;
+    return (
+      await apiCall().get(`/analytics/user/group/signup_method`, {
+        params: { from, to, interval },
+      })
+    )?.data;
   };
 
   const { data, isLoading, isError, error } = useQuery<
     SignupMethodResponse,
     AxiosError<ApiErrorResponse>
   >({
-    queryKey: ["signup-method"],
+    queryKey: ["signup-method", from, to, interval],
     queryFn: fetchSignupMethod,
   });
 

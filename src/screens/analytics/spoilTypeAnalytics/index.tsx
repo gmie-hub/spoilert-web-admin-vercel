@@ -1,4 +1,5 @@
 import type { ElementType } from "react";
+
 import { Box, Center, Flex, SimpleGrid, Text } from "@chakra-ui/react";
 import {
   HiOutlineBookOpen,
@@ -87,7 +88,12 @@ export default function SpoilTypeAnalytics() {
 
   return (
     <Box>
-      <Text fontSize="2xl" fontWeight="600" mb={6} color="#212529">
+      <Text
+        fontSize={{ base: "xl", md: "2xl" }}
+        fontWeight="600"
+        mb={{ base: 4, md: 6 }}
+        color="#212529"
+      >
         Spoil Type Analytics
       </Text>
 
@@ -109,13 +115,14 @@ export default function SpoilTypeAnalytics() {
             <Box
               key={stat.label}
               bg="white"
-              p={5}
+              p={{ base: 4, md: 5 }}
               borderRadius="xl"
               border="1px solid #f0f0f0"
               boxShadow="sm"
               display="flex"
               alignItems="center"
               gap={4}
+              minW="0"
             >
               <Center
                 w="46px"
@@ -127,7 +134,7 @@ export default function SpoilTypeAnalytics() {
                 <stat.Icon size={22} color={stat.iconColor} />
               </Center>
 
-              <Box>
+              <Box minW="0">
                 <Text fontSize="sm" color="#727171" fontWeight="400" mb="1">
                   {stat.label}
                 </Text>

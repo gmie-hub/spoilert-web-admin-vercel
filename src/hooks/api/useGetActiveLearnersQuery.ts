@@ -6,16 +6,31 @@ import apiCall from "@spt/utils/apiCall";
 
 import type { AxiosError } from "axios";
 
-export const useGetActiveLearnersQuery = () => {
+export interface ActiveLearnersParams {
+  from?: string;
+  to?: string;
+  interval?: "daily" | "weekly" | "monthly";
+}
+
+export const useGetActiveLearnersQuery = ({
+  from,
+  to,
+  interval,
+}: ActiveLearnersParams = {}) => {
+
   const fetchActiveLearners = async (): Promise<ActiveLearnersResponse> => {
-    return (await apiCall().get(`/analytics/user/group/active_learners`))?.data;
+    return (
+      await apiCall().get(`/analytics/user/group/active_learners`, {
+        // params: { from, to, interval },
+      })
+    )?.data;
   };
 
   const { data, isLoading, isError, error } = useQuery<
     ActiveLearnersResponse,
     AxiosError<ApiErrorResponse>
   >({
-    queryKey: ["active-learners"],
+    queryKey: ["active-learners", from, to, interval],
     queryFn: fetchActiveLearners,
   });
 

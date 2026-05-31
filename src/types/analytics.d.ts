@@ -195,3 +195,20 @@ export interface BestPerformingResponse {
   status?: boolean;
   data: BestPerformingData;
 }
+
+// Dashboard summary returned by GET /analytics.
+// NOTE: confirm these field names match the actual API response.
+export interface DashboardAnalyticsData {
+  total_learners: number;
+  total_tutors: number;
+  total_spoils: number;
+  revenue_generated: number;
+  total_payout: number;
+  total_sponsorships: number;
+}
+
+export interface DashboardAnalyticsResponse {
+  message?: string;
+  status?: boolean;
+  data: DashboardAnalyticsData;
+}

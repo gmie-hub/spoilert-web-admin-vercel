@@ -6,16 +6,30 @@ import apiCall from "@spt/utils/apiCall";
 
 import type { AxiosError } from "axios";
 
-export const useGetSpoilsCreatedQuery = () => {
+export interface SpoilsCreatedParams {
+  from?: string;
+  to?: string;
+  interval?: "daily" | "weekly" | "monthly";
+}
+
+export const useGetSpoilsCreatedQuery = ({
+  from,
+  to,
+  interval,
+}: SpoilsCreatedParams = {}) => {
   const fetchSpoilsCreated = async (): Promise<SpoilsCreatedResponse> => {
-    return (await apiCall().get(`/analytics/spoil/group/created`))?.data;
+    return (
+      await apiCall().get(`/analytics/spoil/group/created`, {
+        params: { from, to, interval },
+      })
+    )?.data;
   };
 
   const { data, isLoading, isError, error } = useQuery<
     SpoilsCreatedResponse,
     AxiosError<ApiErrorResponse>
   >({
-    queryKey: ["spoils-created"],
+    queryKey: ["spoils-created", from, to, interval],
     queryFn: fetchSpoilsCreated,
   });
 

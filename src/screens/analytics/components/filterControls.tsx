@@ -46,7 +46,19 @@ export function FilterSelect({
   );
 }
 
-export function DatePickerButton({ label }: { label: string }) {
+export function DatePickerButton({
+  label,
+  value,
+  onChange,
+  max,
+  min,
+}: {
+  label: string;
+  value?: string;
+  onChange?: (v: string) => void;
+  max?: string;
+  min?: string;
+}) {
   return (
     <Flex
       as="label"
@@ -61,10 +73,16 @@ export function DatePickerButton({ label }: { label: string }) {
       position="relative"
       overflow="hidden"
     >
-      <Text fontSize="sm" color="gray.500" userSelect="none">{label}</Text>
+      <Text fontSize="sm" color={value ? "gray.700" : "gray.500"} userSelect="none">
+        {value || label}
+      </Text>
       <HiOutlineCalendar size={15} color="#9ca3af" />
       <input
         type="date"
+        value={value ?? ""}
+        max={max}
+        min={min}
+        onChange={(e) => onChange?.(e.target.value)}
         style={{
           position: "absolute",
           inset: 0,

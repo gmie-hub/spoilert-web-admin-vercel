@@ -6,16 +6,26 @@ import apiCall from "@spt/utils/apiCall";
 
 import type { AxiosError } from "axios";
 
-export const useGetBestPerformingQuery = () => {
+export interface BestPerformingParams {
+  interval?: "daily" | "weekly" | "monthly";
+}
+
+export const useGetBestPerformingQuery = ({
+  interval,
+}: BestPerformingParams = {}) => {
   const fetchBestPerforming = async (): Promise<BestPerformingResponse> => {
-    return (await apiCall().get(`/analytics/spoil/group/best-performing`))?.data;
+    return (
+      await apiCall().get(`/analytics/spoil/group/best-performing`, {
+        params: { interval },
+      })
+    )?.data;
   };
 
   const { data, isLoading, isError, error } = useQuery<
     BestPerformingResponse,
     AxiosError<ApiErrorResponse>
   >({
-    queryKey: ["best-performing-spoil"],
+    queryKey: ["best-performing-spoil", interval],
     queryFn: fetchBestPerforming,
   });
 

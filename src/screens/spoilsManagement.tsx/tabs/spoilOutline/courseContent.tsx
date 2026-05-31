@@ -25,11 +25,19 @@ interface ComponentProps {
 }
 
 const CourseContent: FC<ComponentProps> = ({ modules, onHide }) => {
-  const setVideoUrl = useVideoStore((state) => state.setVideoUrl);
+  const setLessonContent = useVideoStore((state) => state.setLessonContent);
 
   useEffect(() => {
-    setVideoUrl(modules[0]?.lessons[0]?.content_url);
-    }, [modules[0]?.lessons[0]?.content_url]);
+    const first = modules?.[0]?.lessons?.[0];
+    if (first) {
+      setLessonContent({
+        content: first.content ?? null,
+        content_url: first.content_url ?? null,
+      });
+    }
+  }, [modules?.[0]?.lessons?.[0]]);
+
+  const hasContent = Boolean(modules?.length);
 
   return (
     <MotionBox
@@ -60,74 +68,88 @@ const CourseContent: FC<ComponentProps> = ({ modules, onHide }) => {
 
           <Separator />
 
-          {modules?.map((item, index) => (
-            <Box key={index} border="1px solid #EFEFEF" borderRadius="xl">
-              <CustomAccordion value={index.toString()} variant="plain">
-                <>
-                  <Accordion.ItemTrigger>
-                    <HStack
-                      w="100%"
-                      alignItems="center"
-                      justifyContent="space-between"
-                      px="3"
-                    >
+          {!hasContent ? (
+            <Text fontSize="sm" color="gray.500">
+              No content
+            </Text>
+          ) : (
+            modules?.map((item, index) => (
+              <Box key={index} border="1px solid #EFEFEF" borderRadius="xl">
+                <CustomAccordion value={index?.toString()} variant="plain">
+                  <>
+                    <Accordion.ItemTrigger>
+                      <HStack
+                        w="100%"
+                        alignItems="center"
+                        justifyContent="space-between"
+                        px="3"
+                      >
+                        <Stack>
+                          <Text fontSize="xs" color="gray.100">
+                            Module {index + 1}
+                          </Text>
+                          <Text>{item?.title}</Text>
+                        </Stack>
+
+                        <Accordion.ItemIndicator />
+                      </HStack>
+                    </Accordion.ItemTrigger>
+
+                    <Accordion.ItemContent>
                       <Stack>
-                        <Text fontSize="xs" color="gray.100">
-                          Module {index + 1}
-                        </Text>
-                        <Text>{item?.title}</Text>
-                      </Stack>
-
-                      <Accordion.ItemIndicator />
-                    </HStack>
-                  </Accordion.ItemTrigger>
-
-                  <Accordion.ItemContent>
-                    <Stack>
-                      {item?.lessons?.map((lessonItem, subIndex) => (
-                        <>
-                          <CustomAccordion
-                            key={lessonItem?.id}
-                            value={subIndex.toString()}
-                            variant="outline"
-                          >
-                            <Accordion.ItemTrigger>
-                              <Button
-                                variant="ghost"
-                                w="full"
-                                p="0"
-                                onClick={() =>
-                                  setVideoUrl(lessonItem?.content_url)
-                                }
-                                _hover={{ backgroundColor: "transparent" }}
-                              >
-                                <HStack
-                                  w="100%"
-                                  alignItems="center"
-                                  justifyContent="space-between"
-                                  px="3"
-                                  cursor="pointer"
+                        {item?.lessons?.length ? (
+                          item.lessons.map((lessonItem, subIndex) => (
+                            <CustomAccordion
+                              value={subIndex.toString()}
+                              variant="outline"
+                              key={lessonItem?.id}
+                            >
+                              <Accordion.ItemTrigger>
+                                <Button
+                                  variant="ghost"
+                                  w="full"
+                                  p="0"
+                                  onClick={() =>
+                                    setLessonContent({
+                                      content: lessonItem?.content ?? null,
+                                      content_url:
+                                        lessonItem?.content_url ?? null,
+                                    })
+                                  }
+                                  _hover={{ backgroundColor: "transparent" }}
                                 >
-                                  <HStack>
-                                    <Image src="/player.svg" alt="player" />
-                                    <Text fontSize="sm" color="gray.500">
-                                      {lessonItem?.title}
-                                    </Text>
-                                  </HStack>
+                                  <HStack
+                                    w="100%"
+                                    alignItems="center"
+                                    justifyContent="space-between"
+                                    px="3"
+                                    cursor="pointer"
+                                  >
+                                    <HStack>
+                                      <Image src="/player.svg" alt="player" />
+                                      <Text fontSize="sm" color="gray.500">
+                                        {lessonItem?.title}
+                                      </Text>
+                                    </HStack>
 
-                                  <Accordion.ItemIndicator />
-                                </HStack>
-                              </Button>
-                            </Accordion.ItemTrigger>
-                          </CustomAccordion>
-                        </>
-                      ))}
-                    </Stack>
-                  </Accordion.ItemContent>
-                </>
-              </CustomAccordion>
-            </Box>
-          ))}
+                                    <Accordion.ItemIndicator />
+                                  </HStack>
+                                </Button>
+                              </Accordion.ItemTrigger>
+                            </CustomAccordion>
+                          ))
+                        ) : (
+                          <Text fontSize="sm" color="gray.500" px="3" py="2">
+                            No content
+                          </Text>
+                        )}
+                      </Stack>
+                    </Accordion.ItemContent>
+                  </>
+                </CustomAccordion>
+              </Box>
+            ))
+          )}
         </Stack>
       </Card>
     </MotionBox>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { Box, Flex, Text } from "@chakra-ui/react";
 import {
   Area,
@@ -18,23 +19,23 @@ const TEAL = "#013B4D";
 
 // Turns a "YYYY-MM" bucket into a short readable label e.g. "Aug 25".
 const formatMonthLabel = (label: string) => {
-  const [year, month] = label.split("-");
+  const [year, month] = label.  split("-");
   const date = new Date(Number(year), Number(month) - 1);
   if (Number.isNaN(date.getTime())) return label;
   return `${date.toLocaleString("en-US", { month: "short" })} ${year.slice(2)}`;
 };
 
-const periodOptions = ["Monthly", "Weekly", "Daily"];
+type Interval = "monthly" | "weekly" | "daily";
+const intervalOptions: Interval[] = ["monthly", "weekly", "daily"];
 const yearOptions = ["2025", "2024", "2023", "2022"];
 
 const formatYAxis = (value: number) =>
   value === 0 ? "0" : value.toLocaleString();
 
-const formatRevenue = (value: number) =>
-  `₦${value.toLocaleString()}`;
+const formatRevenue = (value: number) => `₦${value.toLocaleString()}`;
 
 export default function RevenueGenerated() {
-  const [period, setPeriod] = useState("Monthly");
+  const [interval, setInterval] = useState<Interval>("monthly");
   const [year, setYear] = useState("2025");
 
   const {
@@ -42,7 +43,7 @@ export default function RevenueGenerated() {
     isLoading,
     isError,
     errorMessage,
-  } = useGetPaymentsRevenueQuery();
+  } = useGetPaymentsRevenueQuery({ interval, year });
 
   const monthlyData =
     paymentsRevenue?.graph?.map((point) => ({
@@ -82,20 +83,27 @@ export default function RevenueGenerated() {
 
   return (
     <Box>
-      <Text fontSize="2xl" fontWeight="600" mb={6} color="#212529">
+      <Text
+        fontSize={{ base: "xl", md: "2xl" }}
+        fontWeight="600"
+        mb={{ base: 4, md: 6 }}
+        color="#212529"
+      >
         Revenue Generated
       </Text>
 
       <Box
         bg="white"
-        p={6}
+        p={{ base: 4, md: 6 }}
         borderRadius="xl"
         border="1px solid #efefef"
         boxShadow="sm"
+        w="100%"
       >
         <Flex
           justify="space-between"
-          align="center"
+          align={{ base: "flex-start", md: "center" }}
+          direction={{ base: "column", md: "row" }}
           mb={6}
           wrap="wrap"
           gap={3}
@@ -103,17 +111,13 @@ export default function RevenueGenerated() {
           <Text fontSize="md" fontWeight="600" color="#212529">
             Monthly Revenue Generated
           </Text>
-          <Flex gap={2} align="center">
+          <Flex gap={2} align="center" wrap="wrap">
             <FilterSelect
-              options={periodOptions}
-              value={period}
-              onChange={setPeriod}
+              options={intervalOptions}
+              value={interval}
+              onChange={(value) => setInterval(value as Interval)}
             />
-            <FilterSelect
-              options={yearOptions}
-              value={year}
-              onChange={setYear}
-            />
+            <FilterSelect options={yearOptions} value={year} onChange={setYear} />
           </Flex>
         </Flex>
 
@@ -139,7 +143,7 @@ export default function RevenueGenerated() {
           <ResponsiveContainer width="100%" height={320}>
             <AreaChart
               data={monthlyData}
-              margin={{ top: 10, right: 20, left: 60, bottom: 5 }}
+              margin={{ top: 10, right: 20, left: 0, bottom: 5 }}
             >
               <defs>
                 <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
@@ -148,16 +152,14 @@ export default function RevenueGenerated() {
                 </linearGradient>
               </defs>
 
-              <CartesianGrid
-                strokeDasharray=""
-                stroke="#f0f0f0"
-                vertical={false}
-              />
+              <CartesianGrid strokeDasharray="" stroke="#f0f0f0" vertical={false} />
               <XAxis
                 dataKey="month"
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: "#9ca3af", fontSize: 12 }}
+                interval="preserveStartEnd"
+                minTickGap={20}
               />
               <YAxis
                 domain={[0, "auto"]}
@@ -166,7 +168,7 @@ export default function RevenueGenerated() {
                 tickLine={false}
                 tick={{ fill: "#9ca3af", fontSize: 12 }}
                 tickFormatter={formatYAxis}
-                width={80}
+                width={70}
               />
               <Tooltip
                 content={<CustomTooltip />}
