@@ -8,7 +8,7 @@ import type { AxiosError } from "axios";
 
 export const useGetAnalyticsQuery = () => {
   const fetchAnalytics = async (): Promise<DashboardAnalyticsResponse> => {
-    return (await apiCall().get(`/analytics/summary`))?.data;
+    return (await apiCall().get(`/analytics/overview`))?.data;
   };
 
   const { data, isLoading, isError, error } = useQuery<

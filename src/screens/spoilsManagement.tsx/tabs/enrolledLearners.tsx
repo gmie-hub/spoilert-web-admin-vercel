@@ -3,29 +3,35 @@ import type { FC } from "react";
 import { Box, Separator, Stack } from "@chakra-ui/react";
 
 import { Pagination, Table } from "@spt/components";
+import ErrorState from "@spt/components/errorState";
+import LoadingState from "@spt/components/loadingState";
+import { useGetEnrolledLearnersQuery } from "@spt/hooks/api/useGetEnrolledLearnersQuery";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
-import {
-  enrolledLearnerHeaders,
-  enrolledLearnersData,
-} from "@spt/utils/spoilData";
+import { enrolledLearnerHeaders } from "@spt/utils/spoilData";
 
 import EnrolledLearnersTableBody from "../table/enrolledLearnersTable";
 
-const duplicatedItems = Array.from({ length: 15 }, (_, index) => ({
-  ...enrolledLearnersData,
-  key: index,
-}));
-
 interface ComponentProps {
+  spoilId: number;
   handleNavigation: (item: any) => void;
 }
 
-const EnrolledLearners: FC<ComponentProps> = ({ handleNavigation }) => {
+const EnrolledLearners: FC<ComponentProps> = ({
+  spoilId,
+  handleNavigation,
+}) => {
   const { page, pageSize, startRange, endRange, handlePageChange } =
     usePagination();
 
-  const visibleItems = duplicatedItems.slice(startRange, endRange);
+  const { data, isLoading, isError, errorMessage } =
+    useGetEnrolledLearnersQuery(spoilId);
+
+  if (isLoading) return <LoadingState />;
+  if (isError) return <ErrorState error={errorMessage} />;
+
+  const learners = data?.learners ?? [];
+  const visibleItems = learners.slice(startRange, endRange);
 
   return (
     <Stack mb="4">
@@ -45,7 +51,7 @@ const EnrolledLearners: FC<ComponentProps> = ({ handleNavigation }) => {
         <Pagination
           page={page}
           pageSize={pageSize}
-          items={duplicatedItems}
+          items={learners.length}
           onPageChange={handlePageChange}
         />
       </Box>

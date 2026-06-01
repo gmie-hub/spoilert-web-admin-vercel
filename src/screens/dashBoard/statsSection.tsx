@@ -27,11 +27,7 @@ export default function StatsSection() {
       value: `₦${(data?.revenue_generated ?? 0).toLocaleString()}`,
       icon: "yellow-moneys.svg",
     },
-    {
-      label: "Total Payout",
-      value: `₦${(data?.total_payout ?? 0).toLocaleString()}`,
-      icon: "/wallet.svg",
-    },
+
     {
       label: "Total Sponsorships",
       value: (data?.total_sponsorships ?? 0).toLocaleString(),
