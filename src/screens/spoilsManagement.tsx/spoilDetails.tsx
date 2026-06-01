@@ -1,4 +1,4 @@
-import { lazy, useCallback, useState } from "react";
+import { lazy, useCallback, useEffect, useState } from "react";
 
 import { HStack, Heading, Image, Stack, Tabs } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
@@ -34,6 +34,13 @@ const SpoilDetails = () => {
     Number(id)
   );
 
+  // is_active === 0/"0" means the spoil is not active, i.e. disabled.
+  useEffect(() => {
+    if (data?.is_active !== undefined) {
+      setIsDisabled(String(data.is_active) === "0");
+    }
+  }, [data?.is_active]);
+
   const {
     quizData,
     isQuizLoading,
@@ -58,7 +65,7 @@ const SpoilDetails = () => {
     const nextActive = isDisabled;
 
     try {
-      await toggleSpoilStatus({ id: Number(id), active: nextActive });
+      await toggleSpoilStatus({ id: Number(id), is_active: nextActive });
       setIsDisabled(!nextActive);
       handleCloseEnableModal();
       handleCloseDisableModal();

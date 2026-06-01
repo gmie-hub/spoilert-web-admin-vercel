@@ -205,6 +205,7 @@
     lessons_no: number;
     what_to_tearn: any;
     status: number;
+    is_active: number;
     is_draft: boolean;
     premiere_at: null;
     expires_at: string;
