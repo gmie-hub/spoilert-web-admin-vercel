@@ -3,44 +3,62 @@ import type { FC } from "react";
 import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
 
 import { Tag } from "@spt/components";
-import type { TableBodyProps } from "@spt/utils/types";
+import type { EnrolledLearner } from "@spt/types/spoils";
+import { formatDate } from "@spt/utils/dateTime";
 
-interface ComponentProps extends TableBodyProps {
+interface ComponentProps {
+  items: EnrolledLearner[];
   handleNavigation: (item: any) => void;
 }
 
-const EnrolledLearnersTableBody: FC<ComponentProps> = ({ handleNavigation, items }) => {
+const EnrolledLearnersTableBody: FC<ComponentProps> = ({
+  handleNavigation,
+  items,
+}) => {
   return (
     <>
-      {items.map((item, index) => (
-        <Table.Row py="16" key={index}>
-          <Table.Cell>
-            <HStack>
-              <Image src="/user-icon.svg" />
-              <Text
-                textOverflow={
-                  item.fullName.length > 10 ? "ellipsis" : "initial"
-                }
+      {items.map((item) => {
+        const fullName = `${item.first_name ?? ""} ${
+          item.last_name ?? ""
+        }`.trim();
+
+        return (
+          <Table.Row py="16" key={item.id}>
+            <Table.Cell>
+              <HStack>
+                <Image
+                  src={item.avatar || item.profile || "/user-icon.svg"}
+                  boxSize="32px"
+                  borderRadius="full"
+                  objectFit="cover"
+                />
+                <Text textOverflow={fullName.length > 10 ? "ellipsis" : "initial"}>
+                  {fullName}
+                </Text>
+              </HStack>
+            </Table.Cell>
+
+            <Table.Cell>{item.username || item.email}</Table.Cell>
+            <Table.Cell>
+              {item.created_at ? formatDate(item.created_at) : "—"}
+            </Table.Cell>
+
+            <Table.Cell>
+              <Tag status={item.status || "Active"} />
+            </Table.Cell>
+
+            <Table.Cell>
+              <Button
+                variant="yellowOutline"
+                px="3"
+                onClick={() => handleNavigation(item)}
               >
-                {item.fullName}
-              </Text>
-            </HStack>
-          </Table.Cell>
-
-          <Table.Cell>{item.username}</Table.Cell>
-          <Table.Cell>{item.dateEnrolled}</Table.Cell>
-
-          <Table.Cell>
-            <Tag status={item.status} />
-          </Table.Cell>
-
-          <Table.Cell>
-            <Button variant="yellowOutline" px="3" onClick={handleNavigation}>
-              View More
-            </Button>
-          </Table.Cell>
-        </Table.Row>
-      ))}
+                View More
+              </Button>
+            </Table.Cell>
+          </Table.Row>
+        );
+      })}
     </>
   );
 };

@@ -10,6 +10,7 @@ import LoadingState from "@spt/components/loadingState";
 import CustomTabs from "@spt/components/tabs";
 import { useGetQuizBySpoilId } from "@spt/hooks/api/useGetQuizBySpoilId";
 import { useSpoilDetailsQuery } from "@spt/hooks/api/useSpoilDetailsQuery";
+import { useToggleSpoilStatusMutation } from "@spt/hooks/api/useToggleSpoilStatusMutation";
 import { spoilMgtTabList } from "@spt/utils/spoilData";
 
 import DisableSpoilModalContent from "./modal/disableSpoil";
@@ -50,11 +51,21 @@ const SpoilDetails = () => {
     setToggleEnrolledLearners(!toggleEnrolledLearners);
   }, [toggleEnrolledLearners]);
 
-  const handleDisableOrEnableSpoil = useCallback(() => {
-    setIsDisabled((prevState) => !prevState);
-    handleCloseEnableModal();
-    handleCloseDisableModal();
-  }, []);
+  const { toggleSpoilStatus, isToggleLoading } = useToggleSpoilStatusMutation();
+
+  const handleDisableOrEnableSpoil = useCallback(async () => {
+    // When currently disabled we are re-enabling, otherwise we are disabling.
+    const nextActive = isDisabled;
+
+    try {
+      await toggleSpoilStatus({ id: Number(id), active: nextActive });
+      setIsDisabled(!nextActive);
+      handleCloseEnableModal();
+      handleCloseDisableModal();
+    } catch {
+      // Error toast is handled inside the mutation.
+    }
+  }, [id, isDisabled, toggleSpoilStatus]);
 
   if (isLoading) return <LoadingState />;
   if (isError) <ErrorState error={errorMessage} />;
@@ -85,10 +96,14 @@ const SpoilDetails = () => {
               variant={isDisabled ? "yellowOutline" : "dangerOutline"}
             >
               {isDisabled ? (
-                <EnableSpoilModalContent onClick={handleDisableOrEnableSpoil} />
+                <EnableSpoilModalContent
+                  onClick={handleDisableOrEnableSpoil}
+                  loading={isToggleLoading}
+                />
               ) : (
                 <DisableSpoilModalContent
                   onClick={handleDisableOrEnableSpoil}
+                  loading={isToggleLoading}
                 />
               )}
             </Modal>
@@ -128,6 +143,7 @@ const SpoilDetails = () => {
               <Tabs.Content value="enrolledLearners">
                 {toggleEnrolledLearners ? (
                   <EnrolledLearners
+                    spoilId={Number(id)}
                     handleNavigation={handleToggleEnrolledLearners}
                   />
                 ) : (

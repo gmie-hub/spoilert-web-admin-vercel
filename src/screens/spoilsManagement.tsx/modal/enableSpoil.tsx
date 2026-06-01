@@ -4,9 +4,10 @@ import { Button, Dialog, HStack, Image, Stack, Text } from "@chakra-ui/react";
 
 export interface ComponentProps {
   onClick: () => void;
+  loading?: boolean;
 }
 
-const EnableSpoilModalContent: FC<ComponentProps> = ({ onClick }) => {
+const EnableSpoilModalContent: FC<ComponentProps> = ({ onClick, loading }) => {
   return (
     <Dialog.Content borderRadius="xl" w="590px">
       <Dialog.Body>
@@ -35,7 +36,12 @@ const EnableSpoilModalContent: FC<ComponentProps> = ({ onClick }) => {
             </Button>
           </Dialog.ActionTrigger>
 
-          <Button variant="yellow" w="50%" onClick={onClick}>
+          <Button
+            variant="yellow"
+            w="50%"
+            onClick={onClick}
+            loading={loading}
+          >
             Yes, Re-enable
           </Button>
         </HStack>

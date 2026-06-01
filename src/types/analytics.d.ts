@@ -69,6 +69,30 @@ export interface SignupMethodResponse {
   data: SignupMethodData;
 }
 
+export interface UserTypeSignupPoint {
+  // Period bucket, formatted as "YYYY-MM" e.g. "2026-05".
+  label: string;
+  learners: number;
+  tutors: number;
+}
+
+export interface UserTypeSignupOverview {
+  total_learners: number;
+  total_tutors: number;
+  total_users: number;
+}
+
+export interface UserTypeSignupData {
+  overview: UserTypeSignupOverview;
+  graph: UserTypeSignupPoint[];
+}
+
+export interface UserTypeSignupResponse {
+  message?: string;
+  status?: boolean;
+  data: UserTypeSignupData;
+}
+
 export interface SpoilsCreatedPoint {
   // Period bucket, formatted as "YYYY-MM" e.g. "2026-05".
   label: string;

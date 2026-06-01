@@ -114,6 +114,31 @@
     profile: null;
   }
 
+  export interface EnrolledLearner {
+    id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    username?: string;
+    avatar?: string | null;
+    profile?: string | null;
+    created_at?: string;
+    // Enrollment metadata (if returned by the API).
+    progress_percentage?: number;
+    status?: string;
+  }
+
+  // GET /spoils/learner/{spoilId} returns the spoil with its enrolled learners.
+  export interface EnrolledLearnersData extends SpoilData {
+    learners: EnrolledLearner[];
+  }
+
+  export interface EnrolledLearnersResponse {
+    message: string;
+    status: boolean;
+    data: EnrolledLearnersData;
+  }
+
   export interface SpoilReview {
     id: number;
     spoil_id: number;

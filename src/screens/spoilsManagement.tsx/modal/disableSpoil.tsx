@@ -4,10 +4,12 @@ import { Button, Dialog, HStack, Image, Stack, Text } from "@chakra-ui/react";
 
 interface DisableSpoilModalContentProps {
   onClick: () => void;
+  loading?: boolean;
 }
 
 const DisableSpoilModalContent: FC<DisableSpoilModalContentProps> = ({
   onClick,
+  loading,
 }) => {
   return (
     <Dialog.Content borderRadius="xl">
@@ -38,7 +40,7 @@ const DisableSpoilModalContent: FC<DisableSpoilModalContentProps> = ({
             </Button>
           </Dialog.ActionTrigger>
 
-          <Button variant="danger" w="50%" onClick={onClick}>
+          <Button variant="danger" w="50%" onClick={onClick} loading={loading}>
             Yes, Disable
           </Button>
         </HStack>
