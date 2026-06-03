@@ -1,15 +1,15 @@
 import type { ReactNode } from "react";
 
 import {
-  HiOutlineBan,
-  HiOutlineBell,
+  // HiOutlineBan,
+  // HiOutlineBell,
   HiOutlineBookOpen,
   HiOutlineChartBar,
   HiOutlineCurrencyDollar,
   HiOutlineDocumentText,
-  HiOutlineMail,
+  // HiOutlineMail,
   HiOutlineRefresh,
-  HiOutlineUserGroup,
+  // HiOutlineUserGroup,
   HiOutlineViewGrid,
   HiOutlineViewList,
 } from "react-icons/hi";

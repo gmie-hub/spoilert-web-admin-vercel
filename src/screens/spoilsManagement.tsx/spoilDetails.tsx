@@ -137,6 +137,7 @@ const SpoilDetails = () => {
               <Tabs.Content value="spoilQuiz">
                 <SpoilQuiz
                   quizData={quizData}
+                  modules={data?.modules}
                   isQuizLoading={isQuizLoading}
                   isError={isQuizError}
                   quizErrorMessage={quizErrorMessage}

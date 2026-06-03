@@ -16,12 +16,14 @@ import LoadingState from "@spt/components/loadingState";
 import CustomTabs from "@spt/components/tabs";
 import { useGetQuizDetailsQuery } from "@spt/hooks/api/useGetQuizDetailsQuery";
 import type { QuizDatum } from "@spt/types/quiz";
+import type { Module } from "@spt/types/spoils";
 
 import Quiz from "./quiz";
 import QuizOverview from "./quizOverview";
 
 interface ComponentProps {
   quizData: QuizDatum[];
+  modules?: Module[];
   isQuizLoading: boolean;
   isError: boolean;
   quizErrorMessage: string;
@@ -29,6 +31,7 @@ interface ComponentProps {
 
 const SpoilQuiz: FC<ComponentProps> = ({
   quizData,
+  modules,
   isQuizLoading,
   isError,
   quizErrorMessage,
@@ -45,11 +48,24 @@ const SpoilQuiz: FC<ComponentProps> = ({
   });
 
   const PRE = "pre";
+  const MODULE = "module";
+
+  // Quiz type can be "pre", "post" or "module"; module quizzes are labelled
+  // with the position of the module they are attached to (Module 1, 2, ...).
+  const getQuizLabel = (item: QuizDatum) => {
+    if (item?.type === PRE) return "Pre-Spoil Quiz";
+    if (item?.type === MODULE) {
+      const moduleIndex =
+        modules?.findIndex((module) => module.id === item.module_id) ?? -1;
+      return moduleIndex >= 0 ? `Module ${moduleIndex + 1} Quiz` : "Module Quiz";
+    }
+    return "Post-Spoil Quiz";
+  };
 
   const spoilQuizOptions =
     quizData?.map((item, index) => ({
       id: index + 1,
-      text: item?.type === PRE ? "Pre-Spoil Quiz" : "Post-Spoil Quiz",
+      text: getQuizLabel(item),
       value: item?.type === PRE ? "preSpoilQuiz" : "postSpoilQuiz",
     })) || [];
 
@@ -141,9 +157,7 @@ const SpoilQuiz: FC<ComponentProps> = ({
                 onClick={() => handleItemClick(index, item.id)}
                 bg={currentIndex === item.id ? "#D4A4371A" : "transparent"}
               >
-                <Text>
-                  {item?.type === PRE ? "Pre-Spoil Quiz" : "Post-Spoil Quiz"}
-                </Text>
+                <Text>{getQuizLabel(item)}</Text>
                 <Image src="/arrow-right.svg" />
               </HStack>
             ))}
