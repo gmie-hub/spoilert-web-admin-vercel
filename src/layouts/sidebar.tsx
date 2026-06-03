@@ -6,15 +6,15 @@ import { NavLink, useLocation } from "react-router-dom";
 import "../App.css";
 import AnalyticsAccordion from "./analyticsAccordion";
 import PromotionsAccordion from "./promotionsAccordion";
-import ReportsAccordion from "./reportsAccordion";
+// import ReportsAccordion from "./reportsAccordion";
 import {
   type NavItem,
   analyticsSubItems,
-  bannedUsersItem,
+  // bannedUsersItem,
   bottomItems,
   mainItems,
   promotionsSubItems,
-  reportsSubItems,
+  // reportsSubItems,
   spoilPerformanceSubItems,
 } from "./sidebarItems";
 import SpoilPerformanceAccordion from "./spoilPerformanceAccordion";
@@ -24,7 +24,7 @@ const Sidebar = ({ hideLogo, onNavClick }: { hideLogo?: boolean; onNavClick?: ()
   const [analyticsOpen, setAnalyticsOpen] = useState(false);
   const [spoilPerfOpen, setSpoilPerfOpen] = useState(false);
   const [promotionsOpen, setPromotionsOpen] = useState(false);
-  const [reportsOpen, setReportsOpen] = useState(false);
+  // const [reportsOpen, setReportsOpen] = useState(false);
 
   useEffect(() => {
     if (location.pathname.startsWith("/analytics")) {
@@ -36,9 +36,9 @@ const Sidebar = ({ hideLogo, onNavClick }: { hideLogo?: boolean; onNavClick?: ()
     if (location.pathname.startsWith("/promotions")) {
       setPromotionsOpen(true);
     }
-    if (location.pathname.startsWith("/reports")) {
-      setReportsOpen(true);
-    }
+    // if (location.pathname.startsWith("/reports")) {
+    //   setReportsOpen(true);
+    // }
   }, [location.pathname]);
 
   const renderNavItem = (item: NavItem) => (
@@ -116,14 +116,14 @@ const Sidebar = ({ hideLogo, onNavClick }: { hideLogo?: boolean; onNavClick?: ()
           renderItem={renderNavItem}
         />
 
-        <ReportsAccordion
+        {/* <ReportsAccordion
           isOpen={reportsOpen}
           onToggle={() => setReportsOpen((prev) => !prev)}
           subItems={reportsSubItems}
           renderItem={renderNavItem}
         />
 
-        {renderNavItem(bannedUsersItem)}
+        {renderNavItem(bannedUsersItem)} */}
 
         {bottomItems.map(renderNavItem)}
       </Stack>
