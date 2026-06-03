@@ -193,7 +193,7 @@ const CourseOverview: FC<ComponentProps> = ({ data }) => {
         <Text fontWeight="medium">What you will learn</Text>
 
         <Stack gap="4">
-          {data?.what_to_tearn?.split(",")?.map((item, index) => (
+          {data?.what_to_learn?.split(",")?.map((item, index) => (
             <HStack
               key={index}
               alignItems={{ base: "flex-start", md: "center" }}

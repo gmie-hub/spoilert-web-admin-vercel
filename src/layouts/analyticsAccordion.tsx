@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+
 import { Box, HStack, Text } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { HiChevronDown, HiOutlineChartBar } from "react-icons/hi";

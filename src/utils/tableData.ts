@@ -106,6 +106,79 @@ export const communityHeader = [
   "Action",
 ];
 
+export const notificationsHeader = [
+  "Title",
+  "Type",
+  "Date Sent",
+  "Action",
+];
+
+export const mailingHeader = [
+  "S/N",
+  "Title",
+  "Subject",
+  "Date Sent",
+  "Action",
+];
+
+export const reportedTutorsHeader = [
+  "S/N",
+  "Name of Tutor",
+  "Reported By",
+  "Report Reason",
+  "Date Reported",
+  "Action Taken",
+  "Admin's Name",
+  "Action",
+];
+
+export const reportReasons = [
+  "Inappropriate Behavior",
+  "Fraud or Scam",
+  "Poor quality or misleading content",
+  "Harassment or abuse",
+  "Spam",
+  "Others",
+];
+
+export const reportedSpoylzHeader = [
+  "S/N",
+  "Spoil Title",
+  "Name of Tutor",
+  "Reported By",
+  "Report Reason",
+  "Date Reported",
+  "Action Taken",
+  "Admin's Name",
+  "Action",
+];
+
+export const spoilReportReasons = [
+  "Copyright Violation",
+  "Fraud or Scam",
+  "Poor quality or misleading content",
+  "Spam",
+  "Others",
+];
+
+export const bannedUsersHeader = [
+  "S/N",
+  "Name of User",
+  "Timeframe",
+  "Ban Start Date",
+  "Ban End Date",
+  "Action",
+];
+
+export const banTimeframes = [
+  "7 days",
+  "10 days",
+  "14 Days",
+  "30 Days",
+  "60 Days",
+  "90 Days",
+];
+
 export const promotionsHeaders = [
   "Spoil Title",
   "Name of Tutor",

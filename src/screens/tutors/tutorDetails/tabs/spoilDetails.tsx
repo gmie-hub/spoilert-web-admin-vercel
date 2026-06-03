@@ -107,7 +107,7 @@ const SpoilDetails: FC<ComponentProps> = ({
 
           <Box ms="6">
             <List.Root>
-              {data?.what_to_tearn
+              {data?.what_to_learn
                 ?.split("\n\n") // split by double newlines
                 .map((item, index) => (
                   <List.Item key={index} _marker={{ color: "#212529" }}>

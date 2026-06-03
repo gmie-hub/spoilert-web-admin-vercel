@@ -76,7 +76,7 @@
     course_code: null;
     modules_no: number;
     lessons_no: number;
-    what_to_tearn: string;
+    what_to_learn: string;
     status: number;
     is_draft: boolean;
     premiere_at: null;
@@ -203,8 +203,9 @@
     course_code: null;
     modules_no: number;
     lessons_no: number;
-    what_to_tearn: any;
+    what_to_learn: any;
     status: number;
+    is_active: number;
     is_draft: boolean;
     premiere_at: null;
     expires_at: string;
