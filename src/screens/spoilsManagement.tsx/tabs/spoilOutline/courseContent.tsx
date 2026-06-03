@@ -27,15 +27,18 @@ interface ComponentProps {
 const CourseContent: FC<ComponentProps> = ({ modules, onHide }) => {
   const setLessonContent = useVideoStore((state) => state.setLessonContent);
 
+  // Keep the viewer in sync with the currently opened spoil. Default to the
+  // first lesson that actually exists (skipping modules with no lessons) and
+  // always run — even when there is none — so a newly opened spoil never keeps
+  // showing the previously opened spoil's content.
+  const firstLesson = modules?.flatMap((module) => module?.lessons ?? [])?.[0];
+
   useEffect(() => {
-    const first = modules?.[0]?.lessons?.[0];
-    if (first) {
-      setLessonContent({
-        content: first.content ?? null,
-        content_url: first.content_url ?? null,
-      });
-    }
-  }, [modules?.[0]?.lessons?.[0]]);
+    setLessonContent({
+      content: firstLesson?.content ?? null,
+      content_url: firstLesson?.content_url ?? null,
+    });
+  }, [firstLesson, setLessonContent]);
 
   const hasContent = Boolean(modules?.length);
 

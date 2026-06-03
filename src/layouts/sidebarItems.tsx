@@ -104,18 +104,18 @@ export const mainItems: NavItem[] = [
     icon: <img src="/ads.svg" alt="ads" />,
     to: routes.main.ads.home,
   },
-  {
-    key: "Notifications",
-    label: "Notifications",
-    icon: <HiOutlineBell size={22} />,
-    to: routes.main.notifications.home,
-  },
-  {
-    key: "Mailing",
-    label: "Mailing",
-    icon: <HiOutlineMail size={22} />,
-    to: routes.main.mailing.home,
-  },
+  // {
+  //   key: "Notifications",
+  //   label: "Notifications",
+  //   icon: <HiOutlineBell size={22} />,
+  //   to: routes.main.notifications.home,
+  // },
+  // {
+  //   key: "Mailing",
+  //   label: "Mailing",
+  //   icon: <HiOutlineMail size={22} />,
+  //   to: routes.main.mailing.home,
+  // },
 ];
 
 export const analyticsSubItems: NavItem[] = [
@@ -181,27 +181,27 @@ export const promotionsSubItems: NavItem[] = [
   },
 ];
 
-export const reportsSubItems: NavItem[] = [
-  {
-    key: "ReportedTutors",
-    label: "Reported Tutors",
-    icon: <HiOutlineUserGroup size={20} />,
-    to: routes.main.reports.reportedTutors.home,
-  },
-  {
-    key: "ReportedSpoylz",
-    label: "Reported Spoylz",
-    icon: <HiOutlineDocumentText size={20} />,
-    to: routes.main.reports.reportedSpoylz.home,
-  },
-];
+// export const reportsSubItems: NavItem[] = [
+//   {
+//     key: "ReportedTutors",
+//     label: "Reported Tutors",
+//     icon: <HiOutlineUserGroup size={20} />,
+//     to: routes.main.reports.reportedTutors.home,
+//   },
+//   {
+//     key: "ReportedSpoylz",
+//     label: "Reported Spoylz",
+//     icon: <HiOutlineDocumentText size={20} />,
+//     to: routes.main.reports.reportedSpoylz.home,
+//   },
+// ];
 
-export const bannedUsersItem: NavItem = {
-  key: "BannedUsers",
-  label: "Banned Users",
-  icon: <HiOutlineBan size={22} />,
-  to: routes.main.bannedUsers.home,
-};
+// export const bannedUsersItem: NavItem = {
+//   key: "BannedUsers",
+//   label: "Banned Users",
+//   icon: <HiOutlineBan size={22} />,
+//   to: routes.main.bannedUsers.home,
+// };
 
 export const bottomItems: NavItem[] = [
   // {
