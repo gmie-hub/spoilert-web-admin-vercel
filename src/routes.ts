@@ -38,6 +38,20 @@ export const routes = {
       sponsorASpoil: "/sponsor-a-spoil",
       sponsorshipCodes: "/sponsorship-codes",
     },
+    reports: {
+      reportedTutors: {
+        home: "/reports/reported-tutors",
+        details: "/reports/reported-tutors/:id",
+      },
+      reportedSpoylz: {
+        home: "/reports/reported-spoylz",
+        details: "/reports/reported-spoylz/:id",
+      },
+    },
+    bannedUsers: {
+      home: "/banned-users",
+      details: "/banned-users/:id",
+    },
     withdrawalRequest: {
       home: "/withdrawal-request",
     },
@@ -58,6 +72,16 @@ export const routes = {
     pendingVerification: {
       home: "/pending-verifications",
       details: "/view-pending-verification/:id",
+    },
+    notifications: {
+      home: "/notifications",
+      details: "/notification-details/:id",
+      send: "/send-notification",
+    },
+    mailing: {
+      home: "/mailing",
+      details: "/mail-details/:id",
+      send: "/send-email",
     },
     ads: {
       home: "/ads",

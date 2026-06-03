@@ -22,7 +22,7 @@ import { useAuthStore } from "@spt/store/useAuthStore";
 import { validations } from "@spt/utils/validations";
 
 const Login = () => {
-  const { isLoading, loginHandler } = useLoginMutation();
+  const { isLoading, loginHandler, errorMessage } = useLoginMutation();
   const [showPassword, setShowPassword] = useState(false);
   const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
@@ -104,6 +104,23 @@ const Login = () => {
                 Enter your details to Log In
               </Text>
             </Box>
+
+            {errorMessage && (
+              <Flex
+                align="center"
+                gap="2"
+                bg="#FFF5F6"
+                border="1px solid #F5C2C7"
+                color="#DC3545"
+                px="4"
+                py="3"
+                rounded="md"
+              >
+                <Text fontSize="sm" fontWeight="medium">
+                  {errorMessage}
+                </Text>
+              </Flex>
+            )}
 
             <Formik
               enableReinitialize

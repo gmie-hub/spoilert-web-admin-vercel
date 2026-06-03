@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +17,7 @@ interface Payload {
 export const useLoginMutation = () => {
   const { setAuth } = useAuthStore();
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const Login = async (payload: Payload) => {
     return (await apiCall().post("/auth/login", payload))?.data;
@@ -26,6 +29,8 @@ export const useLoginMutation = () => {
   });
 
   const loginHandler = async (values: FormikValues) => {
+    setErrorMessage("");
+
     const payload: Payload = {
       email: values.email,
       password: values?.password,
@@ -51,9 +56,18 @@ export const useLoginMutation = () => {
         },
       });
     } catch (error: any) {
+      // The backend returns the reason in the response body, e.g.
+      // { error: "Invalid credentials.", status: false, data: null }
+      const message =
+        error?.response?.data?.error ||
+        error?.response?.data?.message ||
+        error?.message ||
+        "Something went wrong";
+
+      setErrorMessage(message);
       toaster.create({
         type: "error",
-        description: error?.message || "Something went wrong",
+        description: message,
       });
     }
   };
@@ -61,5 +75,6 @@ export const useLoginMutation = () => {
   return {
     isLoading: mutation.isPending,
     loginHandler,
+    errorMessage,
   };
 };

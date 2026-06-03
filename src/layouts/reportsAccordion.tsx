@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 import { Box, HStack, Text } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { HiChevronDown, HiOutlineChartBar } from "react-icons/hi";
+import { HiChevronDown, HiOutlineFlag } from "react-icons/hi";
 
 import type { NavItem } from "./sidebarItems";
 
@@ -11,10 +11,14 @@ type Props = {
   onToggle: () => void;
   subItems: NavItem[];
   renderItem: (item: NavItem) => ReactNode;
-  footer?: ReactNode;
 };
 
-export default function AnalyticsAccordion({ isOpen, onToggle, subItems, renderItem, footer }: Props) {
+export default function ReportsAccordion({
+  isOpen,
+  onToggle,
+  subItems,
+  renderItem,
+}: Props) {
   return (
     <Box>
       <HStack
@@ -36,9 +40,11 @@ export default function AnalyticsAccordion({ isOpen, onToggle, subItems, renderI
         }}
       >
         <Box>
-          <HiOutlineChartBar size={20} />
+          <HiOutlineFlag size={20} />
         </Box>
-        <Text flex="1" color="inherit">Analytics</Text>
+        <Text flex="1" color="inherit">
+          Reports
+        </Text>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
@@ -50,7 +56,7 @@ export default function AnalyticsAccordion({ isOpen, onToggle, subItems, renderI
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            key="analytics-submenu"
+            key="reports-submenu"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -58,7 +64,6 @@ export default function AnalyticsAccordion({ isOpen, onToggle, subItems, renderI
             style={{ overflow: "hidden" }}
           >
             {subItems.map(renderItem)}
-            {footer}
           </motion.div>
         )}
       </AnimatePresence>

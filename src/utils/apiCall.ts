@@ -133,10 +133,12 @@ export const apiCall = (): AxiosInstance => {
         });
       }
 
-      // Handle unauthorized
-      if (error?.response?.status === 401) {
+      // Handle unauthorized — but never redirect on a failed login attempt,
+      // otherwise the page reloads before the error message can be shown.
+      const isLoginRequest = error?.config?.url?.includes("/auth/login");
+      if (error?.response?.status === 401 && !isLoginRequest) {
         // Optional: remove persisted auth data
-        // localStorage.removeItem("spoilert-admin-auth"); 
+        // localStorage.removeItem("spoilert-admin-auth");
         window.location.replace("/");
       }
 

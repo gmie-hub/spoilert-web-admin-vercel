@@ -6,7 +6,16 @@ import { routes } from "./routes";
 import AdsDetails from "./screens/ads/adsDetails.tsx";
 import CreateAds from "./screens/ads/createAds.tsx";
 import Ads from "./screens/ads/index.tsx";
+import RevenueGenerated from "./screens/analytics/revenueGenerated/index.tsx";
+import SpoilOverTime from "./screens/analytics/spoilPerformance/spoilOverTime/index.tsx";
+import SpoilPerCategory from "./screens/analytics/spoilPerformance/spoilPerCategory/index.tsx";
+import SpoilsCreated from "./screens/analytics/spoilsCreated/index.tsx";
+import SpoilTypeAnalytics from "./screens/analytics/spoilTypeAnalytics/index.tsx";
+import UserInsights from "./screens/analytics/userInsights/index.tsx";
+import UserRegistration from "./screens/analytics/userRegistration/index.tsx";
 import Login from "./screens/auth/login.tsx";
+import BannedUserDetails from "./screens/bannedUsers/bannedUserDetails.tsx";
+import BannedUsers from "./screens/bannedUsers/index.tsx";
 import Categories from "./screens/categories";
 import CategoryDetails from "./screens/categories/categoryDetails.tsx";
 import CommunityDetails from "./screens/community/communityDetails.tsx";
@@ -15,6 +24,12 @@ import CustomerSupport from "./screens/customerSupport/index.tsx";
 import Dashboard from "./screens/dashBoard/index.tsx";
 import Learners from "./screens/learners";
 import ViewLearnerDetails from "./screens/learners/viewLearnerDetails";
+import Mailing from "./screens/mailing/index.tsx";
+import MailDetails from "./screens/mailing/mailDetails.tsx";
+import SendEmail from "./screens/mailing/sendEmail.tsx";
+import Notifications from "./screens/notifications/index.tsx";
+import NotificationDetails from "./screens/notifications/notificationDetails.tsx";
+import SendNotification from "./screens/notifications/sendNotification.tsx";
 import PendingVerification from "./screens/pendingVerification/index.tsx";
 import VerificationDetails from "./screens/pendingVerification/verificationDetails.tsx";
 import Promotion from "./screens/promotion/index.tsx";
@@ -22,6 +37,10 @@ import PromotionDetails from "./screens/promotion/promotionDetails.tsx";
 import SetupPromotion from "./screens/promotion/setupPromotion.tsx";
 import PromotionsManagement from "./screens/promotionManagement/index.tsx";
 import PromotionManagementDetails from "./screens/promotionManagement/promotionDetails.tsx";
+import ReportedSpoylz from "./screens/reports/reportedSpoylz/index.tsx";
+import ReportedSpoilDetails from "./screens/reports/reportedSpoylz/reportDetails.tsx";
+import ReportedTutors from "./screens/reports/reportedTutors/index.tsx";
+import ReportDetails from "./screens/reports/reportedTutors/reportDetails.tsx";
 import Settings from "./screens/settings/index.tsx";
 import EditProfile from "./screens/settings/tabs/editProfile.tsx";
 import SpoilsManagement from "./screens/spoilsManagement.tsx";
@@ -36,13 +55,6 @@ import TutorDetails from "./screens/tutors/tutorDetails/index.tsx";
 import WithdrawerRequest from "./screens/withdrawerRequest.tsx";
 import SpoilsReview from "./spoilReview/index.tsx";
 import SpoilReviewDetails from "./spoilReview/spoilDetails.tsx";
-import RevenueGenerated from "./screens/analytics/revenueGenerated/index.tsx";
-import SpoilOverTime from "./screens/analytics/spoilPerformance/spoilOverTime/index.tsx";
-import SpoilPerCategory from "./screens/analytics/spoilPerformance/spoilPerCategory/index.tsx";
-import SpoilTypeAnalytics from "./screens/analytics/spoilTypeAnalytics/index.tsx";
-import SpoilsCreated from "./screens/analytics/spoilsCreated/index.tsx";
-import UserInsights from "./screens/analytics/userInsights/index.tsx";
-import UserRegistration from "./screens/analytics/userRegistration/index.tsx";
 import ProtectedRoute from "./utils/protectedRoute.tsx";
 
 function App() {
@@ -84,6 +96,17 @@ function App() {
       path: routes.main.promotions.promotionsDetails,
       element: <PromotionDetails />,
     },
+    { path: routes.main.notifications.home, element: <Notifications /> },
+    {
+      path: routes.main.notifications.details,
+      element: <NotificationDetails />,
+    },
+    { path: routes.main.notifications.send, element: <SendNotification /> },
+
+    { path: routes.main.mailing.home, element: <Mailing /> },
+    { path: routes.main.mailing.details, element: <MailDetails /> },
+    { path: routes.main.mailing.send, element: <SendEmail /> },
+
     {
       path: routes.main.ads.home,
       element: <Ads />,
@@ -122,6 +145,29 @@ function App() {
     {
       path: routes.main.withdrawalRequest.home,
       element: <WithdrawerRequest />,
+    },
+
+    {
+      path: routes.main.reports.reportedTutors.home,
+      element: <ReportedTutors />,
+    },
+    {
+      path: routes.main.reports.reportedTutors.details,
+      element: <ReportDetails />,
+    },
+    {
+      path: routes.main.reports.reportedSpoylz.home,
+      element: <ReportedSpoylz />,
+    },
+    {
+      path: routes.main.reports.reportedSpoylz.details,
+      element: <ReportedSpoilDetails />,
+    },
+
+    { path: routes.main.bannedUsers.home, element: <BannedUsers /> },
+    {
+      path: routes.main.bannedUsers.details,
+      element: <BannedUserDetails />,
     },
 
     { path: routes.main.community.home, element: <Community /> },

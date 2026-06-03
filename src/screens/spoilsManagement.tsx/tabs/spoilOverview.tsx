@@ -94,7 +94,7 @@ const SpoilOverview: FC<ComponentProps> = ({ data }) => {
           <Box ms="6">
             <List.Root>
               <List.Item>
-                {data?.what_to_tearn?.split(",").map((item, index) => (
+                {data?.what_to_learn?.split(",").map((item, index) => (
                   <List.Item key={index} _marker={{ color: "#212529" }}>
                     {item}
                   </List.Item>

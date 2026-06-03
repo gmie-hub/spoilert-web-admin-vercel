@@ -28,6 +28,21 @@ export const formatDateTime = (date?: string) => {
   return `${formatDate(date)} | ${formatTime(date)}`;
 };
 
+/**
+ * Formats a date for timeline/activity entries, e.g. "May 18, 2026- 08:14 am".
+ */
+export const formatActionDate = (date?: string) => {
+  if (!date) return "N/A";
+  try {
+    const parsedDate = parseISO(date);
+    return format(parsedDate, "MMM d, yyyy- hh:mm a")
+      .replace("AM", "am")
+      .replace("PM", "pm");
+  } catch (error) {
+    return "Invalid date";
+  }
+};
+
 
 export const truncateText = (text: string | undefined, limit = 10): string => {
   if (!text) return "";

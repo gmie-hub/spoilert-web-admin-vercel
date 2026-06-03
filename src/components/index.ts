@@ -13,3 +13,5 @@ export { default as ImageModal } from "./imageModal";
 export { default as FileUpload } from "./fileUpload";
 export { default as SubHeader } from "./subHeader";
 export { default as Back } from "./back";
+export { default as ConfirmDialog } from "./confirmDialog";
+export { default as SuccessDialog } from "./successDialog";
