@@ -150,7 +150,20 @@ const CourseOverview: FC<ComponentProps> = ({ data }) => {
       );
     }
 
-    return null;
+    return (
+      <Box
+        p="6"
+        borderRadius="lg"
+        border="1px solid"
+        borderColor="gray.200"
+        bg="gray.50"
+        textAlign="center"
+      >
+        <Text fontSize="sm" color="gray.500">
+          No content
+        </Text>
+      </Box>
+    );
   };
 
   return (
