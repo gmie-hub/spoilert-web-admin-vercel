@@ -40,7 +40,10 @@ const SpoilOverview: FC<ComponentProps> = ({ data }) => {
         <ProgressInfo>
           <InfoDisplay title="Course Code" value={data?.course_code} />
           <InfoDisplay title="Pricing" value={data?.pricing} />
-          <InfoDisplay title="Amount" value={`N${data?.amount?.toString()}`} />
+          <InfoDisplay
+            title="Amount"
+            value={`N${data?.pricing?.toLowerCase() === "free" ? 0 : data?.amount ?? 0}`}
+          />
         </ProgressInfo>
 
         <ProgressInfo>

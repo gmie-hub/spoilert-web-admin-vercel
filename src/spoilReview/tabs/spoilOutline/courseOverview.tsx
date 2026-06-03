@@ -14,8 +14,21 @@ const VIDEO_EXTENSIONS = /\.(mp4|webm|ogg|mov|avi|mkv|m3u8)(\?.*)?$/i;
 const AUDIO_EXTENSIONS = /\.(mp3|wav|aac|flac|m4a|ogg)(\?.*)?$/i;
 const IMAGE_EXTENSIONS = /\.(png|jpe?g|gif|webp|svg|bmp)(\?.*)?$/i;
 const PDF_EXTENSIONS = /\.pdf(\?.*)?$/i;
-const TEXT_EXTENSIONS = /\.(txt|md)(\?.*)?$/i;
-const DOC_EXTENSIONS = /\.(docx?|odt|rtf)(\?.*)?$/i;
+const OFFICE_EXTENSIONS = /\.(docx?|xlsx?|pptx?)(\?.*)?$/i;
+const TEXT_EXTENSIONS = /\.(txt|md|csv)(\?.*)?$/i;
+
+// Renders any embeddable URL (PDF / Office / text / etc.) in a framed viewer.
+const FrameViewer = ({ src, title }: { src: string; title: string }) => (
+  <Box borderRadius="lg" overflow="hidden" width="100%">
+    <iframe
+      src={src}
+      width="100%"
+      height="600px"
+      style={{ border: "none", borderRadius: "inherit" }}
+      title={title}
+    />
+  </Box>
+);
 
 const CourseOverview: FC<ComponentProps> = ({ data }) => {
   const lessonContent = useVideoStore((state) => state.lessonContent);
@@ -66,75 +79,48 @@ const CourseOverview: FC<ComponentProps> = ({ data }) => {
 
 
       if (PDF_EXTENSIONS.test(url)) {
+        return <FrameViewer src={url} title="PDF content" />;
+      }
+
+      // Office documents (Word/Excel/PowerPoint) can't be embedded directly,
+      // so render them through Microsoft's official Office viewer.
+      if (OFFICE_EXTENSIONS.test(url)) {
         return (
-          <Box borderRadius="lg" overflow="hidden" width="100%">
-            <iframe
-              src={url}
-              width="100%"
-              height="600px"
-              style={{ border: "none", borderRadius: "inherit" }}
-              title="PDF content"
-            />
-          </Box>
+          <FrameViewer
+            src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(
+              url
+            )}`}
+            title="Document content"
+          />
         );
       }
 
+      // Plain text / markdown renders fine straight in an iframe.
       if (TEXT_EXTENSIONS.test(url)) {
-        // Fetch and display text file content
-        // For simplicity, show a download link
-        return (
-          <Box
-            p="4"
-            borderRadius="lg"
-            border="1px solid"
-            borderColor="gray.200"
-            bg="gray.50"
-          >
-            <Text fontSize="sm" color="gray.600">
-              Text file: {" "}
-              <Link href={url} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">
-                {url.split("/").pop()}
-              </Link>
-            </Text>
-          </Box>
-        );
+        return <FrameViewer src={url} title="Text content" />;
       }
 
-      if (DOC_EXTENSIONS.test(url)) {
-        // For doc files, show download link
-        return (
-          <Box
-            p="4"
-            borderRadius="lg"
-            border="1px solid"
-            borderColor="gray.200"
-            bg="gray.50"
-          >
-            <Text fontSize="sm" color="gray.600">
-              Document file: {" "}
-              <Link href={url} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">
-                {url.split("/").pop()}
-              </Link>
-            </Text>
-          </Box>
-        );
-      }
-
+      // Any other type: best-effort preview via Google's universal viewer,
+      // with a download link as a fallback when it can't be rendered inline.
       return (
-        <Box
-          p="4"
-          borderRadius="lg"
-          border="1px solid"
-          borderColor="gray.200"
-          bg="gray.50"
-        >
-          <Text fontSize="sm" color="gray.600">
-            Attached file:{" "}
-            <Link href={url} target="_blank" rel="noopener noreferrer" color="blue.500" textDecoration="underline">
-              {url.split("/").pop()}
-            </Link>
-          </Text>
-        </Box>
+        <Stack gap="2" w="100%">
+          <FrameViewer
+            src={`https://docs.google.com/viewer?url=${encodeURIComponent(
+              url
+            )}&embedded=true`}
+            title="File content"
+          />
+          <Link
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            color="blue.500"
+            textDecoration="underline"
+            fontSize="sm"
+          >
+            Open {url.split("/").pop()}
+          </Link>
+        </Stack>
       );
     }
 

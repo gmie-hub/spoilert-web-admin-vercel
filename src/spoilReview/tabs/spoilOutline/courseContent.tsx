@@ -1,4 +1,4 @@
-import { type FC, useEffect } from "react";
+import { type FC, useEffect, useState } from "react";
 
 import {
   Accordion,
@@ -27,18 +27,36 @@ interface ComponentProps {
 const CourseContent: FC<ComponentProps> = ({ modules, onHide }) => {
   const setLessonContent = useVideoStore((state) => state.setLessonContent);
 
-  // Keep the viewer in sync with the currently opened spoil. Default to the
-  // first lesson that actually exists (skipping modules with no lessons) and
-  // always run — even when there is none — so a newly opened spoil never keeps
-  // showing the previously opened spoil's content.
-  const firstLesson = modules?.flatMap((module) => module?.lessons ?? [])?.[0];
+  // Tracks which lesson is currently shown so we can highlight it in the list.
+  const [activeLessonId, setActiveLessonId] = useState<number | null>(null);
+  // Tracks which module accordions are expanded (by index, as strings).
+  const [openModules, setOpenModules] = useState<string[]>([]);
 
+  const setModuleOpen = (value: string, open: boolean) =>
+    setOpenModules((prev) =>
+      open ? [...prev, value] : prev.filter((v) => v !== value)
+    );
+
+  // Default to the first lesson that actually exists (skipping modules with no
+  // lessons) and the module that holds it.
+  const firstModuleIndex =
+    modules?.findIndex((module) => (module?.lessons?.length ?? 0) > 0) ?? -1;
+  const firstLesson =
+    firstModuleIndex >= 0
+      ? modules?.[firstModuleIndex]?.lessons?.[0]
+      : undefined;
+
+  // Keep the viewer in sync with the currently opened spoil. Always run — even
+  // when there is no lesson — so a newly opened spoil never keeps showing the
+  // previous spoil's content, and the active lesson's module starts expanded.
   useEffect(() => {
     setLessonContent({
       content: firstLesson?.content ?? null,
       content_url: firstLesson?.content_url ?? null,
     });
-  }, [firstLesson, setLessonContent]);
+    setActiveLessonId(firstLesson?.id ?? null);
+    setOpenModules(firstModuleIndex >= 0 ? [firstModuleIndex.toString()] : []);
+  }, [firstLesson, firstModuleIndex, setLessonContent]);
 
   const hasContent = Boolean(modules?.length);
 
@@ -78,7 +96,15 @@ const CourseContent: FC<ComponentProps> = ({ modules, onHide }) => {
           ) : (
             modules?.map((item, index) => (
               <Box key={index} border="1px solid #EFEFEF" borderRadius="xl">
-                <CustomAccordion value={index?.toString()} variant="plain">
+                <CustomAccordion
+                  value={index.toString()}
+                  variant="plain"
+                  collapsible
+                  open={openModules.includes(index.toString())}
+                  onOpenChange={(open) =>
+                    setModuleOpen(index.toString(), open)
+                  }
+                >
                   <>
                     <Accordion.ItemTrigger>
                       <HStack
@@ -101,46 +127,73 @@ const CourseContent: FC<ComponentProps> = ({ modules, onHide }) => {
                     <Accordion.ItemContent>
                       <Stack>
                         {item?.lessons?.length ? (
-                          item.lessons.map((lessonItem, subIndex) => (
-                            <CustomAccordion
-                              value={subIndex.toString()}
-                              variant="outline"
-                              key={lessonItem?.id}
-                            >
-                              <Accordion.ItemTrigger>
-                                <Button
-                                  variant="ghost"
-                                  w="full"
-                                  p="0"
-                                  onClick={() =>
-                                    setLessonContent({
-                                      content: lessonItem?.content ?? null,
-                                      content_url:
-                                        lessonItem?.content_url ?? null,
-                                    })
-                                  }
-                                  _hover={{ backgroundColor: "transparent" }}
-                                >
-                                  <HStack
-                                    w="100%"
-                                    alignItems="center"
-                                    justifyContent="space-between"
-                                    px="3"
-                                    cursor="pointer"
-                                  >
-                                    <HStack>
-                                      <Image src="/player.svg" alt="player" />
-                                      <Text fontSize="sm" color="gray.500">
-                                        {lessonItem?.title}
-                                      </Text>
-                                    </HStack>
+                          item.lessons.map((lessonItem, subIndex) => {
+                            const isActive =
+                              lessonItem?.id === activeLessonId;
 
-                                    <Accordion.ItemIndicator />
-                                  </HStack>
-                                </Button>
-                              </Accordion.ItemTrigger>
-                            </CustomAccordion>
-                          ))
+                            return (
+                              <CustomAccordion
+                                value={subIndex.toString()}
+                                variant="outline"
+                                key={lessonItem?.id}
+                              >
+                                <Accordion.ItemTrigger>
+                                  <Button
+                                    variant="ghost"
+                                    w="full"
+                                    p="0"
+                                    onClick={() => {
+                                      setActiveLessonId(lessonItem?.id ?? null);
+                                      setLessonContent({
+                                        content: lessonItem?.content ?? null,
+                                        content_url:
+                                          lessonItem?.content_url ?? null,
+                                      });
+                                    }}
+                                    _hover={{ backgroundColor: "transparent" }}
+                                  >
+                                    <HStack
+                                      w="100%"
+                                      alignItems="center"
+                                      justifyContent="space-between"
+                                      px="3"
+                                      py="2"
+                                      cursor="pointer"
+                                      borderRadius="md"
+                                      bg={isActive ? "blue.100" : "transparent"}
+                                      color={isActive ? "white" : "gray.500"}
+                                    >
+                                      <HStack>
+                                        <Box
+                                          filter={
+                                            isActive
+                                              ? "brightness(0) invert(1)"
+                                              : "none"
+                                          }
+                                        >
+                                          <Image
+                                            src="/player.svg"
+                                            alt="player"
+                                          />
+                                        </Box>
+                                        <Text
+                                          fontSize="sm"
+                                          color={isActive ? "white" : "gray.500"}
+                                          fontWeight={
+                                            isActive ? "semibold" : "normal"
+                                          }
+                                        >
+                                          {lessonItem?.title}
+                                        </Text>
+                                      </HStack>
+
+                                      <Accordion.ItemIndicator />
+                                    </HStack>
+                                  </Button>
+                                </Accordion.ItemTrigger>
+                              </CustomAccordion>
+                            );
+                          })
                         ) : (
                           <Text fontSize="sm" color="gray.500" px="3" py="2">
                             No content
