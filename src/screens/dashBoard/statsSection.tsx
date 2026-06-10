@@ -33,6 +33,24 @@ export default function StatsSection() {
       value: (data?.total_sponsorships ?? 0).toLocaleString(),
       icon: "/discount-circle.svg",
     },
+        {
+      label: "Tutor Revenue",
+      value: (data?.tutor_revenue ?? 0).toLocaleString(),
+      icon: "/discount-circle.svg",
+    },    {
+      label: "Total Payment Processed",
+      value: (data?.total_payment_processed ?? 0).toLocaleString(),
+      icon: "/discount-circle.svg",
+    },    {
+      label: "Tax Revenue",
+      value: (data?.tax_revenue ?? 0).toLocaleString(),
+      icon: "/discount-circle.svg",
+    },
+      {
+      label: "Total Payment Count",
+      value: (data?.total_payment_count ?? 0).toLocaleString(),
+      icon: "/discount-circle.svg",
+    },
   ];
 
   return (

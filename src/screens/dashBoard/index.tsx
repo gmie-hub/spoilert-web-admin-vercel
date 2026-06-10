@@ -8,11 +8,12 @@ import UserRegistrationsChart from "./userRegistrationsChart";
 
 export default function FirstSection() {
   return (
-    <Grid 
-      templateColumns={{ base: "1fr", lg: "1fr 1fr" }} 
-      gap={6} 
-      p={4} 
+    <Grid
+      templateColumns={{ base: "1fr", lg: "1fr 1fr" }}
+      gap={6}
+      p={4}
       width="100%"  // Ensures the grid spans the full width
+      alignItems="start"  // Each column sizes to its own content instead of stretching to match
     >
       {/* Left Column: Stats + Charts */}
       <Box display="flex" flexDirection="column" gap={6} flex="1" minWidth="0">

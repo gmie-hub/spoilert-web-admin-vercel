@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 import {
   // HiOutlineBan,
-  // HiOutlineBell,
+  HiOutlineBell,
   HiOutlineBookOpen,
   HiOutlineChartBar,
   HiOutlineCurrencyDollar,
@@ -104,12 +104,12 @@ export const mainItems: NavItem[] = [
     icon: <img src="/ads.svg" alt="ads" />,
     to: routes.main.ads.home,
   },
-  // {
-  //   key: "Notifications",
-  //   label: "Notifications",
-  //   icon: <HiOutlineBell size={22} />,
-  //   to: routes.main.notifications.home,
-  // },
+  {
+    key: "Notifications",
+    label: "Notifications",
+    icon: <HiOutlineBell size={22} />,
+    to: routes.main.notifications.home,
+  },
   // {
   //   key: "Mailing",
   //   label: "Mailing",
