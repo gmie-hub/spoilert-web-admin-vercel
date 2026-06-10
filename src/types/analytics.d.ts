@@ -229,6 +229,10 @@ export interface DashboardAnalyticsData {
   revenue_generated: number;
   total_payout: number;
   total_sponsorships: number;
+  total_payment_count: number;
+  total_payment_processed: number;
+  tutor_revenue: number;
+  tax_revenue: number;
 }
 
 export interface DashboardAnalyticsResponse {

@@ -74,7 +74,7 @@ export const routes = {
       details: "/view-pending-verification/:id",
     },
     notifications: {
-      home: "/notifications1",
+      home: "/notifications",
       details: "/notification-details/:id",
       send: "/send-notification",
     },
