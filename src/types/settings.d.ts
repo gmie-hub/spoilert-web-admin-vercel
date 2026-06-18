@@ -39,9 +39,13 @@ export interface SettingsDatum {
 }
 
 export interface Metadata3 {
-  max: null | number;
-  min: number;
-  charge: number;
+  // Range-based charge
+  max?: null | number;
+  min?: number;
+  charge?: number;
+  // Percentage-based charge
+  type?: "percentage";
+  value?: number;
 }
 
 export interface Metadata2 {

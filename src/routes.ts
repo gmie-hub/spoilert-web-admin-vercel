@@ -40,7 +40,7 @@ export const routes = {
     },
     reports: {
       reportedTutors: {
-        home: "/reports1/reported-tutors",
+        home: "/reports/reported-tutors",
         details: "/reports/reported-tutors/:id",
       },
       reportedSpoylz: {

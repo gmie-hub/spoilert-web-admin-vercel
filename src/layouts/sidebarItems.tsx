@@ -7,9 +7,9 @@ import {
   HiOutlineChartBar,
   HiOutlineCurrencyDollar,
   HiOutlineDocumentText,
-  // HiOutlineMail,
+  HiOutlineMail,
   HiOutlineRefresh,
-  // HiOutlineUserGroup,
+  HiOutlineUserGroup,
   HiOutlineViewGrid,
   HiOutlineViewList,
 } from "react-icons/hi";
@@ -110,12 +110,12 @@ export const mainItems: NavItem[] = [
     icon: <HiOutlineBell size={22} />,
     to: routes.main.notifications.home,
   },
-  // {
-  //   key: "Mailing",
-  //   label: "Mailing",
-  //   icon: <HiOutlineMail size={22} />,
-  //   to: routes.main.mailing.home,
-  // },
+  {
+    key: "Mailing",
+    label: "Mailing",
+    icon: <HiOutlineMail size={22} />,
+    to: routes.main.mailing.home,
+  },
 ];
 
 export const analyticsSubItems: NavItem[] = [
@@ -181,20 +181,20 @@ export const promotionsSubItems: NavItem[] = [
   },
 ];
 
-// export const reportsSubItems: NavItem[] = [
-//   {
-//     key: "ReportedTutors",
-//     label: "Reported Tutors",
-//     icon: <HiOutlineUserGroup size={20} />,
-//     to: routes.main.reports.reportedTutors.home,
-//   },
-//   {
-//     key: "ReportedSpoylz",
-//     label: "Reported Spoylz",
-//     icon: <HiOutlineDocumentText size={20} />,
-//     to: routes.main.reports.reportedSpoylz.home,
-//   },
-// ];
+export const reportsSubItems: NavItem[] = [
+  {
+    key: "ReportedTutors",
+    label: "Reported Tutors",
+    icon: <HiOutlineUserGroup size={20} />,
+    to: routes.main.reports.reportedTutors.home,
+  },
+  {
+    key: "ReportedSpoylz",
+    label: "Reported Spoylz",
+    icon: <HiOutlineDocumentText size={20} />,
+    to: routes.main.reports.reportedSpoylz.home,
+  },
+];
 
 // export const bannedUsersItem: NavItem = {
 //   key: "BannedUsers",
