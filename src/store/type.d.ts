@@ -56,13 +56,21 @@ export interface AdminChargesState {
   // Edit state
   editingIndex: number | null;
   editingData: {
-    max?: number;
+    max?: number | null;
     min?: number;
     charge?: number;
+    type?: "percentage";
+    value?: number;
   } | null;
   setEditingData: (
     index: number | null,
-    data?: { max?: number; min?: number; charge?: number }
+    data?: {
+      max?: number | null;
+      min?: number;
+      charge?: number;
+      type?: "percentage";
+      value?: number;
+    }
   ) => void;
 
   // Actions

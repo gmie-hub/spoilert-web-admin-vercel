@@ -1,4 +1,25 @@
 import { useAdminChargesStore } from "@spt/store/transaction";
+import type { Metadata3 } from "@spt/types/settings";
+
+/**
+ * A charge can either be percentage-based ({ type: "percentage", value })
+ * or range-based ({ min, max, charge }).
+ */
+export const isPercentageCharge = (item?: Metadata3 | null) =>
+  item?.type === "percentage";
+
+/**
+ * Normalises a charge to the exact shape the backend expects, preserving
+ * percentage entries instead of flattening everything into min/max/charge.
+ */
+export const normalizeCharge = (charge: Metadata3) =>
+  isPercentageCharge(charge)
+    ? { type: "percentage" as const, value: Number(charge.value) }
+    : {
+        min: charge.min,
+        max: charge.max ?? null,
+        charge: charge.charge,
+      };
 
 /**
  * Helper function to get the current admin charges data formatted for API submission
@@ -10,11 +31,7 @@ export const useAdminChargesForSubmission = () => {
   const getFormattedData = () => {
     return {
       id: settingsId,
-      metadata: adminChargesData.map((charge) => ({
-        max: charge.max,
-        min: charge.min,
-        charge: charge.charge,
-      })),
+      metadata: adminChargesData.map(normalizeCharge),
       value: "", // This might be for certificate fee or other value
     };
   };

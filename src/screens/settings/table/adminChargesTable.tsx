@@ -10,6 +10,10 @@ import {
   useAdminChargesStore,
 } from "@spt/store/transaction";
 import type { Metadata3 } from "@spt/types/settings";
+import {
+  isPercentageCharge,
+  normalizeCharge,
+} from "@spt/utils/adminChargesHelper";
 import type { TableBodyProps } from "@spt/utils/types";
 
 const AdminChargesTable: FC<TableBodyProps> = ({ items }) => {
@@ -33,11 +37,18 @@ const AdminChargesTable: FC<TableBodyProps> = ({ items }) => {
     if (Array.isArray(items)) {
       setAdminChargesData(items as Metadata3[]);
     }
-    setEditingData(index, {
-      max: item.max || undefined,
-      min: item.min,
-      charge: item.charge,
-    });
+
+    // Carry the shape that matches the charge so the form shows the right fields
+    setEditingData(
+      index,
+      isPercentageCharge(item)
+        ? { type: "percentage", value: item.value }
+        : {
+            max: item.max ?? undefined,
+            min: item.min,
+            charge: item.charge,
+          }
+    );
 
     setIsAdminCharge(true);
   };
@@ -51,7 +62,7 @@ const AdminChargesTable: FC<TableBodyProps> = ({ items }) => {
 
     const filtered = (source || [])
       .filter((_, i) => i !== index)
-      .map((c) => ({ max: c.max, min: c.min, charge: c.charge }));
+      .map(normalizeCharge);
 
     await updateSettingsHandler({ metadata: filtered });
 
@@ -63,9 +74,19 @@ const AdminChargesTable: FC<TableBodyProps> = ({ items }) => {
     <>
       {items?.map((item: Metadata3, index: number) => (
         <Table.Row key={index} py="16">
-          <Table.Cell>{`₦${item?.min}-₦${item?.max}`}</Table.Cell>
+          <Table.Cell>
+            {isPercentageCharge(item)
+              ? "All Spoils"
+              : item?.max
+                ? `₦${item?.min} - ₦${item?.max}`
+                : `₦${item?.min} & above`}
+          </Table.Cell>
 
-          <Table.Cell>{`₦${item?.charge}`}</Table.Cell>
+          <Table.Cell>
+            {isPercentageCharge(item)
+              ? `${item?.value}%`
+              : `₦${item?.charge}`}
+          </Table.Cell>
 
           <Table.Cell>
             <HStack>

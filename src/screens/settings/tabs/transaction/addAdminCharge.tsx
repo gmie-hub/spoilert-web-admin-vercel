@@ -18,6 +18,7 @@ import {
   useAddAdminChargeStore,
   useAdminChargesStore,
 } from "@spt/store/transaction";
+import { normalizeCharge } from "@spt/utils/adminChargesHelper";
 import { validations } from "@spt/utils/validations";
 
 const AddAdminCharge = () => {
@@ -36,6 +37,8 @@ const AddAdminCharge = () => {
   const setOpenSuccess = useSuccessStore((state) => state.setOpenSuccess);
 
   const isEditMode = editingIndex !== null;
+  // Editing a percentage-based charge swaps the form to a single percentage field
+  const isPercentage = editingData?.type === "percentage";
 
   // Use the existing mutation hook
   const { isUpdateLoading, updateSettingsHandler } = useUpdateSettingsMutation(
@@ -57,13 +60,16 @@ const AddAdminCharge = () => {
     minSpoilPrice: isEditMode ? editingData?.min?.toString() || "" : "",
     maxSpoilPrice: isEditMode ? editingData?.max?.toString() || "" : "",
     adminCharge: isEditMode ? editingData?.charge?.toString() || "" : "",
+    percentage: isPercentage ? editingData?.value?.toString() || "" : "",
   };
 
-  const validationSchema = object().shape({
-    minSpoilPrice: validations.minSpoilPrice,
-    maxSpoilPrice: validations.maxSpoilPrice,
-    adminCharge: validations.adminCharge,
-  });
+  const validationSchema = isPercentage
+    ? object().shape({ percentage: validations.percentage })
+    : object().shape({
+        minSpoilPrice: validations.minSpoilPrice,
+        maxSpoilPrice: validations.maxSpoilPrice,
+        adminCharge: validations.adminCharge,
+      });
 
   return (
     <Stack gap="6">
@@ -78,18 +84,22 @@ const AddAdminCharge = () => {
       <Formik
         initialValues={initialValues}
         onSubmit={async (values) => {
-          const newCharge = {
-            min: Number(values.minSpoilPrice),
-            max: values.maxSpoilPrice ? Number(values.maxSpoilPrice) : null,
-            charge: Number(values.adminCharge),
-          };
+          const newCharge = isPercentage
+            ? {
+                type: "percentage" as const,
+                value: Number(values.percentage),
+              }
+            : {
+                min: Number(values.minSpoilPrice),
+                max: values.maxSpoilPrice
+                  ? Number(values.maxSpoilPrice)
+                  : null,
+                charge: Number(values.adminCharge),
+              };
 
-          // Build the full metadata array to send (append on add, update only the selected index on edit)
-          const nextMetadata = (adminChargesData || []).map((c) => ({
-            max: c.max,
-            min: c.min,
-            charge: c.charge,
-          }));
+          // Build the full metadata array to send, preserving each entry's
+          // shape (percentage vs range) so unchanged items aren't corrupted
+          const nextMetadata = (adminChargesData || []).map(normalizeCharge);
 
           const fullMetadata = isEditMode
             ? nextMetadata.map((c, idx) =>
@@ -106,38 +116,51 @@ const AddAdminCharge = () => {
         {() => (
           <Form>
             <Flex direction="row" columnGap="6" rowGap="6" flexWrap="wrap">
-              <Box w={{ base: "full", sm: "calc(50% - 12px)" }}>
-                <Input
-                  name="minSpoilPrice"
-                  label="Minimum Spoil Price"
-                  placeholder="Enter amount"
-                />
-              </Box>
+              {isPercentage ? (
+                <Box w="full">
+                  <Input
+                    name="percentage"
+                    label="Percentage"
+                    placeholder="Enter percentage"
+                    type="number"
+                  />
+                </Box>
+              ) : (
+                <>
+                  <Box w={{ base: "full", sm: "calc(50% - 12px)" }}>
+                    <Input
+                      name="minSpoilPrice"
+                      label="Minimum Spoil Price"
+                      placeholder="Enter amount"
+                    />
+                  </Box>
 
-              <Stack w={{ base: "full", sm: "calc(50% - 12px)" }}>
-                <Input
-                  name="maxSpoilPrice"
-                  label="Maximum Spoil Price"
-                  placeholder="Enter amount"
-                />
+                  <Stack w={{ base: "full", sm: "calc(50% - 12px)" }}>
+                    <Input
+                      name="maxSpoilPrice"
+                      label="Maximum Spoil Price"
+                      placeholder="Enter amount"
+                    />
 
-                <Checkbox.Root>
-                  <Checkbox.HiddenInput />
-                  <Checkbox.Control h="20px" w="20px" borderRadius="md" />
-                  <Checkbox.Label fontWeight="normal" color="#495057">
-                    No maximum limit (Check the box for all amount above the
-                    minimum)
-                  </Checkbox.Label>
-                </Checkbox.Root>
-              </Stack>
+                    <Checkbox.Root>
+                      <Checkbox.HiddenInput />
+                      <Checkbox.Control h="20px" w="20px" borderRadius="md" />
+                      <Checkbox.Label fontWeight="normal" color="#495057">
+                        No maximum limit (Check the box for all amount above the
+                        minimum)
+                      </Checkbox.Label>
+                    </Checkbox.Root>
+                  </Stack>
 
-              <Box w="full">
-                <Input
-                  name="adminCharge"
-                  label="Admin Charge"
-                  placeholder="Enter amount"
-                />
-              </Box>
+                  <Box w="full">
+                    <Input
+                      name="adminCharge"
+                      label="Admin Charge"
+                      placeholder="Enter amount"
+                    />
+                  </Box>
+                </>
+              )}
 
               <HStack w="full" justifyContent="flex-end">
                 <Flex
