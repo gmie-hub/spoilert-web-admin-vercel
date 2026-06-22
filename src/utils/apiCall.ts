@@ -138,7 +138,9 @@ export const apiCall = (): AxiosInstance => {
       const isLoginRequest = error?.config?.url?.includes("/auth/login");
       if (error?.response?.status === 401 && !isLoginRequest) {
         // Optional: remove persisted auth data
-        // localStorage.removeItem("spoilert-admin-auth");
+        localStorage.removeItem("auth-storage");
+
+
         window.location.replace("/");
       }
 

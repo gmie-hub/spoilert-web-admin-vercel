@@ -4,6 +4,7 @@ import { Table } from "@chakra-ui/react";
 
 import { Modal, Tag } from "@spt/components";
 import TransactionDetails from "@spt/partials/transactionDetailsModalContent";
+import { formatCurrency } from "@spt/utils/currency";
 import { formatDateTime } from "@spt/utils/dateTime";
 import type { TableBodyProps } from "@spt/utils/types";
 
@@ -37,7 +38,9 @@ const TableBody: FC<TableBodyProps> = ({ items }) => {
 
             <Table.Cell>{transactionID}</Table.Cell>
 
-            <Table.Cell>{item.amount}</Table.Cell>
+            <Table.Cell>
+              {item.amount ? formatCurrency(item.amount, item.currency) : item.amount}
+            </Table.Cell>
 
             <Table.Cell>{dateTime}</Table.Cell>
 

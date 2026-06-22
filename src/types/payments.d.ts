@@ -24,10 +24,22 @@ export interface PaymentsData {
 
 export interface PaymentDatum {
   id: number;
-  reference: string;
+  user_id: number;
+  tutor_id: number;
+  spoil_id: number;
+  promotion_package_id: number | null;
   type: PaymentType;
+  gateway: string;
+  reference: string;
+  payment_url: string;
   amount: string;
+  net_amount: string;
+  tax_amount: string;
+  charge: string;
+  currency: string;
   status: string;
+  paid_at: string | null;
+  deleted_at: string | null;
   created_at: string;
   updated_at: string;
 }
