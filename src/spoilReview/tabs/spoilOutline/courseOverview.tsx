@@ -3,6 +3,7 @@ import type { FC } from "react";
 import { Box, HStack, Image, Link, Stack, Tag, Text } from "@chakra-ui/react";
 import ReactPlayer from "react-player";
 
+import { RichText } from "@spt/components";
 import { useVideoStore } from "@spt/store/videoStore";
 import type { SpoilData } from "@spt/types/spoils";
 
@@ -125,17 +126,18 @@ const CourseOverview: FC<ComponentProps> = ({ data }) => {
     }
 
     if (text) {
+      // Text lessons store rich HTML (e.g. "<b>bold lesson</b>"), so render it
+      // as sanitised markup rather than escaping it into a plain string.
       return (
-        <Box
+        <RichText
+          html={text}
           p="4"
           borderRadius="lg"
           border="1px solid"
           borderColor="gray.200"
           bg="white"
-          whiteSpace="pre-wrap"
-        >
-          <Text color="gray.700">{text}</Text>
-        </Box>
+          color="gray.700"
+        />
       );
     }
 
@@ -167,7 +169,7 @@ const CourseOverview: FC<ComponentProps> = ({ data }) => {
       </Stack>
 
       <Stack gap="1">
-        <Box>
+        <HStack gap="2" flexWrap="wrap">
           <Tag.Root
             variant="outline"
             colorPalette="gray"
@@ -176,7 +178,20 @@ const CourseOverview: FC<ComponentProps> = ({ data }) => {
           >
             <Tag.Label color="gray.600">{data?.category?.name}</Tag.Label>
           </Tag.Root>
-        </Box>
+
+          <Tag.Root
+            variant="outline"
+            colorPalette={data?.has_certificate ? "green" : "red"}
+            py="2"
+            borderRadius="lg"
+          >
+            <Tag.Label>
+              {data?.has_certificate
+                ? "Certificate Available"
+                : "No Certificate"}
+            </Tag.Label>
+          </Tag.Root>
+        </HStack>
 
         <HStack gap="1">
           <Image src="/user-icon.svg" alt="user" />

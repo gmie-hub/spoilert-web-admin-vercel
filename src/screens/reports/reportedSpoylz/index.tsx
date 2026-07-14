@@ -7,66 +7,59 @@ import {
   Icon,
   Image,
   Input,
-  Portal,
-  Select,
   Stack,
   Text,
-  createListCollection,
 } from "@chakra-ui/react";
 import { HiArrowPath } from "react-icons/hi2";
 
 import { Card, NoData, Pagination, Table } from "@spt/components";
+import ErrorState from "@spt/components/errorState";
+import LoadingState from "@spt/components/loadingState";
 import { InputGroup } from "@spt/components/ui/input-group";
+import { useGetReportsQuery } from "@spt/hooks/api/useGetReportsQuery";
 import { usePagination } from "@spt/hooks/usePagination";
 import TableHeader from "@spt/partials/tableHeader";
-import { reportedSpoylzHeader, spoilReportReasons } from "@spt/utils/tableData";
+import type { Paginated, RawSpoilReport } from "@spt/types/report";
+import { reportedSpoylzHeader } from "@spt/utils/tableData";
 
-import { reportedSpoils } from "../spoilData";
-
+import { mapSpoilReport } from "./mapReport";
 import TableBody from "./table/tableBody";
-
-const reasonCollection = createListCollection({
-  items: [
-    { label: "All Reasons", value: "all" },
-    ...spoilReportReasons.map((reason) => ({ label: reason, value: reason })),
-  ],
-});
 
 const ReportedSpoylz = () => {
   const { page, pageSize, handlePageChange } = usePagination();
   const [search, setSearch] = useState("");
-  const [reason, setReason] = useState("all");
-  const [dateFilter, setDateFilter] = useState("");
 
-  const reasonFilter = reason === "all" ? "" : reason;
+  const { data, isLoading, isError, errorMessage } =
+    useGetReportsQuery<Paginated<RawSpoilReport>>("spoil", page);
 
+  // Live records for the current server page, normalised to the table shape.
+  const reports = useMemo(
+    () => (data?.data ?? []).map(mapSpoilReport),
+    [data]
+  );
+
+  // Search filters the current page by spoil title or tutor name.
   const filtered = useMemo(() => {
     const query = search.toLowerCase();
-    return reportedSpoils.filter((item) => {
-      const matchesSearch =
+    return reports.filter(
+      (item) =>
         !query ||
         item.spoil.title.toLowerCase().includes(query) ||
-        item.tutor.name.toLowerCase().includes(query);
-      const matchesReason = !reasonFilter || item.reason === reasonFilter;
-      const matchesDate = !dateFilter || item.dateReported === dateFilter;
-      return matchesSearch && matchesReason && matchesDate;
-    });
-  }, [search, reasonFilter, dateFilter]);
+        item.tutor.name.toLowerCase().includes(query)
+    );
+  }, [reports, search]);
 
-  const isFiltering = !!(search || reasonFilter || dateFilter);
-  const showEmptyState = reportedSpoils.length === 0 && !isFiltering;
-
-  const paginated = useMemo(
-    () => filtered.slice((page - 1) * pageSize, page * pageSize),
-    [filtered, page, pageSize]
-  );
+  const isFiltering = !!search;
+  const total = data?.total ?? 0;
+  const showEmptyState = total === 0 && !isFiltering;
 
   const handleResetFilter = () => {
     setSearch("");
-    setReason("all");
-    setDateFilter("");
     handlePageChange({ page: 1 });
   };
+
+  if (isLoading) return <LoadingState />;
+  if (isError) return <ErrorState error={errorMessage} />;
 
   return (
     <Box>
@@ -105,56 +98,6 @@ const ReportedSpoylz = () => {
                 />
               </InputGroup>
 
-              <Select.Root
-                collection={reasonCollection}
-                value={[reason]}
-                onValueChange={(e) => {
-                  setReason(e.value[0] ?? "all");
-                  handlePageChange({ page: 1 });
-                }}
-                w={{ base: "100%", md: "220px" }}
-              >
-                <Select.HiddenSelect />
-
-                <Select.Control h="48px">
-                  <Select.Trigger borderRadius="xl" bg="#FBFBFB">
-                    <Select.ValueText placeholder="Filter by" />
-                  </Select.Trigger>
-
-                  <Select.IndicatorGroup>
-                    <Select.Indicator />
-                  </Select.IndicatorGroup>
-                </Select.Control>
-
-                <Portal>
-                  <Select.Positioner>
-                    <Select.Content>
-                      {reasonCollection.items.map((item) => (
-                        <Select.Item item={item} key={item.value}>
-                          {item.label}
-                          <Select.ItemIndicator />
-                        </Select.Item>
-                      ))}
-                    </Select.Content>
-                  </Select.Positioner>
-                </Portal>
-              </Select.Root>
-
-              <Input
-                type="date"
-                aria-label="Date reported"
-                value={dateFilter}
-                onChange={(e) => {
-                  setDateFilter(e.target.value);
-                  handlePageChange({ page: 1 });
-                }}
-                bg="#FBFBFB"
-                border="1px solid #EFEFEF"
-                borderRadius="xl"
-                h="48px"
-                w={{ base: "100%", md: "190px" }}
-              />
-
               {isFiltering && (
                 <Button
                   variant="ghost"
@@ -174,7 +117,7 @@ const ReportedSpoylz = () => {
               heading="No Spoylz Have Been Reported Yet!"
               description="When a learner reports a spoil, the report will appear here for review."
             />
-          ) : paginated.length === 0 ? (
+          ) : filtered.length === 0 ? (
             <NoData
               heading="No reports found"
               description="No reported spoylz match your current filters."
@@ -187,7 +130,7 @@ const ReportedSpoylz = () => {
                 }
                 bodyChildren={
                   <TableBody
-                    items={paginated}
+                    items={filtered}
                     currentPage={page}
                     pageSize={pageSize}
                   />
@@ -197,7 +140,7 @@ const ReportedSpoylz = () => {
               <Pagination
                 page={page}
                 pageSize={pageSize}
-                items={filtered.length}
+                items={total}
                 onPageChange={handlePageChange}
               />
             </>
