@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 import {
-  // HiOutlineBan,
+  HiOutlineBan,
   HiOutlineBell,
   HiOutlineBookOpen,
   HiOutlineChartBar,
@@ -196,12 +196,12 @@ export const reportsSubItems: NavItem[] = [
   },
 ];
 
-// export const bannedUsersItem: NavItem = {
-//   key: "BannedUsers",
-//   label: "Banned Users",
-//   icon: <HiOutlineBan size={22} />,
-//   to: routes.main.bannedUsers.home,
-// };
+export const bannedUsersItem: NavItem = {
+  key: "BannedUsers",
+  label: "Banned Users",
+  icon: <HiOutlineBan size={22} />,
+  to: routes.main.bannedUsers.home,
+};
 
 export const bottomItems: NavItem[] = [
   // {

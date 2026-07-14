@@ -169,7 +169,7 @@ const CourseOverview: FC<ComponentProps> = ({ data }) => {
       </Stack>
 
       <Stack gap="1">
-        <Box>
+        <HStack gap="2" flexWrap="wrap">
           <Tag.Root
             variant="outline"
             colorPalette="gray"
@@ -178,7 +178,20 @@ const CourseOverview: FC<ComponentProps> = ({ data }) => {
           >
             <Tag.Label color="gray.600">{data?.category?.name}</Tag.Label>
           </Tag.Root>
-        </Box>
+
+          <Tag.Root
+            variant="outline"
+            colorPalette={data?.has_certificate ? "green" : "red"}
+            py="2"
+            borderRadius="lg"
+          >
+            <Tag.Label>
+              {data?.has_certificate
+                ? "Certificate Available"
+                : "No Certificate"}
+            </Tag.Label>
+          </Tag.Root>
+        </HStack>
 
         <HStack gap="1">
           <Image src="/user-icon.svg" alt="user" />

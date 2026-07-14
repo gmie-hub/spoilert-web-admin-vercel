@@ -210,6 +210,8 @@
     premiere_at: null;
     expires_at: string;
     is_institution: number;
+    has_certificate: number;
+    certificate_fee: string;
     deleted_at: null;
     created_at: string;
     updated_at: string;
