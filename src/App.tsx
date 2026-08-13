@@ -20,6 +20,10 @@ import Categories from "./screens/categories";
 import CategoryDetails from "./screens/categories/categoryDetails.tsx";
 import CommunityDetails from "./screens/community/communityDetails.tsx";
 import Community from "./screens/community/index.tsx";
+import CreateSpolyz from "./screens/createSpolyz/index.tsx";
+import CreateAdvancedSpolyz from "./screens/createSpolyz/createAdvancedSpolyz/index.tsx";
+import CreateSimpleSpolyz from "./screens/createSpolyz/createSimpleSpolyz/index.tsx";
+import ReviewSimpleSpolyz from "./screens/createSpolyz/createSimpleSpolyz/review/index.tsx";
 import CustomerSupport from "./screens/customerSupport/index.tsx";
 import Dashboard from "./screens/dashBoard/index.tsx";
 import Learners from "./screens/learners";
@@ -129,6 +133,11 @@ function App() {
       path: routes.main.categories.categoryDetails,
       element: <CategoryDetails />,
     },
+
+    { path: routes.main.createSpolyz.home, element: <CreateSpolyz /> },
+    { path: routes.main.createSpolyz.simple, element: <CreateSimpleSpolyz /> },
+    { path: routes.main.createSpolyz.simpleReview, element: <ReviewSimpleSpolyz /> },
+    { path: routes.main.createSpolyz.advanced, element: <CreateAdvancedSpolyz /> },
 
     { path: routes.main.sponsorships.home, element: <Sponsorships /> },
     { path: routes.main.sponsorships.details, element: <SponsorshipDetails /> },

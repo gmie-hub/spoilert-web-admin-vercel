@@ -57,6 +57,12 @@ export const mainItems: NavItem[] = [
     to: routes.main.categories.home,
   },
   {
+    key: "Create Spolyz",
+    label: "Create Spolyz",
+    icon: <img src="/add-circle.svg" alt="Create Spolyz" />,
+    to: routes.main.createSpolyz.home,
+  },
+  {
     key: "Spoil Review",
     label: "Spoil Review",
     icon: <img src="/spoil.svg" alt="review" />,

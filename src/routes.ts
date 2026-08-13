@@ -13,6 +13,12 @@ export const routes = {
       home: "/categories",
       categoryDetails: "/category-details/:id/",
     },
+    createSpolyz: {
+      home: "/create-spolyz",
+      simple: "/create-spolyz/simple",
+      simpleReview: "/create-spolyz/simple/review",
+      advanced: "/create-spolyz/advanced",
+    },
     spoilMgt: {
       home: "/spoil-management",
       spoilDetails: "/spoil-details/:id",
