@@ -16,7 +16,8 @@ export interface CreateSpoilPayload {
   expires_at?: string;
   lesson_type: string;
   cover_image: File;
-  content_file: File;
+  content_file: File | null;
+  lesson_content: string;
   type: "simple" | "advanced";
 }
 
@@ -35,15 +36,20 @@ export const useCreateSpoilMutation = () => {
       formData.append("amount", data.pricing === "free" ? "0" : data.amount);
       formData.append("type", data.type);
       formData.append("lesson_type", data.lesson_type);
-      formData.append("cover_image", data.cover_image);
-      formData.append("content", data.content_file);
+      formData.append("image", data.cover_image);
       formData.append("is_draft", "1");
+
+      if (data.lesson_type === "text") {
+        formData.append("lesson_content", data.lesson_content);
+      } else if (data.content_file) {
+        formData.append("lesson_file", data.content_file);
+      }
 
       if (data.institution) formData.append("institution", data.institution);
       if (data.course_code) formData.append("course_code", data.course_code);
       if (data.expires_at) formData.append("expires_at", data.expires_at);
 
-      const res = await apiCall().post("/spoils", formData, {
+      const res = await apiCall().post("admin/spoils", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return res?.data;

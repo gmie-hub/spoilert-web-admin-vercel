@@ -75,6 +75,12 @@ export const mainItems: NavItem[] = [
     to: routes.main.spoilMgt.home,
   },
   {
+    key: "Disabled Spolyz",
+    label: "Disabled Spolyz",
+    icon: <HiOutlineBan size={20} />,
+    to: routes.main.disabledSpolyz.home,
+  },
+  {
     key: "Pending Verifications",
     label: "Pending Verifications",
     icon: <img src="/verify.svg" alt="Management" />,

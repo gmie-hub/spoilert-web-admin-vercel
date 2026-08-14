@@ -5,8 +5,30 @@ import { Button, Flex, Image, Text } from "@chakra-ui/react";
 import { useCreateSpolyzStore } from "@spt/store/createSpolyzStore";
 
 const CertificateSection: FC = () => {
-  const draft = useCreateSpolyzStore((s) => s.simpleDraft);
+  const spolyzType = useCreateSpolyzStore((s) => s.spolyzType);
+  const simpleDraft = useCreateSpolyzStore((s) => s.simpleDraft);
+  const advancedDraft = useCreateSpolyzStore((s) => s.advancedDraft);
   const setHasCertificate = useCreateSpolyzStore((s) => s.setHasCertificate);
+  const setAdvancedHasCertificate = useCreateSpolyzStore(
+    (s) => s.setAdvancedHasCertificate,
+  );
+
+  const isAdvanced = spolyzType === "advanced";
+  const hasCertificate = isAdvanced
+    ? advancedDraft?.has_certificate
+    : simpleDraft?.has_certificate;
+
+  // Only paid Spoylz can carry a certificate, so a free one can't select it.
+  const pricing = isAdvanced ? advancedDraft?.pricing : simpleDraft?.pricing;
+  const isPaid = Boolean(pricing && pricing !== "free");
+
+  const toggleCertificate = () => {
+    if (isAdvanced) {
+      setAdvancedHasCertificate(!advancedDraft?.has_certificate);
+    } else {
+      setHasCertificate(!simpleDraft?.has_certificate);
+    }
+  };
 
   return (
     <Flex
@@ -34,19 +56,21 @@ const CertificateSection: FC = () => {
         </Flex>
 
         <Text fontSize="sm" color="gray.600" maxW="520px">
-          Give your learners a beautifully designed certificate when they
-          complete this Spoylz
+          {isPaid
+            ? "Give your learners a beautifully designed certificate when they complete this Spoylz"
+            : "Certificates are only available on paid Spoylz. Set a price to add one."}
         </Text>
       </Flex>
 
       <Button
-        variant={draft?.has_certificate ? "yellowOutline" : "yellow"}
+        variant={hasCertificate ? "yellowOutline" : "yellow"}
         px="6"
         py="5"
         flexShrink={0}
-        onClick={() => setHasCertificate(!draft?.has_certificate)}
+        disabled={!isPaid}
+        onClick={toggleCertificate}
       >
-        {draft?.has_certificate ? "Certificate Selected" : "Choose Certificate"}
+        {hasCertificate ? "Certificate Selected" : "Choose Certificate"}
       </Button>
     </Flex>
   );

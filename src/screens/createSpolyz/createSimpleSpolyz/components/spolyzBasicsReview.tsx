@@ -175,36 +175,58 @@ const SpolyzBasicsReview: FC<SpolyzBasicsReviewProps> = ({ draft }) => {
           </Box>
         </Stack>
 
-        <Box
-          border="1px solid #EFEFEF"
-          borderRadius="xl"
-          bg="#FBFBFB"
-          px="4"
-          py="3"
-        >
-          <HStack gap="3" align="center">
-            <Flex
-              align="center"
-              justify="center"
-              w="10"
-              h="10"
-              borderRadius="lg"
-              bg="#EAF6FA"
-              flexShrink={0}
-            >
-              <Image src="/player.svg" alt="" boxSize="5" />
-            </Flex>
+        {draft.lesson_type === "text" ? (
+          <Stack gap="2">
+            <Text fontSize={{ base: "sm", md: "md" }} color="gray.100">
+              Lesson Content
+            </Text>
 
-            <Stack gap="0" flex="1" minW="0">
-              <Text fontSize="sm" fontWeight="medium" truncate>
-                {draft.content_file.name}
+            <Box
+              border="1px solid #EFEFEF"
+              borderRadius="xl"
+              bg="#FBFBFB"
+              px="4"
+              py="3"
+            >
+              <Text fontSize="sm" whiteSpace="pre-wrap">
+                {draft.lesson_content}
               </Text>
-              <Text fontSize="xs" color="gray.500">
-                {formatFileSize(draft.content_file.size)}
-              </Text>
-            </Stack>
-          </HStack>
-        </Box>
+            </Box>
+          </Stack>
+        ) : (
+          draft.content_file && (
+            <Box
+              border="1px solid #EFEFEF"
+              borderRadius="xl"
+              bg="#FBFBFB"
+              px="4"
+              py="3"
+            >
+              <HStack gap="3" align="center">
+                <Flex
+                  align="center"
+                  justify="center"
+                  w="10"
+                  h="10"
+                  borderRadius="lg"
+                  bg="#EAF6FA"
+                  flexShrink={0}
+                >
+                  <Image src="/player.svg" alt="" boxSize="5" />
+                </Flex>
+
+                <Stack gap="0" flex="1" minW="0">
+                  <Text fontSize="sm" fontWeight="medium" truncate>
+                    {draft.content_file.name}
+                  </Text>
+                  <Text fontSize="xs" color="gray.500">
+                    {formatFileSize(draft.content_file.size)}
+                  </Text>
+                </Stack>
+              </HStack>
+            </Box>
+          )
+        )}
       </Stack>
     </Stack>
   );

@@ -35,7 +35,7 @@ const CreateSpolyz = () => {
   const setSpolyzType = useCreateSpolyzStore((s) => s.setSpolyzType);
 
   const [tutorModalOpen, setTutorModalOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState<SpolyzType>("simple");
+  const [selectedType, setSelectedType] = useState<SpolyzType | null>(null);
 
   useEffect(() => {
     if (!selectedTutor) {
@@ -48,6 +48,8 @@ const CreateSpolyz = () => {
       setTutorModalOpen(true);
       return;
     }
+
+    if (!selectedType) return;
 
     setSpolyzType(selectedType);
 
@@ -129,9 +131,16 @@ const CreateSpolyz = () => {
               })}
             </Flex>
 
-            <Button variant="yellow" w="full" onClick={handleContinue}>
-              Save And Continue
-            </Button>
+            <Flex justify="center">
+              <Button
+                variant="yellow"
+                w={{ base: "full", md: "50%" }}
+                disabled={!selectedType || !selectedTutor}
+                onClick={handleContinue}
+              >
+                Save And Continue
+              </Button>
+            </Flex>
           </Stack>
         </Card>
       </Stack>
@@ -141,6 +150,7 @@ const CreateSpolyz = () => {
         onOpenChange={setTutorModalOpen}
         selectedTutor={selectedTutor}
         onContinue={setSelectedTutor}
+        dismissible={!!selectedTutor}
       />
     </>
   );

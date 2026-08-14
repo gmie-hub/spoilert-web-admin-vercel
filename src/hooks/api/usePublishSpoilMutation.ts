@@ -24,10 +24,21 @@ const buildFormData = (
   formData.append("amount", draft.pricing === "free" ? "0" : draft.amount);
   formData.append("type", "simple");
   formData.append("lesson_type", draft.lesson_type);
-  formData.append("cover_image", draft.cover_image);
-  formData.append("content", draft.content_file);
+  formData.append("image", draft.cover_image);
   formData.append("is_draft", isDraft ? "1" : "0");
-  formData.append("has_certificate", draft.has_certificate ? "1" : "0");
+
+  if (draft.lesson_type === "text") {
+    formData.append("lesson_content", draft.lesson_content);
+  } else if (draft.content_file) {
+    formData.append("lesson_file", draft.content_file);
+  }
+
+  // Only paid Spoylz can carry a certificate.
+  const isPaid = Boolean(draft.pricing && draft.pricing !== "free");
+  formData.append(
+    "has_certificate",
+    isPaid && draft.has_certificate ? "1" : "0",
+  );
 
   if (draft.institution) formData.append("institution", draft.institution);
   if (draft.course_code) formData.append("course_code", draft.course_code);
@@ -42,7 +53,7 @@ export const usePublishSpoilMutation = () => {
   const mutation = useMutation({
     mutationFn: async ({ tutor_id, draft }: PublishSpoilPayload) => {
       const res = await apiCall().post(
-        "/spoils",
+        "admin/spoils",
         buildFormData(tutor_id, draft, false),
         { headers: { "Content-Type": "multipart/form-data" } },
       );
