@@ -6,11 +6,22 @@ import apiCall from "@spt/utils/apiCall";
 
 import type { AxiosError } from "axios";
 
-export const useGetAllSpoilQuery = (page?: number, search?: string) => {
+/**
+ * @param isActive filter by status — 0 returns disabled spoils, 1 returns
+ * active ones. Omit it to get every spoil regardless of status.
+ */
+export const useGetAllSpoilQuery = (
+  page?: number,
+  search?: string,
+  isActive?: 0 | 1,
+) => {
   const fetchAllSpoil = async (): Promise<SpoilsResponse> => {
     const searchParam = search ? `&search=${encodeURIComponent(search)}` : "";
+    const activeParam = isActive === undefined ? "" : `&is_active=${isActive}`;
     return (
-      await apiCall().get(`/spoils?per_page=${20}&page=${page}${searchParam}`)
+      await apiCall().get(
+        `/spoils?per_page=${20}&page=${page}${searchParam}${activeParam}`,
+      )
     )?.data;
   };
 
@@ -18,7 +29,7 @@ export const useGetAllSpoilQuery = (page?: number, search?: string) => {
     SpoilsResponse,
     AxiosError<ApiErrorResponse>
   >({
-    queryKey: ["allSpoil", page, search],
+    queryKey: ["allSpoil", page, search, isActive],
     queryFn: fetchAllSpoil,
   });
 

@@ -57,6 +57,12 @@ export const mainItems: NavItem[] = [
     to: routes.main.categories.home,
   },
   {
+    key: "Create Spolyz",
+    label: "Create Spolyz",
+    icon: <img src="/add-circle.svg" alt="Create Spolyz" />,
+    to: routes.main.createSpolyz.home,
+  },
+  {
     key: "Spoil Review",
     label: "Spoil Review",
     icon: <img src="/spoil.svg" alt="review" />,
@@ -67,6 +73,12 @@ export const mainItems: NavItem[] = [
     label: "Spoil Management",
     icon: <img src={Management} alt="Management" />,
     to: routes.main.spoilMgt.home,
+  },
+  {
+    key: "Disabled Spolyz",
+    label: "Disabled Spolyz",
+    icon: <HiOutlineBan size={20} />,
+    to: routes.main.disabledSpolyz.home,
   },
   {
     key: "Pending Verifications",

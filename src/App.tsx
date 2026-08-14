@@ -20,8 +20,14 @@ import Categories from "./screens/categories";
 import CategoryDetails from "./screens/categories/categoryDetails.tsx";
 import CommunityDetails from "./screens/community/communityDetails.tsx";
 import Community from "./screens/community/index.tsx";
+import CreateSpolyz from "./screens/createSpolyz/index.tsx";
+import CreateAdvancedSpolyz from "./screens/createSpolyz/createAdvancedSpolyz/index.tsx";
+import CreateQuiz from "./screens/createSpolyz/createQuiz/index.tsx";
+import CreateSimpleSpolyz from "./screens/createSpolyz/createSimpleSpolyz/index.tsx";
+import ReviewSimpleSpolyz from "./screens/createSpolyz/createSimpleSpolyz/review/index.tsx";
 import CustomerSupport from "./screens/customerSupport/index.tsx";
 import Dashboard from "./screens/dashBoard/index.tsx";
+import DisabledSpolyz from "./screens/disabledSpolyz/index.tsx";
 import Learners from "./screens/learners";
 import ViewLearnerDetails from "./screens/learners/viewLearnerDetails";
 import Mailing from "./screens/mailing/index.tsx";
@@ -68,6 +74,8 @@ function App() {
 
     { path: routes.main.spoilMgt.home, element: <SpoilsManagement /> },
     { path: routes.main.spoilMgt.spoilDetails, element: <SpoilDetails /> },
+
+    { path: routes.main.disabledSpolyz.home, element: <DisabledSpolyz /> },
 
     { path: routes.main.spoilReview.home, element: <SpoilsReview /> },
     {
@@ -129,6 +137,14 @@ function App() {
       path: routes.main.categories.categoryDetails,
       element: <CategoryDetails />,
     },
+
+    { path: routes.main.createSpolyz.home, element: <CreateSpolyz /> },
+    { path: routes.main.createSpolyz.simple, element: <CreateSimpleSpolyz /> },
+    { path: routes.main.createSpolyz.simpleReview, element: <ReviewSimpleSpolyz /> },
+    { path: routes.main.createSpolyz.advanced, element: <CreateAdvancedSpolyz /> },
+    { path: routes.main.createSpolyz.advancedQuiz.pre, element: <CreateQuiz /> },
+    { path: routes.main.createSpolyz.advancedQuiz.post, element: <CreateQuiz /> },
+    { path: routes.main.createSpolyz.advancedQuiz.module, element: <CreateQuiz /> },
 
     { path: routes.main.sponsorships.home, element: <Sponsorships /> },
     { path: routes.main.sponsorships.details, element: <SponsorshipDetails /> },
