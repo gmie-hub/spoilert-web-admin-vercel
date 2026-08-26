@@ -5,9 +5,14 @@ import { toaster } from "@spt/components/ui/toaster";
 import { routes } from "@spt/routes";
 import apiCall from "@spt/utils/apiCall";
 
-
-
-export const useDeleteUserMutation = () => {
+/**
+ * @param redirectTo Where to land after a successful delete. Defaults to the
+ * learners list, which is where the learner and tutor detail screens expect to
+ * go; the sub-admin screens pass their own list instead.
+ */
+export const useDeleteUserMutation = (
+  redirectTo: string = routes.main.learners.home
+) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate()
 
@@ -40,7 +45,7 @@ export const useDeleteUserMutation = () => {
             queryKey: ["users"],
           });
 
-          navigate(routes.main.learners.home)
+          navigate(redirectTo)
         },
       });
     } catch (error: any) {

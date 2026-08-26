@@ -18,7 +18,7 @@ export const useGetAllUsersQuery = (role:string, page: number) => {
   UserResponse,
   AxiosError<ApiErrorResponse>
 >({
-    queryKey: ["users",page],
+    queryKey: ["users", role, page],
     queryFn: fetchUsers
   })
 

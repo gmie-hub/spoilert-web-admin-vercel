@@ -97,6 +97,18 @@ export const routes = {
       details: "/mail-details/:id",
       send: "/send-email",
     },
+    subAdmins: {
+      home: "/sub-admins",
+      create: "/create-sub-admin",
+      edit: "/edit-sub-admin/:id",
+      details: "/view-sub-admin-details/:id",
+    },
+    cms: {
+      home: "/cms-pages",
+      addPage: "/add-cms-page",
+      editPage: "/edit-cms-page/:id",
+      details: "/view-cms-page-details/:id",
+    },
     ads: {
       home: "/ads",
       adsDetails: "/ads-details/:id",

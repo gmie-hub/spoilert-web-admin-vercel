@@ -18,13 +18,16 @@ import BannedUserDetails from "./screens/bannedUsers/bannedUserDetails.tsx";
 import BannedUsers from "./screens/bannedUsers/index.tsx";
 import Categories from "./screens/categories";
 import CategoryDetails from "./screens/categories/categoryDetails.tsx";
+import AddNewPage from "./screens/cms/addNewPage.tsx";
+import Cms from "./screens/cms/index.tsx";
+import ViewCmsPage from "./screens/cms/viewPage.tsx";
 import CommunityDetails from "./screens/community/communityDetails.tsx";
 import Community from "./screens/community/index.tsx";
-import CreateSpolyz from "./screens/createSpolyz/index.tsx";
 import CreateAdvancedSpolyz from "./screens/createSpolyz/createAdvancedSpolyz/index.tsx";
 import CreateQuiz from "./screens/createSpolyz/createQuiz/index.tsx";
 import CreateSimpleSpolyz from "./screens/createSpolyz/createSimpleSpolyz/index.tsx";
 import ReviewSimpleSpolyz from "./screens/createSpolyz/createSimpleSpolyz/review/index.tsx";
+import CreateSpolyz from "./screens/createSpolyz/index.tsx";
 import CustomerSupport from "./screens/customerSupport/index.tsx";
 import Dashboard from "./screens/dashBoard/index.tsx";
 import DisabledSpolyz from "./screens/disabledSpolyz/index.tsx";
@@ -55,6 +58,9 @@ import Sponsorships from "./screens/sponsorships";
 import SponsorshipASpoil from "./screens/sponsorships/sponsorASpoil/index.tsx";
 import SponsorshipCodes from "./screens/sponsorships/sponsorASpoil/sponsorshipCodes.tsx";
 import SponsorshipDetails from "./screens/sponsorships/sponsorshipDetails.tsx";
+import SubAdmins from "./screens/subAdmins/index.tsx";
+import SubAdminForm from "./screens/subAdmins/subAdminForm.tsx";
+import ViewSubAdmin from "./screens/subAdmins/viewSubAdmin.tsx";
 import Transactions from "./screens/transactions";
 import Tutors from "./screens/tutors";
 import TutorDetails from "./screens/tutors/tutorDetails/index.tsx";
@@ -131,6 +137,16 @@ function App() {
       path: routes.main.ads.adsDetails,
       element: <AdsDetails />,
     },
+
+    { path: routes.main.subAdmins.home, element: <SubAdmins /> },
+    { path: routes.main.subAdmins.create, element: <SubAdminForm /> },
+    { path: routes.main.subAdmins.edit, element: <SubAdminForm /> },
+    { path: routes.main.subAdmins.details, element: <ViewSubAdmin /> },
+
+    { path: routes.main.cms.home, element: <Cms /> },
+    { path: routes.main.cms.addPage, element: <AddNewPage /> },
+    { path: routes.main.cms.editPage, element: <AddNewPage /> },
+    { path: routes.main.cms.details, element: <ViewCmsPage /> },
 
     { path: routes.main.categories.home, element: <Categories /> },
     {

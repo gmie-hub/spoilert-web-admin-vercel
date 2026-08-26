@@ -125,6 +125,7 @@ const ReportedSpoylz = () => {
           ) : (
             <>
               <Table
+                minW="76rem"
                 headerChildren={
                   <TableHeader headerItems={reportedSpoylzHeader} />
                 }

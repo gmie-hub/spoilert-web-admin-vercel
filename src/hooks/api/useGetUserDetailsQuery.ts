@@ -16,8 +16,9 @@ export const useGetAllUserDetailsQuery = (id:number) => {
   UserDetailsResponse,
   AxiosError<ApiErrorResponse>
 >({
-    queryKey: ["user-details"],
-    queryFn: fetchCategories
+    queryKey: ["user-details", id],
+    queryFn: fetchCategories,
+    enabled: !!id
   })
 
   

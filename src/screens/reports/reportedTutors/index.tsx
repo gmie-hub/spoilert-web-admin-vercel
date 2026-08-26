@@ -122,6 +122,7 @@ const ReportedTutors = () => {
           ) : (
             <>
               <Table
+                minW="68rem"
                 headerChildren={
                   <TableHeader headerItems={reportedTutorsHeader} />
                 }

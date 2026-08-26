@@ -4,6 +4,7 @@ import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
 import { generatePath, useNavigate } from "react-router-dom";
 
 import { Tag } from "@spt/components";
+import UserActionsMenu from "@spt/partials/userActionsMenu";
 import { routes } from "@spt/routes";
 import type { UserDatum } from "@spt/types/user";
 import type { TableBodyProps } from "@spt/utils/types";
@@ -18,37 +19,49 @@ const TableBody: FC<TableBodyProps> = ({ items, currentPage, pageSize }) => {
   return (
     <>
       {items?.map((item:UserDatum, index:number) => (
-        <Table.Row py="16" key={index}>
+        <Table.Row py="16" key={item?.id ?? index}>
           <Table.Cell>{(currentPage - 1) * pageSize + index + 1}</Table.Cell>
           <Table.Cell>
             <HStack>
               <Image src={item?.avatar || "/user-icon.svg"} boxSize="40px" borderRadius="full" />
-              <Text
-                textOverflow={
-                  item.first_name?.length > 10 ? "ellipsis" : "initial"
-                }
-              >
+              <Text>
                 {item?.first_name} {item?.middie_name} {item?.last_name}
               </Text>
             </HStack>
           </Table.Cell>
 
-          <Table.Cell textOverflow="ellipsis">{item?.email}</Table.Cell>
+          <Table.Cell>{item?.email}</Table.Cell>
 
           <Table.Cell>{item?.username}</Table.Cell>
 
           <Table.Cell>
-            <Tag status={item?.is_active?.toString()} />
+            <Tag
+              status={item?.email_verified_at ? "Verified" : "Not Verified"}
+            />
           </Table.Cell>
 
           <Table.Cell>
-            <Button
-              variant="yellowOutline"
-              px="3"
-              onClick={() => handleRowClick(item?.id)}
-            >
-              View More
-            </Button>
+            <Tag
+              status={item?.phone_verified_at ? "Verified" : "Not Verified"}
+            />
+          </Table.Cell>
+
+          <Table.Cell>
+            <Tag status={item?.is_active ? "Active" : "Inactive"} />
+          </Table.Cell>
+
+          <Table.Cell>
+            <HStack gap="1">
+              <Button
+                variant="yellowOutline"
+                px="3"
+                onClick={() => handleRowClick(item?.id)}
+              >
+                View More
+              </Button>
+
+              <UserActionsMenu user={item} />
+            </HStack>
           </Table.Cell>
         </Table.Row>
       ))}

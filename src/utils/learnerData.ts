@@ -3,6 +3,8 @@ export const learnerHeaders = [
   "Full Name",
   "Email Address",
   "Username",
+  "Email Verified",
+  "Phone Verified",
   "Status",
   "Action",
 ];

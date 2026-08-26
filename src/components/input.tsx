@@ -1,7 +1,10 @@
-  import type { FC } from "react";
+  import { type FC, useState } from "react";
 
-  import { Field, Input, Text } from "@chakra-ui/react";
+  import { Field, IconButton, Input, Text } from "@chakra-ui/react";
   import { type FieldProps, Field as FormikField } from "formik";
+  import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
+
+  import { InputGroup } from "./ui/input-group";
 
   interface ComponentProps {
     name: string;
@@ -18,17 +21,20 @@
     placeholder,
     type,
   }) => {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const isPassword = type === "password";
+    // A password field keeps `type="password"` until the eye is clicked, then
+    // renders as plain text so the value can be checked before submitting.
+    const resolvedType = isPassword && showPassword ? "text" : type;
+
     return (
       <FormikField name={name}>
-        {({ field, form }: FieldProps) => (
-          <Field.Root invalid={!!(form.touched[name] && form.errors[name])}>
-            <Field.Label fontSize="md">
-              {label} {hasAsterisk && <Text as="span" color="red">*</Text>}
-            </Field.Label>
-
+        {({ field, form }: FieldProps) => {
+          const input = (
             <Input
               {...field}
-              type={type} 
+              type={resolvedType}
               bg="#FBFBFB"
               border="1px solid #EFEFEF"
               placeholder={placeholder}
@@ -42,12 +48,44 @@
                 color: "gray.100",
               }}
             />
+          );
 
-            {form.touched[name] && form.errors[name] && (
-              <Field.ErrorText>{form.errors[name] as any}</Field.ErrorText>
-            )}
-          </Field.Root>
-        )}
+          return (
+            <Field.Root invalid={!!(form.touched[name] && form.errors[name])}>
+              <Field.Label fontSize="md">
+                {label} {hasAsterisk && <Text as="span" color="red">*</Text>}
+              </Field.Label>
+
+              {isPassword ? (
+                <InputGroup
+                  w="full"
+                  endElement={
+                    <IconButton
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
+                      variant="ghost"
+                      size="sm"
+                      color="gray.100"
+                      mt="1"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      {showPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
+                    </IconButton>
+                  }
+                >
+                  {input}
+                </InputGroup>
+              ) : (
+                input
+              )}
+
+              {form.touched[name] && form.errors[name] && (
+                <Field.ErrorText>{form.errors[name] as any}</Field.ErrorText>
+              )}
+            </Field.Root>
+          );
+        }}
       </FormikField>
     );
   };

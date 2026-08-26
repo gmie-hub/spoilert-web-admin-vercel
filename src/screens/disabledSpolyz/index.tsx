@@ -58,6 +58,7 @@ const DisabledSpolyz = () => {
           ) : (
             <>
               <Table
+                minW="76rem"
                 headerChildren={<TableHeader headerItems={spoilsMgtHeaders} />}
                 bodyChildren={
                   <TableBody

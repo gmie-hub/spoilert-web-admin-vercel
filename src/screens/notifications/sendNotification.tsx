@@ -10,17 +10,14 @@ import { routes } from "@spt/routes";
 import { useSuccessStore } from "@spt/store";
 
 import UserSelect, { type NotificationFormValues } from "./components/userSelect";
-
-const typeOptions = [
-  { value: "push", label: "Push notification" },
-  { value: "in_app", label: "In-App Notification" },
-];
+import { routeOptions, typeOptions } from "./data";
 
 const initialValues: NotificationFormValues = {
   audiences: [],
   user_ids: [],
   title: "",
   type: "",
+  route: "",
   body: "",
 };
 
@@ -72,6 +69,7 @@ const SendNotification = () => {
               type: values.type,
               user_ids: values.user_ids,
               group,
+              ...(values.route ? { route: values.route } : {}),
             });
             resetForm();
             setOpenSuccess(true);
@@ -98,6 +96,13 @@ const SendNotification = () => {
                   label="Type"
                   placeholder="Select the type of notification"
                   options={typeOptions}
+                />
+
+                <Select
+                  name="route"
+                  label="Route"
+                  placeholder="Select where this notification opens"
+                  options={routeOptions}
                 />
               </Grid>
 

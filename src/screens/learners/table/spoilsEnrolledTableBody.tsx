@@ -26,28 +26,16 @@ const SpoilsEnrolledTableBody: FC<ComponentProps> = ({
                 borderRadius="full"
               />
 
-              <Text
-                textOverflow={
-                  item?.spoil?.title?.length > 10 ? "ellipsis" : "initial"
-                }
-                color="gray"
-              >
+              <Text color="gray">
                 {item?.spoil?.title}
               </Text>
             </HStack>
           </Table.Cell>
 
-          <Table.Cell textOverflow="ellipsis">
+          <Table.Cell>
             <HStack>
               <Image boxSize="50px"  borderRadius="full" src={item?.spoil?.tutor?.avatar || "/user-icon.svg"} />
-              <Text
-                textOverflow={
-                  item?.spoil?.tutor?.first_name?.length > 10
-                    ? "ellipsis"
-                    : "initial"
-                }
-                color="gray"
-              >
+              <Text color="gray">
                 {item?.spoil?.tutor?.first_name} {item?.spoil?.tutor?.last_name}
               </Text>
             </HStack>

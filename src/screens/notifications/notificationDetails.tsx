@@ -9,6 +9,8 @@ import { routes } from "@spt/routes";
 import type { NotificationDatum } from "@spt/types/notification";
 import { formatDate } from "@spt/utils/dateTime";
 
+import { routeOptions } from "./data";
+
 const NotificationDetails = () => {
   const { state } = useLocation();
   const data = (state as { notification?: NotificationDatum })?.notification;
@@ -18,6 +20,10 @@ const NotificationDetails = () => {
   }
 
   const users = data?.users ?? [];
+  const routeLabel =
+    routeOptions.find((option) => option.value === data?.route)?.label ??
+    data?.route ??
+    "-";
 
   return (
     <Stack gap="4">
@@ -34,6 +40,7 @@ const NotificationDetails = () => {
           <ProgressInfo>
             <InfoDisplay title="Title" value={data?.title} />
             <InfoDisplay title="Type" value={data?.type} />
+            <InfoDisplay title="Route" value={routeLabel} />
             <InfoDisplay
               title="Date Sent"
               value={formatDate(data?.created_at)}

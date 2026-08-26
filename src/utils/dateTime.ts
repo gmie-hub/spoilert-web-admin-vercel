@@ -48,3 +48,9 @@ export const truncateText = (text: string | undefined, limit = 10): string => {
   if (!text) return "";
   return text.length > limit ? `${text.slice(0, limit)}...` : text;
 };
+/**
+ * Timestamp the admin API accepts for the `*_verified_at` fields. The
+ * documented payload is date-only ("2026-04-22"); if the backend wants the
+ * time component too, widen this to "yyyy-MM-dd HH:mm:ss".
+ */
+export const nowForApi = () => format(new Date(), "yyyy-MM-dd");
