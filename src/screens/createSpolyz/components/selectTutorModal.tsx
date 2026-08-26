@@ -21,16 +21,18 @@ interface SelectTutorModalProps {
   onOpenChange: (open: boolean) => void;
   selectedTutor: UserDatum | null;
   onContinue: (tutor: UserDatum) => void;
-  /** When false, the modal cannot be dismissed until a tutor is chosen. */
-  dismissible?: boolean;
 }
 
+/**
+ * Closing this without picking a tutor is fine — the admin stays on the
+ * create-Spolyz page and the card comes back as soon as they choose a type or
+ * try to continue.
+ */
 const SelectTutorModal: FC<SelectTutorModalProps> = ({
   open,
   onOpenChange,
   selectedTutor,
   onContinue,
-  dismissible = true,
 }) => {
   const [tutor, setTutor] = useState<UserDatum | null>(selectedTutor);
   const [showError, setShowError] = useState(false);
@@ -46,10 +48,6 @@ const SelectTutorModal: FC<SelectTutorModalProps> = ({
   };
 
   const handleOpenChange = (nextOpen: boolean) => {
-    if (!nextOpen && !dismissible) {
-      return;
-    }
-
     if (nextOpen) {
       setTutor(selectedTutor);
       setShowError(false);
@@ -64,8 +62,6 @@ const SelectTutorModal: FC<SelectTutorModalProps> = ({
       placement="center"
       motionPreset="slide-in-bottom"
       size="md"
-      closeOnInteractOutside={dismissible}
-      closeOnEscape={dismissible}
     >
       <Portal>
         <Dialog.Backdrop bg="blackAlpha.400" backdropFilter="blur(2px)" />
@@ -78,19 +74,17 @@ const SelectTutorModal: FC<SelectTutorModalProps> = ({
                   Create Spoil
                 </Text>
 
-                {dismissible && (
-                  <IconButton
-                    aria-label="Close"
-                    variant="outline"
-                    size="sm"
-                    borderRadius="full"
-                    borderColor="#E0E0E0"
-                    color="gray.500"
-                    onClick={() => handleOpenChange(false)}
-                  >
-                    <HiX size={16} />
-                  </IconButton>
-                )}
+                <IconButton
+                  aria-label="Close"
+                  variant="outline"
+                  size="sm"
+                  borderRadius="full"
+                  borderColor="#E0E0E0"
+                  color="gray.500"
+                  onClick={() => handleOpenChange(false)}
+                >
+                  <HiX size={16} />
+                </IconButton>
               </Flex>
 
               <Text fontSize="sm" color="gray.500">
@@ -108,22 +102,15 @@ const SelectTutorModal: FC<SelectTutorModalProps> = ({
               />
 
               <HStack gap="4" pt="2">
-                {dismissible && (
-                  <Button
-                    variant="yellowOutline"
-                    flex="1"
-                    onClick={() => handleOpenChange(false)}
-                  >
-                    Cancel
-                  </Button>
-                )}
-
                 <Button
-                  variant="yellow"
+                  variant="yellowOutline"
                   flex="1"
-                  w={dismissible ? undefined : "full"}
-                  onClick={handleContinue}
+                  onClick={() => handleOpenChange(false)}
                 >
+                  Cancel
+                </Button>
+
+                <Button variant="yellow" flex="1" onClick={handleContinue}>
                   Continue
                 </Button>
               </HStack>

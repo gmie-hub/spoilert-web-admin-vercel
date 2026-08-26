@@ -20,6 +20,7 @@ interface AddModuleModalProps {
   onOpenChange: (open: boolean) => void;
   onSave: (values: { title: string; description: string }) => void;
   initialValues?: { title: string; description: string };
+  title?: string;
 }
 
 const AddModuleModal: FC<AddModuleModalProps> = ({
@@ -27,6 +28,7 @@ const AddModuleModal: FC<AddModuleModalProps> = ({
   onOpenChange,
   onSave,
   initialValues,
+  title = "Add Module",
 }) => {
   return (
     <Dialog.Root
@@ -44,7 +46,7 @@ const AddModuleModal: FC<AddModuleModalProps> = ({
             <Stack gap="6" p="6">
               <Flex align="center" justify="space-between">
                 <Text fontSize="lg" fontWeight="semibold">
-                  Add Module
+                  {title}
                 </Text>
                 <IconButton
                   aria-label="Close"

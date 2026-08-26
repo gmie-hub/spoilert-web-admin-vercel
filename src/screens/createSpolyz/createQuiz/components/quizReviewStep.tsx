@@ -13,12 +13,9 @@ import InfoDisplay from "@spt/partials/infoDisplay";
 import ProgressInfo from "@spt/partials/progressInfo";
 import type { QuizDraft } from "@spt/store/createSpolyzStore";
 
-import type { QuizVariant } from "../quizConfig";
-
 import QuizQuestionOutlineList from "./quizQuestionOutlineList";
 
 interface QuizReviewStepProps {
-  variant: QuizVariant;
   title: string;
   draft: QuizDraft;
   onEditOverview: () => void;
@@ -27,7 +24,6 @@ interface QuizReviewStepProps {
 }
 
 const QuizReviewStep: FC<QuizReviewStepProps> = ({
-  variant,
   title,
   draft,
   onEditOverview,
@@ -93,7 +89,7 @@ const QuizReviewStep: FC<QuizReviewStepProps> = ({
               <InfoDisplay title="Time Limit" value={timeLimitDisplay} />
             </ProgressInfo>
 
-            {variant === "post" && draft.pass_mark && (
+            {draft.pass_mark && (
               <ProgressInfo>
                 <InfoDisplay title="Passmark" value={`${draft.pass_mark}%`} />
               </ProgressInfo>

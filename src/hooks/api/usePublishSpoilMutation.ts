@@ -3,13 +3,19 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toaster } from "@spt/components/ui/toaster";
 import type { SimpleSpolyzDraft } from "@spt/store/createSpolyzStore";
 import apiCall from "@spt/utils/apiCall";
+import { resolveCoverImage } from "@spt/utils/coverImage";
+
+import {
+  attachCertificateToSpoil,
+  useCreateSpoilTemplateMutation,
+} from "./useCreateSpoilTemplateMutation";
 
 export interface PublishSpoilPayload {
   tutor_id: number;
   draft: SimpleSpolyzDraft;
 }
 
-const buildFormData = (
+const buildFormData = async (
   tutor_id: number,
   draft: SimpleSpolyzDraft,
   isDraft: boolean,
@@ -24,7 +30,8 @@ const buildFormData = (
   formData.append("amount", draft.pricing === "free" ? "0" : draft.amount);
   formData.append("type", "simple");
   formData.append("lesson_type", draft.lesson_type);
-  formData.append("image", draft.cover_image);
+  const coverImage = await resolveCoverImage(draft);
+  if (coverImage) formData.append("image", coverImage);
   formData.append("is_draft", isDraft ? "1" : "0");
 
   if (draft.lesson_type === "text") {
@@ -33,12 +40,7 @@ const buildFormData = (
     formData.append("lesson_file", draft.content_file);
   }
 
-  // Only paid Spoylz can carry a certificate.
-  const isPaid = Boolean(draft.pricing && draft.pricing !== "free");
-  formData.append(
-    "has_certificate",
-    isPaid && draft.has_certificate ? "1" : "0",
-  );
+  formData.append("has_certificate", draft.has_certificate ? "1" : "0");
 
   if (draft.institution) formData.append("institution", draft.institution);
   if (draft.course_code) formData.append("course_code", draft.course_code);
@@ -49,14 +51,25 @@ const buildFormData = (
 
 export const usePublishSpoilMutation = () => {
   const queryClient = useQueryClient();
+  const { createSpoilTemplate } = useCreateSpoilTemplateMutation();
 
   const mutation = useMutation({
     mutationFn: async ({ tutor_id, draft }: PublishSpoilPayload) => {
       const res = await apiCall().post(
         "admin/spoils",
-        buildFormData(tutor_id, draft, false),
+        await buildFormData(tutor_id, draft, false),
         { headers: { "Content-Type": "multipart/form-data" } },
       );
+
+      const spoilId = res?.data?.data?.id ?? res?.data?.id ?? null;
+      if (spoilId) {
+        await attachCertificateToSpoil(
+          createSpoilTemplate,
+          spoilId,
+          draft.has_certificate,
+        );
+      }
+
       return res?.data;
     },
     onSuccess: (data) => {

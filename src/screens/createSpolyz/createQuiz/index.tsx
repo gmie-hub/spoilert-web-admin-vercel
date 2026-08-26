@@ -141,7 +141,7 @@ const CreateQuiz = () => {
       description: values.description.trim(),
       no_of_questions: String(values.no_of_questions),
       time_limit: values.time_limit.trim(),
-      pass_mark: variant === "post" ? String(values.pass_mark) : "",
+      pass_mark: String(values.pass_mark),
     };
 
     setQuizDraft(nextDraft);
@@ -159,7 +159,6 @@ const CreateQuiz = () => {
       case "overview":
         return (
           <QuizOverviewStep
-            variant={variant}
             draft={quizDraft}
             onContinue={handleOverviewContinue}
           />
@@ -167,6 +166,7 @@ const CreateQuiz = () => {
       case "questions":
         return (
           <QuizQuestionsStep
+            title={quizPageTitles[variant]}
             questions={quizDraft.questions}
             onChange={(questions) =>
               setQuizDraft((prev) => {
@@ -182,7 +182,6 @@ const CreateQuiz = () => {
       case "review":
         return (
           <QuizReviewStep
-            variant={variant}
             title={quizReviewTitles[variant]}
             draft={quizDraft}
             onEditOverview={() => setStep("overview")}

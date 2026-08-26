@@ -72,6 +72,7 @@ import { Box, HStack, IconButton, Image, Text, VStack } from "@chakra-ui/react";
 import { HiMenu, HiX } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
+import { ConfirmDialog } from "@spt/components";
 import { routes } from "@spt/routes";
 import { useAuthStore } from "@spt/store/useAuthStore";
 
@@ -89,6 +90,12 @@ const Header = ({ menuOpen, onMenuToggle }: HeaderProps) => {
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
+
+  const handleLogoutClick = () => {
+    setDropdownOpen(false);
+    setLogoutConfirmOpen(true);
+  };
 
   const handleLogout = () => {
     logout();
@@ -169,7 +176,7 @@ const Header = ({ menuOpen, onMenuToggle }: HeaderProps) => {
                 _hover={{ bg: "red.50", color: "red.500" }}
                 w="full"
                 p={1}
-                onClick={handleLogout}
+                onClick={handleLogoutClick}
               >
                 Logout
               </Text>
@@ -187,6 +194,16 @@ const Header = ({ menuOpen, onMenuToggle }: HeaderProps) => {
           {menuOpen ? <HiX size={22} /> : <HiMenu size={22} />}
         </IconButton>
       </HStack>
+
+      <ConfirmDialog
+        open={logoutConfirmOpen}
+        title="Are you sure you want to log out?"
+        description="You will need to sign in again to access the dashboard"
+        confirmLabel="Yes, Log Out"
+        confirmVariant="danger"
+        onOpenChange={setLogoutConfirmOpen}
+        onConfirm={handleLogout}
+      />
     </HStack>
   );
 };

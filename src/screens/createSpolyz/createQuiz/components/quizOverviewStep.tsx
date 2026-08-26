@@ -7,8 +7,6 @@ import { number, object, string } from "yup";
 import { Input, Textarea } from "@spt/components";
 import type { QuizDraft } from "@spt/store/createSpolyzStore";
 
-import type { QuizVariant } from "../quizConfig";
-
 interface QuizOverviewFormValues {
   title: string;
   description: string;
@@ -25,30 +23,22 @@ const numberField = (label: string, min: number, max: number) =>
     .min(min, `${label} must be at least ${min}`)
     .max(max, `${label} cannot exceed ${max}`);
 
-const buildValidationSchema = (variant: QuizVariant) =>
-  object().shape({
-    title: string().trim().required("Quiz title is required"),
-    description: string().trim().required("Description is required"),
-    no_of_questions: numberField("Number of questions", 1, 100).required(
-      "Number of questions is required",
-    ),
-    time_limit: string().trim().required("Time limit is required"),
-    pass_mark:
-      variant === "post"
-        ? numberField("Passmark", 0, 100).required(
-            "Passmark is required for post-Spoylz quiz",
-          )
-        : string(),
-  });
+const validationSchema = object().shape({
+  title: string().trim().required("Quiz title is required"),
+  description: string().trim().required("Description is required"),
+  no_of_questions: numberField("Number of questions", 1, 100).required(
+    "Number of questions is required",
+  ),
+  time_limit: string().trim().required("Time limit is required"),
+  pass_mark: numberField("Passmark", 0, 100).required("Passmark is required"),
+});
 
 interface QuizOverviewStepProps {
-  variant: QuizVariant;
   draft: QuizDraft;
   onContinue: (values: QuizOverviewFormValues) => void;
 }
 
 const QuizOverviewStep: FC<QuizOverviewStepProps> = ({
-  variant,
   draft,
   onContinue,
 }) => {
@@ -68,7 +58,7 @@ const QuizOverviewStep: FC<QuizOverviewStepProps> = ({
 
       <Formik<QuizOverviewFormValues>
         initialValues={initialValues}
-        validationSchema={buildValidationSchema(variant)}
+        validationSchema={validationSchema}
         enableReinitialize
         onSubmit={onContinue}
       >
@@ -91,7 +81,7 @@ const QuizOverviewStep: FC<QuizOverviewStepProps> = ({
                 name="no_of_questions"
                 label="Number of Questions"
                 placeholder="10"
-                type="number"
+                numeric
               />
 
               <Input
@@ -100,14 +90,12 @@ const QuizOverviewStep: FC<QuizOverviewStepProps> = ({
                 placeholder="50 Minutes"
               />
 
-              {variant === "post" && (
-                <Input
-                  name="pass_mark"
-                  label="Passmark"
-                  placeholder="Enter passmark (e.g. 50)"
-                  type="number"
-                />
-              )}
+              <Input
+                name="pass_mark"
+                label="Passmark"
+                placeholder="Enter passmark (e.g. 50)"
+                numeric
+              />
 
               <Button variant="yellow" type="submit" w="full">
                 Save and continue

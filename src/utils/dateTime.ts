@@ -1,12 +1,31 @@
 import { format, parseISO } from "date-fns";
 
+// export const formatDate = (date?: string) => {
+//   if (!date) return "N/A";
+//   try {
+//     const parsedDate = parseISO(date);
+//     return format(parsedDate, "dd-MM-yyyy");
+//   } catch (error) {
+//     return "Invalid date";
+//   }
+// };
+
 export const formatDate = (date?: string) => {
-  if (!date) return "N/A";
+  if (!date) return "Invalid time";
+
   try {
     const parsedDate = parseISO(date);
-    return format(parsedDate, "dd-MM-yyyy");
+
+    if (isNaN(parsedDate.getTime())) return "Invalid time";
+
+    const hasTime = date.includes("T") || date.includes(" ");
+
+    return format(
+      parsedDate,
+      hasTime ? "MMM d, yyyy h:mm a" : "MMM d, yyyy"
+    );
   } catch (error) {
-    return "Invalid date";
+    return "Invalid time";
   }
 };
 

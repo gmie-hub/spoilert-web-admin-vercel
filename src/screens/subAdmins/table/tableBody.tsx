@@ -4,6 +4,7 @@ import { Button, HStack, Image, Table, Text } from "@chakra-ui/react";
 import { generatePath, useNavigate } from "react-router-dom";
 
 import { Tag } from "@spt/components";
+import UserActionsMenu from "@spt/partials/userActionsMenu";
 import { routes } from "@spt/routes";
 import type { UserDatum } from "@spt/types/user";
 
@@ -49,14 +50,18 @@ const TableBody: FC<ComponentProps> = ({ items, startIndex = 0 }) => {
           </Table.Cell>
 
           <Table.Cell>
-            <Button
-              variant="yellowOutline"
-              onClick={() => handleViewMore(item?.id)}
-              px="3"
-              my="3"
-            >
-              View More
-            </Button>
+            <HStack gap="1">
+              <Button
+                variant="yellowOutline"
+                onClick={() => handleViewMore(item?.id)}
+                px="3"
+                my="3"
+              >
+                View More
+              </Button>
+
+              <UserActionsMenu user={item} />
+            </HStack>
           </Table.Cell>
         </Table.Row>
       ))}

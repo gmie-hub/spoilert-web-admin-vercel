@@ -32,10 +32,14 @@ const CreateSpolyz = () => {
   const navigate = useNavigate();
   const selectedTutor = useCreateSpolyzStore((s) => s.selectedTutor);
   const setSelectedTutor = useCreateSpolyzStore((s) => s.setSelectedTutor);
+  const spolyzType = useCreateSpolyzStore((s) => s.spolyzType);
   const setSpolyzType = useCreateSpolyzStore((s) => s.setSpolyzType);
 
   const [tutorModalOpen, setTutorModalOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState<SpolyzType | null>(null);
+  // Picks up the type from a draft the admin left behind so they can carry on.
+  const [selectedType, setSelectedType] = useState<SpolyzType | null>(
+    spolyzType,
+  );
 
   useEffect(() => {
     if (!selectedTutor) {
@@ -102,7 +106,11 @@ const CreateSpolyz = () => {
                     cursor="pointer"
                     transition="all 0.2s ease"
                     _hover={{ borderColor: "blue.100" }}
-                    onClick={() => setSelectedType(type.id)}
+                    onClick={() => {
+                      setSelectedType(type.id);
+                      // Choosing a type without a tutor puts the card back up.
+                      if (!selectedTutor) setTutorModalOpen(true);
+                    }}
                   >
                     <Stack gap="5">
                       <Flex
@@ -135,7 +143,7 @@ const CreateSpolyz = () => {
               <Button
                 variant="yellow"
                 w={{ base: "full", md: "50%" }}
-                disabled={!selectedType || !selectedTutor}
+                disabled={!selectedType}
                 onClick={handleContinue}
               >
                 Save And Continue
@@ -150,7 +158,6 @@ const CreateSpolyz = () => {
         onOpenChange={setTutorModalOpen}
         selectedTutor={selectedTutor}
         onContinue={setSelectedTutor}
-        dismissible={!!selectedTutor}
       />
     </>
   );

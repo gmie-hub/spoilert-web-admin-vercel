@@ -19,6 +19,13 @@ interface ComponentProps {
   minH?: string;
 }
 
+/** True when the editor holds no meaningful text (only empty markup). */
+export const isEmptyHtml = (value?: string | null) => {
+  if (!value) return true;
+  if (value === "<br>" || value === "<p></p>") return true;
+  return value.replace(/<[^>]*>/g, "").trim().length === 0;
+};
+
 const toolbar = [
   { icon: LuBold, label: "Bold", command: "bold" },
   { icon: LuItalic, label: "Italic", command: "italic" },
@@ -71,8 +78,7 @@ const Editor: FC<ComponentProps> = ({
   };
 
   const isInvalid = !!(meta.touched && meta.error);
-  // A contentEditable left empty still holds stray markup like "<br>".
-  const isEmpty = !field.value || field.value === "<br>" || field.value === "<p></p>";
+  const isEmpty = isEmptyHtml(field.value);
 
   return (
     <Field.Root invalid={isInvalid}>

@@ -1,20 +1,18 @@
-import { type FC, useState } from "react";
+import { type FC } from "react";
 
-import { Button, Flex, Stack, Text } from "@chakra-ui/react";
+import { Button, Flex, HStack, Stack, Text } from "@chakra-ui/react";
+import { HiOutlinePlus } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
-import { NoData } from "@spt/components";
+import { DeleteDialog, NoData } from "@spt/components";
 import { routes } from "@spt/routes";
-import {
-  type AdvancedModuleDraft,
-  createId,
-  useCreateSpolyzStore,
-} from "@spt/store/createSpolyzStore";
+import { useCreateSpolyzStore } from "@spt/store/createSpolyzStore";
 
-import AddLessonModal, { type AddLessonSaveValues } from "./addLessonModal";
+import AddLessonModal from "./addLessonModal";
 import AddModuleModal from "./addModuleModal";
 import OutlineModuleCard from "./outlineModuleCard";
 import OutlineQuizPanel from "./outlineQuizPanel";
+import { useOutlineEditor } from "./useOutlineEditor";
 
 interface SpolyzOutlineStepProps {
   onPrevious: () => void;
@@ -27,58 +25,29 @@ const SpolyzOutlineStep: FC<SpolyzOutlineStepProps> = ({
 }) => {
   const navigate = useNavigate();
   const advancedDraft = useCreateSpolyzStore((s) => s.advancedDraft);
-  const setAdvancedDraft = useCreateSpolyzStore((s) => s.setAdvancedDraft);
   const setAdvancedStep = useCreateSpolyzStore((s) => s.setAdvancedStep);
 
-  const [moduleModalOpen, setModuleModalOpen] = useState(false);
-  const [lessonModalOpen, setLessonModalOpen] = useState(false);
-  const [activeModuleId, setActiveModuleId] = useState<string | null>(null);
+  const {
+    modules,
+    moduleModalOpen,
+    lessonModalOpen,
+    editingModule,
+    editingLesson,
+    pendingDelete,
+    deleteCopy,
+    openModuleModal,
+    setModuleModal,
+    openLessonModal,
+    setLessonModal,
+    saveModule,
+    saveLesson,
+    requestDeleteModule,
+    requestDeleteLesson,
+    confirmDelete,
+    cancelDelete,
+  } = useOutlineEditor();
 
   if (!advancedDraft) return null;
-
-  const modules = advancedDraft.modules;
-
-  const updateDraft = (nextModules: AdvancedModuleDraft[]) => {
-    setAdvancedDraft({ ...advancedDraft, modules: nextModules });
-  };
-
-  const handleAddModule = (values: { title: string; description: string }) => {
-    updateDraft([
-      ...modules,
-      {
-        id: createId(),
-        title: values.title,
-        description: values.description,
-        lessons: [],
-        quiz: null,
-      },
-    ]);
-  };
-
-  const handleAddLesson = (values: AddLessonSaveValues) => {
-    if (!activeModuleId) return;
-
-    updateDraft(
-      modules.map((module) =>
-        module.id === activeModuleId
-          ? {
-              ...module,
-              lessons: [
-                ...module.lessons,
-                {
-                  id: createId(),
-                  title: values.title,
-                  type: values.type,
-                  content: values.content,
-                  content_file: values.content_file,
-                },
-              ],
-            }
-          : module,
-      ),
-    );
-    setActiveModuleId(null);
-  };
 
   const openQuizPage = (path: string) => {
     setAdvancedStep("outline");
@@ -90,9 +59,28 @@ const SpolyzOutlineStep: FC<SpolyzOutlineStepProps> = ({
   return (
     <>
       <Stack gap="6">
-        <Text fontSize="md" fontWeight="semibold">
-          Spoylz Outline
-        </Text>
+        <Flex align="center" justify="space-between" gap="3">
+          <Text fontSize="md" fontWeight="semibold">
+            Spoylz Outline
+          </Text>
+
+          {hasModules && (
+            <Button
+              variant="yellowOutline"
+              size="sm"
+              px="4"
+              py="2"
+              fontSize="sm"
+              flexShrink={0}
+              onClick={() => openModuleModal()}
+            >
+              <HStack gap="2">
+                <HiOutlinePlus size={16} />
+                <Text>Add Module</Text>
+              </HStack>
+            </Button>
+          )}
+        </Flex>
 
         <OutlineQuizPanel
           preQuiz={advancedDraft.pre_quiz}
@@ -114,6 +102,7 @@ const SpolyzOutlineStep: FC<SpolyzOutlineStepProps> = ({
             <NoData
               heading="No Spoylz Module Has Been Added Yet"
               description="Add modules and lessons to each module to create a proper module outline."
+              contentWidth={{ md: "35%", lg: "100%" }}
             />
           ) : (
             <Stack gap="4">
@@ -122,10 +111,13 @@ const SpolyzOutlineStep: FC<SpolyzOutlineStepProps> = ({
                   key={module.id}
                   module={module}
                   index={index}
-                  onAddLesson={() => {
-                    setActiveModuleId(module.id);
-                    setLessonModalOpen(true);
-                  }}
+                  onAddLesson={() => openLessonModal(module.id)}
+                  onEditLesson={(lesson) => openLessonModal(module.id, lesson)}
+                  onDeleteLesson={(lesson) =>
+                    requestDeleteLesson(module.id, lesson)
+                  }
+                  onEditModule={() => openModuleModal(module.id)}
+                  onDeleteModule={() => requestDeleteModule(module)}
                   onOpenQuiz={() =>
                     openQuizPage(
                       routes.main.createSpolyz.advancedQuiz.module.replace(
@@ -141,13 +133,11 @@ const SpolyzOutlineStep: FC<SpolyzOutlineStepProps> = ({
         </Stack>
 
         <Stack gap="3">
-          <Button
-            variant="yellow"
-            w="full"
-            onClick={() => setModuleModalOpen(true)}
-          >
-            Add Module
-          </Button>
+          {!hasModules && (
+            <Button variant="yellow" w="full" onClick={() => openModuleModal()}>
+              Add Module
+            </Button>
+          )}
 
           <Flex gap="3" direction={{ base: "column", sm: "row" }}>
             <Button variant="yellowOutline" flex="1" onClick={onPrevious}>
@@ -165,17 +155,44 @@ const SpolyzOutlineStep: FC<SpolyzOutlineStepProps> = ({
 
       <AddModuleModal
         open={moduleModalOpen}
-        onOpenChange={setModuleModalOpen}
-        onSave={handleAddModule}
+        title={editingModule ? "Edit Module" : "Add Module"}
+        initialValues={
+          editingModule
+            ? {
+                title: editingModule.title,
+                description: editingModule.description,
+              }
+            : undefined
+        }
+        onOpenChange={setModuleModal}
+        onSave={saveModule}
       />
 
       <AddLessonModal
         open={lessonModalOpen}
+        title={editingLesson ? "Edit Lesson" : "Add Lesson"}
+        initialValues={
+          editingLesson
+            ? {
+                title: editingLesson.title,
+                type: editingLesson.type,
+                content: editingLesson.content,
+                content_file: editingLesson.content_file ?? null,
+              }
+            : undefined
+        }
+        onOpenChange={setLessonModal}
+        onSave={saveLesson}
+      />
+
+      <DeleteDialog
+        open={Boolean(pendingDelete)}
+        itemName={deleteCopy.itemName}
+        description={deleteCopy.description}
         onOpenChange={(open) => {
-          setLessonModalOpen(open);
-          if (!open) setActiveModuleId(null);
+          if (!open) cancelDelete();
         }}
-        onSave={handleAddLesson}
+        onConfirm={confirmDelete}
       />
     </>
   );

@@ -11,6 +11,7 @@ import QuestionModal from "../../createAdvancedSpolyz/components/questionModal";
 import QuizQuestionOutlineList from "./quizQuestionOutlineList";
 
 interface QuizQuestionsStepProps {
+  title: string;
   questions: QuizQuestionDraft[];
   onChange: (questions: QuizQuestionDraft[]) => void;
   onContinue: () => void;
@@ -18,6 +19,7 @@ interface QuizQuestionsStepProps {
 }
 
 const QuizQuestionsStep: FC<QuizQuestionsStepProps> = ({
+  title,
   questions,
   onChange,
   onContinue,
@@ -60,14 +62,14 @@ const QuizQuestionsStep: FC<QuizQuestionsStepProps> = ({
       <Stack gap="6">
         <Flex align="center" justify="space-between" gap="3">
           <Text fontSize="md" fontWeight="semibold">
-            {hasQuestions ? "Spoylz Outline" : "Add Questions"}
+            {hasQuestions ? title : "Add Questions"}
           </Text>
 
           {hasQuestions && (
             <Button variant="yellow" size="sm" py="2" onClick={openAddModal}>
               <HStack gap="1">
                 <HiOutlinePlus size={14} />
-                <Text>Add Question</Text>
+                <Text color="white">Add Question</Text>
               </HStack>
             </Button>
           )}

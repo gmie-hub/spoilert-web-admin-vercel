@@ -13,7 +13,7 @@ import { Form, Formik } from "formik";
 import { HiX } from "react-icons/hi";
 import { mixed, object, string } from "yup";
 
-import { Input, Select, Textarea } from "@spt/components";
+import { Editor, Input, Select, isEmptyHtml } from "@spt/components";
 import type { LessonType } from "@spt/store/createSpolyzStore";
 
 import LessonFileUpload from "./lessonFileUpload";
@@ -41,6 +41,7 @@ interface AddLessonModalProps {
   onOpenChange: (open: boolean) => void;
   onSave: (values: AddLessonSaveValues) => void;
   initialValues?: AddLessonFormValues & { content_file?: File | null };
+  title?: string;
 }
 
 const emptyValues: AddLessonFormValues = {
@@ -90,10 +91,11 @@ const AddLessonFormBody: FC<{
         />
 
         {values.type === "text" && (
-          <Textarea
+          <Editor
             name="content"
             label="Content"
             placeholder="Write lesson content"
+            minH="200px"
           />
         )}
 
@@ -118,6 +120,7 @@ const AddLessonModal: FC<AddLessonModalProps> = ({
   onOpenChange,
   onSave,
   initialValues,
+  title = "Add Lesson",
 }) => {
   const [contentFile, setContentFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<string | undefined>();
@@ -135,17 +138,17 @@ const AddLessonModal: FC<AddLessonModalProps> = ({
       onOpenChange={(d) => onOpenChange(d.open)}
       placement="center"
       motionPreset="slide-in-bottom"
-      size="md"
+      size="lg"
     >
       <Portal>
         <Dialog.Backdrop bg="blackAlpha.400" backdropFilter="blur(2px)" />
 
         <Dialog.Positioner>
-          <Dialog.Content borderRadius="2xl" maxW="520px" mx="4">
+          <Dialog.Content borderRadius="2xl" maxW="640px" mx="4" maxH="90vh" overflowY="auto">
             <Stack gap="6" p="6">
               <Flex align="center" justify="space-between">
                 <Text fontSize="lg" fontWeight="semibold">
-                  Add Lesson
+                  {title}
                 </Text>
                 <IconButton
                   aria-label="Close"
@@ -170,7 +173,11 @@ const AddLessonModal: FC<AddLessonModalProps> = ({
                   content: string().when("type", {
                     is: "text",
                     then: (schema) =>
-                      schema.trim().required("Content is required"),
+                      schema.test(
+                        "has-content",
+                        "Content is required",
+                        (value) => !isEmptyHtml(value),
+                      ),
                     otherwise: (schema) => schema,
                   }),
                 })}
@@ -184,7 +191,7 @@ const AddLessonModal: FC<AddLessonModalProps> = ({
                   onSave({
                     title: values.title.trim(),
                     type: values.type as LessonType,
-                    content: values.type === "text" ? values.content.trim() : "",
+                    content: values.type === "text" ? values.content : "",
                     content_file: values.type === "file" ? contentFile : null,
                   });
                   onOpenChange(false);

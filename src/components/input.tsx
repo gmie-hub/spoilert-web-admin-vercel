@@ -11,7 +11,9 @@
     label: string;
     placeholder: string;
     hasAsterisk?: boolean;
-      type?: string;   
+      type?: string;
+    /** Digits only, and no browser spinner arrows. */
+    numeric?: boolean;
   }
 
   const CustomInput: FC<ComponentProps> = ({
@@ -20,6 +22,7 @@
     label,
     placeholder,
     type,
+    numeric,
   }) => {
     const [showPassword, setShowPassword] = useState(false);
 
@@ -35,6 +38,16 @@
             <Input
               {...field}
               type={resolvedType}
+              inputMode={numeric ? "numeric" : undefined}
+              onChange={
+                numeric
+                  ? (event) =>
+                      form.setFieldValue(
+                        name,
+                        event.target.value.replace(/[^0-9]/g, ""),
+                      )
+                  : field.onChange
+              }
               bg="#FBFBFB"
               border="1px solid #EFEFEF"
               placeholder={placeholder}

@@ -23,6 +23,7 @@ import {
   type SimpleSpolyzDraft,
   useCreateSpolyzStore,
 } from "@spt/store/createSpolyzStore";
+import { readFileAsDataUrl } from "@spt/utils/coverImage";
 
 const pricingOptions = [
   { value: "free", label: "Free" },
@@ -258,11 +259,13 @@ const SimpleSpolyzForm = () => {
     setCoverImage(file);
     setCoverError(undefined);
 
-    if (coverPreview && coverPreview !== simpleDraft?.cover_preview) {
-      URL.revokeObjectURL(coverPreview);
+    if (!file) {
+      setCoverPreview(null);
+      return;
     }
 
-    setCoverPreview(file ? URL.createObjectURL(file) : null);
+    // A data URL, not an object URL, so the preview survives a reload.
+    readFileAsDataUrl(file).then(setCoverPreview);
   };
 
   return (

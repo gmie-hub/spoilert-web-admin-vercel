@@ -18,6 +18,7 @@ import {
   type AdvancedSpolyzDraft,
   useCreateSpolyzStore,
 } from "@spt/store/createSpolyzStore";
+import { readFileAsDataUrl } from "@spt/utils/coverImage";
 
 import CoverImageUpload from "./coverImageUpload";
 
@@ -25,12 +26,6 @@ const pricingOptions = [
   { value: "free", label: "Free" },
   { value: "paid", label: "Paid" },
 ];
-
-const countOptions = (max: number) =>
-  Array.from({ length: max }, (_, i) => ({
-    value: String(i + 1),
-    label: String(i + 1),
-  }));
 
 interface BasicsFormValues {
   title: string;
@@ -96,10 +91,14 @@ const AdvancedBasicsForm: FC<AdvancedBasicsFormProps> = ({ onContinue }) => {
   const handleCoverChange = (file: File | null) => {
     setCoverImage(file);
     setCoverError(undefined);
-    if (coverPreview && coverPreview !== advancedDraft?.cover_preview) {
-      URL.revokeObjectURL(coverPreview);
+
+    if (!file) {
+      setCoverPreview(null);
+      return;
     }
-    setCoverPreview(file ? URL.createObjectURL(file) : null);
+
+    // A data URL, not an object URL, so the preview survives a reload.
+    readFileAsDataUrl(file).then(setCoverPreview);
   };
 
   return (
@@ -128,8 +127,12 @@ const AdvancedBasicsForm: FC<AdvancedBasicsFormProps> = ({ onContinue }) => {
             otherwise: (schema) => schema,
           }),
           expires_at: string(),
-          modules_count: string().required("Modules is required"),
-          lessons_count: string().required("Lessons is required"),
+          modules_count: string()
+            .required("Modules is required")
+            .matches(/^[1-9][0-9]*$/, "Enter a number greater than 0"),
+          lessons_count: string()
+            .required("Lessons is required")
+            .matches(/^[1-9][0-9]*$/, "Enter a number greater than 0"),
           description: string().required("Description is required"),
           what_to_learn: string().required("This field is required"),
         })}
@@ -232,18 +235,18 @@ const AdvancedBasicsForm: FC<AdvancedBasicsFormProps> = ({ onContinue }) => {
                   </HStack>
                 </Box>
 
-                <Select
+                <FormInput
                   name="modules_count"
                   label="Modules"
-                  placeholder="Select modules"
-                  options={countOptions(20)}
+                  placeholder="Number of modules"
+                  numeric
                 />
 
-                <Select
+                <FormInput
                   name="lessons_count"
                   label="Lessons"
-                  placeholder="Select lessons"
-                  options={countOptions(50)}
+                  placeholder="Number of lessons"
+                  numeric
                 />
 
                 <Box gridColumn={{ md: "1 / -1" }}>

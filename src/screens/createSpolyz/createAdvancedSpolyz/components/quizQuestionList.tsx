@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import { type FC, useState } from "react";
 
 import {
   Box,
@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
 
+import { DeleteDialog } from "@spt/components";
 import type { QuizQuestionDraft } from "@spt/store/createSpolyzStore";
 
 const questionTypeLabel = (question: QuizQuestionDraft) =>
@@ -33,6 +34,9 @@ const QuizQuestionList: FC<QuizQuestionListProps> = ({
   onEdit,
   onRemove,
 }) => {
+  const [pendingQuestion, setPendingQuestion] =
+    useState<QuizQuestionDraft | null>(null);
+
   return (
     <Stack gap="3">
       <Flex align="center" justify="space-between" gap="3">
@@ -99,7 +103,7 @@ const QuizQuestionList: FC<QuizQuestionListProps> = ({
                   size="sm"
                   borderRadius="full"
                   borderColor="#E0E0E0"
-                  onClick={() => onRemove(question.id)}
+                  onClick={() => setPendingQuestion(question)}
                 >
                   <HiOutlineTrash size={14} />
                 </IconButton>
@@ -114,6 +118,18 @@ const QuizQuestionList: FC<QuizQuestionListProps> = ({
           {error}
         </Text>
       )}
+
+      <DeleteDialog
+        open={Boolean(pendingQuestion)}
+        itemName="Question"
+        onOpenChange={(open) => {
+          if (!open) setPendingQuestion(null);
+        }}
+        onConfirm={() => {
+          if (pendingQuestion) onRemove(pendingQuestion.id);
+          setPendingQuestion(null);
+        }}
+      />
     </Stack>
   );
 };

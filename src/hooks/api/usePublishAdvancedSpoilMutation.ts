@@ -6,6 +6,7 @@ import type {
   AdvancedSpolyzDraft,
 } from "@spt/store/createSpolyzStore";
 import apiCall from "@spt/utils/apiCall";
+import { resolveCoverImage } from "@spt/utils/coverImage";
 
 import { useCreateLessonMutation } from "./useCreateLessonMutation";
 import {
@@ -13,6 +14,10 @@ import {
   useCreateModuleMutation,
 } from "./useCreateModuleMutation";
 import { useCreateQuizMutation } from "./useCreateQuizMutation";
+import {
+  attachCertificateToSpoil,
+  useCreateSpoilTemplateMutation,
+} from "./useCreateSpoilTemplateMutation";
 
 export interface PublishAdvancedSpoilPayload {
   tutor_id: number;
@@ -25,7 +30,7 @@ export const getCreatedSpoilId = (response: any) =>
   response?.data?.data?.id ??
   null;
 
-const buildAdvancedFormData = (
+const buildAdvancedFormData = async (
   tutor_id: number,
   draft: AdvancedSpolyzDraft,
 ) => {
@@ -40,15 +45,11 @@ const buildAdvancedFormData = (
   formData.append("type", "advanced");
   formData.append("modules_no", draft.modules_count);
   formData.append("lessons_no", draft.lessons_count);
-  formData.append("image", draft.cover_image);
+  const coverImage = await resolveCoverImage(draft);
+  if (coverImage) formData.append("image", coverImage);
   formData.append("is_draft", "0");
 
-  // Only paid Spoylz can carry a certificate.
-  const isPaid = Boolean(draft.pricing && draft.pricing !== "free");
-  formData.append(
-    "has_certificate",
-    isPaid && draft.has_certificate ? "1" : "0",
-  );
+  formData.append("has_certificate", draft.has_certificate ? "1" : "0");
 
   if (draft.institution) formData.append("institution", draft.institution);
   if (draft.course_code) formData.append("course_code", draft.course_code);
@@ -64,6 +65,7 @@ const buildAdvancedFormData = (
  *   2. POST modules              → one per module, carrying the new spoil_id
  *   3. POST lessons              → all lessons of a module in one multipart call
  *   4. POST quiz + POST questions → module quizzes, then the pre/post quizzes
+ *   5. POST certificates/template/spoil → the certificate picked in review
  *
  * A failure in step 2-4 is reported by that step's own hook and does not undo
  * the spoil, so the admin keeps what was already saved instead of losing
@@ -74,6 +76,7 @@ export const usePublishAdvancedSpoilMutation = () => {
   const { createModule } = useCreateModuleMutation();
   const { createLessons } = useCreateLessonMutation();
   const { createQuiz } = useCreateQuizMutation();
+  const { createSpoilTemplate } = useCreateSpoilTemplateMutation();
 
   const publishModule = async (
     module: AdvancedModuleDraft,
@@ -114,12 +117,18 @@ export const usePublishAdvancedSpoilMutation = () => {
     mutationFn: async ({ tutor_id, draft }: PublishAdvancedSpoilPayload) => {
       const res = await apiCall().post(
         "admin/spoils",
-        buildAdvancedFormData(tutor_id, draft),
+        await buildAdvancedFormData(tutor_id, draft),
         { headers: { "Content-Type": "multipart/form-data" } },
       );
 
       const spoilId = getCreatedSpoilId(res?.data);
       if (!spoilId) return res?.data;
+
+      await attachCertificateToSpoil(
+        createSpoilTemplate,
+        spoilId,
+        draft.has_certificate,
+      );
 
       for (const module of draft.modules) {
         try {

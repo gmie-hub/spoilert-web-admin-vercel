@@ -67,7 +67,7 @@ const QuestionOptionsEditor: FC = () => {
 
   return (
     <Field.Root invalid={!!error}>
-      <Flex align="center" justify="space-between" gap="3">
+      <Flex align="center" justify="space-between" gap="3" w="full">
         <Field.Label fontSize="md" mb="0">
           Options
         </Field.Label>

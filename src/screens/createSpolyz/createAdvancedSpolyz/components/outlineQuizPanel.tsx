@@ -33,7 +33,11 @@ const OutlineQuizPanel: FC<OutlineQuizPanelProps> = ({
         learner&apos;s progress before and after taking the Spoylz.
       </Text>
 
-      <Flex direction={{ base: "column", sm: "row" }} gap="3" wrap="wrap">
+      <Flex
+        direction={{ base: "column", sm: "row", lg: "column" }}
+        gap="3"
+        wrap="wrap"
+      >
         <Stack gap="1" flex="1" minW="200px">
           <Button variant="yellowOutline" w="full" onClick={onOpenPreQuiz}>
             <HStack gap="2">

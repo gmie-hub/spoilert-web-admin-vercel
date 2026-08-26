@@ -138,15 +138,19 @@ const CreateAdvancedSpolyz = () => {
           align="flex-start"
         >
           <Card
-            w={{ base: "full", lg: "17rem" }}
-            maxW={{ lg: "17rem" }}
-            flex="0 0 auto"
+            w={{ base: "full", lg: "auto" }}
+            flex={{ base: "0 0 auto", lg: "2 1 0" }}
+            minW="0"
             alignSelf="stretch"
           >
             <SpolyzProgressStepper currentStep={advancedStep} />
           </Card>
 
-          <Box flex="1" minW="0" w="full">
+          <Box
+            flex={{ base: "0 0 auto", lg: "3 1 0" }}
+            minW="0"
+            w={{ base: "full", lg: "auto" }}
+          >
             <Card flex="1">{renderStepContent()}</Card>
           </Box>
         </Flex>

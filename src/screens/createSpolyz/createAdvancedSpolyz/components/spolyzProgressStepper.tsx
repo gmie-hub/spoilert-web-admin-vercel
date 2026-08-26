@@ -45,15 +45,15 @@ const SpolyzProgressStepper: FC<SpolyzProgressStepperProps> = ({
                 borderRadius="full"
                 border="2px solid"
                 borderColor={
-                  isComplete || isActive ? "#F97316" : "#E0E0E0"
+                  isComplete || isActive ? "#DA8543" : "#E0E0E0"
                 }
-                bg={isComplete ? "#F97316" : isActive ? "white" : "white"}
-                color={isComplete ? "white" : "#F97316"}
+                bg={isComplete ? "#DA8543" : isActive ? "white" : "white"}
+                color={isComplete ? "white" : "#DA8543"}
               >
                 {isComplete ? (
                   <HiCheck size={16} />
                 ) : isActive ? (
-                  <Box w="2.5" h="2.5" borderRadius="full" bg="#F97316" />
+                  <Box w="2.5" h="2.5" borderRadius="full" bg="#DA8543" />
                 ) : null}
               </Flex>
 
@@ -62,7 +62,7 @@ const SpolyzProgressStepper: FC<SpolyzProgressStepperProps> = ({
                   w="2px"
                   flex="1"
                   minH="10"
-                  bg={index < activeIndex ? "#F97316" : "#E0E0E0"}
+                  bg={index < activeIndex ? "#DA8543" : "#E0E0E0"}
                   my="1"
                 />
               )}
