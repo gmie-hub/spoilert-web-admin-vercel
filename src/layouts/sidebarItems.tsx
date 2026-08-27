@@ -9,11 +9,13 @@ import {
   HiOutlineDocumentText,
   HiOutlineMail,
   HiOutlineRefresh,
+  HiOutlineUserAdd,
   HiOutlineUserGroup,
   HiOutlineViewGrid,
   HiOutlineViewList,
 } from "react-icons/hi";
 
+import CreateSpolyz from "../assets/add-circle.svg";
 import Management from "../assets/book.svg";
 import Overview from "../assets/category.svg";
 import Sponsorships from "../assets/discount-circle.svg";
@@ -57,6 +59,12 @@ export const mainItems: NavItem[] = [
     to: routes.main.categories.home,
   },
   {
+    key: "Create Spolyz",
+    label: "Create Spolyz",
+    icon: <img src={CreateSpolyz} alt="Create Spolyz" />,
+    to: routes.main.createSpolyz.home,
+  },
+  {
     key: "Spoil Review",
     label: "Spoil Review",
     icon: <img src="/spoil.svg" alt="review" />,
@@ -67,6 +75,12 @@ export const mainItems: NavItem[] = [
     label: "Spoil Management",
     icon: <img src={Management} alt="Management" />,
     to: routes.main.spoilMgt.home,
+  },
+  {
+    key: "Disabled Spolyz",
+    label: "Disabled Spolyz",
+    icon: <HiOutlineBan size={20} />,
+    to: routes.main.disabledSpolyz.home,
   },
   {
     key: "Pending Verifications",
@@ -111,10 +125,25 @@ export const mainItems: NavItem[] = [
     to: routes.main.notifications.home,
   },
   {
+    key: "CmsPages",
+    label: "CMS Pages",
+    icon: <HiOutlineDocumentText size={22} />,
+    to: routes.main.cms.home,
+  },
+  {
     key: "Mailing",
     label: "Mailing",
     icon: <HiOutlineMail size={22} />,
     to: routes.main.mailing.home,
+  },
+];
+
+export const rolesAndAdminsSubItems: NavItem[] = [
+  {
+    key: "SubAdmins",
+    label: "Sub-Admins",
+    icon: <HiOutlineUserAdd size={20} />,
+    to: routes.main.subAdmins.home,
   },
 ];
 

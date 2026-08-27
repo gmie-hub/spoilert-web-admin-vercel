@@ -11,7 +11,7 @@ const SponsorshipUsedTableBody: FC<TableBodyProps> = ({ items }) => {
         <Table.Row key={index}>
           <Table.Cell>{item.sponsorName}</Table.Cell>
 
-          <Table.Cell textOverflow="ellipsis">{item.spoiltTitle}</Table.Cell>
+          <Table.Cell>{item.spoiltTitle}</Table.Cell>
 
           <Table.Cell>{item.codeUsed}</Table.Cell>
 

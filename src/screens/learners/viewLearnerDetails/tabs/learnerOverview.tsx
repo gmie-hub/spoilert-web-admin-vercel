@@ -44,7 +44,7 @@ const LearnerOverview: React.FC = () => {
           <InfoDisplay
             title="Status"
             value=""
-            status={data?.is_active?.toString()}
+            status={data?.is_active ? "Active" : "Inactive"}
           />
         </ProgressInfo>
       </Stack>

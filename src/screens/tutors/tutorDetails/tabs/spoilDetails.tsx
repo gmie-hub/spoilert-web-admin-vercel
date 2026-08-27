@@ -71,7 +71,7 @@ const SpoilDetails: FC<ComponentProps> = ({
 
         <ProgressInfo>
           <InfoDisplay
-            title="Date Created"
+            title=""
             value={formatDate(data?.created_at)}
           />
           <InfoDisplay title="Amount Earned" value="N200,000" />

@@ -60,6 +60,7 @@ const Promotion = () => {
           {hasPromotionData ? (
             <>
               <Table
+                minW="68rem"
                 headerChildren={<TableHeader headerItems={promotionsHeaders} />}
                 bodyChildren={<TableBody data={items} />}
               />

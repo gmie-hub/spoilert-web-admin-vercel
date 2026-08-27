@@ -37,6 +37,7 @@ export interface NotificationDatum {
   id: number;
   title: string;
   type: string;
+  route?: null | string;
   body: string;
   created_at: string;
   updated_at: string;

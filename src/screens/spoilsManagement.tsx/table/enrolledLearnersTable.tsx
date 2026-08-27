@@ -32,9 +32,7 @@ const EnrolledLearnersTableBody: FC<ComponentProps> = ({
                   borderRadius="full"
                   objectFit="cover"
                 />
-                <Text textOverflow={fullName.length > 10 ? "ellipsis" : "initial"}>
-                  {fullName}
-                </Text>
+                <Text>{fullName}</Text>
               </HStack>
             </Table.Cell>
 

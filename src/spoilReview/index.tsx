@@ -43,6 +43,7 @@ const SpoilsReview = () => {
           ) : (
             <>
               <Table
+                minW="60rem"
                 headerChildren={<TableHeader headerItems={spoilsReviewHeaders} />}
                 bodyChildren={
                   <TableBody

@@ -7,6 +7,7 @@ import "../App.css";
 import AnalyticsAccordion from "./analyticsAccordion";
 import PromotionsAccordion from "./promotionsAccordion";
 import ReportsAccordion from "./reportsAccordion";
+import RolesAndAdminsAccordion from "./rolesAndAdminsAccordion";
 import {
   type NavItem,
   analyticsSubItems,
@@ -15,6 +16,7 @@ import {
   mainItems,
   promotionsSubItems,
   reportsSubItems,
+  rolesAndAdminsSubItems,
   spoilPerformanceSubItems,
 } from "./sidebarItems";
 import SpoilPerformanceAccordion from "./spoilPerformanceAccordion";
@@ -25,6 +27,7 @@ const Sidebar = ({ hideLogo, onNavClick }: { hideLogo?: boolean; onNavClick?: ()
   const [spoilPerfOpen, setSpoilPerfOpen] = useState(false);
   const [promotionsOpen, setPromotionsOpen] = useState(false);
   const [reportsOpen, setReportsOpen] = useState(false);
+  const [rolesAndAdminsOpen, setRolesAndAdminsOpen] = useState(false);
 
   useEffect(() => {
     if (location.pathname.startsWith("/analytics")) {
@@ -38,6 +41,12 @@ const Sidebar = ({ hideLogo, onNavClick }: { hideLogo?: boolean; onNavClick?: ()
     }
     if (location.pathname.startsWith("/reports")) {
       setReportsOpen(true);
+    }
+    // Covers the list plus the create/edit/details paths, which are top-level
+    // routes ("/create-sub-admin", "/view-sub-admin-details/:id") rather than
+    // children of "/sub-admins".
+    if (location.pathname.includes("sub-admin")) {
+      setRolesAndAdminsOpen(true);
     }
   }, [location.pathname]);
 
@@ -120,6 +129,13 @@ const Sidebar = ({ hideLogo, onNavClick }: { hideLogo?: boolean; onNavClick?: ()
           isOpen={reportsOpen}
           onToggle={() => setReportsOpen((prev) => !prev)}
           subItems={reportsSubItems}
+          renderItem={renderNavItem}
+        />
+
+        <RolesAndAdminsAccordion
+          isOpen={rolesAndAdminsOpen}
+          onToggle={() => setRolesAndAdminsOpen((prev) => !prev)}
+          subItems={rolesAndAdminsSubItems}
           renderItem={renderNavItem}
         />
 

@@ -4,6 +4,8 @@ export const tutorHeaders = [
   "Email Address",
   "Username",
   "Total Spoils",
+  "Email Verified",
+  "Phone Verified",
   "Status",
   "Action",
 ];
@@ -113,6 +115,8 @@ export const notificationsHeader = [
   "Action",
 ];
 
+export const cmsHeader = ["S/N", "Title", "Slug", "Date Created", "Action"];
+
 export const mailingHeader = [
   "S/N",
   "Title",
@@ -186,6 +190,15 @@ export const promotionsHeaders = [
   "Amount",
   "Start Date",
   "End Created",
+  "Status",
+  "Action",
+];
+
+export const subAdminsHeader = [
+  "S/N",
+  "Full Name",
+  "Email Address",
+  "Username",
   "Status",
   "Action",
 ];

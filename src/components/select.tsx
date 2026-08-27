@@ -79,6 +79,13 @@ interface ComponentProps {
   label: string;
   placeholder: string;
   options?: Option[];
+  /**
+   * Render the menu inline instead of in a body-level portal. Required when
+   * the select sits inside a Dialog: a portalled menu becomes a sibling of
+   * the dialog, which Chakra marks inert and paints below the modal layer, so
+   * the options never show. Inline keeps it in the dialog's own subtree.
+   */
+  portalled?: boolean;
 }
 
 const CustomSelect: FC<ComponentProps> = ({
@@ -86,11 +93,27 @@ const CustomSelect: FC<ComponentProps> = ({
   name,
   label,
   placeholder,
+  portalled = true,
 }) => {
   // ✅ create collection (REQUIRED in Chakra v3)
   const collection = createListCollection({
     items: options,
   });
+
+  // z-index keeps the portalled menu above overlays; pointerEvents keeps it
+  // clickable while a dialog disables them on the rest of the page.
+  const menu = (
+    <Select.Positioner zIndex={1500} pointerEvents="auto">
+      <Select.Content>
+        {collection.items.map((item) => (
+          <Select.Item item={item} key={item.value}>
+            {item.label}
+            <Select.ItemIndicator />
+          </Select.Item>
+        ))}
+      </Select.Content>
+    </Select.Positioner>
+  );
 
   return (
     <FormikField name={name}>
@@ -119,18 +142,7 @@ const CustomSelect: FC<ComponentProps> = ({
               </Select.IndicatorGroup>
             </Select.Control>
 
-            <Portal>
-              <Select.Positioner>
-                <Select.Content>
-                  {collection.items.map((item) => (
-                    <Select.Item item={item} key={item.value}>
-                      {item.label}
-                      <Select.ItemIndicator />
-                    </Select.Item>
-                  ))}
-                </Select.Content>
-              </Select.Positioner>
-            </Portal>
+            {portalled ? <Portal>{menu}</Portal> : menu}
           </Select.Root>
 
           {form.touched[name] && form.errors[name] && (

@@ -24,8 +24,6 @@ const CustomBreadcrumb: FC<ComponentProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const handleNavigation = () => navigate(-1);
-
   const handlePreviousClick = () => {
     if (previousHref) {
       navigate(previousHref);
@@ -38,7 +36,7 @@ const CustomBreadcrumb: FC<ComponentProps> = ({
     <HStack>
       {showBackButton && (
         <HStack>
-          <BackButton handleNavigation={handleNavigation} />
+          <BackButton handleNavigation={handlePreviousClick} />
 
           <Separator orientation="vertical" h="4" />
         </HStack>

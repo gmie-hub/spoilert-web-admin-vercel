@@ -5,6 +5,7 @@ import { generatePath, useNavigate } from "react-router-dom";
 
 import { routes } from "@spt/routes";
 import type { CategoryDatum } from "@spt/types/category";
+  import { formatDate } from "@spt/utils/dateTime";
 import type { TableBodyProps } from "@spt/utils/types";
 
 
@@ -36,7 +37,7 @@ const TableBody: FC<TableBodyProps> = ({ items, currentPage, pageSize }) => {
 
           <Table.Cell>{item?.total_spoils}</Table.Cell>
 
-          <Table.Cell>{item?.created_at}</Table.Cell>
+          <Table.Cell>{formatDate(item?.created_at)}</Table.Cell>
 
           <Table.Cell>
             <Button

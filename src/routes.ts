@@ -13,9 +13,23 @@ export const routes = {
       home: "/categories",
       categoryDetails: "/category-details/:id/",
     },
+    createSpolyz: {
+      home: "/create-spolyz",
+      simple: "/create-spolyz/simple",
+      simpleReview: "/create-spolyz/simple/review",
+      advanced: "/create-spolyz/advanced",
+      advancedQuiz: {
+        pre: "/create-spolyz/advanced/quiz/pre",
+        post: "/create-spolyz/advanced/quiz/post",
+        module: "/create-spolyz/advanced/quiz/module/:moduleId",
+      },
+    },
     spoilMgt: {
       home: "/spoil-management",
       spoilDetails: "/spoil-details/:id",
+    },
+    disabledSpolyz: {
+      home: "/disabled-spolyz",
     },
     spoilReview: {
       home: "/spoil-review",
@@ -82,6 +96,18 @@ export const routes = {
       home: "/mailing",
       details: "/mail-details/:id",
       send: "/send-email",
+    },
+    subAdmins: {
+      home: "/sub-admins",
+      create: "/create-sub-admin",
+      edit: "/edit-sub-admin/:id",
+      details: "/view-sub-admin-details/:id",
+    },
+    cms: {
+      home: "/cms-pages",
+      addPage: "/add-cms-page",
+      editPage: "/edit-cms-page/:id",
+      details: "/view-cms-page-details/:id",
     },
     ads: {
       home: "/ads",

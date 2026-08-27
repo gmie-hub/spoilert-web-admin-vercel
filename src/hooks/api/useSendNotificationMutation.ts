@@ -8,6 +8,8 @@ export interface SendNotificationPayload {
   type: string;
   title: string;
   body: string;
+  /** Deep-link destination in the app, e.g. "wallet". Omitted when unset. */
+  route?: string;
   /** Audience groups, e.g. "userIds" for individually selected users. */
   group: string[];
 }

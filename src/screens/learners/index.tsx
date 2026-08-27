@@ -34,6 +34,7 @@ const Learners = () => {
             {!hasNoData && (
               <>
                 <Table
+                  minW="72rem"
                   headerChildren={<TableHeader headerItems={learnerHeaders} />}
                   bodyChildren={
                     <TableBody

@@ -15,6 +15,7 @@ export interface NotificationFormValues {
   user_ids: number[];
   title: string;
   type: string;
+  route: string;
   body: string;
 }
 
